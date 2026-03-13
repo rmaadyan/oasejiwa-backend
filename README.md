@@ -34,34 +34,82 @@ Pastikan sudah menginstall pnpm, lalu jalankan:
 
 Bash
 pnpm install
-2. Konfigurasi Environment
-Salin file .env.example menjadi .env dan sesuaikan variabelnya:
+# 🌊 Oase Jiwa - Backend API
 
-Bash
-cp .env.example .env
-Note: Mintalah detail DATABASE_URL kepada Infrastructure Lead (Ravendette) jika ingin menyambung ke database Docker pusat.
+Backend API untuk project Oase Jiwa, dibangun dengan NestJS + Prisma + PostgreSQL.
 
-3. Prisma Setup
-Generate client Prisma agar TypeScript mengenali skema database:
+## Setup cepat
 
-Bash
-npx prisma generate
-🐳 Infrastructure (Khusus Admin/DevOps)
-Bagian ini dikelola oleh Infrastructure Lead.
+1. Install dependency:
 
-Menjalankan Database & Portainer
-Bash
+```bash
+pnpm install
+```
+
+2. Jalankan database:
+
+```bash
 docker compose up -d
-Monitoring via Portainer
-Akses dashboard Portainer untuk memantau status container dan log database:
+```
 
-URL: https://localhost:9443
+3. Siapkan environment:
 
-Database Port: 5432
+```bash
+cp .env.example .env
+```
 
-📝 Workflow Git
-Jangan push file .env.
+4. Generate Prisma Client:
 
-Jika ada perubahan pada schema.prisma, segera kabari tim untuk melakukan npx prisma generate.
+```bash
+pnpm prisma:generate
+```
 
-Pastikan kode sudah melewati linting sebelum push: pnpm run lint.
+5. Jalankan migrasi database (development):
+
+```bash
+pnpm prisma:migrate:dev --name init
+```
+
+6. Jalankan backend:
+
+```bash
+pnpm start:dev
+```
+
+## Perintah Prisma
+
+- Generate client: `pnpm prisma:generate`
+- Buat + terapkan migrasi lokal: `pnpm prisma:migrate:dev --name <nama_migrasi>`
+- Terapkan migrasi di server/deploy: `pnpm prisma:migrate:deploy`
+- Buka Prisma Studio: `pnpm prisma:studio`
+
+## Sambungkan ke frontend
+
+Backend sudah mengaktifkan CORS dan membaca `CORS_ORIGIN` dari `.env`.
+
+Contoh:
+
+```env
+CORS_ORIGIN="http://localhost:5173"
+```
+
+Jika frontend lebih dari satu origin:
+
+```env
+CORS_ORIGIN="http://localhost:5173,http://localhost:3001"
+```
+
+Setelah backend jalan di port default 3000, frontend dapat memanggil API ke:
+
+`http://localhost:3000`
+
+## Catatan Docker permission (Linux)
+
+Jika muncul error `permission denied /var/run/docker.sock`, jalankan:
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Lalu ulangi `docker compose up -d`.

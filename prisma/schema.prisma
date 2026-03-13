@@ -12,3 +12,165 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  CLIENT
+  PSIKOLOG
+}
+
+enum Gender {
+  L
+  P
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+}
+
+enum TestAttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  fullName      String    @map("full_name")
+  role          Role
+  phoneNumber   String?   @map("phone_number")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  clientProfile  ClientProfile?
+  psikologProfile PsikologProfile?
+
+  @@map("users")
+}
+
+model ClientProfile {
+  id          String    @id @default(uuid())
+  userId      String    @unique @map("user_id")
+  dateOfBirth DateTime? @map("date_of_birth") @db.Date
+  gender      Gender?
+  address     String?
+
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings     Booking[]
+  testAttempts TestAttempt[]
+  testimonials Testimonial[]
+
+  @@map("client_profiles")
+}
+
+model PsikologProfile {
+  id              String  @id @default(uuid())
+  userId          String  @unique @map("user_id")
+  specialization  String?
+  bio             String?
+  experienceYears Int?    @map("experience_years")
+  education       String?
+  rating          Float?
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@map("psikolog_profiles")
+}
+
+model Service {
+  id              String  @id @default(uuid())
+  name            String
+  description     String?
+  durationMinutes Int?    @map("duration_minutes")
+  basePrice       Float?  @map("base_price")
+
+  bookings Booking[]
+
+  @@map("services")
+}
+
+model Package {
+  id            String @id @default(uuid())
+  name          String
+  sessionsCount Int    @map("sessions_count")
+  price         Float
+  discount      Float  @default(0)
+
+  @@map("packages")
+}
+
+model Test {
+  id                      String  @id @default(uuid())
+  name                    String
+  description             String?
+  price                   Float?
+  estimatedDurationMinutes Int?   @map("estimated_duration_minutes")
+
+  attempts TestAttempt[]
+
+  @@map("tests")
+}
+
+model Booking {
+  id             String        @id @default(uuid())
+  clientId       String        @map("client_id")
+  psikologId     String        @map("psikolog_id")
+  serviceId      String        @map("service_id")
+  scheduleStart  DateTime      @map("schedule_start")
+  scheduleEnd    DateTime      @map("schedule_end")
+  status         BookingStatus @default(PENDING)
+  paymentStatus  PaymentStatus @default(UNPAID) @map("payment_status")
+  meetingLink    String?       @map("meeting_link")
+  notes          String?
+
+  client   ClientProfile   @relation(fields: [clientId], references: [id])
+  psikolog PsikologProfile @relation(fields: [psikologId], references: [id])
+  service  Service         @relation(fields: [serviceId], references: [id])
+
+  @@map("bookings")
+}
+
+model TestAttempt {
+  id            String            @id @default(uuid())
+  clientId      String            @map("client_id")
+  testId        String            @map("test_id")
+  status        TestAttemptStatus @default(IN_PROGRESS)
+  score         Float?
+  resultSummary String?           @map("result_summary")
+  startedAt     DateTime          @default(now()) @map("started_at")
+  completedAt   DateTime?         @map("completed_at")
+
+  client ClientProfile @relation(fields: [clientId], references: [id])
+  test   Test          @relation(fields: [testId], references: [id])
+
+  @@map("test_attempts")
+}
+
+model Testimonial {
+  id          String   @id @default(uuid())
+  clientId    String   @map("client_id")
+  content     String
+  rating      Int
+  isPublished Boolean  @default(false) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  client ClientProfile @relation(fields: [clientId], references: [id])
+
+  @@map("testimonials")
+}
+
