@@ -8,9 +8,9 @@ export class UserController {
     constructor(private userService: UserService){}
 
     @UseGuards(JwtAuthGuard)
-    @Get('profile')
-    getProfile(@Req() req){
-        return this.userService.getProfile(req.user.id)
+    @Get('me')
+    getMe(@Req() req) {
+        return this.userService.getMe(req.user.id);
     }
 
     @UseGuards(JwtAuthGuard)

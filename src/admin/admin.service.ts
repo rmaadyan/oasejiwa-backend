@@ -80,23 +80,28 @@ export class AdminService {
 
     async getAllPsychologists() {
         const psychologists = await this.prisma.psychologistProfile.findMany({
-            include: {
-                user: {
+            select: {
+                id: true,
+                fullName: true,
+                avatarUrl: true,
+                sipp: true,
+                specializations: {
                     select: {
-                        id: true,
-                        email: true,
-                        role: true,
+                        name: true,
                     },
                 },
-                educations: true,
-                experiences: true,
-                specializations: true,
-                expertises: true,
-                schedules: true,
             },
         });
 
-        return { data: psychologists };
+        return {
+            data: psychologists.map(p => ({
+                id: p.id,
+                name: p.fullName,
+                avatarUrl: p.avatarUrl,
+                sipp: p.sipp,
+                specializations: p.specializations.map(s => s.name),
+            })),
+        };
     }
 
     async getPsychologistById(psychologistId: string) {
@@ -108,6 +113,9 @@ export class AdminService {
                         id: true,
                         email: true,
                         role: true,
+                        isEmailVerified: true,
+                        isProfileComplete: true,
+                        isFirstLogin: true,
                     },
                 },
                 educations: true,
@@ -122,7 +130,22 @@ export class AdminService {
             throw new NotFoundException('Psikolog tidak ditemukan');
         }
 
-        return { data: profile };
+        return { 
+            data: {
+                id: profile.id,
+                name: profile.fullName,
+                avatarUrl: profile.avatarUrl,
+                about: profile.about,
+                sipp: profile.sipp,
+                str: profile.str,
+                user: profile.user,
+                educations: profile.educations,
+                experiences: profile.experiences,
+                specializations: profile.specializations,
+                expertises: profile.expertises,
+                schedules: profile.schedules,
+            },
+        };
     }
 
     async updatePsychologist(psychologistId: string, dto: UpdatePsychologistDto, file?: Express.Multer.File) {
@@ -237,10 +260,10 @@ export class AdminService {
                 createdAt: true,
                 userProfile: {
                     select: {
-                    fullName: true,
-                    phone: true,
-                    city: true,
-                    country: true,
+                        fullName: true,
+                        phone: true,
+                        city: true,
+                        country: true,
                     },
                 },
             },

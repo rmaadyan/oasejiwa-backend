@@ -39,19 +39,6 @@ export class AuthController {
         return this.authService.resetPassword(dto.token, dto.newPassword);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Get('me')
-    getMe(@Request() req) {
-        const user = req.user;
-        return {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            isEmailVerified: user.isEmailVerified,
-            isProfileComplete: user.isProfileComplete,
-        };
-    }
-
     @SkipThrottle()
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('ADMIN')
