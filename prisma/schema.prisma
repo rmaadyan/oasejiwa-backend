@@ -5,10 +5,39 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+
+enum JenisLayanan {
+  Konseling
+  Workshop
+  Training
+  Lainnya
+}
+
+enum Kategori {
+  Paket
+  NonPaket
+}
+
+model Layanan {
+  id            Int      @id @default(autoincrement())
+  nama          String   @unique
+  jenis         JenisLayanan
+  kategori      Kategori
+  deskripsi     String?
+  catatan       String?
+  durasiMenit   Int
+  harga         Int      // dalam rupiah (misalnya 150000)
+  status        String   @default("Aktif")
+  gambar        String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
