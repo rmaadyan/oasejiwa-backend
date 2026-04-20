@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -14,14 +14,14 @@ export class AuthService {
         private prisma: PrismaService,
         private jwtService: JwtService,
         private emailService: EmailService,
-    ){}
+    ) { }
 
-    async register(dto: RegisterDto){
+    async register(dto: RegisterDto) {
         const existingUser = await this.prisma.user.findUnique({
-            where: {email:dto.email},
+            where: { email: dto.email },
         });
 
-        if (existingUser){
+        if (existingUser) {
             throw new ConflictException('Email sudah terdaftar');
         }
 
@@ -37,7 +37,7 @@ export class AuthService {
                     },
                 },
                 userProfile: {
-                    create:{
+                    create: {
                         fullName: dto.fullName,
                         birthday: new Date(dto.birthday),
                         gender: dto.gender,
@@ -51,7 +51,7 @@ export class AuthService {
         });
 
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now() + 24*60*60*1000);
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         await this.prisma.emailVerification.create({
             data: {
@@ -63,7 +63,7 @@ export class AuthService {
 
         await this.emailService.sendVerificationEmail(dto.email, token);
 
-        return{
+        return {
             message: 'Sign up Success',
             user: {
                 id: user.id,
@@ -104,17 +104,17 @@ export class AuthService {
         return { message: 'Email berhasil diverifikasi!' };
     }
 
-    async login(dto: LoginDto){
+    async login(dto: LoginDto) {
         const user = await this.prisma.user.findUnique({
-            where: {email: dto.email},
-            include: {authProvider: true},
+            where: { email: dto.email },
+            include: { authProvider: true },
         });
 
-        if(!user){
+        if (!user) {
             throw new UnauthorizedException("Email atau password salah");
         }
 
-        if(user.authProvider?.provider === 'google'){
+        if (user.authProvider?.provider === 'google') {
             throw new UnauthorizedException('Akun ini menggunakan Google Sign In, silakan login dengan Google');
         }
 
@@ -123,7 +123,7 @@ export class AuthService {
             user.authProvider?.passwordHash ?? '',
         );
 
-        if(!isPasswordValid){
+        if (!isPasswordValid) {
             throw new UnauthorizedException('Email atau password salah');
         }
 
@@ -135,7 +135,7 @@ export class AuthService {
 
         const accessToken = await this.jwtService.signAsync(payload);
 
-        return{
+        return {
             message: 'Login berhasil',
             accessToken,
             user: {
@@ -151,7 +151,7 @@ export class AuthService {
 
     async forgotPassword(email: string) {
 
-        if(!email || !email.includes('@')){
+        if (!email || !email.includes('@')) {
             throw new BadRequestException('Email tidak valid');
         }
         const user = await this.prisma.user.findUnique({
@@ -227,17 +227,17 @@ export class AuthService {
     async handleGoogleLogin(data: {
         email: string;
         fullName: string;
-    }){
+    }) {
         let user = await this.prisma.user.findUnique({
-            where: { email: data.email},
-            include: {authProvider:true},
+            where: { email: data.email },
+            include: { authProvider: true },
         });
 
-        if(user && user.authProvider?.provider == 'local'){
+        if (user && user.authProvider?.provider == 'local') {
             throw new UnauthorizedException('Akun ini sudah terdaftar dengan email & password, silahkan login dengan email');
         }
 
-        if (!user){
+        if (!user) {
             user = await this.prisma.user.create({
                 data: {
                     email: data.email,
@@ -254,7 +254,7 @@ export class AuthService {
                         },
                     },
                 },
-                include: { authProvider: true},
+                include: { authProvider: true },
             });
         }
 
@@ -266,7 +266,7 @@ export class AuthService {
 
         const accessToken = await this.jwtService.signAsync(payload);
 
-        return{
+        return {
             message: 'Login dengan Google berhasil',
             accessToken,
             user: {
@@ -280,22 +280,22 @@ export class AuthService {
         };
     }
 
-    async changePasswordPsychologist(userId: string, dto: ChangePasswordPsychologistDto){
+    async changePasswordPsychologist(userId: string, dto: ChangePasswordPsychologistDto) {
         const user = await this.prisma.user.findUnique({
-            where: {id: userId},
-            include: {authProvider:true},
+            where: { id: userId },
+            include: { authProvider: true },
         });
 
-        if(!user || !user.authProvider){
+        if (!user || !user.authProvider) {
             throw new UnauthorizedException('User tidak ditemukan');
         }
 
         const isPasswordValid = await bcrypt.compare(
             dto.oldPassword,
-            user.authProvider.passwordHash??'',
+            user.authProvider.passwordHash ?? '',
         );
 
-        if(!isPasswordValid){
+        if (!isPasswordValid) {
             throw new UnauthorizedException('Password lama tidak valid');
         }
 
@@ -303,29 +303,29 @@ export class AuthService {
 
         await this.prisma.$transaction([
             this.prisma.authProvider.update({
-                where: {userId},
-                data: {passwordHash},
+                where: { userId },
+                data: { passwordHash },
             }),
             this.prisma.user.update({
-                where: {id:userId},
-                data: {isFirstLogin: false},
+                where: { id: userId },
+                data: { isFirstLogin: false },
             }),
         ]);
 
-        return {message: 'Password berhasil diubah'};
+        return { message: 'Password berhasil diubah' };
     }
 
-    async resendVerificationEmail(email: string){
+    async resendVerificationEmail(email: string) {
         const user = await this.prisma.user.findUnique({
-            where: {email},
+            where: { email },
         });
 
-        if(!user){
-            return {message: 'Jika email terdaftar, kami akan mengirimkan email verifikasi'};
+        if (!user) {
+            return { message: 'Jika email terdaftar, kami akan mengirimkan email verifikasi' };
         }
 
-        if(user.isEmailVerified){
-            return{message: 'Email kamu sudah terverifikasi'};
+        if (user.isEmailVerified) {
+            return { message: 'Email kamu sudah terverifikasi' };
         }
 
         await this.prisma.emailVerification.updateMany({
@@ -333,13 +333,13 @@ export class AuthService {
                 userId: user.id,
                 usedAt: null,
             },
-            data:{
+            data: {
                 usedAt: new Date(),
             },
         });
 
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now()+24*60*60*1000);
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         await this.prisma.emailVerification.create({
             data: {
@@ -349,7 +349,7 @@ export class AuthService {
             },
         });
 
-        await this.emailService.sendVerificationEmail(email,token);
-        return{message: 'Jika email terdaftar, kami akan mengirimkan email verifikasi'};
+        await this.emailService.sendVerificationEmail(email, token);
+        return { message: 'Jika email terdaftar, kami akan mengirimkan email verifikasi' };
     }
 }

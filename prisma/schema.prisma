@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-}'
+}
 
 datasource db {
   provider  = "postgresql"
@@ -159,4 +159,32 @@ model EmailVerification{
   createdAt     DateTime    @default(now())
 
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum JenisLayanan {
+  Konseling
+  Workshop
+  Training
+  Lainnya
+}
+
+enum Kategori {
+  Paket
+  NonPaket
+}
+
+model Layanan {
+  id            Int      @id @default(autoincrement())
+  nama          String   @unique
+  jenis         JenisLayanan
+  kategori      Kategori
+  deskripsi     String?
+  catatan       String?
+  durasiMenit   Int
+  harga         Int      // dalam rupiah (misalnya 150000)
+  status        String   @default("Aktif")
+  gambar        String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
