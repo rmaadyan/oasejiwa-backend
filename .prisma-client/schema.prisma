@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../.prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  PSYCHOLOGIST
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  fullName String
+  phone    String?
+  role     Role    @default(USER)
+
+  psychologist      Psychologist?
+  sessionsAsPatient Session[]     @relation("PatientSessions")
+  notesAsPatient    SessionNote[] @relation("PatientNotes")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Psychologist {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  education       String?
+  experience      String?
+  therapyApproach String?
+  photoUrl        String?
+
+  sessions Session[]
+  notes    SessionNote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id             Int @id @default(autoincrement())
+  psychologistId Int
+  patientId      Int
+
+  date      DateTime
+  startTime String?
+  endTime   String?
+  status    String    @default("scheduled")
+  deletedAt DateTime?
+
+  psychologist Psychologist @relation(fields: [psychologistId], references: [id], onDelete: Restrict)
+  patient      User         @relation("PatientSessions", fields: [patientId], references: [id], onDelete: Restrict)
+  note         SessionNote?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([psychologistId, date])
+  @@index([patientId])
+}
+
+model SessionNote {
+  id             Int @id @default(autoincrement())
+  sessionId      Int @unique
+  psychologistId Int
+  patientId      Int
+
+  subjective String?   @db.Text
+  objective  String?   @db.Text
+  assessment String?   @db.Text
+  plan       String?   @db.Text
+  riskLevel  RiskLevel @default(LOW)
+
+  followUpDate              DateTime?
+  nextSessionRecommendation String?   @db.Text
+  tags                      String[]  @default([])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  session      Session      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  psychologist Psychologist @relation(fields: [psychologistId], references: [id], onDelete: Restrict)
+  patient      User         @relation("PatientNotes", fields: [patientId], references: [id], onDelete: Restrict)
+
+  @@index([psychologistId, createdAt])
+  @@index([patientId])
+  @@index([riskLevel])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  actorUserId Int
+  actorRole   Role
+  action      String
+  entity      String
+  entityId    Int
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([actorUserId, createdAt])
+  @@index([entity, entityId])
+}

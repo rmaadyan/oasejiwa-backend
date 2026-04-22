@@ -1,17 +1,13 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from './prisma/prisma.module';
+import { PsychologistNotesModule } from './psychologist-notes/psychologist-notes.module';
+import { ConfigService } from './config/config.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-// import { AuthModule } from './modules/auth/auth.module';
-// import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [
-    PrismaModule,
-    // AuthModule,
-    // UsersModule,
-  ],
+  imports: [PrismaModule, PsychologistNotesModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ConfigService],
 })
 export class AppModule {}

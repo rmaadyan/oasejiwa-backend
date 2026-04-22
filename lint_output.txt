@@ -1,0 +1,131 @@
+
+> oasejiwa-backend@0.0.1 lint C:\NONSISTEM\oasejiwa-backend
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+C:\NONSISTEM\oasejiwa-backend\src\app.controller.ts
+  28:13  warning  Unsafe use of an `any` typed template tag  @typescript-eslint/no-unsafe-call
+  36:14  error    '_error' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\NONSISTEM\oasejiwa-backend\src\common\decorators\current-user.decorator.ts
+  6:11  warning  Unsafe assignment of an `any` value           @typescript-eslint/no-unsafe-assignment
+  7:5   error    Unsafe return of a value of type `any`        @typescript-eslint/no-unsafe-return
+  7:20  warning  Unsafe member access .user on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+C:\NONSISTEM\oasejiwa-backend\src\common\guards\roles.guard.ts
+  24:11  warning  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+  25:11  warning  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+  25:26  warning  Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  27:24  warning  Unsafe member access .role on an `any` value                            @typescript-eslint/no-unsafe-member-access
+  31:33  warning  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  31:38  warning  Unsafe member access .role on an `any` value                            @typescript-eslint/no-unsafe-member-access
+
+C:\NONSISTEM\oasejiwa-backend\src\common\pipes\validation.pipe.ts
+  30:11  warning  Unsafe assignment of an `any` value                                                                                      @typescript-eslint/no-unsafe-assignment
+  31:35  warning  Unsafe argument of type `any` assigned to a parameter of type `object`                                                   @typescript-eslint/no-unsafe-argument
+  52:32  error    The `Function` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+  53:18  error    The `Function` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+
+C:\NONSISTEM\oasejiwa-backend\src\main.ts
+  38:56  warning  Unsafe member access .message on an `any` value  @typescript-eslint/no-unsafe-member-access
+  38:73  warning  Unsafe member access .stack on an `any` value    @typescript-eslint/no-unsafe-member-access
+
+C:\NONSISTEM\oasejiwa-backend\src\prisma\prisma.service.ts
+    9:24  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   15:19  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   22:27  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   27:18  error    '_esm' is defined but never used                                        @typescript-eslint/no-unused-vars
+   30:13  warning  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+   30:28  error    A `require()` style import is forbidden                                 @typescript-eslint/no-require-imports
+   31:20  error    '_cjs' is defined but never used                                        @typescript-eslint/no-unused-vars
+   40:9   warning  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+   41:25  warning  Unsafe member access .PrismaClient on an `any` value                    @typescript-eslint/no-unsafe-member-access
+   42:25  warning  Unsafe member access .default on an `any` value                         @typescript-eslint/no-unsafe-member-access
+   47:7   warning  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+   47:21  warning  Unsafe construction of an `any` typed value                             @typescript-eslint/no-unsafe-call
+   48:13  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   48:25  warning  Unsafe member access .$connect on an `any` value                        @typescript-eslint/no-unsafe-member-access
+   61:15  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   61:27  warning  Unsafe member access .$disconnect on an `any` value                     @typescript-eslint/no-unsafe-member-access
+   72:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   72:12  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   72:25  warning  Unsafe member access .$connect on an `any` value                        @typescript-eslint/no-unsafe-member-access
+   76:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   76:12  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   76:25  warning  Unsafe member access .$disconnect on an `any` value                     @typescript-eslint/no-unsafe-member-access
+   79:20  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   80:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   80:12  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   80:25  warning  Unsafe member access .$transaction on an `any` value                    @typescript-eslint/no-unsafe-member-access
+   84:20  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   84:36  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+   85:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   85:12  warning  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+   85:25  warning  Unsafe member access .$queryRaw on an `any` value                       @typescript-eslint/no-unsafe-member-access
+   90:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   90:25  warning  Unsafe member access .user on an `any` value                            @typescript-eslint/no-unsafe-member-access
+   94:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   94:25  warning  Unsafe member access .psychologist on an `any` value                    @typescript-eslint/no-unsafe-member-access
+   98:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+   98:25  warning  Unsafe member access .session on an `any` value                         @typescript-eslint/no-unsafe-member-access
+  102:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+  102:25  warning  Unsafe member access .sessionNote on an `any` value                     @typescript-eslint/no-unsafe-member-access
+  106:5   error    Unsafe return of a value of type `any`                                  @typescript-eslint/no-unsafe-return
+  106:25  warning  Unsafe member access .auditLog on an `any` value                        @typescript-eslint/no-unsafe-member-access
+  110:3   error    Async method 'enableShutdownHooks' has no 'await' expression            @typescript-eslint/require-await
+  111:30  error    Promise returned in function argument where a void return was expected  @typescript-eslint/no-misused-promises
+  117:18  warning  Unexpected any. Specify a different type                                @typescript-eslint/no-explicit-any
+
+C:\NONSISTEM\oasejiwa-backend\src\psychologist-notes\psychologist-notes.service.ts
+   28:11  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+   28:32  warning  Unsafe member access .create on an `any` value     @typescript-eslint/no-unsafe-member-access
+   45:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+   45:27  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+   45:47  warning  Unsafe member access .findFirst on an `any` value  @typescript-eslint/no-unsafe-member-access
+   65:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+   65:32  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+   65:56  warning  Unsafe member access .findFirst on an `any` value  @typescript-eslint/no-unsafe-member-access
+   77:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+   77:24  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+   77:48  warning  Unsafe member access .create on an `any` value     @typescript-eslint/no-unsafe-member-access
+   81:9   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+   81:28  warning  Unsafe member access .patientId on an `any` value  @typescript-eslint/no-unsafe-member-access
+  122:7   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  122:22  warning  Unsafe member access .id on an `any` value         @typescript-eslint/no-unsafe-member-access
+  124:9   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  124:25  warning  Unsafe member access .sessionId on an `any` value  @typescript-eslint/no-unsafe-member-access
+  128:5   error    Unsafe return of a value of type `any`             @typescript-eslint/no-unsafe-return
+  181:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  182:7   warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  182:31  warning  Unsafe member access .count on an `any` value      @typescript-eslint/no-unsafe-member-access
+  183:7   warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  183:31  warning  Unsafe member access .findMany on an `any` value   @typescript-eslint/no-unsafe-member-access
+  215:7   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  216:7   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  228:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  228:24  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  228:48  warning  Unsafe member access .findFirst on an `any` value  @typescript-eslint/no-unsafe-member-access
+  273:7   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  273:22  warning  Unsafe member access .id on an `any` value         @typescript-eslint/no-unsafe-member-access
+  276:5   error    Unsafe return of a value of type `any`             @typescript-eslint/no-unsafe-return
+  288:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  288:24  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  288:48  warning  Unsafe member access .findFirst on an `any` value  @typescript-eslint/no-unsafe-member-access
+  304:49  warning  Unsafe member access .sessionId on an `any` value  @typescript-eslint/no-unsafe-member-access
+  308:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  308:27  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  308:51  warning  Unsafe member access .update on an `any` value     @typescript-eslint/no-unsafe-member-access
+  351:7   warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  351:25  warning  Unsafe member access .id on an `any` value         @typescript-eslint/no-unsafe-member-access
+  354:5   error    Unsafe return of a value of type `any`             @typescript-eslint/no-unsafe-return
+  362:11  warning  Unsafe assignment of an `any` value                @typescript-eslint/no-unsafe-assignment
+  362:24  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  362:48  warning  Unsafe member access .findFirst on an `any` value  @typescript-eslint/no-unsafe-member-access
+  377:11  warning  Unsafe call of an `any` typed value                @typescript-eslint/no-unsafe-call
+  377:35  warning  Unsafe member access .update on an `any` value     @typescript-eslint/no-unsafe-member-access
+
+✖ 107 problems (21 errors, 86 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.
