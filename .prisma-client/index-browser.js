@@ -123,42 +123,113 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  fullName: 'fullName',
-  phone: 'phone',
   role: 'role',
+  isEmailVerified: 'isEmailVerified',
+  isProfileComplete: 'isProfileComplete',
+  isFirstLogin: 'isFirstLogin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PsychologistScalarFieldEnum = {
+exports.Prisma.AuthProviderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  education: 'education',
-  experience: 'experience',
-  therapyApproach: 'therapyApproach',
-  photoUrl: 'photoUrl',
+  provider: 'provider',
+  providerId: 'providerId',
+  passwordHash: 'passwordHash',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SessionScalarFieldEnum = {
+exports.Prisma.PasswordResetScalarFieldEnum = {
   id: 'id',
-  psychologistId: 'psychologistId',
-  patientId: 'patientId',
-  date: 'date',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  status: 'status',
-  deletedAt: 'deletedAt',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  birthday: 'birthday',
+  gender: 'gender',
+  country: 'country',
+  city: 'city',
+  fullAddress: 'fullAddress',
+  phone: 'phone'
+};
+
+exports.Prisma.PsychologistProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  sipp: 'sipp',
+  str: 'str',
+  about: 'about',
+  avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EducationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  degree: 'degree',
+  institution: 'institution',
+  city: 'city',
+  startYear: 'startYear',
+  endYear: 'endYear',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExperienceScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SpecializationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExpertiseScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  date: 'date',
+  startTime: 'startTime',
+  duration: 'duration',
+  isAvailable: 'isAvailable',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SessionNoteScalarFieldEnum = {
   id: 'id',
-  sessionId: 'sessionId',
-  psychologistId: 'psychologistId',
-  patientId: 'patientId',
+  psychologistProfileId: 'psychologistProfileId',
+  userId: 'userId',
+  scheduleId: 'scheduleId',
   subjective: 'subjective',
   objective: 'objective',
   assessment: 'assessment',
@@ -172,25 +243,9 @@ exports.Prisma.SessionNoteScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
-exports.Prisma.AuditLogScalarFieldEnum = {
-  id: 'id',
-  actorUserId: 'actorUserId',
-  actorRole: 'actorRole',
-  action: 'action',
-  entity: 'entity',
-  entityId: 'entityId',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -202,16 +257,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
-};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN',
   PSYCHOLOGIST: 'PSYCHOLOGIST'
+};
+
+exports.Gender = exports.$Enums.Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
 };
 
 exports.RiskLevel = exports.$Enums.RiskLevel = {
@@ -222,10 +276,17 @@ exports.RiskLevel = exports.$Enums.RiskLevel = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Psychologist: 'Psychologist',
-  Session: 'Session',
-  SessionNote: 'SessionNote',
-  AuditLog: 'AuditLog'
+  AuthProvider: 'AuthProvider',
+  PasswordReset: 'PasswordReset',
+  UserProfile: 'UserProfile',
+  PsychologistProfile: 'PsychologistProfile',
+  Education: 'Education',
+  Experience: 'Experience',
+  Specialization: 'Specialization',
+  Expertise: 'Expertise',
+  Schedule: 'Schedule',
+  EmailVerification: 'EmailVerification',
+  SessionNote: 'SessionNote'
 };
 
 /**

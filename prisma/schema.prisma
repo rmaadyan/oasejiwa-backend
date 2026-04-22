@@ -13,6 +13,11 @@ enum Role {
   PSYCHOLOGIST
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 enum RiskLevel {
   LOW
   MEDIUM
@@ -20,98 +25,171 @@ enum RiskLevel {
 }
 
 model User {
-  id                Int           @id @default(autoincrement())
-  email             String        @unique
-  fullName          String
-  phone             String?
-  role              Role          @default(USER)
+  id                  String                @id @default(uuid())
+  email               String                @unique
+  role                Role                  @default(USER)
+  isEmailVerified     Boolean               @default(false)
+  isProfileComplete   Boolean               @default(false)
+  isFirstLogin        Boolean               @default(false)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
 
-  psychologist      Psychologist?
-  sessionsAsPatient Session[]     @relation("PatientSessions")
-  notesAsPatient    SessionNote[] @relation("PatientNotes")
-
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  authProvider        AuthProvider?
+  passwordResets      PasswordReset[]
+  userProfile         UserProfile?
+  psychologistProfile PsychologistProfile?
+  emailVerifications  EmailVerification[]
+  sessionNotes        SessionNote[]
 }
 
-model Psychologist {
-  id              Int           @id @default(autoincrement())
-  userId          Int           @unique
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+model AuthProvider {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  provider     String
+  providerId   String?
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  education       String?
-  experience      String?
-  therapyApproach String?
-  photoUrl        String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  sessions        Session[]
-  notes           SessionNote[]
-
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  @@unique([provider, providerId])
 }
 
-model Session {
-  id             Int           @id @default(autoincrement())
-  psychologistId Int
-  patientId      Int
+model PasswordReset {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserProfile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  fullName    String?
+  birthday    DateTime?
+  gender      Gender?
+  country     String?
+  city        String?
+  fullAddress String?
+  phone       String?
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PsychologistProfile {
+  id              String          @id @default(uuid())
+  userId          String          @unique
+  fullName        String
+  sipp            String
+  str             String
+  about           String
+  avatarUrl       String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  educations      Education[]
+  experiences     Experience[]
+  specializations Specialization[]
+  expertises      Expertise[]
+  schedules       Schedule[]
+  sessionNotes    SessionNote[]
+}
+
+model Education {
+  id             String               @id @default(uuid())
+  psychologistId String
+  degree         String
+  institution    String
+  city           String
+  startYear      Int
+  endYear        Int
+  createdAt      DateTime             @default(now())
+
+  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id             String               @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime             @default(now())
+
+  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Specialization {
+  id             String               @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime             @default(now())
+
+  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Expertise {
+  id             String               @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime             @default(now())
+
+  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Schedule {
+  id             String               @id @default(uuid())
+  psychologistId String
   date           DateTime
-  startTime      String?
-  endTime        String?
-  status         String        @default("scheduled")
-  deletedAt      DateTime?
+  startTime      String
+  duration       Int
+  isAvailable    Boolean              @default(true)
+  createdAt      DateTime             @default(now())
 
-  psychologist   Psychologist  @relation(fields: [psychologistId], references: [id], onDelete: Restrict)
-  patient        User          @relation("PatientSessions", fields: [patientId], references: [id], onDelete: Restrict)
-  note           SessionNote?
+  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  sessionNote    SessionNote?
+}
 
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+model EmailVerification {
+  id         String    @id @default(uuid())
+  userId     String
+  token      String    @unique
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime  @default(now())
 
-  @@index([psychologistId, date])
-  @@index([patientId])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model SessionNote {
-  id                        Int           @id @default(autoincrement())
-  sessionId                 Int           @unique
-  psychologistId            Int
-  patientId                 Int
+  id                        String               @id @default(uuid())
+  psychologistProfileId     String
+  userId                    String
+  scheduleId                String?              @unique
 
-  subjective                String?       @db.Text
-  objective                 String?       @db.Text
-  assessment                String?       @db.Text
-  plan                      String?       @db.Text
-  riskLevel                 RiskLevel     @default(LOW)
+  subjective                String?              @db.Text
+  objective                 String?              @db.Text
+  assessment                String?              @db.Text
+  plan                      String?              @db.Text
+  riskLevel                 RiskLevel            @default(LOW)
 
   followUpDate              DateTime?
-  nextSessionRecommendation String?       @db.Text
-  tags                      String[]      @default([])
+  nextSessionRecommendation String?              @db.Text
+  tags                      String[]             @default([])
 
-  createdAt                 DateTime      @default(now())
-  updatedAt                 DateTime      @updatedAt
+  createdAt                 DateTime             @default(now())
+  updatedAt                 DateTime             @updatedAt
   deletedAt                 DateTime?
 
-  session                   Session       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  psychologist              Psychologist  @relation(fields: [psychologistId], references: [id], onDelete: Restrict)
-  patient                   User          @relation("PatientNotes", fields: [patientId], references: [id], onDelete: Restrict)
+  psychologistProfile       PsychologistProfile  @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  user                      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedule                  Schedule?            @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
 
-  @@index([psychologistId, createdAt])
-  @@index([patientId])
+  @@index([psychologistProfileId, createdAt])
+  @@index([userId])
   @@index([riskLevel])
-}
-
-model AuditLog {
-  id          Int      @id @default(autoincrement())
-  actorUserId Int
-  actorRole   Role
-  action      String
-  entity      String
-  entityId    Int
-  metadata    Json?
-  createdAt   DateTime @default(now())
-
-  @@index([actorUserId, createdAt])
-  @@index([entity, entityId])
 }

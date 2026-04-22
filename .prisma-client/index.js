@@ -96,42 +96,113 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  fullName: 'fullName',
-  phone: 'phone',
   role: 'role',
+  isEmailVerified: 'isEmailVerified',
+  isProfileComplete: 'isProfileComplete',
+  isFirstLogin: 'isFirstLogin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PsychologistScalarFieldEnum = {
+exports.Prisma.AuthProviderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  education: 'education',
-  experience: 'experience',
-  therapyApproach: 'therapyApproach',
-  photoUrl: 'photoUrl',
+  provider: 'provider',
+  providerId: 'providerId',
+  passwordHash: 'passwordHash',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SessionScalarFieldEnum = {
+exports.Prisma.PasswordResetScalarFieldEnum = {
   id: 'id',
-  psychologistId: 'psychologistId',
-  patientId: 'patientId',
-  date: 'date',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  status: 'status',
-  deletedAt: 'deletedAt',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  birthday: 'birthday',
+  gender: 'gender',
+  country: 'country',
+  city: 'city',
+  fullAddress: 'fullAddress',
+  phone: 'phone'
+};
+
+exports.Prisma.PsychologistProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  sipp: 'sipp',
+  str: 'str',
+  about: 'about',
+  avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EducationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  degree: 'degree',
+  institution: 'institution',
+  city: 'city',
+  startYear: 'startYear',
+  endYear: 'endYear',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExperienceScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SpecializationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExpertiseScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ScheduleScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  date: 'date',
+  startTime: 'startTime',
+  duration: 'duration',
+  isAvailable: 'isAvailable',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SessionNoteScalarFieldEnum = {
   id: 'id',
-  sessionId: 'sessionId',
-  psychologistId: 'psychologistId',
-  patientId: 'patientId',
+  psychologistProfileId: 'psychologistProfileId',
+  userId: 'userId',
+  scheduleId: 'scheduleId',
   subjective: 'subjective',
   objective: 'objective',
   assessment: 'assessment',
@@ -145,25 +216,9 @@ exports.Prisma.SessionNoteScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
-exports.Prisma.AuditLogScalarFieldEnum = {
-  id: 'id',
-  actorUserId: 'actorUserId',
-  actorRole: 'actorRole',
-  action: 'action',
-  entity: 'entity',
-  entityId: 'entityId',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -175,16 +230,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
-};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN',
   PSYCHOLOGIST: 'PSYCHOLOGIST'
+};
+
+exports.Gender = exports.$Enums.Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
 };
 
 exports.RiskLevel = exports.$Enums.RiskLevel = {
@@ -195,10 +249,17 @@ exports.RiskLevel = exports.$Enums.RiskLevel = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Psychologist: 'Psychologist',
-  Session: 'Session',
-  SessionNote: 'SessionNote',
-  AuditLog: 'AuditLog'
+  AuthProvider: 'AuthProvider',
+  PasswordReset: 'PasswordReset',
+  UserProfile: 'UserProfile',
+  PsychologistProfile: 'PsychologistProfile',
+  Education: 'Education',
+  Experience: 'Experience',
+  Specialization: 'Specialization',
+  Expertise: 'Expertise',
+  Schedule: 'Schedule',
+  EmailVerification: 'EmailVerification',
+  SessionNote: 'SessionNote'
 };
 /**
  * Create the Client
@@ -208,10 +269,10 @@ const config = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../.prisma-client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  USER\n  ADMIN\n  PSYCHOLOGIST\n}\n\nenum RiskLevel {\n  LOW\n  MEDIUM\n  HIGH\n}\n\nmodel User {\n  id       Int     @id @default(autoincrement())\n  email    String  @unique\n  fullName String\n  phone    String?\n  role     Role    @default(USER)\n\n  psychologist      Psychologist?\n  sessionsAsPatient Session[]     @relation(\"PatientSessions\")\n  notesAsPatient    SessionNote[] @relation(\"PatientNotes\")\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Psychologist {\n  id     Int  @id @default(autoincrement())\n  userId Int  @unique\n  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  education       String?\n  experience      String?\n  therapyApproach String?\n  photoUrl        String?\n\n  sessions Session[]\n  notes    SessionNote[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Session {\n  id             Int @id @default(autoincrement())\n  psychologistId Int\n  patientId      Int\n\n  date      DateTime\n  startTime String?\n  endTime   String?\n  status    String    @default(\"scheduled\")\n  deletedAt DateTime?\n\n  psychologist Psychologist @relation(fields: [psychologistId], references: [id], onDelete: Restrict)\n  patient      User         @relation(\"PatientSessions\", fields: [patientId], references: [id], onDelete: Restrict)\n  note         SessionNote?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([psychologistId, date])\n  @@index([patientId])\n}\n\nmodel SessionNote {\n  id             Int @id @default(autoincrement())\n  sessionId      Int @unique\n  psychologistId Int\n  patientId      Int\n\n  subjective String?   @db.Text\n  objective  String?   @db.Text\n  assessment String?   @db.Text\n  plan       String?   @db.Text\n  riskLevel  RiskLevel @default(LOW)\n\n  followUpDate              DateTime?\n  nextSessionRecommendation String?   @db.Text\n  tags                      String[]  @default([])\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  session      Session      @relation(fields: [sessionId], references: [id], onDelete: Cascade)\n  psychologist Psychologist @relation(fields: [psychologistId], references: [id], onDelete: Restrict)\n  patient      User         @relation(\"PatientNotes\", fields: [patientId], references: [id], onDelete: Restrict)\n\n  @@index([psychologistId, createdAt])\n  @@index([patientId])\n  @@index([riskLevel])\n}\n\nmodel AuditLog {\n  id          Int      @id @default(autoincrement())\n  actorUserId Int\n  actorRole   Role\n  action      String\n  entity      String\n  entityId    Int\n  metadata    Json?\n  createdAt   DateTime @default(now())\n\n  @@index([actorUserId, createdAt])\n  @@index([entity, entityId])\n}\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../.prisma-client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  USER\n  ADMIN\n  PSYCHOLOGIST\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum RiskLevel {\n  LOW\n  MEDIUM\n  HIGH\n}\n\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  role              Role     @default(USER)\n  isEmailVerified   Boolean  @default(false)\n  isProfileComplete Boolean  @default(false)\n  isFirstLogin      Boolean  @default(false)\n  createdAt         DateTime @default(now())\n  updatedAt         DateTime @updatedAt\n\n  authProvider        AuthProvider?\n  passwordResets      PasswordReset[]\n  userProfile         UserProfile?\n  psychologistProfile PsychologistProfile?\n  emailVerifications  EmailVerification[]\n  sessionNotes        SessionNote[]\n}\n\nmodel AuthProvider {\n  id           String   @id @default(uuid())\n  userId       String   @unique\n  provider     String\n  providerId   String?\n  passwordHash String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerId])\n}\n\nmodel PasswordReset {\n  id        String    @id @default(uuid())\n  userId    String\n  token     String    @unique\n  expiresAt DateTime\n  usedAt    DateTime?\n  createdAt DateTime  @default(now())\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel UserProfile {\n  id          String    @id @default(uuid())\n  userId      String    @unique\n  fullName    String?\n  birthday    DateTime?\n  gender      Gender?\n  country     String?\n  city        String?\n  fullAddress String?\n  phone       String?\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel PsychologistProfile {\n  id        String   @id @default(uuid())\n  userId    String   @unique\n  fullName  String\n  sipp      String\n  str       String\n  about     String\n  avatarUrl String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)\n  educations      Education[]\n  experiences     Experience[]\n  specializations Specialization[]\n  expertises      Expertise[]\n  schedules       Schedule[]\n  sessionNotes    SessionNote[]\n}\n\nmodel Education {\n  id             String   @id @default(uuid())\n  psychologistId String\n  degree         String\n  institution    String\n  city           String\n  startYear      Int\n  endYear        Int\n  createdAt      DateTime @default(now())\n\n  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)\n}\n\nmodel Experience {\n  id             String   @id @default(uuid())\n  psychologistId String\n  name           String\n  createdAt      DateTime @default(now())\n\n  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)\n}\n\nmodel Specialization {\n  id             String   @id @default(uuid())\n  psychologistId String\n  name           String\n  createdAt      DateTime @default(now())\n\n  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)\n}\n\nmodel Expertise {\n  id             String   @id @default(uuid())\n  psychologistId String\n  name           String\n  createdAt      DateTime @default(now())\n\n  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)\n}\n\nmodel Schedule {\n  id             String   @id @default(uuid())\n  psychologistId String\n  date           DateTime\n  startTime      String\n  duration       Int\n  isAvailable    Boolean  @default(true)\n  createdAt      DateTime @default(now())\n\n  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)\n  sessionNote  SessionNote?\n}\n\nmodel EmailVerification {\n  id        String    @id @default(uuid())\n  userId    String\n  token     String    @unique\n  expiresAt DateTime\n  usedAt    DateTime?\n  createdAt DateTime  @default(now())\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel SessionNote {\n  id                    String  @id @default(uuid())\n  psychologistProfileId String\n  userId                String\n  scheduleId            String? @unique\n\n  subjective String?   @db.Text\n  objective  String?   @db.Text\n  assessment String?   @db.Text\n  plan       String?   @db.Text\n  riskLevel  RiskLevel @default(LOW)\n\n  followUpDate              DateTime?\n  nextSessionRecommendation String?   @db.Text\n  tags                      String[]  @default([])\n\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  deletedAt DateTime?\n\n  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)\n  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)\n  schedule            Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)\n\n  @@index([psychologistProfileId, createdAt])\n  @@index([userId])\n  @@index([riskLevel])\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"Psychologist\",\"relationName\":\"PsychologistToUser\"},{\"name\":\"sessionsAsPatient\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"PatientSessions\"},{\"name\":\"notesAsPatient\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"PatientNotes\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Psychologist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PsychologistToUser\"},{\"name\":\"education\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"experience\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"therapyApproach\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"photoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"PsychologistToSession\"},{\"name\":\"notes\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"PsychologistToSessionNote\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"Psychologist\",\"relationName\":\"PsychologistToSession\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PatientSessions\"},{\"name\":\"note\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"SessionToSessionNote\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"SessionNote\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"subjective\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"objective\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assessment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riskLevel\",\"kind\":\"enum\",\"type\":\"RiskLevel\"},{\"name\":\"followUpDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nextSessionRecommendation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"session\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToSessionNote\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"Psychologist\",\"relationName\":\"PsychologistToSessionNote\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PatientNotes\"}],\"dbName\":null},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"actorUserId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"actorRole\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"isEmailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isProfileComplete\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isFirstLogin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authProvider\",\"kind\":\"object\",\"type\":\"AuthProvider\",\"relationName\":\"AuthProviderToUser\"},{\"name\":\"passwordResets\",\"kind\":\"object\",\"type\":\"PasswordReset\",\"relationName\":\"PasswordResetToUser\"},{\"name\":\"userProfile\",\"kind\":\"object\",\"type\":\"UserProfile\",\"relationName\":\"UserToUserProfile\"},{\"name\":\"psychologistProfile\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"PsychologistProfileToUser\"},{\"name\":\"emailVerifications\",\"kind\":\"object\",\"type\":\"EmailVerification\",\"relationName\":\"EmailVerificationToUser\"},{\"name\":\"sessionNotes\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"SessionNoteToUser\"}],\"dbName\":null},\"AuthProvider\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuthProviderToUser\"}],\"dbName\":null},\"PasswordReset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PasswordResetToUser\"}],\"dbName\":null},\"UserProfile\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthday\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserProfile\"}],\"dbName\":null},\"PsychologistProfile\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sipp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"str\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"about\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PsychologistProfileToUser\"},{\"name\":\"educations\",\"kind\":\"object\",\"type\":\"Education\",\"relationName\":\"EducationToPsychologistProfile\"},{\"name\":\"experiences\",\"kind\":\"object\",\"type\":\"Experience\",\"relationName\":\"ExperienceToPsychologistProfile\"},{\"name\":\"specializations\",\"kind\":\"object\",\"type\":\"Specialization\",\"relationName\":\"PsychologistProfileToSpecialization\"},{\"name\":\"expertises\",\"kind\":\"object\",\"type\":\"Expertise\",\"relationName\":\"ExpertiseToPsychologistProfile\"},{\"name\":\"schedules\",\"kind\":\"object\",\"type\":\"Schedule\",\"relationName\":\"PsychologistProfileToSchedule\"},{\"name\":\"sessionNotes\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"PsychologistProfileToSessionNote\"}],\"dbName\":null},\"Education\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"degree\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"institution\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startYear\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"endYear\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"EducationToPsychologistProfile\"}],\"dbName\":null},\"Experience\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"ExperienceToPsychologistProfile\"}],\"dbName\":null},\"Specialization\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"PsychologistProfileToSpecialization\"}],\"dbName\":null},\"Expertise\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"ExpertiseToPsychologistProfile\"}],\"dbName\":null},\"Schedule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologist\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"PsychologistProfileToSchedule\"},{\"name\":\"sessionNote\",\"kind\":\"object\",\"type\":\"SessionNote\",\"relationName\":\"ScheduleToSessionNote\"}],\"dbName\":null},\"EmailVerification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EmailVerificationToUser\"}],\"dbName\":null},\"SessionNote\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"psychologistProfileId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scheduleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subjective\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"objective\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assessment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"riskLevel\",\"kind\":\"enum\",\"type\":\"RiskLevel\"},{\"name\":\"followUpDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nextSessionRecommendation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"psychologistProfile\",\"kind\":\"object\",\"type\":\"PsychologistProfile\",\"relationName\":\"PsychologistProfileToSessionNote\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionNoteToUser\"},{\"name\":\"schedule\",\"kind\":\"object\",\"type\":\"Schedule\",\"relationName\":\"ScheduleToSessionNote\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_fast_bg.js'),

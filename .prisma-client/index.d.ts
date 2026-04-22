@@ -19,25 +19,60 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
- * Model Psychologist
+ * Model AuthProvider
  * 
  */
-export type Psychologist = $Result.DefaultSelection<Prisma.$PsychologistPayload>
+export type AuthProvider = $Result.DefaultSelection<Prisma.$AuthProviderPayload>
 /**
- * Model Session
+ * Model PasswordReset
  * 
  */
-export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
+export type PasswordReset = $Result.DefaultSelection<Prisma.$PasswordResetPayload>
+/**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = $Result.DefaultSelection<Prisma.$UserProfilePayload>
+/**
+ * Model PsychologistProfile
+ * 
+ */
+export type PsychologistProfile = $Result.DefaultSelection<Prisma.$PsychologistProfilePayload>
+/**
+ * Model Education
+ * 
+ */
+export type Education = $Result.DefaultSelection<Prisma.$EducationPayload>
+/**
+ * Model Experience
+ * 
+ */
+export type Experience = $Result.DefaultSelection<Prisma.$ExperiencePayload>
+/**
+ * Model Specialization
+ * 
+ */
+export type Specialization = $Result.DefaultSelection<Prisma.$SpecializationPayload>
+/**
+ * Model Expertise
+ * 
+ */
+export type Expertise = $Result.DefaultSelection<Prisma.$ExpertisePayload>
+/**
+ * Model Schedule
+ * 
+ */
+export type Schedule = $Result.DefaultSelection<Prisma.$SchedulePayload>
+/**
+ * Model EmailVerification
+ * 
+ */
+export type EmailVerification = $Result.DefaultSelection<Prisma.$EmailVerificationPayload>
 /**
  * Model SessionNote
  * 
  */
 export type SessionNote = $Result.DefaultSelection<Prisma.$SessionNotePayload>
-/**
- * Model AuditLog
- * 
- */
-export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
 
 /**
  * Enums
@@ -50,6 +85,14 @@ export namespace $Enums {
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const Gender: {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
 
 
 export const RiskLevel: {
@@ -65,6 +108,10 @@ export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Gender = $Enums.Gender
+
+export const Gender: typeof $Enums.Gender
 
 export type RiskLevel = $Enums.RiskLevel
 
@@ -198,24 +245,104 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.psychologist`: Exposes CRUD operations for the **Psychologist** model.
+   * `prisma.authProvider`: Exposes CRUD operations for the **AuthProvider** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Psychologists
-    * const psychologists = await prisma.psychologist.findMany()
+    * // Fetch zero or more AuthProviders
+    * const authProviders = await prisma.authProvider.findMany()
     * ```
     */
-  get psychologist(): Prisma.PsychologistDelegate<ExtArgs, ClientOptions>;
+  get authProvider(): Prisma.AuthProviderDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.session`: Exposes CRUD operations for the **Session** model.
+   * `prisma.passwordReset`: Exposes CRUD operations for the **PasswordReset** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Sessions
-    * const sessions = await prisma.session.findMany()
+    * // Fetch zero or more PasswordResets
+    * const passwordResets = await prisma.passwordReset.findMany()
     * ```
     */
-  get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
+  get passwordReset(): Prisma.PasswordResetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userProfile`: Exposes CRUD operations for the **UserProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserProfiles
+    * const userProfiles = await prisma.userProfile.findMany()
+    * ```
+    */
+  get userProfile(): Prisma.UserProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.psychologistProfile`: Exposes CRUD operations for the **PsychologistProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PsychologistProfiles
+    * const psychologistProfiles = await prisma.psychologistProfile.findMany()
+    * ```
+    */
+  get psychologistProfile(): Prisma.PsychologistProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.education`: Exposes CRUD operations for the **Education** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Educations
+    * const educations = await prisma.education.findMany()
+    * ```
+    */
+  get education(): Prisma.EducationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.experience`: Exposes CRUD operations for the **Experience** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Experiences
+    * const experiences = await prisma.experience.findMany()
+    * ```
+    */
+  get experience(): Prisma.ExperienceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.specialization`: Exposes CRUD operations for the **Specialization** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Specializations
+    * const specializations = await prisma.specialization.findMany()
+    * ```
+    */
+  get specialization(): Prisma.SpecializationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.expertise`: Exposes CRUD operations for the **Expertise** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Expertise
+    * const expertise = await prisma.expertise.findMany()
+    * ```
+    */
+  get expertise(): Prisma.ExpertiseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.schedule`: Exposes CRUD operations for the **Schedule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Schedules
+    * const schedules = await prisma.schedule.findMany()
+    * ```
+    */
+  get schedule(): Prisma.ScheduleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.emailVerification`: Exposes CRUD operations for the **EmailVerification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailVerifications
+    * const emailVerifications = await prisma.emailVerification.findMany()
+    * ```
+    */
+  get emailVerification(): Prisma.EmailVerificationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.sessionNote`: Exposes CRUD operations for the **SessionNote** model.
@@ -226,16 +353,6 @@ export class PrismaClient<
     * ```
     */
   get sessionNote(): Prisma.SessionNoteDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.auditLog`: Exposes CRUD operations for the **AuditLog** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more AuditLogs
-    * const auditLogs = await prisma.auditLog.findMany()
-    * ```
-    */
-  get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -671,10 +788,17 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Psychologist: 'Psychologist',
-    Session: 'Session',
-    SessionNote: 'SessionNote',
-    AuditLog: 'AuditLog'
+    AuthProvider: 'AuthProvider',
+    PasswordReset: 'PasswordReset',
+    UserProfile: 'UserProfile',
+    PsychologistProfile: 'PsychologistProfile',
+    Education: 'Education',
+    Experience: 'Experience',
+    Specialization: 'Specialization',
+    Expertise: 'Expertise',
+    Schedule: 'Schedule',
+    EmailVerification: 'EmailVerification',
+    SessionNote: 'SessionNote'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -690,7 +814,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "psychologist" | "session" | "sessionNote" | "auditLog"
+      modelProps: "user" | "authProvider" | "passwordReset" | "userProfile" | "psychologistProfile" | "education" | "experience" | "specialization" | "expertise" | "schedule" | "emailVerification" | "sessionNote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -768,151 +892,743 @@ export namespace Prisma {
           }
         }
       }
-      Psychologist: {
-        payload: Prisma.$PsychologistPayload<ExtArgs>
-        fields: Prisma.PsychologistFieldRefs
+      AuthProvider: {
+        payload: Prisma.$AuthProviderPayload<ExtArgs>
+        fields: Prisma.AuthProviderFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.PsychologistFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload> | null
+            args: Prisma.AuthProviderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.PsychologistFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           findFirst: {
-            args: Prisma.PsychologistFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload> | null
+            args: Prisma.AuthProviderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.PsychologistFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           findMany: {
-            args: Prisma.PsychologistFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+            args: Prisma.AuthProviderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>[]
           }
           create: {
-            args: Prisma.PsychologistCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           createMany: {
-            args: Prisma.PsychologistCreateManyArgs<ExtArgs>
+            args: Prisma.AuthProviderCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.PsychologistCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+            args: Prisma.AuthProviderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>[]
           }
           delete: {
-            args: Prisma.PsychologistDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           update: {
-            args: Prisma.PsychologistUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           deleteMany: {
-            args: Prisma.PsychologistDeleteManyArgs<ExtArgs>
+            args: Prisma.AuthProviderDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.PsychologistUpdateManyArgs<ExtArgs>
+            args: Prisma.AuthProviderUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.PsychologistUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>[]
+            args: Prisma.AuthProviderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>[]
           }
           upsert: {
-            args: Prisma.PsychologistUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PsychologistPayload>
+            args: Prisma.AuthProviderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthProviderPayload>
           }
           aggregate: {
-            args: Prisma.PsychologistAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePsychologist>
+            args: Prisma.AuthProviderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuthProvider>
           }
           groupBy: {
-            args: Prisma.PsychologistGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PsychologistGroupByOutputType>[]
+            args: Prisma.AuthProviderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuthProviderGroupByOutputType>[]
           }
           count: {
-            args: Prisma.PsychologistCountArgs<ExtArgs>
-            result: $Utils.Optional<PsychologistCountAggregateOutputType> | number
+            args: Prisma.AuthProviderCountArgs<ExtArgs>
+            result: $Utils.Optional<AuthProviderCountAggregateOutputType> | number
           }
         }
       }
-      Session: {
-        payload: Prisma.$SessionPayload<ExtArgs>
-        fields: Prisma.SessionFieldRefs
+      PasswordReset: {
+        payload: Prisma.$PasswordResetPayload<ExtArgs>
+        fields: Prisma.PasswordResetFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.SessionFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload> | null
+            args: Prisma.PasswordResetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.SessionFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           findFirst: {
-            args: Prisma.SessionFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload> | null
+            args: Prisma.PasswordResetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.SessionFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           findMany: {
-            args: Prisma.SessionFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>[]
+            args: Prisma.PasswordResetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
           }
           create: {
-            args: Prisma.SessionCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           createMany: {
-            args: Prisma.SessionCreateManyArgs<ExtArgs>
+            args: Prisma.PasswordResetCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.SessionCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>[]
+            args: Prisma.PasswordResetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
           }
           delete: {
-            args: Prisma.SessionDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           update: {
-            args: Prisma.SessionUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           deleteMany: {
-            args: Prisma.SessionDeleteManyArgs<ExtArgs>
+            args: Prisma.PasswordResetDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.SessionUpdateManyArgs<ExtArgs>
+            args: Prisma.PasswordResetUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.SessionUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>[]
+            args: Prisma.PasswordResetUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>[]
           }
           upsert: {
-            args: Prisma.SessionUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SessionPayload>
+            args: Prisma.PasswordResetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetPayload>
           }
           aggregate: {
-            args: Prisma.SessionAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSession>
+            args: Prisma.PasswordResetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordReset>
           }
           groupBy: {
-            args: Prisma.SessionGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SessionGroupByOutputType>[]
+            args: Prisma.PasswordResetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetGroupByOutputType>[]
           }
           count: {
-            args: Prisma.SessionCountArgs<ExtArgs>
-            result: $Utils.Optional<SessionCountAggregateOutputType> | number
+            args: Prisma.PasswordResetCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserProfile: {
+        payload: Prisma.$UserProfilePayload<ExtArgs>
+        fields: Prisma.UserProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.UserProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          findMany: {
+            args: Prisma.UserProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+          }
+          create: {
+            args: Prisma.UserProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          createMany: {
+            args: Prisma.UserProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.UserProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          update: {
+            args: Prisma.UserProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.UserProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserProfile>
+          }
+          groupBy: {
+            args: Prisma.UserProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<UserProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      PsychologistProfile: {
+        payload: Prisma.$PsychologistProfilePayload<ExtArgs>
+        fields: Prisma.PsychologistProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PsychologistProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PsychologistProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.PsychologistProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PsychologistProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          findMany: {
+            args: Prisma.PsychologistProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>[]
+          }
+          create: {
+            args: Prisma.PsychologistProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          createMany: {
+            args: Prisma.PsychologistProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PsychologistProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.PsychologistProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          update: {
+            args: Prisma.PsychologistProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.PsychologistProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PsychologistProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PsychologistProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.PsychologistProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PsychologistProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.PsychologistProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePsychologistProfile>
+          }
+          groupBy: {
+            args: Prisma.PsychologistProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PsychologistProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PsychologistProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<PsychologistProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      Education: {
+        payload: Prisma.$EducationPayload<ExtArgs>
+        fields: Prisma.EducationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EducationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EducationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          findFirst: {
+            args: Prisma.EducationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EducationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          findMany: {
+            args: Prisma.EducationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>[]
+          }
+          create: {
+            args: Prisma.EducationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          createMany: {
+            args: Prisma.EducationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EducationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>[]
+          }
+          delete: {
+            args: Prisma.EducationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          update: {
+            args: Prisma.EducationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          deleteMany: {
+            args: Prisma.EducationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EducationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EducationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>[]
+          }
+          upsert: {
+            args: Prisma.EducationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationPayload>
+          }
+          aggregate: {
+            args: Prisma.EducationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEducation>
+          }
+          groupBy: {
+            args: Prisma.EducationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EducationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EducationCountArgs<ExtArgs>
+            result: $Utils.Optional<EducationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Experience: {
+        payload: Prisma.$ExperiencePayload<ExtArgs>
+        fields: Prisma.ExperienceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExperienceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExperienceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          findFirst: {
+            args: Prisma.ExperienceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExperienceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          findMany: {
+            args: Prisma.ExperienceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>[]
+          }
+          create: {
+            args: Prisma.ExperienceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          createMany: {
+            args: Prisma.ExperienceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExperienceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>[]
+          }
+          delete: {
+            args: Prisma.ExperienceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          update: {
+            args: Prisma.ExperienceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          deleteMany: {
+            args: Prisma.ExperienceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExperienceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExperienceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>[]
+          }
+          upsert: {
+            args: Prisma.ExperienceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExperiencePayload>
+          }
+          aggregate: {
+            args: Prisma.ExperienceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExperience>
+          }
+          groupBy: {
+            args: Prisma.ExperienceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExperienceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExperienceCountArgs<ExtArgs>
+            result: $Utils.Optional<ExperienceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Specialization: {
+        payload: Prisma.$SpecializationPayload<ExtArgs>
+        fields: Prisma.SpecializationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SpecializationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SpecializationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          findFirst: {
+            args: Prisma.SpecializationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SpecializationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          findMany: {
+            args: Prisma.SpecializationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>[]
+          }
+          create: {
+            args: Prisma.SpecializationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          createMany: {
+            args: Prisma.SpecializationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SpecializationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>[]
+          }
+          delete: {
+            args: Prisma.SpecializationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          update: {
+            args: Prisma.SpecializationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          deleteMany: {
+            args: Prisma.SpecializationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SpecializationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SpecializationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>[]
+          }
+          upsert: {
+            args: Prisma.SpecializationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpecializationPayload>
+          }
+          aggregate: {
+            args: Prisma.SpecializationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSpecialization>
+          }
+          groupBy: {
+            args: Prisma.SpecializationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SpecializationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SpecializationCountArgs<ExtArgs>
+            result: $Utils.Optional<SpecializationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Expertise: {
+        payload: Prisma.$ExpertisePayload<ExtArgs>
+        fields: Prisma.ExpertiseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExpertiseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExpertiseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          findFirst: {
+            args: Prisma.ExpertiseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExpertiseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          findMany: {
+            args: Prisma.ExpertiseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>[]
+          }
+          create: {
+            args: Prisma.ExpertiseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          createMany: {
+            args: Prisma.ExpertiseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExpertiseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>[]
+          }
+          delete: {
+            args: Prisma.ExpertiseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          update: {
+            args: Prisma.ExpertiseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          deleteMany: {
+            args: Prisma.ExpertiseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExpertiseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExpertiseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>[]
+          }
+          upsert: {
+            args: Prisma.ExpertiseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertisePayload>
+          }
+          aggregate: {
+            args: Prisma.ExpertiseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExpertise>
+          }
+          groupBy: {
+            args: Prisma.ExpertiseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExpertiseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExpertiseCountArgs<ExtArgs>
+            result: $Utils.Optional<ExpertiseCountAggregateOutputType> | number
+          }
+        }
+      }
+      Schedule: {
+        payload: Prisma.$SchedulePayload<ExtArgs>
+        fields: Prisma.ScheduleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScheduleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScheduleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          findFirst: {
+            args: Prisma.ScheduleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScheduleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          findMany: {
+            args: Prisma.ScheduleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          create: {
+            args: Prisma.ScheduleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          createMany: {
+            args: Prisma.ScheduleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScheduleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          delete: {
+            args: Prisma.ScheduleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          update: {
+            args: Prisma.ScheduleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          deleteMany: {
+            args: Prisma.ScheduleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScheduleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScheduleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>[]
+          }
+          upsert: {
+            args: Prisma.ScheduleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SchedulePayload>
+          }
+          aggregate: {
+            args: Prisma.ScheduleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSchedule>
+          }
+          groupBy: {
+            args: Prisma.ScheduleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScheduleCountArgs<ExtArgs>
+            result: $Utils.Optional<ScheduleCountAggregateOutputType> | number
+          }
+        }
+      }
+      EmailVerification: {
+        payload: Prisma.$EmailVerificationPayload<ExtArgs>
+        fields: Prisma.EmailVerificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailVerificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailVerificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          findFirst: {
+            args: Prisma.EmailVerificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailVerificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          findMany: {
+            args: Prisma.EmailVerificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          create: {
+            args: Prisma.EmailVerificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          createMany: {
+            args: Prisma.EmailVerificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailVerificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          delete: {
+            args: Prisma.EmailVerificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          update: {
+            args: Prisma.EmailVerificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailVerificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailVerificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmailVerificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmailVerificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          aggregate: {
+            args: Prisma.EmailVerificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailVerification>
+          }
+          groupBy: {
+            args: Prisma.EmailVerificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailVerificationCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationCountAggregateOutputType> | number
           }
         }
       }
@@ -987,80 +1703,6 @@ export namespace Prisma {
           count: {
             args: Prisma.SessionNoteCountArgs<ExtArgs>
             result: $Utils.Optional<SessionNoteCountAggregateOutputType> | number
-          }
-        }
-      }
-      AuditLog: {
-        payload: Prisma.$AuditLogPayload<ExtArgs>
-        fields: Prisma.AuditLogFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AuditLogFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AuditLogFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          findFirst: {
-            args: Prisma.AuditLogFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AuditLogFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          findMany: {
-            args: Prisma.AuditLogFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>[]
-          }
-          create: {
-            args: Prisma.AuditLogCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          createMany: {
-            args: Prisma.AuditLogCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.AuditLogCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>[]
-          }
-          delete: {
-            args: Prisma.AuditLogDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          update: {
-            args: Prisma.AuditLogUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          deleteMany: {
-            args: Prisma.AuditLogDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AuditLogUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.AuditLogUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>[]
-          }
-          upsert: {
-            args: Prisma.AuditLogUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
-          }
-          aggregate: {
-            args: Prisma.AuditLogAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAuditLog>
-          }
-          groupBy: {
-            args: Prisma.AuditLogGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AuditLogGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.AuditLogCountArgs<ExtArgs>
-            result: $Utils.Optional<AuditLogCountAggregateOutputType> | number
           }
         }
       }
@@ -1173,10 +1815,17 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
-    psychologist?: PsychologistOmit
-    session?: SessionOmit
+    authProvider?: AuthProviderOmit
+    passwordReset?: PasswordResetOmit
+    userProfile?: UserProfileOmit
+    psychologistProfile?: PsychologistProfileOmit
+    education?: EducationOmit
+    experience?: ExperienceOmit
+    specialization?: SpecializationOmit
+    expertise?: ExpertiseOmit
+    schedule?: ScheduleOmit
+    emailVerification?: EmailVerificationOmit
     sessionNote?: SessionNoteOmit
-    auditLog?: AuditLogOmit
   }
 
   /* Types for Logging */
@@ -1257,13 +1906,15 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    sessionsAsPatient: number
-    notesAsPatient: number
+    passwordResets: number
+    emailVerifications: number
+    sessionNotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sessionsAsPatient?: boolean | UserCountOutputTypeCountSessionsAsPatientArgs
-    notesAsPatient?: boolean | UserCountOutputTypeCountNotesAsPatientArgs
+    passwordResets?: boolean | UserCountOutputTypeCountPasswordResetsArgs
+    emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs
+    sessionNotes?: boolean | UserCountOutputTypeCountSessionNotesArgs
   }
 
   // Custom InputTypes
@@ -1280,54 +1931,97 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSessionsAsPatientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
+  export type UserCountOutputTypeCountPasswordResetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountNotesAsPatientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountEmailVerificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSessionNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionNoteWhereInput
   }
 
 
   /**
-   * Count Type PsychologistCountOutputType
+   * Count Type PsychologistProfileCountOutputType
    */
 
-  export type PsychologistCountOutputType = {
-    sessions: number
-    notes: number
+  export type PsychologistProfileCountOutputType = {
+    educations: number
+    experiences: number
+    specializations: number
+    expertises: number
+    schedules: number
+    sessionNotes: number
   }
 
-  export type PsychologistCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sessions?: boolean | PsychologistCountOutputTypeCountSessionsArgs
-    notes?: boolean | PsychologistCountOutputTypeCountNotesArgs
+  export type PsychologistProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    educations?: boolean | PsychologistProfileCountOutputTypeCountEducationsArgs
+    experiences?: boolean | PsychologistProfileCountOutputTypeCountExperiencesArgs
+    specializations?: boolean | PsychologistProfileCountOutputTypeCountSpecializationsArgs
+    expertises?: boolean | PsychologistProfileCountOutputTypeCountExpertisesArgs
+    schedules?: boolean | PsychologistProfileCountOutputTypeCountSchedulesArgs
+    sessionNotes?: boolean | PsychologistProfileCountOutputTypeCountSessionNotesArgs
   }
 
   // Custom InputTypes
   /**
-   * PsychologistCountOutputType without action
+   * PsychologistProfileCountOutputType without action
    */
-  export type PsychologistCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PsychologistProfileCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PsychologistCountOutputType
+     * Select specific fields to fetch from the PsychologistProfileCountOutputType
      */
-    select?: PsychologistCountOutputTypeSelect<ExtArgs> | null
+    select?: PsychologistProfileCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * PsychologistCountOutputType without action
+   * PsychologistProfileCountOutputType without action
    */
-  export type PsychologistCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
+  export type PsychologistProfileCountOutputTypeCountEducationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EducationWhereInput
   }
 
   /**
-   * PsychologistCountOutputType without action
+   * PsychologistProfileCountOutputType without action
    */
-  export type PsychologistCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PsychologistProfileCountOutputTypeCountExperiencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExperienceWhereInput
+  }
+
+  /**
+   * PsychologistProfileCountOutputType without action
+   */
+  export type PsychologistProfileCountOutputTypeCountSpecializationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpecializationWhereInput
+  }
+
+  /**
+   * PsychologistProfileCountOutputType without action
+   */
+  export type PsychologistProfileCountOutputTypeCountExpertisesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExpertiseWhereInput
+  }
+
+  /**
+   * PsychologistProfileCountOutputType without action
+   */
+  export type PsychologistProfileCountOutputTypeCountSchedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleWhereInput
+  }
+
+  /**
+   * PsychologistProfileCountOutputType without action
+   */
+  export type PsychologistProfileCountOutputTypeCountSessionNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionNoteWhereInput
   }
 
@@ -1342,36 +2036,28 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
 
-  export type UserAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type UserSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type UserMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
-    fullName: string | null
-    phone: string | null
     role: $Enums.Role | null
+    isEmailVerified: boolean | null
+    isProfileComplete: boolean | null
+    isFirstLogin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
-    fullName: string | null
-    phone: string | null
     role: $Enums.Role | null
+    isEmailVerified: boolean | null
+    isProfileComplete: boolean | null
+    isFirstLogin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1379,29 +2065,23 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     email: number
-    fullName: number
-    phone: number
     role: number
+    isEmailVerified: number
+    isProfileComplete: number
+    isFirstLogin: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type UserAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type UserSumAggregateInputType = {
-    id?: true
-  }
-
   export type UserMinAggregateInputType = {
     id?: true
     email?: true
-    fullName?: true
-    phone?: true
     role?: true
+    isEmailVerified?: true
+    isProfileComplete?: true
+    isFirstLogin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1409,9 +2089,10 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
-    fullName?: true
-    phone?: true
     role?: true
+    isEmailVerified?: true
+    isProfileComplete?: true
+    isFirstLogin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1419,9 +2100,10 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
-    fullName?: true
-    phone?: true
     role?: true
+    isEmailVerified?: true
+    isProfileComplete?: true
+    isFirstLogin?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1465,18 +2147,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: UserAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: UserSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1507,23 +2177,20 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
-    _avg?: UserAvgAggregateInputType
-    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
 
   export type UserGroupByOutputType = {
-    id: number
+    id: string
     email: string
-    fullName: string
-    phone: string | null
     role: $Enums.Role
+    isEmailVerified: boolean
+    isProfileComplete: boolean
+    isFirstLogin: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1545,23 +2212,28 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    fullName?: boolean
-    phone?: boolean
     role?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    psychologist?: boolean | User$psychologistArgs<ExtArgs>
-    sessionsAsPatient?: boolean | User$sessionsAsPatientArgs<ExtArgs>
-    notesAsPatient?: boolean | User$notesAsPatientArgs<ExtArgs>
+    authProvider?: boolean | User$authProviderArgs<ExtArgs>
+    passwordResets?: boolean | User$passwordResetsArgs<ExtArgs>
+    userProfile?: boolean | User$userProfileArgs<ExtArgs>
+    psychologistProfile?: boolean | User$psychologistProfileArgs<ExtArgs>
+    emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>
+    sessionNotes?: boolean | User$sessionNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    fullName?: boolean
-    phone?: boolean
     role?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1569,9 +2241,10 @@ export namespace Prisma {
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    fullName?: boolean
-    phone?: boolean
     role?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1579,18 +2252,22 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     email?: boolean
-    fullName?: boolean
-    phone?: boolean
     role?: boolean
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "fullName" | "phone" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "role" | "isEmailVerified" | "isProfileComplete" | "isFirstLogin" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    psychologist?: boolean | User$psychologistArgs<ExtArgs>
-    sessionsAsPatient?: boolean | User$sessionsAsPatientArgs<ExtArgs>
-    notesAsPatient?: boolean | User$notesAsPatientArgs<ExtArgs>
+    authProvider?: boolean | User$authProviderArgs<ExtArgs>
+    passwordResets?: boolean | User$passwordResetsArgs<ExtArgs>
+    userProfile?: boolean | User$userProfileArgs<ExtArgs>
+    psychologistProfile?: boolean | User$psychologistProfileArgs<ExtArgs>
+    emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>
+    sessionNotes?: boolean | User$sessionNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1599,16 +2276,20 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      psychologist: Prisma.$PsychologistPayload<ExtArgs> | null
-      sessionsAsPatient: Prisma.$SessionPayload<ExtArgs>[]
-      notesAsPatient: Prisma.$SessionNotePayload<ExtArgs>[]
+      authProvider: Prisma.$AuthProviderPayload<ExtArgs> | null
+      passwordResets: Prisma.$PasswordResetPayload<ExtArgs>[]
+      userProfile: Prisma.$UserProfilePayload<ExtArgs> | null
+      psychologistProfile: Prisma.$PsychologistProfilePayload<ExtArgs> | null
+      emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[]
+      sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       email: string
-      fullName: string
-      phone: string | null
       role: $Enums.Role
+      isEmailVerified: boolean
+      isProfileComplete: boolean
+      isFirstLogin: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2005,9 +2686,12 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    psychologist<T extends User$psychologistArgs<ExtArgs> = {}>(args?: Subset<T, User$psychologistArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    sessionsAsPatient<T extends User$sessionsAsPatientArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsAsPatientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notesAsPatient<T extends User$notesAsPatientArgs<ExtArgs> = {}>(args?: Subset<T, User$notesAsPatientArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    authProvider<T extends User$authProviderArgs<ExtArgs> = {}>(args?: Subset<T, User$authProviderArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    passwordResets<T extends User$passwordResetsArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userProfile<T extends User$userProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$userProfileArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    psychologistProfile<T extends User$psychologistProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$psychologistProfileArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    emailVerifications<T extends User$emailVerificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessionNotes<T extends User$sessionNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2037,11 +2721,12 @@ export namespace Prisma {
    * Fields of the User model
    */
   interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'Int'>
+    readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
-    readonly fullName: FieldRef<"User", 'String'>
-    readonly phone: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly isEmailVerified: FieldRef<"User", 'Boolean'>
+    readonly isProfileComplete: FieldRef<"User", 'Boolean'>
+    readonly isFirstLogin: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -2432,52 +3117,114 @@ export namespace Prisma {
   }
 
   /**
-   * User.psychologist
+   * User.authProvider
    */
-  export type User$psychologistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$authProviderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
-    where?: PsychologistWhereInput
+    include?: AuthProviderInclude<ExtArgs> | null
+    where?: AuthProviderWhereInput
   }
 
   /**
-   * User.sessionsAsPatient
+   * User.passwordResets
    */
-  export type User$sessionsAsPatientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$passwordResetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the PasswordReset
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: PasswordResetSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the PasswordReset
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: PasswordResetOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
+    include?: PasswordResetInclude<ExtArgs> | null
+    where?: PasswordResetWhereInput
+    orderBy?: PasswordResetOrderByWithRelationInput | PasswordResetOrderByWithRelationInput[]
+    cursor?: PasswordResetWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    distinct?: PasswordResetScalarFieldEnum | PasswordResetScalarFieldEnum[]
   }
 
   /**
-   * User.notesAsPatient
+   * User.userProfile
    */
-  export type User$notesAsPatientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$userProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    where?: UserProfileWhereInput
+  }
+
+  /**
+   * User.psychologistProfile
+   */
+  export type User$psychologistProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    where?: PsychologistProfileWhereInput
+  }
+
+  /**
+   * User.emailVerifications
+   */
+  export type User$emailVerificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    where?: EmailVerificationWhereInput
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    cursor?: EmailVerificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.sessionNotes
+   */
+  export type User$sessionNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SessionNote
      */
@@ -2518,432 +3265,374 @@ export namespace Prisma {
 
 
   /**
-   * Model Psychologist
+   * Model AuthProvider
    */
 
-  export type AggregatePsychologist = {
-    _count: PsychologistCountAggregateOutputType | null
-    _avg: PsychologistAvgAggregateOutputType | null
-    _sum: PsychologistSumAggregateOutputType | null
-    _min: PsychologistMinAggregateOutputType | null
-    _max: PsychologistMaxAggregateOutputType | null
+  export type AggregateAuthProvider = {
+    _count: AuthProviderCountAggregateOutputType | null
+    _min: AuthProviderMinAggregateOutputType | null
+    _max: AuthProviderMaxAggregateOutputType | null
   }
 
-  export type PsychologistAvgAggregateOutputType = {
-    id: number | null
-    userId: number | null
-  }
-
-  export type PsychologistSumAggregateOutputType = {
-    id: number | null
-    userId: number | null
-  }
-
-  export type PsychologistMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    education: string | null
-    experience: string | null
-    therapyApproach: string | null
-    photoUrl: string | null
+  export type AuthProviderMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    provider: string | null
+    providerId: string | null
+    passwordHash: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type PsychologistMaxAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    education: string | null
-    experience: string | null
-    therapyApproach: string | null
-    photoUrl: string | null
+  export type AuthProviderMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    provider: string | null
+    providerId: string | null
+    passwordHash: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type PsychologistCountAggregateOutputType = {
+  export type AuthProviderCountAggregateOutputType = {
     id: number
     userId: number
-    education: number
-    experience: number
-    therapyApproach: number
-    photoUrl: number
+    provider: number
+    providerId: number
+    passwordHash: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type PsychologistAvgAggregateInputType = {
+  export type AuthProviderMinAggregateInputType = {
     id?: true
     userId?: true
-  }
-
-  export type PsychologistSumAggregateInputType = {
-    id?: true
-    userId?: true
-  }
-
-  export type PsychologistMinAggregateInputType = {
-    id?: true
-    userId?: true
-    education?: true
-    experience?: true
-    therapyApproach?: true
-    photoUrl?: true
+    provider?: true
+    providerId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type PsychologistMaxAggregateInputType = {
+  export type AuthProviderMaxAggregateInputType = {
     id?: true
     userId?: true
-    education?: true
-    experience?: true
-    therapyApproach?: true
-    photoUrl?: true
+    provider?: true
+    providerId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type PsychologistCountAggregateInputType = {
+  export type AuthProviderCountAggregateInputType = {
     id?: true
     userId?: true
-    education?: true
-    experience?: true
-    therapyApproach?: true
-    photoUrl?: true
+    provider?: true
+    providerId?: true
+    passwordHash?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type PsychologistAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Psychologist to aggregate.
+     * Filter which AuthProvider to aggregate.
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Psychologists to fetch.
+     * Determine the order of AuthProviders to fetch.
      */
-    orderBy?: PsychologistOrderByWithRelationInput | PsychologistOrderByWithRelationInput[]
+    orderBy?: AuthProviderOrderByWithRelationInput | AuthProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: PsychologistWhereUniqueInput
+    cursor?: AuthProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Psychologists from the position of the cursor.
+     * Take `±n` AuthProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Psychologists.
+     * Skip the first `n` AuthProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Psychologists
+     * Count returned AuthProviders
     **/
-    _count?: true | PsychologistCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: PsychologistAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PsychologistSumAggregateInputType
+    _count?: true | AuthProviderCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: PsychologistMinAggregateInputType
+    _min?: AuthProviderMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: PsychologistMaxAggregateInputType
+    _max?: AuthProviderMaxAggregateInputType
   }
 
-  export type GetPsychologistAggregateType<T extends PsychologistAggregateArgs> = {
-        [P in keyof T & keyof AggregatePsychologist]: P extends '_count' | 'count'
+  export type GetAuthProviderAggregateType<T extends AuthProviderAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuthProvider]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregatePsychologist[P]>
-      : GetScalarType<T[P], AggregatePsychologist[P]>
+        : GetScalarType<T[P], AggregateAuthProvider[P]>
+      : GetScalarType<T[P], AggregateAuthProvider[P]>
   }
 
 
 
 
-  export type PsychologistGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PsychologistWhereInput
-    orderBy?: PsychologistOrderByWithAggregationInput | PsychologistOrderByWithAggregationInput[]
-    by: PsychologistScalarFieldEnum[] | PsychologistScalarFieldEnum
-    having?: PsychologistScalarWhereWithAggregatesInput
+  export type AuthProviderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuthProviderWhereInput
+    orderBy?: AuthProviderOrderByWithAggregationInput | AuthProviderOrderByWithAggregationInput[]
+    by: AuthProviderScalarFieldEnum[] | AuthProviderScalarFieldEnum
+    having?: AuthProviderScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: PsychologistCountAggregateInputType | true
-    _avg?: PsychologistAvgAggregateInputType
-    _sum?: PsychologistSumAggregateInputType
-    _min?: PsychologistMinAggregateInputType
-    _max?: PsychologistMaxAggregateInputType
+    _count?: AuthProviderCountAggregateInputType | true
+    _min?: AuthProviderMinAggregateInputType
+    _max?: AuthProviderMaxAggregateInputType
   }
 
-  export type PsychologistGroupByOutputType = {
-    id: number
-    userId: number
-    education: string | null
-    experience: string | null
-    therapyApproach: string | null
-    photoUrl: string | null
+  export type AuthProviderGroupByOutputType = {
+    id: string
+    userId: string
+    provider: string
+    providerId: string | null
+    passwordHash: string | null
     createdAt: Date
     updatedAt: Date
-    _count: PsychologistCountAggregateOutputType | null
-    _avg: PsychologistAvgAggregateOutputType | null
-    _sum: PsychologistSumAggregateOutputType | null
-    _min: PsychologistMinAggregateOutputType | null
-    _max: PsychologistMaxAggregateOutputType | null
+    _count: AuthProviderCountAggregateOutputType | null
+    _min: AuthProviderMinAggregateOutputType | null
+    _max: AuthProviderMaxAggregateOutputType | null
   }
 
-  type GetPsychologistGroupByPayload<T extends PsychologistGroupByArgs> = Prisma.PrismaPromise<
+  type GetAuthProviderGroupByPayload<T extends AuthProviderGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<PsychologistGroupByOutputType, T['by']> &
+      PickEnumerable<AuthProviderGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof PsychologistGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof AuthProviderGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], PsychologistGroupByOutputType[P]>
-            : GetScalarType<T[P], PsychologistGroupByOutputType[P]>
+              : GetScalarType<T[P], AuthProviderGroupByOutputType[P]>
+            : GetScalarType<T[P], AuthProviderGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type PsychologistSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AuthProviderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    education?: boolean
-    experience?: boolean
-    therapyApproach?: boolean
-    photoUrl?: boolean
+    provider?: boolean
+    providerId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    sessions?: boolean | Psychologist$sessionsArgs<ExtArgs>
-    notes?: boolean | Psychologist$notesArgs<ExtArgs>
-    _count?: boolean | PsychologistCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["psychologist"]>
+  }, ExtArgs["result"]["authProvider"]>
 
-  export type PsychologistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AuthProviderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    education?: boolean
-    experience?: boolean
-    therapyApproach?: boolean
-    photoUrl?: boolean
+    provider?: boolean
+    providerId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["psychologist"]>
+  }, ExtArgs["result"]["authProvider"]>
 
-  export type PsychologistSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AuthProviderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    education?: boolean
-    experience?: boolean
-    therapyApproach?: boolean
-    photoUrl?: boolean
+    provider?: boolean
+    providerId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["psychologist"]>
+  }, ExtArgs["result"]["authProvider"]>
 
-  export type PsychologistSelectScalar = {
+  export type AuthProviderSelectScalar = {
     id?: boolean
     userId?: boolean
-    education?: boolean
-    experience?: boolean
-    therapyApproach?: boolean
-    photoUrl?: boolean
+    provider?: boolean
+    providerId?: boolean
+    passwordHash?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PsychologistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "education" | "experience" | "therapyApproach" | "photoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["psychologist"]>
-  export type PsychologistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    sessions?: boolean | Psychologist$sessionsArgs<ExtArgs>
-    notes?: boolean | Psychologist$notesArgs<ExtArgs>
-    _count?: boolean | PsychologistCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type PsychologistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "provider" | "providerId" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["authProvider"]>
+  export type AuthProviderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type PsychologistIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AuthProviderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $PsychologistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Psychologist"
+  export type $AuthProviderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuthProvider"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
-      notes: Prisma.$SessionNotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      userId: number
-      education: string | null
-      experience: string | null
-      therapyApproach: string | null
-      photoUrl: string | null
+      id: string
+      userId: string
+      provider: string
+      providerId: string | null
+      passwordHash: string | null
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["psychologist"]>
+    }, ExtArgs["result"]["authProvider"]>
     composites: {}
   }
 
-  type PsychologistGetPayload<S extends boolean | null | undefined | PsychologistDefaultArgs> = $Result.GetResult<Prisma.$PsychologistPayload, S>
+  type AuthProviderGetPayload<S extends boolean | null | undefined | AuthProviderDefaultArgs> = $Result.GetResult<Prisma.$AuthProviderPayload, S>
 
-  type PsychologistCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PsychologistFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PsychologistCountAggregateInputType | true
+  type AuthProviderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuthProviderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuthProviderCountAggregateInputType | true
     }
 
-  export interface PsychologistDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Psychologist'], meta: { name: 'Psychologist' } }
+  export interface AuthProviderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuthProvider'], meta: { name: 'AuthProvider' } }
     /**
-     * Find zero or one Psychologist that matches the filter.
-     * @param {PsychologistFindUniqueArgs} args - Arguments to find a Psychologist
+     * Find zero or one AuthProvider that matches the filter.
+     * @param {AuthProviderFindUniqueArgs} args - Arguments to find a AuthProvider
      * @example
-     * // Get one Psychologist
-     * const psychologist = await prisma.psychologist.findUnique({
+     * // Get one AuthProvider
+     * const authProvider = await prisma.authProvider.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends PsychologistFindUniqueArgs>(args: SelectSubset<T, PsychologistFindUniqueArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends AuthProviderFindUniqueArgs>(args: SelectSubset<T, AuthProviderFindUniqueArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Psychologist that matches the filter or throw an error with `error.code='P2025'`
+     * Find one AuthProvider that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {PsychologistFindUniqueOrThrowArgs} args - Arguments to find a Psychologist
+     * @param {AuthProviderFindUniqueOrThrowArgs} args - Arguments to find a AuthProvider
      * @example
-     * // Get one Psychologist
-     * const psychologist = await prisma.psychologist.findUniqueOrThrow({
+     * // Get one AuthProvider
+     * const authProvider = await prisma.authProvider.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PsychologistFindUniqueOrThrowArgs>(args: SelectSubset<T, PsychologistFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends AuthProviderFindUniqueOrThrowArgs>(args: SelectSubset<T, AuthProviderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Psychologist that matches the filter.
+     * Find the first AuthProvider that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistFindFirstArgs} args - Arguments to find a Psychologist
+     * @param {AuthProviderFindFirstArgs} args - Arguments to find a AuthProvider
      * @example
-     * // Get one Psychologist
-     * const psychologist = await prisma.psychologist.findFirst({
+     * // Get one AuthProvider
+     * const authProvider = await prisma.authProvider.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends PsychologistFindFirstArgs>(args?: SelectSubset<T, PsychologistFindFirstArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends AuthProviderFindFirstArgs>(args?: SelectSubset<T, AuthProviderFindFirstArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Psychologist that matches the filter or
+     * Find the first AuthProvider that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistFindFirstOrThrowArgs} args - Arguments to find a Psychologist
+     * @param {AuthProviderFindFirstOrThrowArgs} args - Arguments to find a AuthProvider
      * @example
-     * // Get one Psychologist
-     * const psychologist = await prisma.psychologist.findFirstOrThrow({
+     * // Get one AuthProvider
+     * const authProvider = await prisma.authProvider.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends PsychologistFindFirstOrThrowArgs>(args?: SelectSubset<T, PsychologistFindFirstOrThrowArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends AuthProviderFindFirstOrThrowArgs>(args?: SelectSubset<T, AuthProviderFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Psychologists that matches the filter.
+     * Find zero or more AuthProviders that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {AuthProviderFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Psychologists
-     * const psychologists = await prisma.psychologist.findMany()
+     * // Get all AuthProviders
+     * const authProviders = await prisma.authProvider.findMany()
      * 
-     * // Get first 10 Psychologists
-     * const psychologists = await prisma.psychologist.findMany({ take: 10 })
+     * // Get first 10 AuthProviders
+     * const authProviders = await prisma.authProvider.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const psychologistWithIdOnly = await prisma.psychologist.findMany({ select: { id: true } })
+     * const authProviderWithIdOnly = await prisma.authProvider.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends PsychologistFindManyArgs>(args?: SelectSubset<T, PsychologistFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends AuthProviderFindManyArgs>(args?: SelectSubset<T, AuthProviderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Psychologist.
-     * @param {PsychologistCreateArgs} args - Arguments to create a Psychologist.
+     * Create a AuthProvider.
+     * @param {AuthProviderCreateArgs} args - Arguments to create a AuthProvider.
      * @example
-     * // Create one Psychologist
-     * const Psychologist = await prisma.psychologist.create({
+     * // Create one AuthProvider
+     * const AuthProvider = await prisma.authProvider.create({
      *   data: {
-     *     // ... data to create a Psychologist
+     *     // ... data to create a AuthProvider
      *   }
      * })
      * 
      */
-    create<T extends PsychologistCreateArgs>(args: SelectSubset<T, PsychologistCreateArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends AuthProviderCreateArgs>(args: SelectSubset<T, AuthProviderCreateArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Psychologists.
-     * @param {PsychologistCreateManyArgs} args - Arguments to create many Psychologists.
+     * Create many AuthProviders.
+     * @param {AuthProviderCreateManyArgs} args - Arguments to create many AuthProviders.
      * @example
-     * // Create many Psychologists
-     * const psychologist = await prisma.psychologist.createMany({
+     * // Create many AuthProviders
+     * const authProvider = await prisma.authProvider.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends PsychologistCreateManyArgs>(args?: SelectSubset<T, PsychologistCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends AuthProviderCreateManyArgs>(args?: SelectSubset<T, AuthProviderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Psychologists and returns the data saved in the database.
-     * @param {PsychologistCreateManyAndReturnArgs} args - Arguments to create many Psychologists.
+     * Create many AuthProviders and returns the data saved in the database.
+     * @param {AuthProviderCreateManyAndReturnArgs} args - Arguments to create many AuthProviders.
      * @example
-     * // Create many Psychologists
-     * const psychologist = await prisma.psychologist.createManyAndReturn({
+     * // Create many AuthProviders
+     * const authProvider = await prisma.authProvider.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Psychologists and only return the `id`
-     * const psychologistWithIdOnly = await prisma.psychologist.createManyAndReturn({
+     * // Create many AuthProviders and only return the `id`
+     * const authProviderWithIdOnly = await prisma.authProvider.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -2953,28 +3642,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends PsychologistCreateManyAndReturnArgs>(args?: SelectSubset<T, PsychologistCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends AuthProviderCreateManyAndReturnArgs>(args?: SelectSubset<T, AuthProviderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Psychologist.
-     * @param {PsychologistDeleteArgs} args - Arguments to delete one Psychologist.
+     * Delete a AuthProvider.
+     * @param {AuthProviderDeleteArgs} args - Arguments to delete one AuthProvider.
      * @example
-     * // Delete one Psychologist
-     * const Psychologist = await prisma.psychologist.delete({
+     * // Delete one AuthProvider
+     * const AuthProvider = await prisma.authProvider.delete({
      *   where: {
-     *     // ... filter to delete one Psychologist
+     *     // ... filter to delete one AuthProvider
      *   }
      * })
      * 
      */
-    delete<T extends PsychologistDeleteArgs>(args: SelectSubset<T, PsychologistDeleteArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends AuthProviderDeleteArgs>(args: SelectSubset<T, AuthProviderDeleteArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Psychologist.
-     * @param {PsychologistUpdateArgs} args - Arguments to update one Psychologist.
+     * Update one AuthProvider.
+     * @param {AuthProviderUpdateArgs} args - Arguments to update one AuthProvider.
      * @example
-     * // Update one Psychologist
-     * const psychologist = await prisma.psychologist.update({
+     * // Update one AuthProvider
+     * const authProvider = await prisma.authProvider.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2984,30 +3673,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PsychologistUpdateArgs>(args: SelectSubset<T, PsychologistUpdateArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends AuthProviderUpdateArgs>(args: SelectSubset<T, AuthProviderUpdateArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Psychologists.
-     * @param {PsychologistDeleteManyArgs} args - Arguments to filter Psychologists to delete.
+     * Delete zero or more AuthProviders.
+     * @param {AuthProviderDeleteManyArgs} args - Arguments to filter AuthProviders to delete.
      * @example
-     * // Delete a few Psychologists
-     * const { count } = await prisma.psychologist.deleteMany({
+     * // Delete a few AuthProviders
+     * const { count } = await prisma.authProvider.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends PsychologistDeleteManyArgs>(args?: SelectSubset<T, PsychologistDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends AuthProviderDeleteManyArgs>(args?: SelectSubset<T, AuthProviderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Psychologists.
+     * Update zero or more AuthProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {AuthProviderUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Psychologists
-     * const psychologist = await prisma.psychologist.updateMany({
+     * // Update many AuthProviders
+     * const authProvider = await prisma.authProvider.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3017,14 +3706,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends PsychologistUpdateManyArgs>(args: SelectSubset<T, PsychologistUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends AuthProviderUpdateManyArgs>(args: SelectSubset<T, AuthProviderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Psychologists and returns the data updated in the database.
-     * @param {PsychologistUpdateManyAndReturnArgs} args - Arguments to update many Psychologists.
+     * Update zero or more AuthProviders and returns the data updated in the database.
+     * @param {AuthProviderUpdateManyAndReturnArgs} args - Arguments to update many AuthProviders.
      * @example
-     * // Update many Psychologists
-     * const psychologist = await prisma.psychologist.updateManyAndReturn({
+     * // Update many AuthProviders
+     * const authProvider = await prisma.authProvider.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3033,8 +3722,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Psychologists and only return the `id`
-     * const psychologistWithIdOnly = await prisma.psychologist.updateManyAndReturn({
+     * // Update zero or more AuthProviders and only return the `id`
+     * const authProviderWithIdOnly = await prisma.authProvider.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -3047,56 +3736,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends PsychologistUpdateManyAndReturnArgs>(args: SelectSubset<T, PsychologistUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends AuthProviderUpdateManyAndReturnArgs>(args: SelectSubset<T, AuthProviderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Psychologist.
-     * @param {PsychologistUpsertArgs} args - Arguments to update or create a Psychologist.
+     * Create or update one AuthProvider.
+     * @param {AuthProviderUpsertArgs} args - Arguments to update or create a AuthProvider.
      * @example
-     * // Update or create a Psychologist
-     * const psychologist = await prisma.psychologist.upsert({
+     * // Update or create a AuthProvider
+     * const authProvider = await prisma.authProvider.upsert({
      *   create: {
-     *     // ... data to create a Psychologist
+     *     // ... data to create a AuthProvider
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Psychologist we want to update
+     *     // ... the filter for the AuthProvider we want to update
      *   }
      * })
      */
-    upsert<T extends PsychologistUpsertArgs>(args: SelectSubset<T, PsychologistUpsertArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends AuthProviderUpsertArgs>(args: SelectSubset<T, AuthProviderUpsertArgs<ExtArgs>>): Prisma__AuthProviderClient<$Result.GetResult<Prisma.$AuthProviderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Psychologists.
+     * Count the number of AuthProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistCountArgs} args - Arguments to filter Psychologists to count.
+     * @param {AuthProviderCountArgs} args - Arguments to filter AuthProviders to count.
      * @example
-     * // Count the number of Psychologists
-     * const count = await prisma.psychologist.count({
+     * // Count the number of AuthProviders
+     * const count = await prisma.authProvider.count({
      *   where: {
-     *     // ... the filter for the Psychologists we want to count
+     *     // ... the filter for the AuthProviders we want to count
      *   }
      * })
     **/
-    count<T extends PsychologistCountArgs>(
-      args?: Subset<T, PsychologistCountArgs>,
+    count<T extends AuthProviderCountArgs>(
+      args?: Subset<T, AuthProviderCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], PsychologistCountAggregateOutputType>
+          : GetScalarType<T['select'], AuthProviderCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Psychologist.
+     * Allows you to perform aggregations operations on a AuthProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {AuthProviderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3116,13 +3805,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PsychologistAggregateArgs>(args: Subset<T, PsychologistAggregateArgs>): Prisma.PrismaPromise<GetPsychologistAggregateType<T>>
+    aggregate<T extends AuthProviderAggregateArgs>(args: Subset<T, AuthProviderAggregateArgs>): Prisma.PrismaPromise<GetAuthProviderAggregateType<T>>
 
     /**
-     * Group by Psychologist.
+     * Group by AuthProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PsychologistGroupByArgs} args - Group by arguments.
+     * @param {AuthProviderGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3137,14 +3826,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends PsychologistGroupByArgs,
+      T extends AuthProviderGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PsychologistGroupByArgs['orderBy'] }
-        : { orderBy?: PsychologistGroupByArgs['orderBy'] },
+        ? { orderBy: AuthProviderGroupByArgs['orderBy'] }
+        : { orderBy?: AuthProviderGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -3193,24 +3882,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PsychologistGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPsychologistGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AuthProviderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuthProviderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Psychologist model
+   * Fields of the AuthProvider model
    */
-  readonly fields: PsychologistFieldRefs;
+  readonly fields: AuthProviderFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Psychologist.
+   * The delegate class that acts as a "Promise-like" for AuthProvider.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PsychologistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__AuthProviderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    sessions<T extends Psychologist$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, Psychologist$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notes<T extends Psychologist$notesArgs<ExtArgs> = {}>(args?: Subset<T, Psychologist$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3237,440 +3924,3852 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Psychologist model
+   * Fields of the AuthProvider model
    */
-  interface PsychologistFieldRefs {
-    readonly id: FieldRef<"Psychologist", 'Int'>
-    readonly userId: FieldRef<"Psychologist", 'Int'>
-    readonly education: FieldRef<"Psychologist", 'String'>
-    readonly experience: FieldRef<"Psychologist", 'String'>
-    readonly therapyApproach: FieldRef<"Psychologist", 'String'>
-    readonly photoUrl: FieldRef<"Psychologist", 'String'>
-    readonly createdAt: FieldRef<"Psychologist", 'DateTime'>
-    readonly updatedAt: FieldRef<"Psychologist", 'DateTime'>
+  interface AuthProviderFieldRefs {
+    readonly id: FieldRef<"AuthProvider", 'String'>
+    readonly userId: FieldRef<"AuthProvider", 'String'>
+    readonly provider: FieldRef<"AuthProvider", 'String'>
+    readonly providerId: FieldRef<"AuthProvider", 'String'>
+    readonly passwordHash: FieldRef<"AuthProvider", 'String'>
+    readonly createdAt: FieldRef<"AuthProvider", 'DateTime'>
+    readonly updatedAt: FieldRef<"AuthProvider", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Psychologist findUnique
+   * AuthProvider findUnique
    */
-  export type PsychologistFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter, which Psychologist to fetch.
+     * Filter, which AuthProvider to fetch.
      */
-    where: PsychologistWhereUniqueInput
+    where: AuthProviderWhereUniqueInput
   }
 
   /**
-   * Psychologist findUniqueOrThrow
+   * AuthProvider findUniqueOrThrow
    */
-  export type PsychologistFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter, which Psychologist to fetch.
+     * Filter, which AuthProvider to fetch.
      */
-    where: PsychologistWhereUniqueInput
+    where: AuthProviderWhereUniqueInput
   }
 
   /**
-   * Psychologist findFirst
+   * AuthProvider findFirst
    */
-  export type PsychologistFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter, which Psychologist to fetch.
+     * Filter, which AuthProvider to fetch.
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Psychologists to fetch.
+     * Determine the order of AuthProviders to fetch.
      */
-    orderBy?: PsychologistOrderByWithRelationInput | PsychologistOrderByWithRelationInput[]
+    orderBy?: AuthProviderOrderByWithRelationInput | AuthProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Psychologists.
+     * Sets the position for searching for AuthProviders.
      */
-    cursor?: PsychologistWhereUniqueInput
+    cursor?: AuthProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Psychologists from the position of the cursor.
+     * Take `±n` AuthProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Psychologists.
+     * Skip the first `n` AuthProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Psychologists.
+     * Filter by unique combinations of AuthProviders.
      */
-    distinct?: PsychologistScalarFieldEnum | PsychologistScalarFieldEnum[]
+    distinct?: AuthProviderScalarFieldEnum | AuthProviderScalarFieldEnum[]
   }
 
   /**
-   * Psychologist findFirstOrThrow
+   * AuthProvider findFirstOrThrow
    */
-  export type PsychologistFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter, which Psychologist to fetch.
+     * Filter, which AuthProvider to fetch.
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Psychologists to fetch.
+     * Determine the order of AuthProviders to fetch.
      */
-    orderBy?: PsychologistOrderByWithRelationInput | PsychologistOrderByWithRelationInput[]
+    orderBy?: AuthProviderOrderByWithRelationInput | AuthProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Psychologists.
+     * Sets the position for searching for AuthProviders.
      */
-    cursor?: PsychologistWhereUniqueInput
+    cursor?: AuthProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Psychologists from the position of the cursor.
+     * Take `±n` AuthProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Psychologists.
+     * Skip the first `n` AuthProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Psychologists.
+     * Filter by unique combinations of AuthProviders.
      */
-    distinct?: PsychologistScalarFieldEnum | PsychologistScalarFieldEnum[]
+    distinct?: AuthProviderScalarFieldEnum | AuthProviderScalarFieldEnum[]
   }
 
   /**
-   * Psychologist findMany
+   * AuthProvider findMany
    */
-  export type PsychologistFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter, which Psychologists to fetch.
+     * Filter, which AuthProviders to fetch.
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Psychologists to fetch.
+     * Determine the order of AuthProviders to fetch.
      */
-    orderBy?: PsychologistOrderByWithRelationInput | PsychologistOrderByWithRelationInput[]
+    orderBy?: AuthProviderOrderByWithRelationInput | AuthProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Psychologists.
+     * Sets the position for listing AuthProviders.
      */
-    cursor?: PsychologistWhereUniqueInput
+    cursor?: AuthProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Psychologists from the position of the cursor.
+     * Take `±n` AuthProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Psychologists.
+     * Skip the first `n` AuthProviders.
      */
     skip?: number
-    distinct?: PsychologistScalarFieldEnum | PsychologistScalarFieldEnum[]
+    distinct?: AuthProviderScalarFieldEnum | AuthProviderScalarFieldEnum[]
   }
 
   /**
-   * Psychologist create
+   * AuthProvider create
    */
-  export type PsychologistCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * The data needed to create a Psychologist.
+     * The data needed to create a AuthProvider.
      */
-    data: XOR<PsychologistCreateInput, PsychologistUncheckedCreateInput>
+    data: XOR<AuthProviderCreateInput, AuthProviderUncheckedCreateInput>
   }
 
   /**
-   * Psychologist createMany
+   * AuthProvider createMany
    */
-  export type PsychologistCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Psychologists.
+     * The data used to create many AuthProviders.
      */
-    data: PsychologistCreateManyInput | PsychologistCreateManyInput[]
+    data: AuthProviderCreateManyInput | AuthProviderCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Psychologist createManyAndReturn
+   * AuthProvider createManyAndReturn
    */
-  export type PsychologistCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelectCreateManyAndReturn<ExtArgs> | null
+    select?: AuthProviderSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
-     * The data used to create many Psychologists.
+     * The data used to create many AuthProviders.
      */
-    data: PsychologistCreateManyInput | PsychologistCreateManyInput[]
+    data: AuthProviderCreateManyInput | AuthProviderCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: AuthProviderIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Psychologist update
+   * AuthProvider update
    */
-  export type PsychologistUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * The data needed to update a Psychologist.
+     * The data needed to update a AuthProvider.
      */
-    data: XOR<PsychologistUpdateInput, PsychologistUncheckedUpdateInput>
+    data: XOR<AuthProviderUpdateInput, AuthProviderUncheckedUpdateInput>
     /**
-     * Choose, which Psychologist to update.
+     * Choose, which AuthProvider to update.
      */
-    where: PsychologistWhereUniqueInput
+    where: AuthProviderWhereUniqueInput
   }
 
   /**
-   * Psychologist updateMany
+   * AuthProvider updateMany
    */
-  export type PsychologistUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Psychologists.
+     * The data used to update AuthProviders.
      */
-    data: XOR<PsychologistUpdateManyMutationInput, PsychologistUncheckedUpdateManyInput>
+    data: XOR<AuthProviderUpdateManyMutationInput, AuthProviderUncheckedUpdateManyInput>
     /**
-     * Filter which Psychologists to update
+     * Filter which AuthProviders to update
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
-     * Limit how many Psychologists to update.
+     * Limit how many AuthProviders to update.
      */
     limit?: number
   }
 
   /**
-   * Psychologist updateManyAndReturn
+   * AuthProvider updateManyAndReturn
    */
-  export type PsychologistUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: AuthProviderSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
-     * The data used to update Psychologists.
+     * The data used to update AuthProviders.
      */
-    data: XOR<PsychologistUpdateManyMutationInput, PsychologistUncheckedUpdateManyInput>
+    data: XOR<AuthProviderUpdateManyMutationInput, AuthProviderUncheckedUpdateManyInput>
     /**
-     * Filter which Psychologists to update
+     * Filter which AuthProviders to update
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
-     * Limit how many Psychologists to update.
+     * Limit how many AuthProviders to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: AuthProviderIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Psychologist upsert
+   * AuthProvider upsert
    */
-  export type PsychologistUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * The filter to search for the Psychologist to update in case it exists.
+     * The filter to search for the AuthProvider to update in case it exists.
      */
-    where: PsychologistWhereUniqueInput
+    where: AuthProviderWhereUniqueInput
     /**
-     * In case the Psychologist found by the `where` argument doesn't exist, create a new Psychologist with this data.
+     * In case the AuthProvider found by the `where` argument doesn't exist, create a new AuthProvider with this data.
      */
-    create: XOR<PsychologistCreateInput, PsychologistUncheckedCreateInput>
+    create: XOR<AuthProviderCreateInput, AuthProviderUncheckedCreateInput>
     /**
-     * In case the Psychologist was found with the provided `where` argument, update it with this data.
+     * In case the AuthProvider was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<PsychologistUpdateInput, PsychologistUncheckedUpdateInput>
+    update: XOR<AuthProviderUpdateInput, AuthProviderUncheckedUpdateInput>
   }
 
   /**
-   * Psychologist delete
+   * AuthProvider delete
    */
-  export type PsychologistDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the AuthProvider
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: AuthProviderInclude<ExtArgs> | null
     /**
-     * Filter which Psychologist to delete.
+     * Filter which AuthProvider to delete.
      */
-    where: PsychologistWhereUniqueInput
+    where: AuthProviderWhereUniqueInput
   }
 
   /**
-   * Psychologist deleteMany
+   * AuthProvider deleteMany
    */
-  export type PsychologistDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Psychologists to delete
+     * Filter which AuthProviders to delete
      */
-    where?: PsychologistWhereInput
+    where?: AuthProviderWhereInput
     /**
-     * Limit how many Psychologists to delete.
+     * Limit how many AuthProviders to delete.
      */
     limit?: number
   }
 
   /**
-   * Psychologist.sessions
+   * AuthProvider without action
    */
-  export type Psychologist$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AuthProviderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the AuthProvider
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: AuthProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the AuthProvider
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: AuthProviderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
+    include?: AuthProviderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PasswordReset
+   */
+
+  export type AggregatePasswordReset = {
+    _count: PasswordResetCountAggregateOutputType | null
+    _min: PasswordResetMinAggregateOutputType | null
+    _max: PasswordResetMaxAggregateOutputType | null
+  }
+
+  export type PasswordResetMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetCountAggregateOutputType = {
+    id: number
+    userId: number
+    token: number
+    expiresAt: number
+    usedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PasswordResetMinAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetCountAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PasswordResetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordReset to aggregate.
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResets to fetch.
+     */
+    orderBy?: PasswordResetOrderByWithRelationInput | PasswordResetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordResets
+    **/
+    _count?: true | PasswordResetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordResetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordResetMaxAggregateInputType
+  }
+
+  export type GetPasswordResetAggregateType<T extends PasswordResetAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordReset]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordReset[P]>
+      : GetScalarType<T[P], AggregatePasswordReset[P]>
+  }
+
+
+
+
+  export type PasswordResetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetWhereInput
+    orderBy?: PasswordResetOrderByWithAggregationInput | PasswordResetOrderByWithAggregationInput[]
+    by: PasswordResetScalarFieldEnum[] | PasswordResetScalarFieldEnum
+    having?: PasswordResetScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    _count?: PasswordResetCountAggregateInputType | true
+    _min?: PasswordResetMinAggregateInputType
+    _max?: PasswordResetMaxAggregateInputType
+  }
+
+  export type PasswordResetGroupByOutputType = {
+    id: string
+    userId: string
+    token: string
+    expiresAt: Date
+    usedAt: Date | null
+    createdAt: Date
+    _count: PasswordResetCountAggregateOutputType | null
+    _min: PasswordResetMinAggregateOutputType | null
+    _max: PasswordResetMaxAggregateOutputType | null
+  }
+
+  type GetPasswordResetGroupByPayload<T extends PasswordResetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordResetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordResetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordResetGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordResetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordResetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordReset"]>
+
+  export type PasswordResetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordReset"]>
+
+  export type PasswordResetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordReset"]>
+
+  export type PasswordResetSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type PasswordResetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "token" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["passwordReset"]>
+  export type PasswordResetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordResetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordReset"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      token: string
+      expiresAt: Date
+      usedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["passwordReset"]>
+    composites: {}
+  }
+
+  type PasswordResetGetPayload<S extends boolean | null | undefined | PasswordResetDefaultArgs> = $Result.GetResult<Prisma.$PasswordResetPayload, S>
+
+  type PasswordResetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordResetFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordResetCountAggregateInputType | true
+    }
+
+  export interface PasswordResetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordReset'], meta: { name: 'PasswordReset' } }
+    /**
+     * Find zero or one PasswordReset that matches the filter.
+     * @param {PasswordResetFindUniqueArgs} args - Arguments to find a PasswordReset
+     * @example
+     * // Get one PasswordReset
+     * const passwordReset = await prisma.passwordReset.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordResetFindUniqueArgs>(args: SelectSubset<T, PasswordResetFindUniqueArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordReset that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordResetFindUniqueOrThrowArgs} args - Arguments to find a PasswordReset
+     * @example
+     * // Get one PasswordReset
+     * const passwordReset = await prisma.passwordReset.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordResetFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordResetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordReset that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetFindFirstArgs} args - Arguments to find a PasswordReset
+     * @example
+     * // Get one PasswordReset
+     * const passwordReset = await prisma.passwordReset.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordResetFindFirstArgs>(args?: SelectSubset<T, PasswordResetFindFirstArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordReset that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetFindFirstOrThrowArgs} args - Arguments to find a PasswordReset
+     * @example
+     * // Get one PasswordReset
+     * const passwordReset = await prisma.passwordReset.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordResetFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordResetFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordResets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordResets
+     * const passwordResets = await prisma.passwordReset.findMany()
+     * 
+     * // Get first 10 PasswordResets
+     * const passwordResets = await prisma.passwordReset.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordResetWithIdOnly = await prisma.passwordReset.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordResetFindManyArgs>(args?: SelectSubset<T, PasswordResetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordReset.
+     * @param {PasswordResetCreateArgs} args - Arguments to create a PasswordReset.
+     * @example
+     * // Create one PasswordReset
+     * const PasswordReset = await prisma.passwordReset.create({
+     *   data: {
+     *     // ... data to create a PasswordReset
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordResetCreateArgs>(args: SelectSubset<T, PasswordResetCreateArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordResets.
+     * @param {PasswordResetCreateManyArgs} args - Arguments to create many PasswordResets.
+     * @example
+     * // Create many PasswordResets
+     * const passwordReset = await prisma.passwordReset.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordResetCreateManyArgs>(args?: SelectSubset<T, PasswordResetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordResets and returns the data saved in the database.
+     * @param {PasswordResetCreateManyAndReturnArgs} args - Arguments to create many PasswordResets.
+     * @example
+     * // Create many PasswordResets
+     * const passwordReset = await prisma.passwordReset.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordResets and only return the `id`
+     * const passwordResetWithIdOnly = await prisma.passwordReset.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordResetCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordResetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordReset.
+     * @param {PasswordResetDeleteArgs} args - Arguments to delete one PasswordReset.
+     * @example
+     * // Delete one PasswordReset
+     * const PasswordReset = await prisma.passwordReset.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordReset
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordResetDeleteArgs>(args: SelectSubset<T, PasswordResetDeleteArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordReset.
+     * @param {PasswordResetUpdateArgs} args - Arguments to update one PasswordReset.
+     * @example
+     * // Update one PasswordReset
+     * const passwordReset = await prisma.passwordReset.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordResetUpdateArgs>(args: SelectSubset<T, PasswordResetUpdateArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordResets.
+     * @param {PasswordResetDeleteManyArgs} args - Arguments to filter PasswordResets to delete.
+     * @example
+     * // Delete a few PasswordResets
+     * const { count } = await prisma.passwordReset.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordResetDeleteManyArgs>(args?: SelectSubset<T, PasswordResetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordResets
+     * const passwordReset = await prisma.passwordReset.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordResetUpdateManyArgs>(args: SelectSubset<T, PasswordResetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResets and returns the data updated in the database.
+     * @param {PasswordResetUpdateManyAndReturnArgs} args - Arguments to update many PasswordResets.
+     * @example
+     * // Update many PasswordResets
+     * const passwordReset = await prisma.passwordReset.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordResets and only return the `id`
+     * const passwordResetWithIdOnly = await prisma.passwordReset.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordResetUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordResetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordReset.
+     * @param {PasswordResetUpsertArgs} args - Arguments to update or create a PasswordReset.
+     * @example
+     * // Update or create a PasswordReset
+     * const passwordReset = await prisma.passwordReset.upsert({
+     *   create: {
+     *     // ... data to create a PasswordReset
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordReset we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordResetUpsertArgs>(args: SelectSubset<T, PasswordResetUpsertArgs<ExtArgs>>): Prisma__PasswordResetClient<$Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordResets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetCountArgs} args - Arguments to filter PasswordResets to count.
+     * @example
+     * // Count the number of PasswordResets
+     * const count = await prisma.passwordReset.count({
+     *   where: {
+     *     // ... the filter for the PasswordResets we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordResetCountArgs>(
+      args?: Subset<T, PasswordResetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordResetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordReset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordResetAggregateArgs>(args: Subset<T, PasswordResetAggregateArgs>): Prisma.PrismaPromise<GetPasswordResetAggregateType<T>>
+
+    /**
+     * Group by PasswordReset.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordResetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordResetGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordResetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordResetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordResetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordReset model
+   */
+  readonly fields: PasswordResetFieldRefs;
   }
 
   /**
-   * Psychologist.notes
+   * The delegate class that acts as a "Promise-like" for PasswordReset.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export type Psychologist$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export interface Prisma__PasswordResetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordReset model
+   */
+  interface PasswordResetFieldRefs {
+    readonly id: FieldRef<"PasswordReset", 'String'>
+    readonly userId: FieldRef<"PasswordReset", 'String'>
+    readonly token: FieldRef<"PasswordReset", 'String'>
+    readonly expiresAt: FieldRef<"PasswordReset", 'DateTime'>
+    readonly usedAt: FieldRef<"PasswordReset", 'DateTime'>
+    readonly createdAt: FieldRef<"PasswordReset", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordReset findUnique
+   */
+  export type PasswordResetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordReset to fetch.
+     */
+    where: PasswordResetWhereUniqueInput
+  }
+
+  /**
+   * PasswordReset findUniqueOrThrow
+   */
+  export type PasswordResetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordReset to fetch.
+     */
+    where: PasswordResetWhereUniqueInput
+  }
+
+  /**
+   * PasswordReset findFirst
+   */
+  export type PasswordResetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordReset to fetch.
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResets to fetch.
+     */
+    orderBy?: PasswordResetOrderByWithRelationInput | PasswordResetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResets.
+     */
+    cursor?: PasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResets.
+     */
+    distinct?: PasswordResetScalarFieldEnum | PasswordResetScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordReset findFirstOrThrow
+   */
+  export type PasswordResetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordReset to fetch.
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResets to fetch.
+     */
+    orderBy?: PasswordResetOrderByWithRelationInput | PasswordResetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResets.
+     */
+    cursor?: PasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResets.
+     */
+    distinct?: PasswordResetScalarFieldEnum | PasswordResetScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordReset findMany
+   */
+  export type PasswordResetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResets to fetch.
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResets to fetch.
+     */
+    orderBy?: PasswordResetOrderByWithRelationInput | PasswordResetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordResets.
+     */
+    cursor?: PasswordResetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResets.
+     */
+    skip?: number
+    distinct?: PasswordResetScalarFieldEnum | PasswordResetScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordReset create
+   */
+  export type PasswordResetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordReset.
+     */
+    data: XOR<PasswordResetCreateInput, PasswordResetUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordReset createMany
+   */
+  export type PasswordResetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordResets.
+     */
+    data: PasswordResetCreateManyInput | PasswordResetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordReset createManyAndReturn
+   */
+  export type PasswordResetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordResets.
+     */
+    data: PasswordResetCreateManyInput | PasswordResetCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordReset update
+   */
+  export type PasswordResetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordReset.
+     */
+    data: XOR<PasswordResetUpdateInput, PasswordResetUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordReset to update.
+     */
+    where: PasswordResetWhereUniqueInput
+  }
+
+  /**
+   * PasswordReset updateMany
+   */
+  export type PasswordResetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordResets.
+     */
+    data: XOR<PasswordResetUpdateManyMutationInput, PasswordResetUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResets to update
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * Limit how many PasswordResets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordReset updateManyAndReturn
+   */
+  export type PasswordResetUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordResets.
+     */
+    data: XOR<PasswordResetUpdateManyMutationInput, PasswordResetUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResets to update
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * Limit how many PasswordResets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordReset upsert
+   */
+  export type PasswordResetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordReset to update in case it exists.
+     */
+    where: PasswordResetWhereUniqueInput
+    /**
+     * In case the PasswordReset found by the `where` argument doesn't exist, create a new PasswordReset with this data.
+     */
+    create: XOR<PasswordResetCreateInput, PasswordResetUncheckedCreateInput>
+    /**
+     * In case the PasswordReset was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordResetUpdateInput, PasswordResetUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordReset delete
+   */
+  export type PasswordResetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordReset to delete.
+     */
+    where: PasswordResetWhereUniqueInput
+  }
+
+  /**
+   * PasswordReset deleteMany
+   */
+  export type PasswordResetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResets to delete
+     */
+    where?: PasswordResetWhereInput
+    /**
+     * Limit how many PasswordResets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordReset without action
+   */
+  export type PasswordResetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordReset
+     */
+    select?: PasswordResetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordReset
+     */
+    omit?: PasswordResetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserProfile
+   */
+
+  export type AggregateUserProfile = {
+    _count: UserProfileCountAggregateOutputType | null
+    _min: UserProfileMinAggregateOutputType | null
+    _max: UserProfileMaxAggregateOutputType | null
+  }
+
+  export type UserProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    birthday: Date | null
+    gender: $Enums.Gender | null
+    country: string | null
+    city: string | null
+    fullAddress: string | null
+    phone: string | null
+  }
+
+  export type UserProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    birthday: Date | null
+    gender: $Enums.Gender | null
+    country: string | null
+    city: string | null
+    fullAddress: string | null
+    phone: string | null
+  }
+
+  export type UserProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    fullName: number
+    birthday: number
+    gender: number
+    country: number
+    city: number
+    fullAddress: number
+    phone: number
+    _all: number
+  }
+
+
+  export type UserProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    birthday?: true
+    gender?: true
+    country?: true
+    city?: true
+    fullAddress?: true
+    phone?: true
+  }
+
+  export type UserProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    birthday?: true
+    gender?: true
+    country?: true
+    city?: true
+    fullAddress?: true
+    phone?: true
+  }
+
+  export type UserProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    birthday?: true
+    gender?: true
+    country?: true
+    city?: true
+    fullAddress?: true
+    phone?: true
+    _all?: true
+  }
+
+  export type UserProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserProfile to aggregate.
+     */
+    where?: UserProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProfiles to fetch.
+     */
+    orderBy?: UserProfileOrderByWithRelationInput | UserProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserProfiles
+    **/
+    _count?: true | UserProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserProfileMaxAggregateInputType
+  }
+
+  export type GetUserProfileAggregateType<T extends UserProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserProfile[P]>
+      : GetScalarType<T[P], AggregateUserProfile[P]>
+  }
+
+
+
+
+  export type UserProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserProfileWhereInput
+    orderBy?: UserProfileOrderByWithAggregationInput | UserProfileOrderByWithAggregationInput[]
+    by: UserProfileScalarFieldEnum[] | UserProfileScalarFieldEnum
+    having?: UserProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserProfileCountAggregateInputType | true
+    _min?: UserProfileMinAggregateInputType
+    _max?: UserProfileMaxAggregateInputType
+  }
+
+  export type UserProfileGroupByOutputType = {
+    id: string
+    userId: string
+    fullName: string | null
+    birthday: Date | null
+    gender: $Enums.Gender | null
+    country: string | null
+    city: string | null
+    fullAddress: string | null
+    phone: string | null
+    _count: UserProfileCountAggregateOutputType | null
+    _min: UserProfileMinAggregateOutputType | null
+    _max: UserProfileMaxAggregateOutputType | null
+  }
+
+  type GetUserProfileGroupByPayload<T extends UserProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], UserProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    birthday?: boolean
+    gender?: boolean
+    country?: boolean
+    city?: boolean
+    fullAddress?: boolean
+    phone?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userProfile"]>
+
+  export type UserProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    birthday?: boolean
+    gender?: boolean
+    country?: boolean
+    city?: boolean
+    fullAddress?: boolean
+    phone?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userProfile"]>
+
+  export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    birthday?: boolean
+    gender?: boolean
+    country?: boolean
+    city?: boolean
+    fullAddress?: boolean
+    phone?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userProfile"]>
+
+  export type UserProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    birthday?: boolean
+    gender?: boolean
+    country?: boolean
+    city?: boolean
+    fullAddress?: boolean
+    phone?: boolean
+  }
+
+  export type UserProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "birthday" | "gender" | "country" | "city" | "fullAddress" | "phone", ExtArgs["result"]["userProfile"]>
+  export type UserProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      fullName: string | null
+      birthday: Date | null
+      gender: $Enums.Gender | null
+      country: string | null
+      city: string | null
+      fullAddress: string | null
+      phone: string | null
+    }, ExtArgs["result"]["userProfile"]>
+    composites: {}
+  }
+
+  type UserProfileGetPayload<S extends boolean | null | undefined | UserProfileDefaultArgs> = $Result.GetResult<Prisma.$UserProfilePayload, S>
+
+  type UserProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserProfileCountAggregateInputType | true
+    }
+
+  export interface UserProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserProfile'], meta: { name: 'UserProfile' } }
+    /**
+     * Find zero or one UserProfile that matches the filter.
+     * @param {UserProfileFindUniqueArgs} args - Arguments to find a UserProfile
+     * @example
+     * // Get one UserProfile
+     * const userProfile = await prisma.userProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserProfileFindUniqueArgs>(args: SelectSubset<T, UserProfileFindUniqueArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserProfileFindUniqueOrThrowArgs} args - Arguments to find a UserProfile
+     * @example
+     * // Get one UserProfile
+     * const userProfile = await prisma.userProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, UserProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileFindFirstArgs} args - Arguments to find a UserProfile
+     * @example
+     * // Get one UserProfile
+     * const userProfile = await prisma.userProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserProfileFindFirstArgs>(args?: SelectSubset<T, UserProfileFindFirstArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileFindFirstOrThrowArgs} args - Arguments to find a UserProfile
+     * @example
+     * // Get one UserProfile
+     * const userProfile = await prisma.userProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, UserProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserProfiles
+     * const userProfiles = await prisma.userProfile.findMany()
+     * 
+     * // Get first 10 UserProfiles
+     * const userProfiles = await prisma.userProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userProfileWithIdOnly = await prisma.userProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserProfileFindManyArgs>(args?: SelectSubset<T, UserProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserProfile.
+     * @param {UserProfileCreateArgs} args - Arguments to create a UserProfile.
+     * @example
+     * // Create one UserProfile
+     * const UserProfile = await prisma.userProfile.create({
+     *   data: {
+     *     // ... data to create a UserProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserProfileCreateArgs>(args: SelectSubset<T, UserProfileCreateArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserProfiles.
+     * @param {UserProfileCreateManyArgs} args - Arguments to create many UserProfiles.
+     * @example
+     * // Create many UserProfiles
+     * const userProfile = await prisma.userProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserProfileCreateManyArgs>(args?: SelectSubset<T, UserProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserProfiles and returns the data saved in the database.
+     * @param {UserProfileCreateManyAndReturnArgs} args - Arguments to create many UserProfiles.
+     * @example
+     * // Create many UserProfiles
+     * const userProfile = await prisma.userProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserProfiles and only return the `id`
+     * const userProfileWithIdOnly = await prisma.userProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, UserProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserProfile.
+     * @param {UserProfileDeleteArgs} args - Arguments to delete one UserProfile.
+     * @example
+     * // Delete one UserProfile
+     * const UserProfile = await prisma.userProfile.delete({
+     *   where: {
+     *     // ... filter to delete one UserProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserProfileDeleteArgs>(args: SelectSubset<T, UserProfileDeleteArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserProfile.
+     * @param {UserProfileUpdateArgs} args - Arguments to update one UserProfile.
+     * @example
+     * // Update one UserProfile
+     * const userProfile = await prisma.userProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserProfileUpdateArgs>(args: SelectSubset<T, UserProfileUpdateArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserProfiles.
+     * @param {UserProfileDeleteManyArgs} args - Arguments to filter UserProfiles to delete.
+     * @example
+     * // Delete a few UserProfiles
+     * const { count } = await prisma.userProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserProfileDeleteManyArgs>(args?: SelectSubset<T, UserProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserProfiles
+     * const userProfile = await prisma.userProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserProfileUpdateManyArgs>(args: SelectSubset<T, UserProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserProfiles and returns the data updated in the database.
+     * @param {UserProfileUpdateManyAndReturnArgs} args - Arguments to update many UserProfiles.
+     * @example
+     * // Update many UserProfiles
+     * const userProfile = await prisma.userProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserProfiles and only return the `id`
+     * const userProfileWithIdOnly = await prisma.userProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, UserProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserProfile.
+     * @param {UserProfileUpsertArgs} args - Arguments to update or create a UserProfile.
+     * @example
+     * // Update or create a UserProfile
+     * const userProfile = await prisma.userProfile.upsert({
+     *   create: {
+     *     // ... data to create a UserProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserProfileUpsertArgs>(args: SelectSubset<T, UserProfileUpsertArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileCountArgs} args - Arguments to filter UserProfiles to count.
+     * @example
+     * // Count the number of UserProfiles
+     * const count = await prisma.userProfile.count({
+     *   where: {
+     *     // ... the filter for the UserProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserProfileCountArgs>(
+      args?: Subset<T, UserProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserProfileAggregateArgs>(args: Subset<T, UserProfileAggregateArgs>): Prisma.PrismaPromise<GetUserProfileAggregateType<T>>
+
+    /**
+     * Group by UserProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserProfileGroupByArgs['orderBy'] }
+        : { orderBy?: UserProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserProfile model
+   */
+  readonly fields: UserProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserProfile model
+   */
+  interface UserProfileFieldRefs {
+    readonly id: FieldRef<"UserProfile", 'String'>
+    readonly userId: FieldRef<"UserProfile", 'String'>
+    readonly fullName: FieldRef<"UserProfile", 'String'>
+    readonly birthday: FieldRef<"UserProfile", 'DateTime'>
+    readonly gender: FieldRef<"UserProfile", 'Gender'>
+    readonly country: FieldRef<"UserProfile", 'String'>
+    readonly city: FieldRef<"UserProfile", 'String'>
+    readonly fullAddress: FieldRef<"UserProfile", 'String'>
+    readonly phone: FieldRef<"UserProfile", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserProfile findUnique
+   */
+  export type UserProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProfile to fetch.
+     */
+    where: UserProfileWhereUniqueInput
+  }
+
+  /**
+   * UserProfile findUniqueOrThrow
+   */
+  export type UserProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProfile to fetch.
+     */
+    where: UserProfileWhereUniqueInput
+  }
+
+  /**
+   * UserProfile findFirst
+   */
+  export type UserProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProfile to fetch.
+     */
+    where?: UserProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProfiles to fetch.
+     */
+    orderBy?: UserProfileOrderByWithRelationInput | UserProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserProfiles.
+     */
+    cursor?: UserProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserProfiles.
+     */
+    distinct?: UserProfileScalarFieldEnum | UserProfileScalarFieldEnum[]
+  }
+
+  /**
+   * UserProfile findFirstOrThrow
+   */
+  export type UserProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProfile to fetch.
+     */
+    where?: UserProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProfiles to fetch.
+     */
+    orderBy?: UserProfileOrderByWithRelationInput | UserProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserProfiles.
+     */
+    cursor?: UserProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserProfiles.
+     */
+    distinct?: UserProfileScalarFieldEnum | UserProfileScalarFieldEnum[]
+  }
+
+  /**
+   * UserProfile findMany
+   */
+  export type UserProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProfiles to fetch.
+     */
+    where?: UserProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProfiles to fetch.
+     */
+    orderBy?: UserProfileOrderByWithRelationInput | UserProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserProfiles.
+     */
+    cursor?: UserProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProfiles.
+     */
+    skip?: number
+    distinct?: UserProfileScalarFieldEnum | UserProfileScalarFieldEnum[]
+  }
+
+  /**
+   * UserProfile create
+   */
+  export type UserProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserProfile.
+     */
+    data: XOR<UserProfileCreateInput, UserProfileUncheckedCreateInput>
+  }
+
+  /**
+   * UserProfile createMany
+   */
+  export type UserProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserProfiles.
+     */
+    data: UserProfileCreateManyInput | UserProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserProfile createManyAndReturn
+   */
+  export type UserProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserProfiles.
+     */
+    data: UserProfileCreateManyInput | UserProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserProfile update
+   */
+  export type UserProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserProfile.
+     */
+    data: XOR<UserProfileUpdateInput, UserProfileUncheckedUpdateInput>
+    /**
+     * Choose, which UserProfile to update.
+     */
+    where: UserProfileWhereUniqueInput
+  }
+
+  /**
+   * UserProfile updateMany
+   */
+  export type UserProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserProfiles.
+     */
+    data: XOR<UserProfileUpdateManyMutationInput, UserProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which UserProfiles to update
+     */
+    where?: UserProfileWhereInput
+    /**
+     * Limit how many UserProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserProfile updateManyAndReturn
+   */
+  export type UserProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update UserProfiles.
+     */
+    data: XOR<UserProfileUpdateManyMutationInput, UserProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which UserProfiles to update
+     */
+    where?: UserProfileWhereInput
+    /**
+     * Limit how many UserProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserProfile upsert
+   */
+  export type UserProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserProfile to update in case it exists.
+     */
+    where: UserProfileWhereUniqueInput
+    /**
+     * In case the UserProfile found by the `where` argument doesn't exist, create a new UserProfile with this data.
+     */
+    create: XOR<UserProfileCreateInput, UserProfileUncheckedCreateInput>
+    /**
+     * In case the UserProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserProfileUpdateInput, UserProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * UserProfile delete
+   */
+  export type UserProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+    /**
+     * Filter which UserProfile to delete.
+     */
+    where: UserProfileWhereUniqueInput
+  }
+
+  /**
+   * UserProfile deleteMany
+   */
+  export type UserProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserProfiles to delete
+     */
+    where?: UserProfileWhereInput
+    /**
+     * Limit how many UserProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserProfile without action
+   */
+  export type UserProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProfile
+     */
+    select?: UserProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProfile
+     */
+    omit?: UserProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PsychologistProfile
+   */
+
+  export type AggregatePsychologistProfile = {
+    _count: PsychologistProfileCountAggregateOutputType | null
+    _min: PsychologistProfileMinAggregateOutputType | null
+    _max: PsychologistProfileMaxAggregateOutputType | null
+  }
+
+  export type PsychologistProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    sipp: string | null
+    str: string | null
+    about: string | null
+    avatarUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PsychologistProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    sipp: string | null
+    str: string | null
+    about: string | null
+    avatarUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PsychologistProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    fullName: number
+    sipp: number
+    str: number
+    about: number
+    avatarUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PsychologistProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    sipp?: true
+    str?: true
+    about?: true
+    avatarUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PsychologistProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    sipp?: true
+    str?: true
+    about?: true
+    avatarUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PsychologistProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    sipp?: true
+    str?: true
+    about?: true
+    avatarUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PsychologistProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PsychologistProfile to aggregate.
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PsychologistProfiles to fetch.
+     */
+    orderBy?: PsychologistProfileOrderByWithRelationInput | PsychologistProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PsychologistProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PsychologistProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PsychologistProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PsychologistProfiles
+    **/
+    _count?: true | PsychologistProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PsychologistProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PsychologistProfileMaxAggregateInputType
+  }
+
+  export type GetPsychologistProfileAggregateType<T extends PsychologistProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregatePsychologistProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePsychologistProfile[P]>
+      : GetScalarType<T[P], AggregatePsychologistProfile[P]>
+  }
+
+
+
+
+  export type PsychologistProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PsychologistProfileWhereInput
+    orderBy?: PsychologistProfileOrderByWithAggregationInput | PsychologistProfileOrderByWithAggregationInput[]
+    by: PsychologistProfileScalarFieldEnum[] | PsychologistProfileScalarFieldEnum
+    having?: PsychologistProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PsychologistProfileCountAggregateInputType | true
+    _min?: PsychologistProfileMinAggregateInputType
+    _max?: PsychologistProfileMaxAggregateInputType
+  }
+
+  export type PsychologistProfileGroupByOutputType = {
+    id: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PsychologistProfileCountAggregateOutputType | null
+    _min: PsychologistProfileMinAggregateOutputType | null
+    _max: PsychologistProfileMaxAggregateOutputType | null
+  }
+
+  type GetPsychologistProfileGroupByPayload<T extends PsychologistProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PsychologistProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PsychologistProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PsychologistProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], PsychologistProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PsychologistProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    sipp?: boolean
+    str?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    educations?: boolean | PsychologistProfile$educationsArgs<ExtArgs>
+    experiences?: boolean | PsychologistProfile$experiencesArgs<ExtArgs>
+    specializations?: boolean | PsychologistProfile$specializationsArgs<ExtArgs>
+    expertises?: boolean | PsychologistProfile$expertisesArgs<ExtArgs>
+    schedules?: boolean | PsychologistProfile$schedulesArgs<ExtArgs>
+    sessionNotes?: boolean | PsychologistProfile$sessionNotesArgs<ExtArgs>
+    _count?: boolean | PsychologistProfileCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychologistProfile"]>
+
+  export type PsychologistProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    sipp?: boolean
+    str?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychologistProfile"]>
+
+  export type PsychologistProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    sipp?: boolean
+    str?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["psychologistProfile"]>
+
+  export type PsychologistProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    sipp?: boolean
+    str?: boolean
+    about?: boolean
+    avatarUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PsychologistProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "sipp" | "str" | "about" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["psychologistProfile"]>
+  export type PsychologistProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    educations?: boolean | PsychologistProfile$educationsArgs<ExtArgs>
+    experiences?: boolean | PsychologistProfile$experiencesArgs<ExtArgs>
+    specializations?: boolean | PsychologistProfile$specializationsArgs<ExtArgs>
+    expertises?: boolean | PsychologistProfile$expertisesArgs<ExtArgs>
+    schedules?: boolean | PsychologistProfile$schedulesArgs<ExtArgs>
+    sessionNotes?: boolean | PsychologistProfile$sessionNotesArgs<ExtArgs>
+    _count?: boolean | PsychologistProfileCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PsychologistProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PsychologistProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PsychologistProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PsychologistProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      educations: Prisma.$EducationPayload<ExtArgs>[]
+      experiences: Prisma.$ExperiencePayload<ExtArgs>[]
+      specializations: Prisma.$SpecializationPayload<ExtArgs>[]
+      expertises: Prisma.$ExpertisePayload<ExtArgs>[]
+      schedules: Prisma.$SchedulePayload<ExtArgs>[]
+      sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      fullName: string
+      sipp: string
+      str: string
+      about: string
+      avatarUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["psychologistProfile"]>
+    composites: {}
+  }
+
+  type PsychologistProfileGetPayload<S extends boolean | null | undefined | PsychologistProfileDefaultArgs> = $Result.GetResult<Prisma.$PsychologistProfilePayload, S>
+
+  type PsychologistProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PsychologistProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PsychologistProfileCountAggregateInputType | true
+    }
+
+  export interface PsychologistProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PsychologistProfile'], meta: { name: 'PsychologistProfile' } }
+    /**
+     * Find zero or one PsychologistProfile that matches the filter.
+     * @param {PsychologistProfileFindUniqueArgs} args - Arguments to find a PsychologistProfile
+     * @example
+     * // Get one PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PsychologistProfileFindUniqueArgs>(args: SelectSubset<T, PsychologistProfileFindUniqueArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PsychologistProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PsychologistProfileFindUniqueOrThrowArgs} args - Arguments to find a PsychologistProfile
+     * @example
+     * // Get one PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PsychologistProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, PsychologistProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PsychologistProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileFindFirstArgs} args - Arguments to find a PsychologistProfile
+     * @example
+     * // Get one PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PsychologistProfileFindFirstArgs>(args?: SelectSubset<T, PsychologistProfileFindFirstArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PsychologistProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileFindFirstOrThrowArgs} args - Arguments to find a PsychologistProfile
+     * @example
+     * // Get one PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PsychologistProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, PsychologistProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PsychologistProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PsychologistProfiles
+     * const psychologistProfiles = await prisma.psychologistProfile.findMany()
+     * 
+     * // Get first 10 PsychologistProfiles
+     * const psychologistProfiles = await prisma.psychologistProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const psychologistProfileWithIdOnly = await prisma.psychologistProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PsychologistProfileFindManyArgs>(args?: SelectSubset<T, PsychologistProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PsychologistProfile.
+     * @param {PsychologistProfileCreateArgs} args - Arguments to create a PsychologistProfile.
+     * @example
+     * // Create one PsychologistProfile
+     * const PsychologistProfile = await prisma.psychologistProfile.create({
+     *   data: {
+     *     // ... data to create a PsychologistProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends PsychologistProfileCreateArgs>(args: SelectSubset<T, PsychologistProfileCreateArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PsychologistProfiles.
+     * @param {PsychologistProfileCreateManyArgs} args - Arguments to create many PsychologistProfiles.
+     * @example
+     * // Create many PsychologistProfiles
+     * const psychologistProfile = await prisma.psychologistProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PsychologistProfileCreateManyArgs>(args?: SelectSubset<T, PsychologistProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PsychologistProfiles and returns the data saved in the database.
+     * @param {PsychologistProfileCreateManyAndReturnArgs} args - Arguments to create many PsychologistProfiles.
+     * @example
+     * // Create many PsychologistProfiles
+     * const psychologistProfile = await prisma.psychologistProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PsychologistProfiles and only return the `id`
+     * const psychologistProfileWithIdOnly = await prisma.psychologistProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PsychologistProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, PsychologistProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PsychologistProfile.
+     * @param {PsychologistProfileDeleteArgs} args - Arguments to delete one PsychologistProfile.
+     * @example
+     * // Delete one PsychologistProfile
+     * const PsychologistProfile = await prisma.psychologistProfile.delete({
+     *   where: {
+     *     // ... filter to delete one PsychologistProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PsychologistProfileDeleteArgs>(args: SelectSubset<T, PsychologistProfileDeleteArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PsychologistProfile.
+     * @param {PsychologistProfileUpdateArgs} args - Arguments to update one PsychologistProfile.
+     * @example
+     * // Update one PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PsychologistProfileUpdateArgs>(args: SelectSubset<T, PsychologistProfileUpdateArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PsychologistProfiles.
+     * @param {PsychologistProfileDeleteManyArgs} args - Arguments to filter PsychologistProfiles to delete.
+     * @example
+     * // Delete a few PsychologistProfiles
+     * const { count } = await prisma.psychologistProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PsychologistProfileDeleteManyArgs>(args?: SelectSubset<T, PsychologistProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PsychologistProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PsychologistProfiles
+     * const psychologistProfile = await prisma.psychologistProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PsychologistProfileUpdateManyArgs>(args: SelectSubset<T, PsychologistProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PsychologistProfiles and returns the data updated in the database.
+     * @param {PsychologistProfileUpdateManyAndReturnArgs} args - Arguments to update many PsychologistProfiles.
+     * @example
+     * // Update many PsychologistProfiles
+     * const psychologistProfile = await prisma.psychologistProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PsychologistProfiles and only return the `id`
+     * const psychologistProfileWithIdOnly = await prisma.psychologistProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PsychologistProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, PsychologistProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PsychologistProfile.
+     * @param {PsychologistProfileUpsertArgs} args - Arguments to update or create a PsychologistProfile.
+     * @example
+     * // Update or create a PsychologistProfile
+     * const psychologistProfile = await prisma.psychologistProfile.upsert({
+     *   create: {
+     *     // ... data to create a PsychologistProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PsychologistProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PsychologistProfileUpsertArgs>(args: SelectSubset<T, PsychologistProfileUpsertArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PsychologistProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileCountArgs} args - Arguments to filter PsychologistProfiles to count.
+     * @example
+     * // Count the number of PsychologistProfiles
+     * const count = await prisma.psychologistProfile.count({
+     *   where: {
+     *     // ... the filter for the PsychologistProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends PsychologistProfileCountArgs>(
+      args?: Subset<T, PsychologistProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PsychologistProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PsychologistProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PsychologistProfileAggregateArgs>(args: Subset<T, PsychologistProfileAggregateArgs>): Prisma.PrismaPromise<GetPsychologistProfileAggregateType<T>>
+
+    /**
+     * Group by PsychologistProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PsychologistProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PsychologistProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PsychologistProfileGroupByArgs['orderBy'] }
+        : { orderBy?: PsychologistProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PsychologistProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPsychologistProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PsychologistProfile model
+   */
+  readonly fields: PsychologistProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PsychologistProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PsychologistProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    educations<T extends PsychologistProfile$educationsArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$educationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    experiences<T extends PsychologistProfile$experiencesArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$experiencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    specializations<T extends PsychologistProfile$specializationsArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$specializationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    expertises<T extends PsychologistProfile$expertisesArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$expertisesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    schedules<T extends PsychologistProfile$schedulesArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessionNotes<T extends PsychologistProfile$sessionNotesArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfile$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PsychologistProfile model
+   */
+  interface PsychologistProfileFieldRefs {
+    readonly id: FieldRef<"PsychologistProfile", 'String'>
+    readonly userId: FieldRef<"PsychologistProfile", 'String'>
+    readonly fullName: FieldRef<"PsychologistProfile", 'String'>
+    readonly sipp: FieldRef<"PsychologistProfile", 'String'>
+    readonly str: FieldRef<"PsychologistProfile", 'String'>
+    readonly about: FieldRef<"PsychologistProfile", 'String'>
+    readonly avatarUrl: FieldRef<"PsychologistProfile", 'String'>
+    readonly createdAt: FieldRef<"PsychologistProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"PsychologistProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PsychologistProfile findUnique
+   */
+  export type PsychologistProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which PsychologistProfile to fetch.
+     */
+    where: PsychologistProfileWhereUniqueInput
+  }
+
+  /**
+   * PsychologistProfile findUniqueOrThrow
+   */
+  export type PsychologistProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which PsychologistProfile to fetch.
+     */
+    where: PsychologistProfileWhereUniqueInput
+  }
+
+  /**
+   * PsychologistProfile findFirst
+   */
+  export type PsychologistProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which PsychologistProfile to fetch.
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PsychologistProfiles to fetch.
+     */
+    orderBy?: PsychologistProfileOrderByWithRelationInput | PsychologistProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PsychologistProfiles.
+     */
+    cursor?: PsychologistProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PsychologistProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PsychologistProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PsychologistProfiles.
+     */
+    distinct?: PsychologistProfileScalarFieldEnum | PsychologistProfileScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile findFirstOrThrow
+   */
+  export type PsychologistProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which PsychologistProfile to fetch.
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PsychologistProfiles to fetch.
+     */
+    orderBy?: PsychologistProfileOrderByWithRelationInput | PsychologistProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PsychologistProfiles.
+     */
+    cursor?: PsychologistProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PsychologistProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PsychologistProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PsychologistProfiles.
+     */
+    distinct?: PsychologistProfileScalarFieldEnum | PsychologistProfileScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile findMany
+   */
+  export type PsychologistProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which PsychologistProfiles to fetch.
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PsychologistProfiles to fetch.
+     */
+    orderBy?: PsychologistProfileOrderByWithRelationInput | PsychologistProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PsychologistProfiles.
+     */
+    cursor?: PsychologistProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PsychologistProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PsychologistProfiles.
+     */
+    skip?: number
+    distinct?: PsychologistProfileScalarFieldEnum | PsychologistProfileScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile create
+   */
+  export type PsychologistProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PsychologistProfile.
+     */
+    data: XOR<PsychologistProfileCreateInput, PsychologistProfileUncheckedCreateInput>
+  }
+
+  /**
+   * PsychologistProfile createMany
+   */
+  export type PsychologistProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PsychologistProfiles.
+     */
+    data: PsychologistProfileCreateManyInput | PsychologistProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PsychologistProfile createManyAndReturn
+   */
+  export type PsychologistProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many PsychologistProfiles.
+     */
+    data: PsychologistProfileCreateManyInput | PsychologistProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PsychologistProfile update
+   */
+  export type PsychologistProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PsychologistProfile.
+     */
+    data: XOR<PsychologistProfileUpdateInput, PsychologistProfileUncheckedUpdateInput>
+    /**
+     * Choose, which PsychologistProfile to update.
+     */
+    where: PsychologistProfileWhereUniqueInput
+  }
+
+  /**
+   * PsychologistProfile updateMany
+   */
+  export type PsychologistProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PsychologistProfiles.
+     */
+    data: XOR<PsychologistProfileUpdateManyMutationInput, PsychologistProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which PsychologistProfiles to update
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * Limit how many PsychologistProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PsychologistProfile updateManyAndReturn
+   */
+  export type PsychologistProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update PsychologistProfiles.
+     */
+    data: XOR<PsychologistProfileUpdateManyMutationInput, PsychologistProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which PsychologistProfiles to update
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * Limit how many PsychologistProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PsychologistProfile upsert
+   */
+  export type PsychologistProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PsychologistProfile to update in case it exists.
+     */
+    where: PsychologistProfileWhereUniqueInput
+    /**
+     * In case the PsychologistProfile found by the `where` argument doesn't exist, create a new PsychologistProfile with this data.
+     */
+    create: XOR<PsychologistProfileCreateInput, PsychologistProfileUncheckedCreateInput>
+    /**
+     * In case the PsychologistProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PsychologistProfileUpdateInput, PsychologistProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * PsychologistProfile delete
+   */
+  export type PsychologistProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PsychologistProfile
+     */
+    select?: PsychologistProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PsychologistProfile
+     */
+    omit?: PsychologistProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PsychologistProfileInclude<ExtArgs> | null
+    /**
+     * Filter which PsychologistProfile to delete.
+     */
+    where: PsychologistProfileWhereUniqueInput
+  }
+
+  /**
+   * PsychologistProfile deleteMany
+   */
+  export type PsychologistProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PsychologistProfiles to delete
+     */
+    where?: PsychologistProfileWhereInput
+    /**
+     * Limit how many PsychologistProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PsychologistProfile.educations
+   */
+  export type PsychologistProfile$educationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Education
+     */
+    select?: EducationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Education
+     */
+    omit?: EducationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EducationInclude<ExtArgs> | null
+    where?: EducationWhereInput
+    orderBy?: EducationOrderByWithRelationInput | EducationOrderByWithRelationInput[]
+    cursor?: EducationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EducationScalarFieldEnum | EducationScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile.experiences
+   */
+  export type PsychologistProfile$experiencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    where?: ExperienceWhereInput
+    orderBy?: ExperienceOrderByWithRelationInput | ExperienceOrderByWithRelationInput[]
+    cursor?: ExperienceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExperienceScalarFieldEnum | ExperienceScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile.specializations
+   */
+  export type PsychologistProfile$specializationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    where?: SpecializationWhereInput
+    orderBy?: SpecializationOrderByWithRelationInput | SpecializationOrderByWithRelationInput[]
+    cursor?: SpecializationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SpecializationScalarFieldEnum | SpecializationScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile.expertises
+   */
+  export type PsychologistProfile$expertisesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    where?: ExpertiseWhereInput
+    orderBy?: ExpertiseOrderByWithRelationInput | ExpertiseOrderByWithRelationInput[]
+    cursor?: ExpertiseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExpertiseScalarFieldEnum | ExpertiseScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile.schedules
+   */
+  export type PsychologistProfile$schedulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    where?: ScheduleWhereInput
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    cursor?: ScheduleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * PsychologistProfile.sessionNotes
+   */
+  export type PsychologistProfile$sessionNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SessionNote
      */
@@ -3692,481 +7791,443 @@ export namespace Prisma {
   }
 
   /**
-   * Psychologist without action
+   * PsychologistProfile without action
    */
-  export type PsychologistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PsychologistProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Psychologist
+     * Select specific fields to fetch from the PsychologistProfile
      */
-    select?: PsychologistSelect<ExtArgs> | null
+    select?: PsychologistProfileSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Psychologist
+     * Omit specific fields from the PsychologistProfile
      */
-    omit?: PsychologistOmit<ExtArgs> | null
+    omit?: PsychologistProfileOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PsychologistInclude<ExtArgs> | null
+    include?: PsychologistProfileInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model Session
+   * Model Education
    */
 
-  export type AggregateSession = {
-    _count: SessionCountAggregateOutputType | null
-    _avg: SessionAvgAggregateOutputType | null
-    _sum: SessionSumAggregateOutputType | null
-    _min: SessionMinAggregateOutputType | null
-    _max: SessionMaxAggregateOutputType | null
+  export type AggregateEducation = {
+    _count: EducationCountAggregateOutputType | null
+    _avg: EducationAvgAggregateOutputType | null
+    _sum: EducationSumAggregateOutputType | null
+    _min: EducationMinAggregateOutputType | null
+    _max: EducationMaxAggregateOutputType | null
   }
 
-  export type SessionAvgAggregateOutputType = {
-    id: number | null
-    psychologistId: number | null
-    patientId: number | null
+  export type EducationAvgAggregateOutputType = {
+    startYear: number | null
+    endYear: number | null
   }
 
-  export type SessionSumAggregateOutputType = {
-    id: number | null
-    psychologistId: number | null
-    patientId: number | null
+  export type EducationSumAggregateOutputType = {
+    startYear: number | null
+    endYear: number | null
   }
 
-  export type SessionMinAggregateOutputType = {
-    id: number | null
-    psychologistId: number | null
-    patientId: number | null
-    date: Date | null
-    startTime: string | null
-    endTime: string | null
-    status: string | null
-    deletedAt: Date | null
+  export type EducationMinAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    degree: string | null
+    institution: string | null
+    city: string | null
+    startYear: number | null
+    endYear: number | null
     createdAt: Date | null
-    updatedAt: Date | null
   }
 
-  export type SessionMaxAggregateOutputType = {
-    id: number | null
-    psychologistId: number | null
-    patientId: number | null
-    date: Date | null
-    startTime: string | null
-    endTime: string | null
-    status: string | null
-    deletedAt: Date | null
+  export type EducationMaxAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    degree: string | null
+    institution: string | null
+    city: string | null
+    startYear: number | null
+    endYear: number | null
     createdAt: Date | null
-    updatedAt: Date | null
   }
 
-  export type SessionCountAggregateOutputType = {
+  export type EducationCountAggregateOutputType = {
     id: number
     psychologistId: number
-    patientId: number
-    date: number
-    startTime: number
-    endTime: number
-    status: number
-    deletedAt: number
+    degree: number
+    institution: number
+    city: number
+    startYear: number
+    endYear: number
     createdAt: number
-    updatedAt: number
     _all: number
   }
 
 
-  export type SessionAvgAggregateInputType = {
-    id?: true
-    psychologistId?: true
-    patientId?: true
+  export type EducationAvgAggregateInputType = {
+    startYear?: true
+    endYear?: true
   }
 
-  export type SessionSumAggregateInputType = {
-    id?: true
-    psychologistId?: true
-    patientId?: true
+  export type EducationSumAggregateInputType = {
+    startYear?: true
+    endYear?: true
   }
 
-  export type SessionMinAggregateInputType = {
+  export type EducationMinAggregateInputType = {
     id?: true
     psychologistId?: true
-    patientId?: true
-    date?: true
-    startTime?: true
-    endTime?: true
-    status?: true
-    deletedAt?: true
+    degree?: true
+    institution?: true
+    city?: true
+    startYear?: true
+    endYear?: true
     createdAt?: true
-    updatedAt?: true
   }
 
-  export type SessionMaxAggregateInputType = {
+  export type EducationMaxAggregateInputType = {
     id?: true
     psychologistId?: true
-    patientId?: true
-    date?: true
-    startTime?: true
-    endTime?: true
-    status?: true
-    deletedAt?: true
+    degree?: true
+    institution?: true
+    city?: true
+    startYear?: true
+    endYear?: true
     createdAt?: true
-    updatedAt?: true
   }
 
-  export type SessionCountAggregateInputType = {
+  export type EducationCountAggregateInputType = {
     id?: true
     psychologistId?: true
-    patientId?: true
-    date?: true
-    startTime?: true
-    endTime?: true
-    status?: true
-    deletedAt?: true
+    degree?: true
+    institution?: true
+    city?: true
+    startYear?: true
+    endYear?: true
     createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
-  export type SessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Session to aggregate.
+     * Filter which Education to aggregate.
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sessions to fetch.
+     * Determine the order of Educations to fetch.
      */
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    orderBy?: EducationOrderByWithRelationInput | EducationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: SessionWhereUniqueInput
+    cursor?: EducationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sessions from the position of the cursor.
+     * Take `±n` Educations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sessions.
+     * Skip the first `n` Educations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Sessions
+     * Count returned Educations
     **/
-    _count?: true | SessionCountAggregateInputType
+    _count?: true | EducationCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: SessionAvgAggregateInputType
+    _avg?: EducationAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: SessionSumAggregateInputType
+    _sum?: EducationSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: SessionMinAggregateInputType
+    _min?: EducationMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: SessionMaxAggregateInputType
+    _max?: EducationMaxAggregateInputType
   }
 
-  export type GetSessionAggregateType<T extends SessionAggregateArgs> = {
-        [P in keyof T & keyof AggregateSession]: P extends '_count' | 'count'
+  export type GetEducationAggregateType<T extends EducationAggregateArgs> = {
+        [P in keyof T & keyof AggregateEducation]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateSession[P]>
-      : GetScalarType<T[P], AggregateSession[P]>
+        : GetScalarType<T[P], AggregateEducation[P]>
+      : GetScalarType<T[P], AggregateEducation[P]>
   }
 
 
 
 
-  export type SessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithAggregationInput | SessionOrderByWithAggregationInput[]
-    by: SessionScalarFieldEnum[] | SessionScalarFieldEnum
-    having?: SessionScalarWhereWithAggregatesInput
+  export type EducationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EducationWhereInput
+    orderBy?: EducationOrderByWithAggregationInput | EducationOrderByWithAggregationInput[]
+    by: EducationScalarFieldEnum[] | EducationScalarFieldEnum
+    having?: EducationScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: SessionCountAggregateInputType | true
-    _avg?: SessionAvgAggregateInputType
-    _sum?: SessionSumAggregateInputType
-    _min?: SessionMinAggregateInputType
-    _max?: SessionMaxAggregateInputType
+    _count?: EducationCountAggregateInputType | true
+    _avg?: EducationAvgAggregateInputType
+    _sum?: EducationSumAggregateInputType
+    _min?: EducationMinAggregateInputType
+    _max?: EducationMaxAggregateInputType
   }
 
-  export type SessionGroupByOutputType = {
-    id: number
-    psychologistId: number
-    patientId: number
-    date: Date
-    startTime: string | null
-    endTime: string | null
-    status: string
-    deletedAt: Date | null
+  export type EducationGroupByOutputType = {
+    id: string
+    psychologistId: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
     createdAt: Date
-    updatedAt: Date
-    _count: SessionCountAggregateOutputType | null
-    _avg: SessionAvgAggregateOutputType | null
-    _sum: SessionSumAggregateOutputType | null
-    _min: SessionMinAggregateOutputType | null
-    _max: SessionMaxAggregateOutputType | null
+    _count: EducationCountAggregateOutputType | null
+    _avg: EducationAvgAggregateOutputType | null
+    _sum: EducationSumAggregateOutputType | null
+    _min: EducationMinAggregateOutputType | null
+    _max: EducationMaxAggregateOutputType | null
   }
 
-  type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
+  type GetEducationGroupByPayload<T extends EducationGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SessionGroupByOutputType, T['by']> &
+      PickEnumerable<EducationGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof SessionGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof EducationGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], SessionGroupByOutputType[P]>
-            : GetScalarType<T[P], SessionGroupByOutputType[P]>
+              : GetScalarType<T[P], EducationGroupByOutputType[P]>
+            : GetScalarType<T[P], EducationGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EducationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     psychologistId?: boolean
-    patientId?: boolean
-    date?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    status?: boolean
-    deletedAt?: boolean
+    degree?: boolean
+    institution?: boolean
+    city?: boolean
+    startYear?: boolean
+    endYear?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
-    note?: boolean | Session$noteArgs<ExtArgs>
-  }, ExtArgs["result"]["session"]>
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["education"]>
 
-  export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EducationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     psychologistId?: boolean
-    patientId?: boolean
-    date?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    status?: boolean
-    deletedAt?: boolean
+    degree?: boolean
+    institution?: boolean
+    city?: boolean
+    startYear?: boolean
+    endYear?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["session"]>
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["education"]>
 
-  export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type EducationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     psychologistId?: boolean
-    patientId?: boolean
-    date?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    status?: boolean
-    deletedAt?: boolean
+    degree?: boolean
+    institution?: boolean
+    city?: boolean
+    startYear?: boolean
+    endYear?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["session"]>
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["education"]>
 
-  export type SessionSelectScalar = {
+  export type EducationSelectScalar = {
     id?: boolean
     psychologistId?: boolean
-    patientId?: boolean
-    date?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    status?: boolean
-    deletedAt?: boolean
+    degree?: boolean
+    institution?: boolean
+    city?: boolean
+    startYear?: boolean
+    endYear?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "patientId" | "date" | "startTime" | "endTime" | "status" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
-  export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
-    note?: boolean | Session$noteArgs<ExtArgs>
+  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "degree" | "institution" | "city" | "startYear" | "endYear" | "createdAt", ExtArgs["result"]["education"]>
+  export type EducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
   }
-  export type SessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+  export type EducationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
   }
-  export type SessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+  export type EducationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
   }
 
-  export type $SessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Session"
+  export type $EducationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Education"
     objects: {
-      psychologist: Prisma.$PsychologistPayload<ExtArgs>
-      patient: Prisma.$UserPayload<ExtArgs>
-      note: Prisma.$SessionNotePayload<ExtArgs> | null
+      psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      psychologistId: number
-      patientId: number
-      date: Date
-      startTime: string | null
-      endTime: string | null
-      status: string
-      deletedAt: Date | null
+      id: string
+      psychologistId: string
+      degree: string
+      institution: string
+      city: string
+      startYear: number
+      endYear: number
       createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["session"]>
+    }, ExtArgs["result"]["education"]>
     composites: {}
   }
 
-  type SessionGetPayload<S extends boolean | null | undefined | SessionDefaultArgs> = $Result.GetResult<Prisma.$SessionPayload, S>
+  type EducationGetPayload<S extends boolean | null | undefined | EducationDefaultArgs> = $Result.GetResult<Prisma.$EducationPayload, S>
 
-  type SessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SessionCountAggregateInputType | true
+  type EducationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EducationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EducationCountAggregateInputType | true
     }
 
-  export interface SessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Session'], meta: { name: 'Session' } }
+  export interface EducationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Education'], meta: { name: 'Education' } }
     /**
-     * Find zero or one Session that matches the filter.
-     * @param {SessionFindUniqueArgs} args - Arguments to find a Session
+     * Find zero or one Education that matches the filter.
+     * @param {EducationFindUniqueArgs} args - Arguments to find a Education
      * @example
-     * // Get one Session
-     * const session = await prisma.session.findUnique({
+     * // Get one Education
+     * const education = await prisma.education.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends SessionFindUniqueArgs>(args: SelectSubset<T, SessionFindUniqueArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EducationFindUniqueArgs>(args: SelectSubset<T, EducationFindUniqueArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Session that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Education that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {SessionFindUniqueOrThrowArgs} args - Arguments to find a Session
+     * @param {EducationFindUniqueOrThrowArgs} args - Arguments to find a Education
      * @example
-     * // Get one Session
-     * const session = await prisma.session.findUniqueOrThrow({
+     * // Get one Education
+     * const education = await prisma.education.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SessionFindUniqueOrThrowArgs>(args: SelectSubset<T, SessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EducationFindUniqueOrThrowArgs>(args: SelectSubset<T, EducationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Session that matches the filter.
+     * Find the first Education that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionFindFirstArgs} args - Arguments to find a Session
+     * @param {EducationFindFirstArgs} args - Arguments to find a Education
      * @example
-     * // Get one Session
-     * const session = await prisma.session.findFirst({
+     * // Get one Education
+     * const education = await prisma.education.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends SessionFindFirstArgs>(args?: SelectSubset<T, SessionFindFirstArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EducationFindFirstArgs>(args?: SelectSubset<T, EducationFindFirstArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Session that matches the filter or
+     * Find the first Education that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionFindFirstOrThrowArgs} args - Arguments to find a Session
+     * @param {EducationFindFirstOrThrowArgs} args - Arguments to find a Education
      * @example
-     * // Get one Session
-     * const session = await prisma.session.findFirstOrThrow({
+     * // Get one Education
+     * const education = await prisma.education.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends SessionFindFirstOrThrowArgs>(args?: SelectSubset<T, SessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EducationFindFirstOrThrowArgs>(args?: SelectSubset<T, EducationFindFirstOrThrowArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Sessions that matches the filter.
+     * Find zero or more Educations that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {EducationFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Sessions
-     * const sessions = await prisma.session.findMany()
+     * // Get all Educations
+     * const educations = await prisma.education.findMany()
      * 
-     * // Get first 10 Sessions
-     * const sessions = await prisma.session.findMany({ take: 10 })
+     * // Get first 10 Educations
+     * const educations = await prisma.education.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const sessionWithIdOnly = await prisma.session.findMany({ select: { id: true } })
+     * const educationWithIdOnly = await prisma.education.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends SessionFindManyArgs>(args?: SelectSubset<T, SessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EducationFindManyArgs>(args?: SelectSubset<T, EducationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Session.
-     * @param {SessionCreateArgs} args - Arguments to create a Session.
+     * Create a Education.
+     * @param {EducationCreateArgs} args - Arguments to create a Education.
      * @example
-     * // Create one Session
-     * const Session = await prisma.session.create({
+     * // Create one Education
+     * const Education = await prisma.education.create({
      *   data: {
-     *     // ... data to create a Session
+     *     // ... data to create a Education
      *   }
      * })
      * 
      */
-    create<T extends SessionCreateArgs>(args: SelectSubset<T, SessionCreateArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EducationCreateArgs>(args: SelectSubset<T, EducationCreateArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Sessions.
-     * @param {SessionCreateManyArgs} args - Arguments to create many Sessions.
+     * Create many Educations.
+     * @param {EducationCreateManyArgs} args - Arguments to create many Educations.
      * @example
-     * // Create many Sessions
-     * const session = await prisma.session.createMany({
+     * // Create many Educations
+     * const education = await prisma.education.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends SessionCreateManyArgs>(args?: SelectSubset<T, SessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EducationCreateManyArgs>(args?: SelectSubset<T, EducationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Sessions and returns the data saved in the database.
-     * @param {SessionCreateManyAndReturnArgs} args - Arguments to create many Sessions.
+     * Create many Educations and returns the data saved in the database.
+     * @param {EducationCreateManyAndReturnArgs} args - Arguments to create many Educations.
      * @example
-     * // Create many Sessions
-     * const session = await prisma.session.createManyAndReturn({
+     * // Create many Educations
+     * const education = await prisma.education.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Sessions and only return the `id`
-     * const sessionWithIdOnly = await prisma.session.createManyAndReturn({
+     * // Create many Educations and only return the `id`
+     * const educationWithIdOnly = await prisma.education.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -4176,28 +8237,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SessionCreateManyAndReturnArgs>(args?: SelectSubset<T, SessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends EducationCreateManyAndReturnArgs>(args?: SelectSubset<T, EducationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Session.
-     * @param {SessionDeleteArgs} args - Arguments to delete one Session.
+     * Delete a Education.
+     * @param {EducationDeleteArgs} args - Arguments to delete one Education.
      * @example
-     * // Delete one Session
-     * const Session = await prisma.session.delete({
+     * // Delete one Education
+     * const Education = await prisma.education.delete({
      *   where: {
-     *     // ... filter to delete one Session
+     *     // ... filter to delete one Education
      *   }
      * })
      * 
      */
-    delete<T extends SessionDeleteArgs>(args: SelectSubset<T, SessionDeleteArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EducationDeleteArgs>(args: SelectSubset<T, EducationDeleteArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Session.
-     * @param {SessionUpdateArgs} args - Arguments to update one Session.
+     * Update one Education.
+     * @param {EducationUpdateArgs} args - Arguments to update one Education.
      * @example
-     * // Update one Session
-     * const session = await prisma.session.update({
+     * // Update one Education
+     * const education = await prisma.education.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4207,30 +8268,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SessionUpdateArgs>(args: SelectSubset<T, SessionUpdateArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EducationUpdateArgs>(args: SelectSubset<T, EducationUpdateArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Sessions.
-     * @param {SessionDeleteManyArgs} args - Arguments to filter Sessions to delete.
+     * Delete zero or more Educations.
+     * @param {EducationDeleteManyArgs} args - Arguments to filter Educations to delete.
      * @example
-     * // Delete a few Sessions
-     * const { count } = await prisma.session.deleteMany({
+     * // Delete a few Educations
+     * const { count } = await prisma.education.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends SessionDeleteManyArgs>(args?: SelectSubset<T, SessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EducationDeleteManyArgs>(args?: SelectSubset<T, EducationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Sessions.
+     * Update zero or more Educations.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {EducationUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Sessions
-     * const session = await prisma.session.updateMany({
+     * // Update many Educations
+     * const education = await prisma.education.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4240,14 +8301,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends SessionUpdateManyArgs>(args: SelectSubset<T, SessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EducationUpdateManyArgs>(args: SelectSubset<T, EducationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Sessions and returns the data updated in the database.
-     * @param {SessionUpdateManyAndReturnArgs} args - Arguments to update many Sessions.
+     * Update zero or more Educations and returns the data updated in the database.
+     * @param {EducationUpdateManyAndReturnArgs} args - Arguments to update many Educations.
      * @example
-     * // Update many Sessions
-     * const session = await prisma.session.updateManyAndReturn({
+     * // Update many Educations
+     * const education = await prisma.education.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4256,8 +8317,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Sessions and only return the `id`
-     * const sessionWithIdOnly = await prisma.session.updateManyAndReturn({
+     * // Update zero or more Educations and only return the `id`
+     * const educationWithIdOnly = await prisma.education.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -4270,56 +8331,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends SessionUpdateManyAndReturnArgs>(args: SelectSubset<T, SessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends EducationUpdateManyAndReturnArgs>(args: SelectSubset<T, EducationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Session.
-     * @param {SessionUpsertArgs} args - Arguments to update or create a Session.
+     * Create or update one Education.
+     * @param {EducationUpsertArgs} args - Arguments to update or create a Education.
      * @example
-     * // Update or create a Session
-     * const session = await prisma.session.upsert({
+     * // Update or create a Education
+     * const education = await prisma.education.upsert({
      *   create: {
-     *     // ... data to create a Session
+     *     // ... data to create a Education
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Session we want to update
+     *     // ... the filter for the Education we want to update
      *   }
      * })
      */
-    upsert<T extends SessionUpsertArgs>(args: SelectSubset<T, SessionUpsertArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends EducationUpsertArgs>(args: SelectSubset<T, EducationUpsertArgs<ExtArgs>>): Prisma__EducationClient<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Sessions.
+     * Count the number of Educations.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionCountArgs} args - Arguments to filter Sessions to count.
+     * @param {EducationCountArgs} args - Arguments to filter Educations to count.
      * @example
-     * // Count the number of Sessions
-     * const count = await prisma.session.count({
+     * // Count the number of Educations
+     * const count = await prisma.education.count({
      *   where: {
-     *     // ... the filter for the Sessions we want to count
+     *     // ... the filter for the Educations we want to count
      *   }
      * })
     **/
-    count<T extends SessionCountArgs>(
-      args?: Subset<T, SessionCountArgs>,
+    count<T extends EducationCountArgs>(
+      args?: Subset<T, EducationCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], SessionCountAggregateOutputType>
+          : GetScalarType<T['select'], EducationCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Session.
+     * Allows you to perform aggregations operations on a Education.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {EducationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4339,13 +8400,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SessionAggregateArgs>(args: Subset<T, SessionAggregateArgs>): Prisma.PrismaPromise<GetSessionAggregateType<T>>
+    aggregate<T extends EducationAggregateArgs>(args: Subset<T, EducationAggregateArgs>): Prisma.PrismaPromise<GetEducationAggregateType<T>>
 
     /**
-     * Group by Session.
+     * Group by Education.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SessionGroupByArgs} args - Group by arguments.
+     * @param {EducationGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4360,14 +8421,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends SessionGroupByArgs,
+      T extends EducationGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SessionGroupByArgs['orderBy'] }
-        : { orderBy?: SessionGroupByArgs['orderBy'] },
+        ? { orderBy: EducationGroupByArgs['orderBy'] }
+        : { orderBy?: EducationGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4416,24 +8477,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, EducationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEducationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Session model
+   * Fields of the Education model
    */
-  readonly fields: SessionFieldRefs;
+  readonly fields: EducationFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Session.
+   * The delegate class that acts as a "Promise-like" for Education.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EducationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    psychologist<T extends PsychologistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistDefaultArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    patient<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    note<T extends Session$noteArgs<ExtArgs> = {}>(args?: Subset<T, Session$noteArgs<ExtArgs>>): Prisma__SessionNoteClient<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    psychologist<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4460,418 +8519,4673 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Session model
+   * Fields of the Education model
    */
-  interface SessionFieldRefs {
-    readonly id: FieldRef<"Session", 'Int'>
-    readonly psychologistId: FieldRef<"Session", 'Int'>
-    readonly patientId: FieldRef<"Session", 'Int'>
-    readonly date: FieldRef<"Session", 'DateTime'>
-    readonly startTime: FieldRef<"Session", 'String'>
-    readonly endTime: FieldRef<"Session", 'String'>
-    readonly status: FieldRef<"Session", 'String'>
-    readonly deletedAt: FieldRef<"Session", 'DateTime'>
-    readonly createdAt: FieldRef<"Session", 'DateTime'>
-    readonly updatedAt: FieldRef<"Session", 'DateTime'>
+  interface EducationFieldRefs {
+    readonly id: FieldRef<"Education", 'String'>
+    readonly psychologistId: FieldRef<"Education", 'String'>
+    readonly degree: FieldRef<"Education", 'String'>
+    readonly institution: FieldRef<"Education", 'String'>
+    readonly city: FieldRef<"Education", 'String'>
+    readonly startYear: FieldRef<"Education", 'Int'>
+    readonly endYear: FieldRef<"Education", 'Int'>
+    readonly createdAt: FieldRef<"Education", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Session findUnique
+   * Education findUnique
    */
-  export type SessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter, which Session to fetch.
+     * Filter, which Education to fetch.
      */
-    where: SessionWhereUniqueInput
+    where: EducationWhereUniqueInput
   }
 
   /**
-   * Session findUniqueOrThrow
+   * Education findUniqueOrThrow
    */
-  export type SessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter, which Session to fetch.
+     * Filter, which Education to fetch.
      */
-    where: SessionWhereUniqueInput
+    where: EducationWhereUniqueInput
   }
 
   /**
-   * Session findFirst
+   * Education findFirst
    */
-  export type SessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter, which Session to fetch.
+     * Filter, which Education to fetch.
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sessions to fetch.
+     * Determine the order of Educations to fetch.
      */
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    orderBy?: EducationOrderByWithRelationInput | EducationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Sessions.
+     * Sets the position for searching for Educations.
      */
-    cursor?: SessionWhereUniqueInput
+    cursor?: EducationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sessions from the position of the cursor.
+     * Take `±n` Educations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sessions.
+     * Skip the first `n` Educations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Sessions.
+     * Filter by unique combinations of Educations.
      */
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    distinct?: EducationScalarFieldEnum | EducationScalarFieldEnum[]
   }
 
   /**
-   * Session findFirstOrThrow
+   * Education findFirstOrThrow
    */
-  export type SessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter, which Session to fetch.
+     * Filter, which Education to fetch.
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sessions to fetch.
+     * Determine the order of Educations to fetch.
      */
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    orderBy?: EducationOrderByWithRelationInput | EducationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Sessions.
+     * Sets the position for searching for Educations.
      */
-    cursor?: SessionWhereUniqueInput
+    cursor?: EducationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sessions from the position of the cursor.
+     * Take `±n` Educations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sessions.
+     * Skip the first `n` Educations.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Sessions.
+     * Filter by unique combinations of Educations.
      */
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    distinct?: EducationScalarFieldEnum | EducationScalarFieldEnum[]
   }
 
   /**
-   * Session findMany
+   * Education findMany
    */
-  export type SessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter, which Sessions to fetch.
+     * Filter, which Educations to fetch.
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Sessions to fetch.
+     * Determine the order of Educations to fetch.
      */
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    orderBy?: EducationOrderByWithRelationInput | EducationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Sessions.
+     * Sets the position for listing Educations.
      */
-    cursor?: SessionWhereUniqueInput
+    cursor?: EducationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Sessions from the position of the cursor.
+     * Take `±n` Educations from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Sessions.
+     * Skip the first `n` Educations.
      */
     skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    distinct?: EducationScalarFieldEnum | EducationScalarFieldEnum[]
   }
 
   /**
-   * Session create
+   * Education create
    */
-  export type SessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * The data needed to create a Session.
+     * The data needed to create a Education.
      */
-    data: XOR<SessionCreateInput, SessionUncheckedCreateInput>
+    data: XOR<EducationCreateInput, EducationUncheckedCreateInput>
   }
 
   /**
-   * Session createMany
+   * Education createMany
    */
-  export type SessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Sessions.
+     * The data used to create many Educations.
      */
-    data: SessionCreateManyInput | SessionCreateManyInput[]
+    data: EducationCreateManyInput | EducationCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Session createManyAndReturn
+   * Education createManyAndReturn
    */
-  export type SessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EducationSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
-     * The data used to create many Sessions.
+     * The data used to create many Educations.
      */
-    data: SessionCreateManyInput | SessionCreateManyInput[]
+    data: EducationCreateManyInput | EducationCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: EducationIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Session update
+   * Education update
    */
-  export type SessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * The data needed to update a Session.
+     * The data needed to update a Education.
      */
-    data: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
+    data: XOR<EducationUpdateInput, EducationUncheckedUpdateInput>
     /**
-     * Choose, which Session to update.
+     * Choose, which Education to update.
      */
-    where: SessionWhereUniqueInput
+    where: EducationWhereUniqueInput
   }
 
   /**
-   * Session updateMany
+   * Education updateMany
    */
-  export type SessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Sessions.
+     * The data used to update Educations.
      */
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyInput>
+    data: XOR<EducationUpdateManyMutationInput, EducationUncheckedUpdateManyInput>
     /**
-     * Filter which Sessions to update
+     * Filter which Educations to update
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
-     * Limit how many Sessions to update.
+     * Limit how many Educations to update.
      */
     limit?: number
   }
 
   /**
-   * Session updateManyAndReturn
+   * Education updateManyAndReturn
    */
-  export type SessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EducationSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
-     * The data used to update Sessions.
+     * The data used to update Educations.
      */
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyInput>
+    data: XOR<EducationUpdateManyMutationInput, EducationUncheckedUpdateManyInput>
     /**
-     * Filter which Sessions to update
+     * Filter which Educations to update
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
-     * Limit how many Sessions to update.
+     * Limit how many Educations to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: EducationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Session upsert
+   * Education upsert
    */
-  export type SessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * The filter to search for the Session to update in case it exists.
+     * The filter to search for the Education to update in case it exists.
      */
-    where: SessionWhereUniqueInput
+    where: EducationWhereUniqueInput
     /**
-     * In case the Session found by the `where` argument doesn't exist, create a new Session with this data.
+     * In case the Education found by the `where` argument doesn't exist, create a new Education with this data.
      */
-    create: XOR<SessionCreateInput, SessionUncheckedCreateInput>
+    create: XOR<EducationCreateInput, EducationUncheckedCreateInput>
     /**
-     * In case the Session was found with the provided `where` argument, update it with this data.
+     * In case the Education was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SessionUpdateInput, SessionUncheckedUpdateInput>
+    update: XOR<EducationUpdateInput, EducationUncheckedUpdateInput>
   }
 
   /**
-   * Session delete
+   * Education delete
    */
-  export type SessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Education
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: EducationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Education
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: EducationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: EducationInclude<ExtArgs> | null
     /**
-     * Filter which Session to delete.
+     * Filter which Education to delete.
      */
-    where: SessionWhereUniqueInput
+    where: EducationWhereUniqueInput
   }
 
   /**
-   * Session deleteMany
+   * Education deleteMany
    */
-  export type SessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Sessions to delete
+     * Filter which Educations to delete
      */
-    where?: SessionWhereInput
+    where?: EducationWhereInput
     /**
-     * Limit how many Sessions to delete.
+     * Limit how many Educations to delete.
      */
     limit?: number
   }
 
   /**
-   * Session.note
+   * Education without action
    */
-  export type Session$noteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EducationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Education
+     */
+    select?: EducationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Education
+     */
+    omit?: EducationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EducationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Experience
+   */
+
+  export type AggregateExperience = {
+    _count: ExperienceCountAggregateOutputType | null
+    _min: ExperienceMinAggregateOutputType | null
+    _max: ExperienceMaxAggregateOutputType | null
+  }
+
+  export type ExperienceMinAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type ExperienceMaxAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type ExperienceCountAggregateOutputType = {
+    id: number
+    psychologistId: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExperienceMinAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type ExperienceMaxAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type ExperienceCountAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExperienceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Experience to aggregate.
+     */
+    where?: ExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Experiences to fetch.
+     */
+    orderBy?: ExperienceOrderByWithRelationInput | ExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Experiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Experiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Experiences
+    **/
+    _count?: true | ExperienceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExperienceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExperienceMaxAggregateInputType
+  }
+
+  export type GetExperienceAggregateType<T extends ExperienceAggregateArgs> = {
+        [P in keyof T & keyof AggregateExperience]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExperience[P]>
+      : GetScalarType<T[P], AggregateExperience[P]>
+  }
+
+
+
+
+  export type ExperienceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExperienceWhereInput
+    orderBy?: ExperienceOrderByWithAggregationInput | ExperienceOrderByWithAggregationInput[]
+    by: ExperienceScalarFieldEnum[] | ExperienceScalarFieldEnum
+    having?: ExperienceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExperienceCountAggregateInputType | true
+    _min?: ExperienceMinAggregateInputType
+    _max?: ExperienceMaxAggregateInputType
+  }
+
+  export type ExperienceGroupByOutputType = {
+    id: string
+    psychologistId: string
+    name: string
+    createdAt: Date
+    _count: ExperienceCountAggregateOutputType | null
+    _min: ExperienceMinAggregateOutputType | null
+    _max: ExperienceMaxAggregateOutputType | null
+  }
+
+  type GetExperienceGroupByPayload<T extends ExperienceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExperienceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExperienceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExperienceGroupByOutputType[P]>
+            : GetScalarType<T[P], ExperienceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExperienceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["experience"]>
+
+  export type ExperienceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["experience"]>
+
+  export type ExperienceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["experience"]>
+
+  export type ExperienceSelectScalar = {
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExperienceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "name" | "createdAt", ExtArgs["result"]["experience"]>
+  export type ExperienceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type ExperienceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type ExperienceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $ExperiencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Experience"
+    objects: {
+      psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      psychologistId: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["experience"]>
+    composites: {}
+  }
+
+  type ExperienceGetPayload<S extends boolean | null | undefined | ExperienceDefaultArgs> = $Result.GetResult<Prisma.$ExperiencePayload, S>
+
+  type ExperienceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExperienceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExperienceCountAggregateInputType | true
+    }
+
+  export interface ExperienceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Experience'], meta: { name: 'Experience' } }
+    /**
+     * Find zero or one Experience that matches the filter.
+     * @param {ExperienceFindUniqueArgs} args - Arguments to find a Experience
+     * @example
+     * // Get one Experience
+     * const experience = await prisma.experience.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExperienceFindUniqueArgs>(args: SelectSubset<T, ExperienceFindUniqueArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Experience that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExperienceFindUniqueOrThrowArgs} args - Arguments to find a Experience
+     * @example
+     * // Get one Experience
+     * const experience = await prisma.experience.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExperienceFindUniqueOrThrowArgs>(args: SelectSubset<T, ExperienceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Experience that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceFindFirstArgs} args - Arguments to find a Experience
+     * @example
+     * // Get one Experience
+     * const experience = await prisma.experience.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExperienceFindFirstArgs>(args?: SelectSubset<T, ExperienceFindFirstArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Experience that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceFindFirstOrThrowArgs} args - Arguments to find a Experience
+     * @example
+     * // Get one Experience
+     * const experience = await prisma.experience.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExperienceFindFirstOrThrowArgs>(args?: SelectSubset<T, ExperienceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Experiences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Experiences
+     * const experiences = await prisma.experience.findMany()
+     * 
+     * // Get first 10 Experiences
+     * const experiences = await prisma.experience.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const experienceWithIdOnly = await prisma.experience.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExperienceFindManyArgs>(args?: SelectSubset<T, ExperienceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Experience.
+     * @param {ExperienceCreateArgs} args - Arguments to create a Experience.
+     * @example
+     * // Create one Experience
+     * const Experience = await prisma.experience.create({
+     *   data: {
+     *     // ... data to create a Experience
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExperienceCreateArgs>(args: SelectSubset<T, ExperienceCreateArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Experiences.
+     * @param {ExperienceCreateManyArgs} args - Arguments to create many Experiences.
+     * @example
+     * // Create many Experiences
+     * const experience = await prisma.experience.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExperienceCreateManyArgs>(args?: SelectSubset<T, ExperienceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Experiences and returns the data saved in the database.
+     * @param {ExperienceCreateManyAndReturnArgs} args - Arguments to create many Experiences.
+     * @example
+     * // Create many Experiences
+     * const experience = await prisma.experience.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Experiences and only return the `id`
+     * const experienceWithIdOnly = await prisma.experience.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExperienceCreateManyAndReturnArgs>(args?: SelectSubset<T, ExperienceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Experience.
+     * @param {ExperienceDeleteArgs} args - Arguments to delete one Experience.
+     * @example
+     * // Delete one Experience
+     * const Experience = await prisma.experience.delete({
+     *   where: {
+     *     // ... filter to delete one Experience
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExperienceDeleteArgs>(args: SelectSubset<T, ExperienceDeleteArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Experience.
+     * @param {ExperienceUpdateArgs} args - Arguments to update one Experience.
+     * @example
+     * // Update one Experience
+     * const experience = await prisma.experience.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExperienceUpdateArgs>(args: SelectSubset<T, ExperienceUpdateArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Experiences.
+     * @param {ExperienceDeleteManyArgs} args - Arguments to filter Experiences to delete.
+     * @example
+     * // Delete a few Experiences
+     * const { count } = await prisma.experience.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExperienceDeleteManyArgs>(args?: SelectSubset<T, ExperienceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Experiences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Experiences
+     * const experience = await prisma.experience.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExperienceUpdateManyArgs>(args: SelectSubset<T, ExperienceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Experiences and returns the data updated in the database.
+     * @param {ExperienceUpdateManyAndReturnArgs} args - Arguments to update many Experiences.
+     * @example
+     * // Update many Experiences
+     * const experience = await prisma.experience.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Experiences and only return the `id`
+     * const experienceWithIdOnly = await prisma.experience.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExperienceUpdateManyAndReturnArgs>(args: SelectSubset<T, ExperienceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Experience.
+     * @param {ExperienceUpsertArgs} args - Arguments to update or create a Experience.
+     * @example
+     * // Update or create a Experience
+     * const experience = await prisma.experience.upsert({
+     *   create: {
+     *     // ... data to create a Experience
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Experience we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExperienceUpsertArgs>(args: SelectSubset<T, ExperienceUpsertArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Experiences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceCountArgs} args - Arguments to filter Experiences to count.
+     * @example
+     * // Count the number of Experiences
+     * const count = await prisma.experience.count({
+     *   where: {
+     *     // ... the filter for the Experiences we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExperienceCountArgs>(
+      args?: Subset<T, ExperienceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExperienceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Experience.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExperienceAggregateArgs>(args: Subset<T, ExperienceAggregateArgs>): Prisma.PrismaPromise<GetExperienceAggregateType<T>>
+
+    /**
+     * Group by Experience.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExperienceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExperienceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExperienceGroupByArgs['orderBy'] }
+        : { orderBy?: ExperienceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExperienceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExperienceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Experience model
+   */
+  readonly fields: ExperienceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Experience.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExperienceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    psychologist<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Experience model
+   */
+  interface ExperienceFieldRefs {
+    readonly id: FieldRef<"Experience", 'String'>
+    readonly psychologistId: FieldRef<"Experience", 'String'>
+    readonly name: FieldRef<"Experience", 'String'>
+    readonly createdAt: FieldRef<"Experience", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Experience findUnique
+   */
+  export type ExperienceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which Experience to fetch.
+     */
+    where: ExperienceWhereUniqueInput
+  }
+
+  /**
+   * Experience findUniqueOrThrow
+   */
+  export type ExperienceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which Experience to fetch.
+     */
+    where: ExperienceWhereUniqueInput
+  }
+
+  /**
+   * Experience findFirst
+   */
+  export type ExperienceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which Experience to fetch.
+     */
+    where?: ExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Experiences to fetch.
+     */
+    orderBy?: ExperienceOrderByWithRelationInput | ExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Experiences.
+     */
+    cursor?: ExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Experiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Experiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Experiences.
+     */
+    distinct?: ExperienceScalarFieldEnum | ExperienceScalarFieldEnum[]
+  }
+
+  /**
+   * Experience findFirstOrThrow
+   */
+  export type ExperienceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which Experience to fetch.
+     */
+    where?: ExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Experiences to fetch.
+     */
+    orderBy?: ExperienceOrderByWithRelationInput | ExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Experiences.
+     */
+    cursor?: ExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Experiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Experiences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Experiences.
+     */
+    distinct?: ExperienceScalarFieldEnum | ExperienceScalarFieldEnum[]
+  }
+
+  /**
+   * Experience findMany
+   */
+  export type ExperienceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter, which Experiences to fetch.
+     */
+    where?: ExperienceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Experiences to fetch.
+     */
+    orderBy?: ExperienceOrderByWithRelationInput | ExperienceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Experiences.
+     */
+    cursor?: ExperienceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Experiences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Experiences.
+     */
+    skip?: number
+    distinct?: ExperienceScalarFieldEnum | ExperienceScalarFieldEnum[]
+  }
+
+  /**
+   * Experience create
+   */
+  export type ExperienceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Experience.
+     */
+    data: XOR<ExperienceCreateInput, ExperienceUncheckedCreateInput>
+  }
+
+  /**
+   * Experience createMany
+   */
+  export type ExperienceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Experiences.
+     */
+    data: ExperienceCreateManyInput | ExperienceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Experience createManyAndReturn
+   */
+  export type ExperienceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Experiences.
+     */
+    data: ExperienceCreateManyInput | ExperienceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Experience update
+   */
+  export type ExperienceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Experience.
+     */
+    data: XOR<ExperienceUpdateInput, ExperienceUncheckedUpdateInput>
+    /**
+     * Choose, which Experience to update.
+     */
+    where: ExperienceWhereUniqueInput
+  }
+
+  /**
+   * Experience updateMany
+   */
+  export type ExperienceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Experiences.
+     */
+    data: XOR<ExperienceUpdateManyMutationInput, ExperienceUncheckedUpdateManyInput>
+    /**
+     * Filter which Experiences to update
+     */
+    where?: ExperienceWhereInput
+    /**
+     * Limit how many Experiences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Experience updateManyAndReturn
+   */
+  export type ExperienceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * The data used to update Experiences.
+     */
+    data: XOR<ExperienceUpdateManyMutationInput, ExperienceUncheckedUpdateManyInput>
+    /**
+     * Filter which Experiences to update
+     */
+    where?: ExperienceWhereInput
+    /**
+     * Limit how many Experiences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Experience upsert
+   */
+  export type ExperienceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Experience to update in case it exists.
+     */
+    where: ExperienceWhereUniqueInput
+    /**
+     * In case the Experience found by the `where` argument doesn't exist, create a new Experience with this data.
+     */
+    create: XOR<ExperienceCreateInput, ExperienceUncheckedCreateInput>
+    /**
+     * In case the Experience was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExperienceUpdateInput, ExperienceUncheckedUpdateInput>
+  }
+
+  /**
+   * Experience delete
+   */
+  export type ExperienceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+    /**
+     * Filter which Experience to delete.
+     */
+    where: ExperienceWhereUniqueInput
+  }
+
+  /**
+   * Experience deleteMany
+   */
+  export type ExperienceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Experiences to delete
+     */
+    where?: ExperienceWhereInput
+    /**
+     * Limit how many Experiences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Experience without action
+   */
+  export type ExperienceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Experience
+     */
+    select?: ExperienceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Experience
+     */
+    omit?: ExperienceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExperienceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Specialization
+   */
+
+  export type AggregateSpecialization = {
+    _count: SpecializationCountAggregateOutputType | null
+    _min: SpecializationMinAggregateOutputType | null
+    _max: SpecializationMaxAggregateOutputType | null
+  }
+
+  export type SpecializationMinAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type SpecializationMaxAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type SpecializationCountAggregateOutputType = {
+    id: number
+    psychologistId: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SpecializationMinAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type SpecializationMaxAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type SpecializationCountAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SpecializationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Specialization to aggregate.
+     */
+    where?: SpecializationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specializations to fetch.
+     */
+    orderBy?: SpecializationOrderByWithRelationInput | SpecializationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SpecializationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specializations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specializations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Specializations
+    **/
+    _count?: true | SpecializationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SpecializationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SpecializationMaxAggregateInputType
+  }
+
+  export type GetSpecializationAggregateType<T extends SpecializationAggregateArgs> = {
+        [P in keyof T & keyof AggregateSpecialization]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSpecialization[P]>
+      : GetScalarType<T[P], AggregateSpecialization[P]>
+  }
+
+
+
+
+  export type SpecializationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpecializationWhereInput
+    orderBy?: SpecializationOrderByWithAggregationInput | SpecializationOrderByWithAggregationInput[]
+    by: SpecializationScalarFieldEnum[] | SpecializationScalarFieldEnum
+    having?: SpecializationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SpecializationCountAggregateInputType | true
+    _min?: SpecializationMinAggregateInputType
+    _max?: SpecializationMaxAggregateInputType
+  }
+
+  export type SpecializationGroupByOutputType = {
+    id: string
+    psychologistId: string
+    name: string
+    createdAt: Date
+    _count: SpecializationCountAggregateOutputType | null
+    _min: SpecializationMinAggregateOutputType | null
+    _max: SpecializationMaxAggregateOutputType | null
+  }
+
+  type GetSpecializationGroupByPayload<T extends SpecializationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SpecializationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SpecializationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SpecializationGroupByOutputType[P]>
+            : GetScalarType<T[P], SpecializationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SpecializationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["specialization"]>
+
+  export type SpecializationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["specialization"]>
+
+  export type SpecializationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["specialization"]>
+
+  export type SpecializationSelectScalar = {
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type SpecializationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "name" | "createdAt", ExtArgs["result"]["specialization"]>
+  export type SpecializationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type SpecializationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type SpecializationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $SpecializationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Specialization"
+    objects: {
+      psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      psychologistId: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["specialization"]>
+    composites: {}
+  }
+
+  type SpecializationGetPayload<S extends boolean | null | undefined | SpecializationDefaultArgs> = $Result.GetResult<Prisma.$SpecializationPayload, S>
+
+  type SpecializationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SpecializationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SpecializationCountAggregateInputType | true
+    }
+
+  export interface SpecializationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Specialization'], meta: { name: 'Specialization' } }
+    /**
+     * Find zero or one Specialization that matches the filter.
+     * @param {SpecializationFindUniqueArgs} args - Arguments to find a Specialization
+     * @example
+     * // Get one Specialization
+     * const specialization = await prisma.specialization.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SpecializationFindUniqueArgs>(args: SelectSubset<T, SpecializationFindUniqueArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Specialization that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SpecializationFindUniqueOrThrowArgs} args - Arguments to find a Specialization
+     * @example
+     * // Get one Specialization
+     * const specialization = await prisma.specialization.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SpecializationFindUniqueOrThrowArgs>(args: SelectSubset<T, SpecializationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Specialization that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationFindFirstArgs} args - Arguments to find a Specialization
+     * @example
+     * // Get one Specialization
+     * const specialization = await prisma.specialization.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SpecializationFindFirstArgs>(args?: SelectSubset<T, SpecializationFindFirstArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Specialization that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationFindFirstOrThrowArgs} args - Arguments to find a Specialization
+     * @example
+     * // Get one Specialization
+     * const specialization = await prisma.specialization.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SpecializationFindFirstOrThrowArgs>(args?: SelectSubset<T, SpecializationFindFirstOrThrowArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Specializations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Specializations
+     * const specializations = await prisma.specialization.findMany()
+     * 
+     * // Get first 10 Specializations
+     * const specializations = await prisma.specialization.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const specializationWithIdOnly = await prisma.specialization.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SpecializationFindManyArgs>(args?: SelectSubset<T, SpecializationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Specialization.
+     * @param {SpecializationCreateArgs} args - Arguments to create a Specialization.
+     * @example
+     * // Create one Specialization
+     * const Specialization = await prisma.specialization.create({
+     *   data: {
+     *     // ... data to create a Specialization
+     *   }
+     * })
+     * 
+     */
+    create<T extends SpecializationCreateArgs>(args: SelectSubset<T, SpecializationCreateArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Specializations.
+     * @param {SpecializationCreateManyArgs} args - Arguments to create many Specializations.
+     * @example
+     * // Create many Specializations
+     * const specialization = await prisma.specialization.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SpecializationCreateManyArgs>(args?: SelectSubset<T, SpecializationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Specializations and returns the data saved in the database.
+     * @param {SpecializationCreateManyAndReturnArgs} args - Arguments to create many Specializations.
+     * @example
+     * // Create many Specializations
+     * const specialization = await prisma.specialization.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Specializations and only return the `id`
+     * const specializationWithIdOnly = await prisma.specialization.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SpecializationCreateManyAndReturnArgs>(args?: SelectSubset<T, SpecializationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Specialization.
+     * @param {SpecializationDeleteArgs} args - Arguments to delete one Specialization.
+     * @example
+     * // Delete one Specialization
+     * const Specialization = await prisma.specialization.delete({
+     *   where: {
+     *     // ... filter to delete one Specialization
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SpecializationDeleteArgs>(args: SelectSubset<T, SpecializationDeleteArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Specialization.
+     * @param {SpecializationUpdateArgs} args - Arguments to update one Specialization.
+     * @example
+     * // Update one Specialization
+     * const specialization = await prisma.specialization.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SpecializationUpdateArgs>(args: SelectSubset<T, SpecializationUpdateArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Specializations.
+     * @param {SpecializationDeleteManyArgs} args - Arguments to filter Specializations to delete.
+     * @example
+     * // Delete a few Specializations
+     * const { count } = await prisma.specialization.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SpecializationDeleteManyArgs>(args?: SelectSubset<T, SpecializationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Specializations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Specializations
+     * const specialization = await prisma.specialization.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SpecializationUpdateManyArgs>(args: SelectSubset<T, SpecializationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Specializations and returns the data updated in the database.
+     * @param {SpecializationUpdateManyAndReturnArgs} args - Arguments to update many Specializations.
+     * @example
+     * // Update many Specializations
+     * const specialization = await prisma.specialization.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Specializations and only return the `id`
+     * const specializationWithIdOnly = await prisma.specialization.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SpecializationUpdateManyAndReturnArgs>(args: SelectSubset<T, SpecializationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Specialization.
+     * @param {SpecializationUpsertArgs} args - Arguments to update or create a Specialization.
+     * @example
+     * // Update or create a Specialization
+     * const specialization = await prisma.specialization.upsert({
+     *   create: {
+     *     // ... data to create a Specialization
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Specialization we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SpecializationUpsertArgs>(args: SelectSubset<T, SpecializationUpsertArgs<ExtArgs>>): Prisma__SpecializationClient<$Result.GetResult<Prisma.$SpecializationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Specializations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationCountArgs} args - Arguments to filter Specializations to count.
+     * @example
+     * // Count the number of Specializations
+     * const count = await prisma.specialization.count({
+     *   where: {
+     *     // ... the filter for the Specializations we want to count
+     *   }
+     * })
+    **/
+    count<T extends SpecializationCountArgs>(
+      args?: Subset<T, SpecializationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SpecializationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Specialization.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SpecializationAggregateArgs>(args: Subset<T, SpecializationAggregateArgs>): Prisma.PrismaPromise<GetSpecializationAggregateType<T>>
+
+    /**
+     * Group by Specialization.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpecializationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SpecializationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SpecializationGroupByArgs['orderBy'] }
+        : { orderBy?: SpecializationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SpecializationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSpecializationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Specialization model
+   */
+  readonly fields: SpecializationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Specialization.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SpecializationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    psychologist<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Specialization model
+   */
+  interface SpecializationFieldRefs {
+    readonly id: FieldRef<"Specialization", 'String'>
+    readonly psychologistId: FieldRef<"Specialization", 'String'>
+    readonly name: FieldRef<"Specialization", 'String'>
+    readonly createdAt: FieldRef<"Specialization", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Specialization findUnique
+   */
+  export type SpecializationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter, which Specialization to fetch.
+     */
+    where: SpecializationWhereUniqueInput
+  }
+
+  /**
+   * Specialization findUniqueOrThrow
+   */
+  export type SpecializationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter, which Specialization to fetch.
+     */
+    where: SpecializationWhereUniqueInput
+  }
+
+  /**
+   * Specialization findFirst
+   */
+  export type SpecializationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter, which Specialization to fetch.
+     */
+    where?: SpecializationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specializations to fetch.
+     */
+    orderBy?: SpecializationOrderByWithRelationInput | SpecializationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Specializations.
+     */
+    cursor?: SpecializationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specializations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specializations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Specializations.
+     */
+    distinct?: SpecializationScalarFieldEnum | SpecializationScalarFieldEnum[]
+  }
+
+  /**
+   * Specialization findFirstOrThrow
+   */
+  export type SpecializationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter, which Specialization to fetch.
+     */
+    where?: SpecializationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specializations to fetch.
+     */
+    orderBy?: SpecializationOrderByWithRelationInput | SpecializationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Specializations.
+     */
+    cursor?: SpecializationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specializations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specializations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Specializations.
+     */
+    distinct?: SpecializationScalarFieldEnum | SpecializationScalarFieldEnum[]
+  }
+
+  /**
+   * Specialization findMany
+   */
+  export type SpecializationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter, which Specializations to fetch.
+     */
+    where?: SpecializationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Specializations to fetch.
+     */
+    orderBy?: SpecializationOrderByWithRelationInput | SpecializationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Specializations.
+     */
+    cursor?: SpecializationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Specializations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Specializations.
+     */
+    skip?: number
+    distinct?: SpecializationScalarFieldEnum | SpecializationScalarFieldEnum[]
+  }
+
+  /**
+   * Specialization create
+   */
+  export type SpecializationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Specialization.
+     */
+    data: XOR<SpecializationCreateInput, SpecializationUncheckedCreateInput>
+  }
+
+  /**
+   * Specialization createMany
+   */
+  export type SpecializationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Specializations.
+     */
+    data: SpecializationCreateManyInput | SpecializationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Specialization createManyAndReturn
+   */
+  export type SpecializationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Specializations.
+     */
+    data: SpecializationCreateManyInput | SpecializationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Specialization update
+   */
+  export type SpecializationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Specialization.
+     */
+    data: XOR<SpecializationUpdateInput, SpecializationUncheckedUpdateInput>
+    /**
+     * Choose, which Specialization to update.
+     */
+    where: SpecializationWhereUniqueInput
+  }
+
+  /**
+   * Specialization updateMany
+   */
+  export type SpecializationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Specializations.
+     */
+    data: XOR<SpecializationUpdateManyMutationInput, SpecializationUncheckedUpdateManyInput>
+    /**
+     * Filter which Specializations to update
+     */
+    where?: SpecializationWhereInput
+    /**
+     * Limit how many Specializations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Specialization updateManyAndReturn
+   */
+  export type SpecializationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * The data used to update Specializations.
+     */
+    data: XOR<SpecializationUpdateManyMutationInput, SpecializationUncheckedUpdateManyInput>
+    /**
+     * Filter which Specializations to update
+     */
+    where?: SpecializationWhereInput
+    /**
+     * Limit how many Specializations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Specialization upsert
+   */
+  export type SpecializationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Specialization to update in case it exists.
+     */
+    where: SpecializationWhereUniqueInput
+    /**
+     * In case the Specialization found by the `where` argument doesn't exist, create a new Specialization with this data.
+     */
+    create: XOR<SpecializationCreateInput, SpecializationUncheckedCreateInput>
+    /**
+     * In case the Specialization was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SpecializationUpdateInput, SpecializationUncheckedUpdateInput>
+  }
+
+  /**
+   * Specialization delete
+   */
+  export type SpecializationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+    /**
+     * Filter which Specialization to delete.
+     */
+    where: SpecializationWhereUniqueInput
+  }
+
+  /**
+   * Specialization deleteMany
+   */
+  export type SpecializationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Specializations to delete
+     */
+    where?: SpecializationWhereInput
+    /**
+     * Limit how many Specializations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Specialization without action
+   */
+  export type SpecializationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Specialization
+     */
+    select?: SpecializationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Specialization
+     */
+    omit?: SpecializationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpecializationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Expertise
+   */
+
+  export type AggregateExpertise = {
+    _count: ExpertiseCountAggregateOutputType | null
+    _min: ExpertiseMinAggregateOutputType | null
+    _max: ExpertiseMaxAggregateOutputType | null
+  }
+
+  export type ExpertiseMinAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type ExpertiseMaxAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type ExpertiseCountAggregateOutputType = {
+    id: number
+    psychologistId: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ExpertiseMinAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type ExpertiseMaxAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type ExpertiseCountAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ExpertiseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Expertise to aggregate.
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Expertise to fetch.
+     */
+    orderBy?: ExpertiseOrderByWithRelationInput | ExpertiseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExpertiseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Expertise from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Expertise.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Expertise
+    **/
+    _count?: true | ExpertiseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExpertiseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExpertiseMaxAggregateInputType
+  }
+
+  export type GetExpertiseAggregateType<T extends ExpertiseAggregateArgs> = {
+        [P in keyof T & keyof AggregateExpertise]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExpertise[P]>
+      : GetScalarType<T[P], AggregateExpertise[P]>
+  }
+
+
+
+
+  export type ExpertiseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExpertiseWhereInput
+    orderBy?: ExpertiseOrderByWithAggregationInput | ExpertiseOrderByWithAggregationInput[]
+    by: ExpertiseScalarFieldEnum[] | ExpertiseScalarFieldEnum
+    having?: ExpertiseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExpertiseCountAggregateInputType | true
+    _min?: ExpertiseMinAggregateInputType
+    _max?: ExpertiseMaxAggregateInputType
+  }
+
+  export type ExpertiseGroupByOutputType = {
+    id: string
+    psychologistId: string
+    name: string
+    createdAt: Date
+    _count: ExpertiseCountAggregateOutputType | null
+    _min: ExpertiseMinAggregateOutputType | null
+    _max: ExpertiseMaxAggregateOutputType | null
+  }
+
+  type GetExpertiseGroupByPayload<T extends ExpertiseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExpertiseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExpertiseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExpertiseGroupByOutputType[P]>
+            : GetScalarType<T[P], ExpertiseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExpertiseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertise"]>
+
+  export type ExpertiseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertise"]>
+
+  export type ExpertiseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertise"]>
+
+  export type ExpertiseSelectScalar = {
+    id?: boolean
+    psychologistId?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type ExpertiseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "name" | "createdAt", ExtArgs["result"]["expertise"]>
+  export type ExpertiseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type ExpertiseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type ExpertiseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $ExpertisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Expertise"
+    objects: {
+      psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      psychologistId: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["expertise"]>
+    composites: {}
+  }
+
+  type ExpertiseGetPayload<S extends boolean | null | undefined | ExpertiseDefaultArgs> = $Result.GetResult<Prisma.$ExpertisePayload, S>
+
+  type ExpertiseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExpertiseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExpertiseCountAggregateInputType | true
+    }
+
+  export interface ExpertiseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Expertise'], meta: { name: 'Expertise' } }
+    /**
+     * Find zero or one Expertise that matches the filter.
+     * @param {ExpertiseFindUniqueArgs} args - Arguments to find a Expertise
+     * @example
+     * // Get one Expertise
+     * const expertise = await prisma.expertise.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExpertiseFindUniqueArgs>(args: SelectSubset<T, ExpertiseFindUniqueArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Expertise that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExpertiseFindUniqueOrThrowArgs} args - Arguments to find a Expertise
+     * @example
+     * // Get one Expertise
+     * const expertise = await prisma.expertise.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExpertiseFindUniqueOrThrowArgs>(args: SelectSubset<T, ExpertiseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Expertise that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseFindFirstArgs} args - Arguments to find a Expertise
+     * @example
+     * // Get one Expertise
+     * const expertise = await prisma.expertise.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExpertiseFindFirstArgs>(args?: SelectSubset<T, ExpertiseFindFirstArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Expertise that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseFindFirstOrThrowArgs} args - Arguments to find a Expertise
+     * @example
+     * // Get one Expertise
+     * const expertise = await prisma.expertise.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExpertiseFindFirstOrThrowArgs>(args?: SelectSubset<T, ExpertiseFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Expertise that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Expertise
+     * const expertise = await prisma.expertise.findMany()
+     * 
+     * // Get first 10 Expertise
+     * const expertise = await prisma.expertise.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const expertiseWithIdOnly = await prisma.expertise.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExpertiseFindManyArgs>(args?: SelectSubset<T, ExpertiseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Expertise.
+     * @param {ExpertiseCreateArgs} args - Arguments to create a Expertise.
+     * @example
+     * // Create one Expertise
+     * const Expertise = await prisma.expertise.create({
+     *   data: {
+     *     // ... data to create a Expertise
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExpertiseCreateArgs>(args: SelectSubset<T, ExpertiseCreateArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Expertise.
+     * @param {ExpertiseCreateManyArgs} args - Arguments to create many Expertise.
+     * @example
+     * // Create many Expertise
+     * const expertise = await prisma.expertise.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExpertiseCreateManyArgs>(args?: SelectSubset<T, ExpertiseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Expertise and returns the data saved in the database.
+     * @param {ExpertiseCreateManyAndReturnArgs} args - Arguments to create many Expertise.
+     * @example
+     * // Create many Expertise
+     * const expertise = await prisma.expertise.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Expertise and only return the `id`
+     * const expertiseWithIdOnly = await prisma.expertise.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExpertiseCreateManyAndReturnArgs>(args?: SelectSubset<T, ExpertiseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Expertise.
+     * @param {ExpertiseDeleteArgs} args - Arguments to delete one Expertise.
+     * @example
+     * // Delete one Expertise
+     * const Expertise = await prisma.expertise.delete({
+     *   where: {
+     *     // ... filter to delete one Expertise
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExpertiseDeleteArgs>(args: SelectSubset<T, ExpertiseDeleteArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Expertise.
+     * @param {ExpertiseUpdateArgs} args - Arguments to update one Expertise.
+     * @example
+     * // Update one Expertise
+     * const expertise = await prisma.expertise.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExpertiseUpdateArgs>(args: SelectSubset<T, ExpertiseUpdateArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Expertise.
+     * @param {ExpertiseDeleteManyArgs} args - Arguments to filter Expertise to delete.
+     * @example
+     * // Delete a few Expertise
+     * const { count } = await prisma.expertise.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExpertiseDeleteManyArgs>(args?: SelectSubset<T, ExpertiseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Expertise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Expertise
+     * const expertise = await prisma.expertise.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExpertiseUpdateManyArgs>(args: SelectSubset<T, ExpertiseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Expertise and returns the data updated in the database.
+     * @param {ExpertiseUpdateManyAndReturnArgs} args - Arguments to update many Expertise.
+     * @example
+     * // Update many Expertise
+     * const expertise = await prisma.expertise.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Expertise and only return the `id`
+     * const expertiseWithIdOnly = await prisma.expertise.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExpertiseUpdateManyAndReturnArgs>(args: SelectSubset<T, ExpertiseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Expertise.
+     * @param {ExpertiseUpsertArgs} args - Arguments to update or create a Expertise.
+     * @example
+     * // Update or create a Expertise
+     * const expertise = await prisma.expertise.upsert({
+     *   create: {
+     *     // ... data to create a Expertise
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Expertise we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExpertiseUpsertArgs>(args: SelectSubset<T, ExpertiseUpsertArgs<ExtArgs>>): Prisma__ExpertiseClient<$Result.GetResult<Prisma.$ExpertisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Expertise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseCountArgs} args - Arguments to filter Expertise to count.
+     * @example
+     * // Count the number of Expertise
+     * const count = await prisma.expertise.count({
+     *   where: {
+     *     // ... the filter for the Expertise we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExpertiseCountArgs>(
+      args?: Subset<T, ExpertiseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExpertiseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Expertise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExpertiseAggregateArgs>(args: Subset<T, ExpertiseAggregateArgs>): Prisma.PrismaPromise<GetExpertiseAggregateType<T>>
+
+    /**
+     * Group by Expertise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertiseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExpertiseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExpertiseGroupByArgs['orderBy'] }
+        : { orderBy?: ExpertiseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExpertiseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertiseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Expertise model
+   */
+  readonly fields: ExpertiseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Expertise.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExpertiseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    psychologist<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Expertise model
+   */
+  interface ExpertiseFieldRefs {
+    readonly id: FieldRef<"Expertise", 'String'>
+    readonly psychologistId: FieldRef<"Expertise", 'String'>
+    readonly name: FieldRef<"Expertise", 'String'>
+    readonly createdAt: FieldRef<"Expertise", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Expertise findUnique
+   */
+  export type ExpertiseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter, which Expertise to fetch.
+     */
+    where: ExpertiseWhereUniqueInput
+  }
+
+  /**
+   * Expertise findUniqueOrThrow
+   */
+  export type ExpertiseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter, which Expertise to fetch.
+     */
+    where: ExpertiseWhereUniqueInput
+  }
+
+  /**
+   * Expertise findFirst
+   */
+  export type ExpertiseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter, which Expertise to fetch.
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Expertise to fetch.
+     */
+    orderBy?: ExpertiseOrderByWithRelationInput | ExpertiseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Expertise.
+     */
+    cursor?: ExpertiseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Expertise from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Expertise.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Expertise.
+     */
+    distinct?: ExpertiseScalarFieldEnum | ExpertiseScalarFieldEnum[]
+  }
+
+  /**
+   * Expertise findFirstOrThrow
+   */
+  export type ExpertiseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter, which Expertise to fetch.
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Expertise to fetch.
+     */
+    orderBy?: ExpertiseOrderByWithRelationInput | ExpertiseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Expertise.
+     */
+    cursor?: ExpertiseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Expertise from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Expertise.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Expertise.
+     */
+    distinct?: ExpertiseScalarFieldEnum | ExpertiseScalarFieldEnum[]
+  }
+
+  /**
+   * Expertise findMany
+   */
+  export type ExpertiseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter, which Expertise to fetch.
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Expertise to fetch.
+     */
+    orderBy?: ExpertiseOrderByWithRelationInput | ExpertiseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Expertise.
+     */
+    cursor?: ExpertiseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Expertise from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Expertise.
+     */
+    skip?: number
+    distinct?: ExpertiseScalarFieldEnum | ExpertiseScalarFieldEnum[]
+  }
+
+  /**
+   * Expertise create
+   */
+  export type ExpertiseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Expertise.
+     */
+    data: XOR<ExpertiseCreateInput, ExpertiseUncheckedCreateInput>
+  }
+
+  /**
+   * Expertise createMany
+   */
+  export type ExpertiseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Expertise.
+     */
+    data: ExpertiseCreateManyInput | ExpertiseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Expertise createManyAndReturn
+   */
+  export type ExpertiseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * The data used to create many Expertise.
+     */
+    data: ExpertiseCreateManyInput | ExpertiseCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Expertise update
+   */
+  export type ExpertiseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Expertise.
+     */
+    data: XOR<ExpertiseUpdateInput, ExpertiseUncheckedUpdateInput>
+    /**
+     * Choose, which Expertise to update.
+     */
+    where: ExpertiseWhereUniqueInput
+  }
+
+  /**
+   * Expertise updateMany
+   */
+  export type ExpertiseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Expertise.
+     */
+    data: XOR<ExpertiseUpdateManyMutationInput, ExpertiseUncheckedUpdateManyInput>
+    /**
+     * Filter which Expertise to update
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * Limit how many Expertise to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Expertise updateManyAndReturn
+   */
+  export type ExpertiseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * The data used to update Expertise.
+     */
+    data: XOR<ExpertiseUpdateManyMutationInput, ExpertiseUncheckedUpdateManyInput>
+    /**
+     * Filter which Expertise to update
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * Limit how many Expertise to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Expertise upsert
+   */
+  export type ExpertiseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Expertise to update in case it exists.
+     */
+    where: ExpertiseWhereUniqueInput
+    /**
+     * In case the Expertise found by the `where` argument doesn't exist, create a new Expertise with this data.
+     */
+    create: XOR<ExpertiseCreateInput, ExpertiseUncheckedCreateInput>
+    /**
+     * In case the Expertise was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExpertiseUpdateInput, ExpertiseUncheckedUpdateInput>
+  }
+
+  /**
+   * Expertise delete
+   */
+  export type ExpertiseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+    /**
+     * Filter which Expertise to delete.
+     */
+    where: ExpertiseWhereUniqueInput
+  }
+
+  /**
+   * Expertise deleteMany
+   */
+  export type ExpertiseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Expertise to delete
+     */
+    where?: ExpertiseWhereInput
+    /**
+     * Limit how many Expertise to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Expertise without action
+   */
+  export type ExpertiseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Expertise
+     */
+    select?: ExpertiseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Expertise
+     */
+    omit?: ExpertiseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertiseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Schedule
+   */
+
+  export type AggregateSchedule = {
+    _count: ScheduleCountAggregateOutputType | null
+    _avg: ScheduleAvgAggregateOutputType | null
+    _sum: ScheduleSumAggregateOutputType | null
+    _min: ScheduleMinAggregateOutputType | null
+    _max: ScheduleMaxAggregateOutputType | null
+  }
+
+  export type ScheduleAvgAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type ScheduleSumAggregateOutputType = {
+    duration: number | null
+  }
+
+  export type ScheduleMinAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    date: Date | null
+    startTime: string | null
+    duration: number | null
+    isAvailable: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ScheduleMaxAggregateOutputType = {
+    id: string | null
+    psychologistId: string | null
+    date: Date | null
+    startTime: string | null
+    duration: number | null
+    isAvailable: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ScheduleCountAggregateOutputType = {
+    id: number
+    psychologistId: number
+    date: number
+    startTime: number
+    duration: number
+    isAvailable: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ScheduleAvgAggregateInputType = {
+    duration?: true
+  }
+
+  export type ScheduleSumAggregateInputType = {
+    duration?: true
+  }
+
+  export type ScheduleMinAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    date?: true
+    startTime?: true
+    duration?: true
+    isAvailable?: true
+    createdAt?: true
+  }
+
+  export type ScheduleMaxAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    date?: true
+    startTime?: true
+    duration?: true
+    isAvailable?: true
+    createdAt?: true
+  }
+
+  export type ScheduleCountAggregateInputType = {
+    id?: true
+    psychologistId?: true
+    date?: true
+    startTime?: true
+    duration?: true
+    isAvailable?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ScheduleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Schedule to aggregate.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Schedules
+    **/
+    _count?: true | ScheduleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScheduleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScheduleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScheduleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScheduleMaxAggregateInputType
+  }
+
+  export type GetScheduleAggregateType<T extends ScheduleAggregateArgs> = {
+        [P in keyof T & keyof AggregateSchedule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSchedule[P]>
+      : GetScalarType<T[P], AggregateSchedule[P]>
+  }
+
+
+
+
+  export type ScheduleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScheduleWhereInput
+    orderBy?: ScheduleOrderByWithAggregationInput | ScheduleOrderByWithAggregationInput[]
+    by: ScheduleScalarFieldEnum[] | ScheduleScalarFieldEnum
+    having?: ScheduleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScheduleCountAggregateInputType | true
+    _avg?: ScheduleAvgAggregateInputType
+    _sum?: ScheduleSumAggregateInputType
+    _min?: ScheduleMinAggregateInputType
+    _max?: ScheduleMaxAggregateInputType
+  }
+
+  export type ScheduleGroupByOutputType = {
+    id: string
+    psychologistId: string
+    date: Date
+    startTime: string
+    duration: number
+    isAvailable: boolean
+    createdAt: Date
+    _count: ScheduleCountAggregateOutputType | null
+    _avg: ScheduleAvgAggregateOutputType | null
+    _sum: ScheduleSumAggregateOutputType | null
+    _min: ScheduleMinAggregateOutputType | null
+    _max: ScheduleMaxAggregateOutputType | null
+  }
+
+  type GetScheduleGroupByPayload<T extends ScheduleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScheduleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScheduleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScheduleGroupByOutputType[P]>
+            : GetScalarType<T[P], ScheduleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScheduleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    date?: boolean
+    startTime?: boolean
+    duration?: boolean
+    isAvailable?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    sessionNote?: boolean | Schedule$sessionNoteArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    date?: boolean
+    startTime?: boolean
+    duration?: boolean
+    isAvailable?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    psychologistId?: boolean
+    date?: boolean
+    startTime?: boolean
+    duration?: boolean
+    isAvailable?: boolean
+    createdAt?: boolean
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["schedule"]>
+
+  export type ScheduleSelectScalar = {
+    id?: boolean
+    psychologistId?: boolean
+    date?: boolean
+    startTime?: boolean
+    duration?: boolean
+    isAvailable?: boolean
+    createdAt?: boolean
+  }
+
+  export type ScheduleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistId" | "date" | "startTime" | "duration" | "isAvailable" | "createdAt", ExtArgs["result"]["schedule"]>
+  export type ScheduleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    sessionNote?: boolean | Schedule$sessionNoteArgs<ExtArgs>
+  }
+  export type ScheduleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+  export type ScheduleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    psychologist?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $SchedulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Schedule"
+    objects: {
+      psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
+      sessionNote: Prisma.$SessionNotePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      psychologistId: string
+      date: Date
+      startTime: string
+      duration: number
+      isAvailable: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["schedule"]>
+    composites: {}
+  }
+
+  type ScheduleGetPayload<S extends boolean | null | undefined | ScheduleDefaultArgs> = $Result.GetResult<Prisma.$SchedulePayload, S>
+
+  type ScheduleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScheduleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScheduleCountAggregateInputType | true
+    }
+
+  export interface ScheduleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Schedule'], meta: { name: 'Schedule' } }
+    /**
+     * Find zero or one Schedule that matches the filter.
+     * @param {ScheduleFindUniqueArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScheduleFindUniqueArgs>(args: SelectSubset<T, ScheduleFindUniqueArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Schedule that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScheduleFindUniqueOrThrowArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScheduleFindUniqueOrThrowArgs>(args: SelectSubset<T, ScheduleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Schedule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindFirstArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScheduleFindFirstArgs>(args?: SelectSubset<T, ScheduleFindFirstArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Schedule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindFirstOrThrowArgs} args - Arguments to find a Schedule
+     * @example
+     * // Get one Schedule
+     * const schedule = await prisma.schedule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScheduleFindFirstOrThrowArgs>(args?: SelectSubset<T, ScheduleFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Schedules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Schedules
+     * const schedules = await prisma.schedule.findMany()
+     * 
+     * // Get first 10 Schedules
+     * const schedules = await prisma.schedule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScheduleFindManyArgs>(args?: SelectSubset<T, ScheduleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Schedule.
+     * @param {ScheduleCreateArgs} args - Arguments to create a Schedule.
+     * @example
+     * // Create one Schedule
+     * const Schedule = await prisma.schedule.create({
+     *   data: {
+     *     // ... data to create a Schedule
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScheduleCreateArgs>(args: SelectSubset<T, ScheduleCreateArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Schedules.
+     * @param {ScheduleCreateManyArgs} args - Arguments to create many Schedules.
+     * @example
+     * // Create many Schedules
+     * const schedule = await prisma.schedule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScheduleCreateManyArgs>(args?: SelectSubset<T, ScheduleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Schedules and returns the data saved in the database.
+     * @param {ScheduleCreateManyAndReturnArgs} args - Arguments to create many Schedules.
+     * @example
+     * // Create many Schedules
+     * const schedule = await prisma.schedule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Schedules and only return the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScheduleCreateManyAndReturnArgs>(args?: SelectSubset<T, ScheduleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Schedule.
+     * @param {ScheduleDeleteArgs} args - Arguments to delete one Schedule.
+     * @example
+     * // Delete one Schedule
+     * const Schedule = await prisma.schedule.delete({
+     *   where: {
+     *     // ... filter to delete one Schedule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScheduleDeleteArgs>(args: SelectSubset<T, ScheduleDeleteArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Schedule.
+     * @param {ScheduleUpdateArgs} args - Arguments to update one Schedule.
+     * @example
+     * // Update one Schedule
+     * const schedule = await prisma.schedule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScheduleUpdateArgs>(args: SelectSubset<T, ScheduleUpdateArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Schedules.
+     * @param {ScheduleDeleteManyArgs} args - Arguments to filter Schedules to delete.
+     * @example
+     * // Delete a few Schedules
+     * const { count } = await prisma.schedule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScheduleDeleteManyArgs>(args?: SelectSubset<T, ScheduleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Schedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Schedules
+     * const schedule = await prisma.schedule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScheduleUpdateManyArgs>(args: SelectSubset<T, ScheduleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Schedules and returns the data updated in the database.
+     * @param {ScheduleUpdateManyAndReturnArgs} args - Arguments to update many Schedules.
+     * @example
+     * // Update many Schedules
+     * const schedule = await prisma.schedule.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Schedules and only return the `id`
+     * const scheduleWithIdOnly = await prisma.schedule.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScheduleUpdateManyAndReturnArgs>(args: SelectSubset<T, ScheduleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Schedule.
+     * @param {ScheduleUpsertArgs} args - Arguments to update or create a Schedule.
+     * @example
+     * // Update or create a Schedule
+     * const schedule = await prisma.schedule.upsert({
+     *   create: {
+     *     // ... data to create a Schedule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Schedule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScheduleUpsertArgs>(args: SelectSubset<T, ScheduleUpsertArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Schedules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleCountArgs} args - Arguments to filter Schedules to count.
+     * @example
+     * // Count the number of Schedules
+     * const count = await prisma.schedule.count({
+     *   where: {
+     *     // ... the filter for the Schedules we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScheduleCountArgs>(
+      args?: Subset<T, ScheduleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScheduleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Schedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScheduleAggregateArgs>(args: Subset<T, ScheduleAggregateArgs>): Prisma.PrismaPromise<GetScheduleAggregateType<T>>
+
+    /**
+     * Group by Schedule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScheduleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScheduleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScheduleGroupByArgs['orderBy'] }
+        : { orderBy?: ScheduleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScheduleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScheduleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Schedule model
+   */
+  readonly fields: ScheduleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Schedule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScheduleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    psychologist<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sessionNote<T extends Schedule$sessionNoteArgs<ExtArgs> = {}>(args?: Subset<T, Schedule$sessionNoteArgs<ExtArgs>>): Prisma__SessionNoteClient<$Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Schedule model
+   */
+  interface ScheduleFieldRefs {
+    readonly id: FieldRef<"Schedule", 'String'>
+    readonly psychologistId: FieldRef<"Schedule", 'String'>
+    readonly date: FieldRef<"Schedule", 'DateTime'>
+    readonly startTime: FieldRef<"Schedule", 'String'>
+    readonly duration: FieldRef<"Schedule", 'Int'>
+    readonly isAvailable: FieldRef<"Schedule", 'Boolean'>
+    readonly createdAt: FieldRef<"Schedule", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Schedule findUnique
+   */
+  export type ScheduleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule findUniqueOrThrow
+   */
+  export type ScheduleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule findFirst
+   */
+  export type ScheduleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Schedules.
+     */
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule findFirstOrThrow
+   */
+  export type ScheduleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedule to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Schedules.
+     */
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule findMany
+   */
+  export type ScheduleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter, which Schedules to fetch.
+     */
+    where?: ScheduleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Schedules to fetch.
+     */
+    orderBy?: ScheduleOrderByWithRelationInput | ScheduleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Schedules.
+     */
+    cursor?: ScheduleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Schedules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Schedules.
+     */
+    skip?: number
+    distinct?: ScheduleScalarFieldEnum | ScheduleScalarFieldEnum[]
+  }
+
+  /**
+   * Schedule create
+   */
+  export type ScheduleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Schedule.
+     */
+    data: XOR<ScheduleCreateInput, ScheduleUncheckedCreateInput>
+  }
+
+  /**
+   * Schedule createMany
+   */
+  export type ScheduleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Schedules.
+     */
+    data: ScheduleCreateManyInput | ScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Schedule createManyAndReturn
+   */
+  export type ScheduleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Schedules.
+     */
+    data: ScheduleCreateManyInput | ScheduleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Schedule update
+   */
+  export type ScheduleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Schedule.
+     */
+    data: XOR<ScheduleUpdateInput, ScheduleUncheckedUpdateInput>
+    /**
+     * Choose, which Schedule to update.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule updateMany
+   */
+  export type ScheduleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Schedules.
+     */
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which Schedules to update
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Schedule updateManyAndReturn
+   */
+  export type ScheduleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * The data used to update Schedules.
+     */
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyInput>
+    /**
+     * Filter which Schedules to update
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Schedule upsert
+   */
+  export type ScheduleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Schedule to update in case it exists.
+     */
+    where: ScheduleWhereUniqueInput
+    /**
+     * In case the Schedule found by the `where` argument doesn't exist, create a new Schedule with this data.
+     */
+    create: XOR<ScheduleCreateInput, ScheduleUncheckedCreateInput>
+    /**
+     * In case the Schedule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScheduleUpdateInput, ScheduleUncheckedUpdateInput>
+  }
+
+  /**
+   * Schedule delete
+   */
+  export type ScheduleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    /**
+     * Filter which Schedule to delete.
+     */
+    where: ScheduleWhereUniqueInput
+  }
+
+  /**
+   * Schedule deleteMany
+   */
+  export type ScheduleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Schedules to delete
+     */
+    where?: ScheduleWhereInput
+    /**
+     * Limit how many Schedules to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Schedule.sessionNote
+   */
+  export type Schedule$sessionNoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SessionNote
      */
@@ -4888,21 +13202,1092 @@ export namespace Prisma {
   }
 
   /**
-   * Session without action
+   * Schedule without action
    */
-  export type SessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ScheduleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the Schedule
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: ScheduleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the Schedule
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: ScheduleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
+    include?: ScheduleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmailVerification
+   */
+
+  export type AggregateEmailVerification = {
+    _count: EmailVerificationCountAggregateOutputType | null
+    _min: EmailVerificationMinAggregateOutputType | null
+    _max: EmailVerificationMaxAggregateOutputType | null
+  }
+
+  export type EmailVerificationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type EmailVerificationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type EmailVerificationCountAggregateOutputType = {
+    id: number
+    userId: number
+    token: number
+    expiresAt: number
+    usedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type EmailVerificationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type EmailVerificationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type EmailVerificationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type EmailVerificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerification to aggregate.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailVerifications
+    **/
+    _count?: true | EmailVerificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailVerificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailVerificationMaxAggregateInputType
+  }
+
+  export type GetEmailVerificationAggregateType<T extends EmailVerificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailVerification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailVerification[P]>
+      : GetScalarType<T[P], AggregateEmailVerification[P]>
+  }
+
+
+
+
+  export type EmailVerificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationWhereInput
+    orderBy?: EmailVerificationOrderByWithAggregationInput | EmailVerificationOrderByWithAggregationInput[]
+    by: EmailVerificationScalarFieldEnum[] | EmailVerificationScalarFieldEnum
+    having?: EmailVerificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailVerificationCountAggregateInputType | true
+    _min?: EmailVerificationMinAggregateInputType
+    _max?: EmailVerificationMaxAggregateInputType
+  }
+
+  export type EmailVerificationGroupByOutputType = {
+    id: string
+    userId: string
+    token: string
+    expiresAt: Date
+    usedAt: Date | null
+    createdAt: Date
+    _count: EmailVerificationCountAggregateOutputType | null
+    _min: EmailVerificationMinAggregateOutputType | null
+    _max: EmailVerificationMaxAggregateOutputType | null
+  }
+
+  type GetEmailVerificationGroupByPayload<T extends EmailVerificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailVerificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailVerificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailVerificationGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailVerificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailVerificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type EmailVerificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "token" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["emailVerification"]>
+  export type EmailVerificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EmailVerificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailVerification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      token: string
+      expiresAt: Date
+      usedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["emailVerification"]>
+    composites: {}
+  }
+
+  type EmailVerificationGetPayload<S extends boolean | null | undefined | EmailVerificationDefaultArgs> = $Result.GetResult<Prisma.$EmailVerificationPayload, S>
+
+  type EmailVerificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmailVerificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmailVerificationCountAggregateInputType | true
+    }
+
+  export interface EmailVerificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailVerification'], meta: { name: 'EmailVerification' } }
+    /**
+     * Find zero or one EmailVerification that matches the filter.
+     * @param {EmailVerificationFindUniqueArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailVerificationFindUniqueArgs>(args: SelectSubset<T, EmailVerificationFindUniqueArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmailVerification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailVerificationFindUniqueOrThrowArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailVerificationFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailVerificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindFirstArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailVerificationFindFirstArgs>(args?: SelectSubset<T, EmailVerificationFindFirstArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindFirstOrThrowArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailVerificationFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailVerificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmailVerifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailVerifications
+     * const emailVerifications = await prisma.emailVerification.findMany()
+     * 
+     * // Get first 10 EmailVerifications
+     * const emailVerifications = await prisma.emailVerification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailVerificationFindManyArgs>(args?: SelectSubset<T, EmailVerificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmailVerification.
+     * @param {EmailVerificationCreateArgs} args - Arguments to create a EmailVerification.
+     * @example
+     * // Create one EmailVerification
+     * const EmailVerification = await prisma.emailVerification.create({
+     *   data: {
+     *     // ... data to create a EmailVerification
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailVerificationCreateArgs>(args: SelectSubset<T, EmailVerificationCreateArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmailVerifications.
+     * @param {EmailVerificationCreateManyArgs} args - Arguments to create many EmailVerifications.
+     * @example
+     * // Create many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailVerificationCreateManyArgs>(args?: SelectSubset<T, EmailVerificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailVerifications and returns the data saved in the database.
+     * @param {EmailVerificationCreateManyAndReturnArgs} args - Arguments to create many EmailVerifications.
+     * @example
+     * // Create many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailVerifications and only return the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailVerificationCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailVerificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmailVerification.
+     * @param {EmailVerificationDeleteArgs} args - Arguments to delete one EmailVerification.
+     * @example
+     * // Delete one EmailVerification
+     * const EmailVerification = await prisma.emailVerification.delete({
+     *   where: {
+     *     // ... filter to delete one EmailVerification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailVerificationDeleteArgs>(args: SelectSubset<T, EmailVerificationDeleteArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmailVerification.
+     * @param {EmailVerificationUpdateArgs} args - Arguments to update one EmailVerification.
+     * @example
+     * // Update one EmailVerification
+     * const emailVerification = await prisma.emailVerification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailVerificationUpdateArgs>(args: SelectSubset<T, EmailVerificationUpdateArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmailVerifications.
+     * @param {EmailVerificationDeleteManyArgs} args - Arguments to filter EmailVerifications to delete.
+     * @example
+     * // Delete a few EmailVerifications
+     * const { count } = await prisma.emailVerification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailVerificationDeleteManyArgs>(args?: SelectSubset<T, EmailVerificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailVerificationUpdateManyArgs>(args: SelectSubset<T, EmailVerificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerifications and returns the data updated in the database.
+     * @param {EmailVerificationUpdateManyAndReturnArgs} args - Arguments to update many EmailVerifications.
+     * @example
+     * // Update many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmailVerifications and only return the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmailVerificationUpdateManyAndReturnArgs>(args: SelectSubset<T, EmailVerificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmailVerification.
+     * @param {EmailVerificationUpsertArgs} args - Arguments to update or create a EmailVerification.
+     * @example
+     * // Update or create a EmailVerification
+     * const emailVerification = await prisma.emailVerification.upsert({
+     *   create: {
+     *     // ... data to create a EmailVerification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailVerification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailVerificationUpsertArgs>(args: SelectSubset<T, EmailVerificationUpsertArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmailVerifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationCountArgs} args - Arguments to filter EmailVerifications to count.
+     * @example
+     * // Count the number of EmailVerifications
+     * const count = await prisma.emailVerification.count({
+     *   where: {
+     *     // ... the filter for the EmailVerifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailVerificationCountArgs>(
+      args?: Subset<T, EmailVerificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailVerificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailVerification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailVerificationAggregateArgs>(args: Subset<T, EmailVerificationAggregateArgs>): Prisma.PrismaPromise<GetEmailVerificationAggregateType<T>>
+
+    /**
+     * Group by EmailVerification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailVerificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailVerificationGroupByArgs['orderBy'] }
+        : { orderBy?: EmailVerificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailVerificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailVerificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailVerification model
+   */
+  readonly fields: EmailVerificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailVerification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailVerificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailVerification model
+   */
+  interface EmailVerificationFieldRefs {
+    readonly id: FieldRef<"EmailVerification", 'String'>
+    readonly userId: FieldRef<"EmailVerification", 'String'>
+    readonly token: FieldRef<"EmailVerification", 'String'>
+    readonly expiresAt: FieldRef<"EmailVerification", 'DateTime'>
+    readonly usedAt: FieldRef<"EmailVerification", 'DateTime'>
+    readonly createdAt: FieldRef<"EmailVerification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailVerification findUnique
+   */
+  export type EmailVerificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification findUniqueOrThrow
+   */
+  export type EmailVerificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification findFirst
+   */
+  export type EmailVerificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerifications.
+     */
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification findFirstOrThrow
+   */
+  export type EmailVerificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerifications.
+     */
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification findMany
+   */
+  export type EmailVerificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerifications to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification create
+   */
+  export type EmailVerificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EmailVerification.
+     */
+    data: XOR<EmailVerificationCreateInput, EmailVerificationUncheckedCreateInput>
+  }
+
+  /**
+   * EmailVerification createMany
+   */
+  export type EmailVerificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailVerifications.
+     */
+    data: EmailVerificationCreateManyInput | EmailVerificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailVerification createManyAndReturn
+   */
+  export type EmailVerificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmailVerifications.
+     */
+    data: EmailVerificationCreateManyInput | EmailVerificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerification update
+   */
+  export type EmailVerificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EmailVerification.
+     */
+    data: XOR<EmailVerificationUpdateInput, EmailVerificationUncheckedUpdateInput>
+    /**
+     * Choose, which EmailVerification to update.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification updateMany
+   */
+  export type EmailVerificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailVerifications.
+     */
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerifications to update
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerification updateManyAndReturn
+   */
+  export type EmailVerificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * The data used to update EmailVerifications.
+     */
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerifications to update
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerification upsert
+   */
+  export type EmailVerificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EmailVerification to update in case it exists.
+     */
+    where: EmailVerificationWhereUniqueInput
+    /**
+     * In case the EmailVerification found by the `where` argument doesn't exist, create a new EmailVerification with this data.
+     */
+    create: XOR<EmailVerificationCreateInput, EmailVerificationUncheckedCreateInput>
+    /**
+     * In case the EmailVerification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailVerificationUpdateInput, EmailVerificationUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailVerification delete
+   */
+  export type EmailVerificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter which EmailVerification to delete.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification deleteMany
+   */
+  export type EmailVerificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerifications to delete
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerification without action
+   */
+  export type EmailVerificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
   }
 
 
@@ -4912,31 +14297,15 @@ export namespace Prisma {
 
   export type AggregateSessionNote = {
     _count: SessionNoteCountAggregateOutputType | null
-    _avg: SessionNoteAvgAggregateOutputType | null
-    _sum: SessionNoteSumAggregateOutputType | null
     _min: SessionNoteMinAggregateOutputType | null
     _max: SessionNoteMaxAggregateOutputType | null
   }
 
-  export type SessionNoteAvgAggregateOutputType = {
-    id: number | null
-    sessionId: number | null
-    psychologistId: number | null
-    patientId: number | null
-  }
-
-  export type SessionNoteSumAggregateOutputType = {
-    id: number | null
-    sessionId: number | null
-    psychologistId: number | null
-    patientId: number | null
-  }
-
   export type SessionNoteMinAggregateOutputType = {
-    id: number | null
-    sessionId: number | null
-    psychologistId: number | null
-    patientId: number | null
+    id: string | null
+    psychologistProfileId: string | null
+    userId: string | null
+    scheduleId: string | null
     subjective: string | null
     objective: string | null
     assessment: string | null
@@ -4950,10 +14319,10 @@ export namespace Prisma {
   }
 
   export type SessionNoteMaxAggregateOutputType = {
-    id: number | null
-    sessionId: number | null
-    psychologistId: number | null
-    patientId: number | null
+    id: string | null
+    psychologistProfileId: string | null
+    userId: string | null
+    scheduleId: string | null
     subjective: string | null
     objective: string | null
     assessment: string | null
@@ -4968,9 +14337,9 @@ export namespace Prisma {
 
   export type SessionNoteCountAggregateOutputType = {
     id: number
-    sessionId: number
-    psychologistId: number
-    patientId: number
+    psychologistProfileId: number
+    userId: number
+    scheduleId: number
     subjective: number
     objective: number
     assessment: number
@@ -4986,25 +14355,11 @@ export namespace Prisma {
   }
 
 
-  export type SessionNoteAvgAggregateInputType = {
-    id?: true
-    sessionId?: true
-    psychologistId?: true
-    patientId?: true
-  }
-
-  export type SessionNoteSumAggregateInputType = {
-    id?: true
-    sessionId?: true
-    psychologistId?: true
-    patientId?: true
-  }
-
   export type SessionNoteMinAggregateInputType = {
     id?: true
-    sessionId?: true
-    psychologistId?: true
-    patientId?: true
+    psychologistProfileId?: true
+    userId?: true
+    scheduleId?: true
     subjective?: true
     objective?: true
     assessment?: true
@@ -5019,9 +14374,9 @@ export namespace Prisma {
 
   export type SessionNoteMaxAggregateInputType = {
     id?: true
-    sessionId?: true
-    psychologistId?: true
-    patientId?: true
+    psychologistProfileId?: true
+    userId?: true
+    scheduleId?: true
     subjective?: true
     objective?: true
     assessment?: true
@@ -5036,9 +14391,9 @@ export namespace Prisma {
 
   export type SessionNoteCountAggregateInputType = {
     id?: true
-    sessionId?: true
-    psychologistId?: true
-    patientId?: true
+    psychologistProfileId?: true
+    userId?: true
+    scheduleId?: true
     subjective?: true
     objective?: true
     assessment?: true
@@ -5091,18 +14446,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: SessionNoteAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SessionNoteSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: SessionNoteMinAggregateInputType
@@ -5133,17 +14476,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SessionNoteCountAggregateInputType | true
-    _avg?: SessionNoteAvgAggregateInputType
-    _sum?: SessionNoteSumAggregateInputType
     _min?: SessionNoteMinAggregateInputType
     _max?: SessionNoteMaxAggregateInputType
   }
 
   export type SessionNoteGroupByOutputType = {
-    id: number
-    sessionId: number
-    psychologistId: number
-    patientId: number
+    id: string
+    psychologistProfileId: string
+    userId: string
+    scheduleId: string | null
     subjective: string | null
     objective: string | null
     assessment: string | null
@@ -5156,8 +14497,6 @@ export namespace Prisma {
     updatedAt: Date
     deletedAt: Date | null
     _count: SessionNoteCountAggregateOutputType | null
-    _avg: SessionNoteAvgAggregateOutputType | null
-    _sum: SessionNoteSumAggregateOutputType | null
     _min: SessionNoteMinAggregateOutputType | null
     _max: SessionNoteMaxAggregateOutputType | null
   }
@@ -5178,9 +14517,9 @@ export namespace Prisma {
 
   export type SessionNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
-    psychologistId?: boolean
-    patientId?: boolean
+    psychologistProfileId?: boolean
+    userId?: boolean
+    scheduleId?: boolean
     subjective?: boolean
     objective?: boolean
     assessment?: boolean
@@ -5192,16 +14531,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["sessionNote"]>
 
   export type SessionNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
-    psychologistId?: boolean
-    patientId?: boolean
+    psychologistProfileId?: boolean
+    userId?: boolean
+    scheduleId?: boolean
     subjective?: boolean
     objective?: boolean
     assessment?: boolean
@@ -5213,16 +14552,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["sessionNote"]>
 
   export type SessionNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionId?: boolean
-    psychologistId?: boolean
-    patientId?: boolean
+    psychologistProfileId?: boolean
+    userId?: boolean
+    scheduleId?: boolean
     subjective?: boolean
     objective?: boolean
     assessment?: boolean
@@ -5234,16 +14573,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }, ExtArgs["result"]["sessionNote"]>
 
   export type SessionNoteSelectScalar = {
     id?: boolean
-    sessionId?: boolean
-    psychologistId?: boolean
-    patientId?: boolean
+    psychologistProfileId?: boolean
+    userId?: boolean
+    scheduleId?: boolean
     subjective?: boolean
     objective?: boolean
     assessment?: boolean
@@ -5257,35 +14596,35 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type SessionNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionId" | "psychologistId" | "patientId" | "subjective" | "objective" | "assessment" | "plan" | "riskLevel" | "followUpDate" | "nextSessionRecommendation" | "tags" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["sessionNote"]>
+  export type SessionNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "psychologistProfileId" | "userId" | "scheduleId" | "subjective" | "objective" | "assessment" | "plan" | "riskLevel" | "followUpDate" | "nextSessionRecommendation" | "tags" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["sessionNote"]>
   export type SessionNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }
   export type SessionNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }
   export type SessionNoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    session?: boolean | SessionDefaultArgs<ExtArgs>
-    psychologist?: boolean | PsychologistDefaultArgs<ExtArgs>
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    psychologistProfile?: boolean | PsychologistProfileDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    schedule?: boolean | SessionNote$scheduleArgs<ExtArgs>
   }
 
   export type $SessionNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SessionNote"
     objects: {
-      session: Prisma.$SessionPayload<ExtArgs>
-      psychologist: Prisma.$PsychologistPayload<ExtArgs>
-      patient: Prisma.$UserPayload<ExtArgs>
+      psychologistProfile: Prisma.$PsychologistProfilePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      schedule: Prisma.$SchedulePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      sessionId: number
-      psychologistId: number
-      patientId: number
+      id: string
+      psychologistProfileId: string
+      userId: string
+      scheduleId: string | null
       subjective: string | null
       objective: string | null
       assessment: string | null
@@ -5691,9 +15030,9 @@ export namespace Prisma {
    */
   export interface Prisma__SessionNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    session<T extends SessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SessionDefaultArgs<ExtArgs>>): Prisma__SessionClient<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    psychologist<T extends PsychologistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistDefaultArgs<ExtArgs>>): Prisma__PsychologistClient<$Result.GetResult<Prisma.$PsychologistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    patient<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    psychologistProfile<T extends PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PsychologistProfileDefaultArgs<ExtArgs>>): Prisma__PsychologistProfileClient<$Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    schedule<T extends SessionNote$scheduleArgs<ExtArgs> = {}>(args?: Subset<T, SessionNote$scheduleArgs<ExtArgs>>): Prisma__ScheduleClient<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5723,10 +15062,10 @@ export namespace Prisma {
    * Fields of the SessionNote model
    */
   interface SessionNoteFieldRefs {
-    readonly id: FieldRef<"SessionNote", 'Int'>
-    readonly sessionId: FieldRef<"SessionNote", 'Int'>
-    readonly psychologistId: FieldRef<"SessionNote", 'Int'>
-    readonly patientId: FieldRef<"SessionNote", 'Int'>
+    readonly id: FieldRef<"SessionNote", 'String'>
+    readonly psychologistProfileId: FieldRef<"SessionNote", 'String'>
+    readonly userId: FieldRef<"SessionNote", 'String'>
+    readonly scheduleId: FieldRef<"SessionNote", 'String'>
     readonly subjective: FieldRef<"SessionNote", 'String'>
     readonly objective: FieldRef<"SessionNote", 'String'>
     readonly assessment: FieldRef<"SessionNote", 'String'>
@@ -6134,6 +15473,25 @@ export namespace Prisma {
   }
 
   /**
+   * SessionNote.schedule
+   */
+  export type SessionNote$scheduleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Schedule
+     */
+    select?: ScheduleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Schedule
+     */
+    omit?: ScheduleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScheduleInclude<ExtArgs> | null
+    where?: ScheduleWhereInput
+  }
+
+  /**
    * SessionNote without action
    */
   export type SessionNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6149,1078 +15507,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SessionNoteInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model AuditLog
-   */
-
-  export type AggregateAuditLog = {
-    _count: AuditLogCountAggregateOutputType | null
-    _avg: AuditLogAvgAggregateOutputType | null
-    _sum: AuditLogSumAggregateOutputType | null
-    _min: AuditLogMinAggregateOutputType | null
-    _max: AuditLogMaxAggregateOutputType | null
-  }
-
-  export type AuditLogAvgAggregateOutputType = {
-    id: number | null
-    actorUserId: number | null
-    entityId: number | null
-  }
-
-  export type AuditLogSumAggregateOutputType = {
-    id: number | null
-    actorUserId: number | null
-    entityId: number | null
-  }
-
-  export type AuditLogMinAggregateOutputType = {
-    id: number | null
-    actorUserId: number | null
-    actorRole: $Enums.Role | null
-    action: string | null
-    entity: string | null
-    entityId: number | null
-    createdAt: Date | null
-  }
-
-  export type AuditLogMaxAggregateOutputType = {
-    id: number | null
-    actorUserId: number | null
-    actorRole: $Enums.Role | null
-    action: string | null
-    entity: string | null
-    entityId: number | null
-    createdAt: Date | null
-  }
-
-  export type AuditLogCountAggregateOutputType = {
-    id: number
-    actorUserId: number
-    actorRole: number
-    action: number
-    entity: number
-    entityId: number
-    metadata: number
-    createdAt: number
-    _all: number
-  }
-
-
-  export type AuditLogAvgAggregateInputType = {
-    id?: true
-    actorUserId?: true
-    entityId?: true
-  }
-
-  export type AuditLogSumAggregateInputType = {
-    id?: true
-    actorUserId?: true
-    entityId?: true
-  }
-
-  export type AuditLogMinAggregateInputType = {
-    id?: true
-    actorUserId?: true
-    actorRole?: true
-    action?: true
-    entity?: true
-    entityId?: true
-    createdAt?: true
-  }
-
-  export type AuditLogMaxAggregateInputType = {
-    id?: true
-    actorUserId?: true
-    actorRole?: true
-    action?: true
-    entity?: true
-    entityId?: true
-    createdAt?: true
-  }
-
-  export type AuditLogCountAggregateInputType = {
-    id?: true
-    actorUserId?: true
-    actorRole?: true
-    action?: true
-    entity?: true
-    entityId?: true
-    metadata?: true
-    createdAt?: true
-    _all?: true
-  }
-
-  export type AuditLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which AuditLog to aggregate.
-     */
-    where?: AuditLogWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AuditLogs to fetch.
-     */
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: AuditLogWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AuditLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AuditLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned AuditLogs
-    **/
-    _count?: true | AuditLogCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: AuditLogAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AuditLogSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: AuditLogMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: AuditLogMaxAggregateInputType
-  }
-
-  export type GetAuditLogAggregateType<T extends AuditLogAggregateArgs> = {
-        [P in keyof T & keyof AggregateAuditLog]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAuditLog[P]>
-      : GetScalarType<T[P], AggregateAuditLog[P]>
-  }
-
-
-
-
-  export type AuditLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AuditLogWhereInput
-    orderBy?: AuditLogOrderByWithAggregationInput | AuditLogOrderByWithAggregationInput[]
-    by: AuditLogScalarFieldEnum[] | AuditLogScalarFieldEnum
-    having?: AuditLogScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: AuditLogCountAggregateInputType | true
-    _avg?: AuditLogAvgAggregateInputType
-    _sum?: AuditLogSumAggregateInputType
-    _min?: AuditLogMinAggregateInputType
-    _max?: AuditLogMaxAggregateInputType
-  }
-
-  export type AuditLogGroupByOutputType = {
-    id: number
-    actorUserId: number
-    actorRole: $Enums.Role
-    action: string
-    entity: string
-    entityId: number
-    metadata: JsonValue | null
-    createdAt: Date
-    _count: AuditLogCountAggregateOutputType | null
-    _avg: AuditLogAvgAggregateOutputType | null
-    _sum: AuditLogSumAggregateOutputType | null
-    _min: AuditLogMinAggregateOutputType | null
-    _max: AuditLogMaxAggregateOutputType | null
-  }
-
-  type GetAuditLogGroupByPayload<T extends AuditLogGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AuditLogGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AuditLogGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AuditLogGroupByOutputType[P]>
-            : GetScalarType<T[P], AuditLogGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type AuditLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    actorUserId?: boolean
-    actorRole?: boolean
-    action?: boolean
-    entity?: boolean
-    entityId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["auditLog"]>
-
-  export type AuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    actorUserId?: boolean
-    actorRole?: boolean
-    action?: boolean
-    entity?: boolean
-    entityId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["auditLog"]>
-
-  export type AuditLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    actorUserId?: boolean
-    actorRole?: boolean
-    action?: boolean
-    entity?: boolean
-    entityId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["auditLog"]>
-
-  export type AuditLogSelectScalar = {
-    id?: boolean
-    actorUserId?: boolean
-    actorRole?: boolean
-    action?: boolean
-    entity?: boolean
-    entityId?: boolean
-    metadata?: boolean
-    createdAt?: boolean
-  }
-
-  export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "actorUserId" | "actorRole" | "action" | "entity" | "entityId" | "metadata" | "createdAt", ExtArgs["result"]["auditLog"]>
-
-  export type $AuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "AuditLog"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      actorUserId: number
-      actorRole: $Enums.Role
-      action: string
-      entity: string
-      entityId: number
-      metadata: Prisma.JsonValue | null
-      createdAt: Date
-    }, ExtArgs["result"]["auditLog"]>
-    composites: {}
-  }
-
-  type AuditLogGetPayload<S extends boolean | null | undefined | AuditLogDefaultArgs> = $Result.GetResult<Prisma.$AuditLogPayload, S>
-
-  type AuditLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AuditLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AuditLogCountAggregateInputType | true
-    }
-
-  export interface AuditLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuditLog'], meta: { name: 'AuditLog' } }
-    /**
-     * Find zero or one AuditLog that matches the filter.
-     * @param {AuditLogFindUniqueArgs} args - Arguments to find a AuditLog
-     * @example
-     * // Get one AuditLog
-     * const auditLog = await prisma.auditLog.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AuditLogFindUniqueArgs>(args: SelectSubset<T, AuditLogFindUniqueArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one AuditLog that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AuditLogFindUniqueOrThrowArgs} args - Arguments to find a AuditLog
-     * @example
-     * // Get one AuditLog
-     * const auditLog = await prisma.auditLog.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AuditLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AuditLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first AuditLog that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogFindFirstArgs} args - Arguments to find a AuditLog
-     * @example
-     * // Get one AuditLog
-     * const auditLog = await prisma.auditLog.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AuditLogFindFirstArgs>(args?: SelectSubset<T, AuditLogFindFirstArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first AuditLog that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogFindFirstOrThrowArgs} args - Arguments to find a AuditLog
-     * @example
-     * // Get one AuditLog
-     * const auditLog = await prisma.auditLog.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AuditLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AuditLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more AuditLogs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all AuditLogs
-     * const auditLogs = await prisma.auditLog.findMany()
-     * 
-     * // Get first 10 AuditLogs
-     * const auditLogs = await prisma.auditLog.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const auditLogWithIdOnly = await prisma.auditLog.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends AuditLogFindManyArgs>(args?: SelectSubset<T, AuditLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a AuditLog.
-     * @param {AuditLogCreateArgs} args - Arguments to create a AuditLog.
-     * @example
-     * // Create one AuditLog
-     * const AuditLog = await prisma.auditLog.create({
-     *   data: {
-     *     // ... data to create a AuditLog
-     *   }
-     * })
-     * 
-     */
-    create<T extends AuditLogCreateArgs>(args: SelectSubset<T, AuditLogCreateArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many AuditLogs.
-     * @param {AuditLogCreateManyArgs} args - Arguments to create many AuditLogs.
-     * @example
-     * // Create many AuditLogs
-     * const auditLog = await prisma.auditLog.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends AuditLogCreateManyArgs>(args?: SelectSubset<T, AuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many AuditLogs and returns the data saved in the database.
-     * @param {AuditLogCreateManyAndReturnArgs} args - Arguments to create many AuditLogs.
-     * @example
-     * // Create many AuditLogs
-     * const auditLog = await prisma.auditLog.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many AuditLogs and only return the `id`
-     * const auditLogWithIdOnly = await prisma.auditLog.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a AuditLog.
-     * @param {AuditLogDeleteArgs} args - Arguments to delete one AuditLog.
-     * @example
-     * // Delete one AuditLog
-     * const AuditLog = await prisma.auditLog.delete({
-     *   where: {
-     *     // ... filter to delete one AuditLog
-     *   }
-     * })
-     * 
-     */
-    delete<T extends AuditLogDeleteArgs>(args: SelectSubset<T, AuditLogDeleteArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one AuditLog.
-     * @param {AuditLogUpdateArgs} args - Arguments to update one AuditLog.
-     * @example
-     * // Update one AuditLog
-     * const auditLog = await prisma.auditLog.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends AuditLogUpdateArgs>(args: SelectSubset<T, AuditLogUpdateArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more AuditLogs.
-     * @param {AuditLogDeleteManyArgs} args - Arguments to filter AuditLogs to delete.
-     * @example
-     * // Delete a few AuditLogs
-     * const { count } = await prisma.auditLog.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends AuditLogDeleteManyArgs>(args?: SelectSubset<T, AuditLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more AuditLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many AuditLogs
-     * const auditLog = await prisma.auditLog.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends AuditLogUpdateManyArgs>(args: SelectSubset<T, AuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more AuditLogs and returns the data updated in the database.
-     * @param {AuditLogUpdateManyAndReturnArgs} args - Arguments to update many AuditLogs.
-     * @example
-     * // Update many AuditLogs
-     * const auditLog = await prisma.auditLog.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more AuditLogs and only return the `id`
-     * const auditLogWithIdOnly = await prisma.auditLog.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AuditLogUpdateManyAndReturnArgs>(args: SelectSubset<T, AuditLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one AuditLog.
-     * @param {AuditLogUpsertArgs} args - Arguments to update or create a AuditLog.
-     * @example
-     * // Update or create a AuditLog
-     * const auditLog = await prisma.auditLog.upsert({
-     *   create: {
-     *     // ... data to create a AuditLog
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the AuditLog we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AuditLogUpsertArgs>(args: SelectSubset<T, AuditLogUpsertArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of AuditLogs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogCountArgs} args - Arguments to filter AuditLogs to count.
-     * @example
-     * // Count the number of AuditLogs
-     * const count = await prisma.auditLog.count({
-     *   where: {
-     *     // ... the filter for the AuditLogs we want to count
-     *   }
-     * })
-    **/
-    count<T extends AuditLogCountArgs>(
-      args?: Subset<T, AuditLogCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AuditLogCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a AuditLog.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AuditLogAggregateArgs>(args: Subset<T, AuditLogAggregateArgs>): Prisma.PrismaPromise<GetAuditLogAggregateType<T>>
-
-    /**
-     * Group by AuditLog.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuditLogGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AuditLogGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AuditLogGroupByArgs['orderBy'] }
-        : { orderBy?: AuditLogGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AuditLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuditLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the AuditLog model
-   */
-  readonly fields: AuditLogFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for AuditLog.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the AuditLog model
-   */
-  interface AuditLogFieldRefs {
-    readonly id: FieldRef<"AuditLog", 'Int'>
-    readonly actorUserId: FieldRef<"AuditLog", 'Int'>
-    readonly actorRole: FieldRef<"AuditLog", 'Role'>
-    readonly action: FieldRef<"AuditLog", 'String'>
-    readonly entity: FieldRef<"AuditLog", 'String'>
-    readonly entityId: FieldRef<"AuditLog", 'Int'>
-    readonly metadata: FieldRef<"AuditLog", 'Json'>
-    readonly createdAt: FieldRef<"AuditLog", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * AuditLog findUnique
-   */
-  export type AuditLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter, which AuditLog to fetch.
-     */
-    where: AuditLogWhereUniqueInput
-  }
-
-  /**
-   * AuditLog findUniqueOrThrow
-   */
-  export type AuditLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter, which AuditLog to fetch.
-     */
-    where: AuditLogWhereUniqueInput
-  }
-
-  /**
-   * AuditLog findFirst
-   */
-  export type AuditLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter, which AuditLog to fetch.
-     */
-    where?: AuditLogWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AuditLogs to fetch.
-     */
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for AuditLogs.
-     */
-    cursor?: AuditLogWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AuditLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AuditLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of AuditLogs.
-     */
-    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
-  }
-
-  /**
-   * AuditLog findFirstOrThrow
-   */
-  export type AuditLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter, which AuditLog to fetch.
-     */
-    where?: AuditLogWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AuditLogs to fetch.
-     */
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for AuditLogs.
-     */
-    cursor?: AuditLogWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AuditLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AuditLogs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of AuditLogs.
-     */
-    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
-  }
-
-  /**
-   * AuditLog findMany
-   */
-  export type AuditLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter, which AuditLogs to fetch.
-     */
-    where?: AuditLogWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AuditLogs to fetch.
-     */
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing AuditLogs.
-     */
-    cursor?: AuditLogWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AuditLogs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AuditLogs.
-     */
-    skip?: number
-    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
-  }
-
-  /**
-   * AuditLog create
-   */
-  export type AuditLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data needed to create a AuditLog.
-     */
-    data: XOR<AuditLogCreateInput, AuditLogUncheckedCreateInput>
-  }
-
-  /**
-   * AuditLog createMany
-   */
-  export type AuditLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many AuditLogs.
-     */
-    data: AuditLogCreateManyInput | AuditLogCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * AuditLog createManyAndReturn
-   */
-  export type AuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data used to create many AuditLogs.
-     */
-    data: AuditLogCreateManyInput | AuditLogCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * AuditLog update
-   */
-  export type AuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data needed to update a AuditLog.
-     */
-    data: XOR<AuditLogUpdateInput, AuditLogUncheckedUpdateInput>
-    /**
-     * Choose, which AuditLog to update.
-     */
-    where: AuditLogWhereUniqueInput
-  }
-
-  /**
-   * AuditLog updateMany
-   */
-  export type AuditLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update AuditLogs.
-     */
-    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyInput>
-    /**
-     * Filter which AuditLogs to update
-     */
-    where?: AuditLogWhereInput
-    /**
-     * Limit how many AuditLogs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * AuditLog updateManyAndReturn
-   */
-  export type AuditLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data used to update AuditLogs.
-     */
-    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyInput>
-    /**
-     * Filter which AuditLogs to update
-     */
-    where?: AuditLogWhereInput
-    /**
-     * Limit how many AuditLogs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * AuditLog upsert
-   */
-  export type AuditLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The filter to search for the AuditLog to update in case it exists.
-     */
-    where: AuditLogWhereUniqueInput
-    /**
-     * In case the AuditLog found by the `where` argument doesn't exist, create a new AuditLog with this data.
-     */
-    create: XOR<AuditLogCreateInput, AuditLogUncheckedCreateInput>
-    /**
-     * In case the AuditLog was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<AuditLogUpdateInput, AuditLogUncheckedUpdateInput>
-  }
-
-  /**
-   * AuditLog delete
-   */
-  export type AuditLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Filter which AuditLog to delete.
-     */
-    where: AuditLogWhereUniqueInput
-  }
-
-  /**
-   * AuditLog deleteMany
-   */
-  export type AuditLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which AuditLogs to delete
-     */
-    where?: AuditLogWhereInput
-    /**
-     * Limit how many AuditLogs to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * AuditLog without action
-   */
-  export type AuditLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
   }
 
 
@@ -7241,9 +15527,10 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
-    fullName: 'fullName',
-    phone: 'phone',
     role: 'role',
+    isEmailVerified: 'isEmailVerified',
+    isProfileComplete: 'isProfileComplete',
+    isFirstLogin: 'isFirstLogin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7251,41 +15538,135 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-  export const PsychologistScalarFieldEnum: {
+  export const AuthProviderScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    education: 'education',
-    experience: 'experience',
-    therapyApproach: 'therapyApproach',
-    photoUrl: 'photoUrl',
+    provider: 'provider',
+    providerId: 'providerId',
+    passwordHash: 'passwordHash',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type PsychologistScalarFieldEnum = (typeof PsychologistScalarFieldEnum)[keyof typeof PsychologistScalarFieldEnum]
+  export type AuthProviderScalarFieldEnum = (typeof AuthProviderScalarFieldEnum)[keyof typeof AuthProviderScalarFieldEnum]
 
 
-  export const SessionScalarFieldEnum: {
+  export const PasswordResetScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    expiresAt: 'expiresAt',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type PasswordResetScalarFieldEnum = (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum]
+
+
+  export const UserProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    fullName: 'fullName',
+    birthday: 'birthday',
+    gender: 'gender',
+    country: 'country',
+    city: 'city',
+    fullAddress: 'fullAddress',
+    phone: 'phone'
+  };
+
+  export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+  export const PsychologistProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    fullName: 'fullName',
+    sipp: 'sipp',
+    str: 'str',
+    about: 'about',
+    avatarUrl: 'avatarUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PsychologistProfileScalarFieldEnum = (typeof PsychologistProfileScalarFieldEnum)[keyof typeof PsychologistProfileScalarFieldEnum]
+
+
+  export const EducationScalarFieldEnum: {
     id: 'id',
     psychologistId: 'psychologistId',
-    patientId: 'patientId',
-    date: 'date',
-    startTime: 'startTime',
-    endTime: 'endTime',
-    status: 'status',
-    deletedAt: 'deletedAt',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    degree: 'degree',
+    institution: 'institution',
+    city: 'city',
+    startYear: 'startYear',
+    endYear: 'endYear',
+    createdAt: 'createdAt'
   };
 
-  export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+  export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
+
+
+  export const ExperienceScalarFieldEnum: {
+    id: 'id',
+    psychologistId: 'psychologistId',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type ExperienceScalarFieldEnum = (typeof ExperienceScalarFieldEnum)[keyof typeof ExperienceScalarFieldEnum]
+
+
+  export const SpecializationScalarFieldEnum: {
+    id: 'id',
+    psychologistId: 'psychologistId',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type SpecializationScalarFieldEnum = (typeof SpecializationScalarFieldEnum)[keyof typeof SpecializationScalarFieldEnum]
+
+
+  export const ExpertiseScalarFieldEnum: {
+    id: 'id',
+    psychologistId: 'psychologistId',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type ExpertiseScalarFieldEnum = (typeof ExpertiseScalarFieldEnum)[keyof typeof ExpertiseScalarFieldEnum]
+
+
+  export const ScheduleScalarFieldEnum: {
+    id: 'id',
+    psychologistId: 'psychologistId',
+    date: 'date',
+    startTime: 'startTime',
+    duration: 'duration',
+    isAvailable: 'isAvailable',
+    createdAt: 'createdAt'
+  };
+
+  export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+
+
+  export const EmailVerificationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    expiresAt: 'expiresAt',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type EmailVerificationScalarFieldEnum = (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum]
 
 
   export const SessionNoteScalarFieldEnum: {
     id: 'id',
-    sessionId: 'sessionId',
-    psychologistId: 'psychologistId',
-    patientId: 'patientId',
+    psychologistProfileId: 'psychologistProfileId',
+    userId: 'userId',
+    scheduleId: 'scheduleId',
     subjective: 'subjective',
     objective: 'objective',
     assessment: 'assessment',
@@ -7302,34 +15683,12 @@ export namespace Prisma {
   export type SessionNoteScalarFieldEnum = (typeof SessionNoteScalarFieldEnum)[keyof typeof SessionNoteScalarFieldEnum]
 
 
-  export const AuditLogScalarFieldEnum: {
-    id: 'id',
-    actorUserId: 'actorUserId',
-    actorRole: 'actorRole',
-    action: 'action',
-    entity: 'entity',
-    entityId: 'entityId',
-    metadata: 'metadata',
-    createdAt: 'createdAt'
-  };
-
-  export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
-
-
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-  export const NullableJsonNullValueInput: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull
-  };
-
-  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -7348,32 +15707,9 @@ export namespace Prisma {
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
   /**
    * Field references
    */
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
 
 
   /**
@@ -7405,6 +15741,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -7419,6 +15762,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Gender'
+   */
+  export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+  /**
+   * Reference to a field of type 'Gender[]'
+   */
+  export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'RiskLevel'
    */
   export type EnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel'>
@@ -7429,20 +15800,6 @@ export namespace Prisma {
    * Reference to a field of type 'RiskLevel[]'
    */
   export type ListEnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -7467,249 +15824,741 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: IntFilter<"User"> | number
+    id?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
-    fullName?: StringFilter<"User"> | string
-    phone?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isEmailVerified?: BoolFilter<"User"> | boolean
+    isProfileComplete?: BoolFilter<"User"> | boolean
+    isFirstLogin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    psychologist?: XOR<PsychologistNullableScalarRelationFilter, PsychologistWhereInput> | null
-    sessionsAsPatient?: SessionListRelationFilter
-    notesAsPatient?: SessionNoteListRelationFilter
+    authProvider?: XOR<AuthProviderNullableScalarRelationFilter, AuthProviderWhereInput> | null
+    passwordResets?: PasswordResetListRelationFilter
+    userProfile?: XOR<UserProfileNullableScalarRelationFilter, UserProfileWhereInput> | null
+    psychologistProfile?: XOR<PsychologistProfileNullableScalarRelationFilter, PsychologistProfileWhereInput> | null
+    emailVerifications?: EmailVerificationListRelationFilter
+    sessionNotes?: SessionNoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
-    phone?: SortOrderInput | SortOrder
     role?: SortOrder
+    isEmailVerified?: SortOrder
+    isProfileComplete?: SortOrder
+    isFirstLogin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    psychologist?: PsychologistOrderByWithRelationInput
-    sessionsAsPatient?: SessionOrderByRelationAggregateInput
-    notesAsPatient?: SessionNoteOrderByRelationAggregateInput
+    authProvider?: AuthProviderOrderByWithRelationInput
+    passwordResets?: PasswordResetOrderByRelationAggregateInput
+    userProfile?: UserProfileOrderByWithRelationInput
+    psychologistProfile?: PsychologistProfileOrderByWithRelationInput
+    emailVerifications?: EmailVerificationOrderByRelationAggregateInput
+    sessionNotes?: SessionNoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    fullName?: StringFilter<"User"> | string
-    phone?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isEmailVerified?: BoolFilter<"User"> | boolean
+    isProfileComplete?: BoolFilter<"User"> | boolean
+    isFirstLogin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    psychologist?: XOR<PsychologistNullableScalarRelationFilter, PsychologistWhereInput> | null
-    sessionsAsPatient?: SessionListRelationFilter
-    notesAsPatient?: SessionNoteListRelationFilter
+    authProvider?: XOR<AuthProviderNullableScalarRelationFilter, AuthProviderWhereInput> | null
+    passwordResets?: PasswordResetListRelationFilter
+    userProfile?: XOR<UserProfileNullableScalarRelationFilter, UserProfileWhereInput> | null
+    psychologistProfile?: XOR<PsychologistProfileNullableScalarRelationFilter, PsychologistProfileWhereInput> | null
+    emailVerifications?: EmailVerificationListRelationFilter
+    sessionNotes?: SessionNoteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
-    phone?: SortOrderInput | SortOrder
     role?: SortOrder
+    isEmailVerified?: SortOrder
+    isProfileComplete?: SortOrder
+    isFirstLogin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
-    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
-    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"User"> | number
+    id?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
-    fullName?: StringWithAggregatesFilter<"User"> | string
-    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    isEmailVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    isProfileComplete?: BoolWithAggregatesFilter<"User"> | boolean
+    isFirstLogin?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
-  export type PsychologistWhereInput = {
-    AND?: PsychologistWhereInput | PsychologistWhereInput[]
-    OR?: PsychologistWhereInput[]
-    NOT?: PsychologistWhereInput | PsychologistWhereInput[]
-    id?: IntFilter<"Psychologist"> | number
-    userId?: IntFilter<"Psychologist"> | number
-    education?: StringNullableFilter<"Psychologist"> | string | null
-    experience?: StringNullableFilter<"Psychologist"> | string | null
-    therapyApproach?: StringNullableFilter<"Psychologist"> | string | null
-    photoUrl?: StringNullableFilter<"Psychologist"> | string | null
-    createdAt?: DateTimeFilter<"Psychologist"> | Date | string
-    updatedAt?: DateTimeFilter<"Psychologist"> | Date | string
+  export type AuthProviderWhereInput = {
+    AND?: AuthProviderWhereInput | AuthProviderWhereInput[]
+    OR?: AuthProviderWhereInput[]
+    NOT?: AuthProviderWhereInput | AuthProviderWhereInput[]
+    id?: StringFilter<"AuthProvider"> | string
+    userId?: StringFilter<"AuthProvider"> | string
+    provider?: StringFilter<"AuthProvider"> | string
+    providerId?: StringNullableFilter<"AuthProvider"> | string | null
+    passwordHash?: StringNullableFilter<"AuthProvider"> | string | null
+    createdAt?: DateTimeFilter<"AuthProvider"> | Date | string
+    updatedAt?: DateTimeFilter<"AuthProvider"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    sessions?: SessionListRelationFilter
-    notes?: SessionNoteListRelationFilter
   }
 
-  export type PsychologistOrderByWithRelationInput = {
+  export type AuthProviderOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    education?: SortOrderInput | SortOrder
-    experience?: SortOrderInput | SortOrder
-    therapyApproach?: SortOrderInput | SortOrder
-    photoUrl?: SortOrderInput | SortOrder
+    provider?: SortOrder
+    providerId?: SortOrderInput | SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    sessions?: SessionOrderByRelationAggregateInput
-    notes?: SessionNoteOrderByRelationAggregateInput
   }
 
-  export type PsychologistWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    userId?: number
-    AND?: PsychologistWhereInput | PsychologistWhereInput[]
-    OR?: PsychologistWhereInput[]
-    NOT?: PsychologistWhereInput | PsychologistWhereInput[]
-    education?: StringNullableFilter<"Psychologist"> | string | null
-    experience?: StringNullableFilter<"Psychologist"> | string | null
-    therapyApproach?: StringNullableFilter<"Psychologist"> | string | null
-    photoUrl?: StringNullableFilter<"Psychologist"> | string | null
-    createdAt?: DateTimeFilter<"Psychologist"> | Date | string
-    updatedAt?: DateTimeFilter<"Psychologist"> | Date | string
+  export type AuthProviderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    provider_providerId?: AuthProviderProviderProviderIdCompoundUniqueInput
+    AND?: AuthProviderWhereInput | AuthProviderWhereInput[]
+    OR?: AuthProviderWhereInput[]
+    NOT?: AuthProviderWhereInput | AuthProviderWhereInput[]
+    provider?: StringFilter<"AuthProvider"> | string
+    providerId?: StringNullableFilter<"AuthProvider"> | string | null
+    passwordHash?: StringNullableFilter<"AuthProvider"> | string | null
+    createdAt?: DateTimeFilter<"AuthProvider"> | Date | string
+    updatedAt?: DateTimeFilter<"AuthProvider"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    sessions?: SessionListRelationFilter
-    notes?: SessionNoteListRelationFilter
-  }, "id" | "userId">
+  }, "id" | "userId" | "provider_providerId">
 
-  export type PsychologistOrderByWithAggregationInput = {
+  export type AuthProviderOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    education?: SortOrderInput | SortOrder
-    experience?: SortOrderInput | SortOrder
-    therapyApproach?: SortOrderInput | SortOrder
-    photoUrl?: SortOrderInput | SortOrder
+    provider?: SortOrder
+    providerId?: SortOrderInput | SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: PsychologistCountOrderByAggregateInput
-    _avg?: PsychologistAvgOrderByAggregateInput
-    _max?: PsychologistMaxOrderByAggregateInput
-    _min?: PsychologistMinOrderByAggregateInput
-    _sum?: PsychologistSumOrderByAggregateInput
+    _count?: AuthProviderCountOrderByAggregateInput
+    _max?: AuthProviderMaxOrderByAggregateInput
+    _min?: AuthProviderMinOrderByAggregateInput
   }
 
-  export type PsychologistScalarWhereWithAggregatesInput = {
-    AND?: PsychologistScalarWhereWithAggregatesInput | PsychologistScalarWhereWithAggregatesInput[]
-    OR?: PsychologistScalarWhereWithAggregatesInput[]
-    NOT?: PsychologistScalarWhereWithAggregatesInput | PsychologistScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Psychologist"> | number
-    userId?: IntWithAggregatesFilter<"Psychologist"> | number
-    education?: StringNullableWithAggregatesFilter<"Psychologist"> | string | null
-    experience?: StringNullableWithAggregatesFilter<"Psychologist"> | string | null
-    therapyApproach?: StringNullableWithAggregatesFilter<"Psychologist"> | string | null
-    photoUrl?: StringNullableWithAggregatesFilter<"Psychologist"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Psychologist"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Psychologist"> | Date | string
+  export type AuthProviderScalarWhereWithAggregatesInput = {
+    AND?: AuthProviderScalarWhereWithAggregatesInput | AuthProviderScalarWhereWithAggregatesInput[]
+    OR?: AuthProviderScalarWhereWithAggregatesInput[]
+    NOT?: AuthProviderScalarWhereWithAggregatesInput | AuthProviderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AuthProvider"> | string
+    userId?: StringWithAggregatesFilter<"AuthProvider"> | string
+    provider?: StringWithAggregatesFilter<"AuthProvider"> | string
+    providerId?: StringNullableWithAggregatesFilter<"AuthProvider"> | string | null
+    passwordHash?: StringNullableWithAggregatesFilter<"AuthProvider"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AuthProvider"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AuthProvider"> | Date | string
   }
 
-  export type SessionWhereInput = {
-    AND?: SessionWhereInput | SessionWhereInput[]
-    OR?: SessionWhereInput[]
-    NOT?: SessionWhereInput | SessionWhereInput[]
-    id?: IntFilter<"Session"> | number
-    psychologistId?: IntFilter<"Session"> | number
-    patientId?: IntFilter<"Session"> | number
-    date?: DateTimeFilter<"Session"> | Date | string
-    startTime?: StringNullableFilter<"Session"> | string | null
-    endTime?: StringNullableFilter<"Session"> | string | null
-    status?: StringFilter<"Session"> | string
-    deletedAt?: DateTimeNullableFilter<"Session"> | Date | string | null
-    createdAt?: DateTimeFilter<"Session"> | Date | string
-    updatedAt?: DateTimeFilter<"Session"> | Date | string
-    psychologist?: XOR<PsychologistScalarRelationFilter, PsychologistWhereInput>
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
-    note?: XOR<SessionNoteNullableScalarRelationFilter, SessionNoteWhereInput> | null
+  export type PasswordResetWhereInput = {
+    AND?: PasswordResetWhereInput | PasswordResetWhereInput[]
+    OR?: PasswordResetWhereInput[]
+    NOT?: PasswordResetWhereInput | PasswordResetWhereInput[]
+    id?: StringFilter<"PasswordReset"> | string
+    userId?: StringFilter<"PasswordReset"> | string
+    token?: StringFilter<"PasswordReset"> | string
+    expiresAt?: DateTimeFilter<"PasswordReset"> | Date | string
+    usedAt?: DateTimeNullableFilter<"PasswordReset"> | Date | string | null
+    createdAt?: DateTimeFilter<"PasswordReset"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
-  export type SessionOrderByWithRelationInput = {
+  export type PasswordResetOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PasswordResetWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: PasswordResetWhereInput | PasswordResetWhereInput[]
+    OR?: PasswordResetWhereInput[]
+    NOT?: PasswordResetWhereInput | PasswordResetWhereInput[]
+    userId?: StringFilter<"PasswordReset"> | string
+    expiresAt?: DateTimeFilter<"PasswordReset"> | Date | string
+    usedAt?: DateTimeNullableFilter<"PasswordReset"> | Date | string | null
+    createdAt?: DateTimeFilter<"PasswordReset"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "token">
+
+  export type PasswordResetOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: PasswordResetCountOrderByAggregateInput
+    _max?: PasswordResetMaxOrderByAggregateInput
+    _min?: PasswordResetMinOrderByAggregateInput
+  }
+
+  export type PasswordResetScalarWhereWithAggregatesInput = {
+    AND?: PasswordResetScalarWhereWithAggregatesInput | PasswordResetScalarWhereWithAggregatesInput[]
+    OR?: PasswordResetScalarWhereWithAggregatesInput[]
+    NOT?: PasswordResetScalarWhereWithAggregatesInput | PasswordResetScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordReset"> | string
+    userId?: StringWithAggregatesFilter<"PasswordReset"> | string
+    token?: StringWithAggregatesFilter<"PasswordReset"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"PasswordReset"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"PasswordReset"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordReset"> | Date | string
+  }
+
+  export type UserProfileWhereInput = {
+    AND?: UserProfileWhereInput | UserProfileWhereInput[]
+    OR?: UserProfileWhereInput[]
+    NOT?: UserProfileWhereInput | UserProfileWhereInput[]
+    id?: StringFilter<"UserProfile"> | string
+    userId?: StringFilter<"UserProfile"> | string
+    fullName?: StringNullableFilter<"UserProfile"> | string | null
+    birthday?: DateTimeNullableFilter<"UserProfile"> | Date | string | null
+    gender?: EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
+    country?: StringNullableFilter<"UserProfile"> | string | null
+    city?: StringNullableFilter<"UserProfile"> | string | null
+    fullAddress?: StringNullableFilter<"UserProfile"> | string | null
+    phone?: StringNullableFilter<"UserProfile"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrderInput | SortOrder
+    birthday?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    fullAddress?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserProfileWhereInput | UserProfileWhereInput[]
+    OR?: UserProfileWhereInput[]
+    NOT?: UserProfileWhereInput | UserProfileWhereInput[]
+    fullName?: StringNullableFilter<"UserProfile"> | string | null
+    birthday?: DateTimeNullableFilter<"UserProfile"> | Date | string | null
+    gender?: EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
+    country?: StringNullableFilter<"UserProfile"> | string | null
+    city?: StringNullableFilter<"UserProfile"> | string | null
+    fullAddress?: StringNullableFilter<"UserProfile"> | string | null
+    phone?: StringNullableFilter<"UserProfile"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type UserProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrderInput | SortOrder
+    birthday?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    fullAddress?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    _count?: UserProfileCountOrderByAggregateInput
+    _max?: UserProfileMaxOrderByAggregateInput
+    _min?: UserProfileMinOrderByAggregateInput
+  }
+
+  export type UserProfileScalarWhereWithAggregatesInput = {
+    AND?: UserProfileScalarWhereWithAggregatesInput | UserProfileScalarWhereWithAggregatesInput[]
+    OR?: UserProfileScalarWhereWithAggregatesInput[]
+    NOT?: UserProfileScalarWhereWithAggregatesInput | UserProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserProfile"> | string
+    userId?: StringWithAggregatesFilter<"UserProfile"> | string
+    fullName?: StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+    birthday?: DateTimeNullableWithAggregatesFilter<"UserProfile"> | Date | string | null
+    gender?: EnumGenderNullableWithAggregatesFilter<"UserProfile"> | $Enums.Gender | null
+    country?: StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+    city?: StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+    fullAddress?: StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  }
+
+  export type PsychologistProfileWhereInput = {
+    AND?: PsychologistProfileWhereInput | PsychologistProfileWhereInput[]
+    OR?: PsychologistProfileWhereInput[]
+    NOT?: PsychologistProfileWhereInput | PsychologistProfileWhereInput[]
+    id?: StringFilter<"PsychologistProfile"> | string
+    userId?: StringFilter<"PsychologistProfile"> | string
+    fullName?: StringFilter<"PsychologistProfile"> | string
+    sipp?: StringFilter<"PsychologistProfile"> | string
+    str?: StringFilter<"PsychologistProfile"> | string
+    about?: StringFilter<"PsychologistProfile"> | string
+    avatarUrl?: StringNullableFilter<"PsychologistProfile"> | string | null
+    createdAt?: DateTimeFilter<"PsychologistProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"PsychologistProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    educations?: EducationListRelationFilter
+    experiences?: ExperienceListRelationFilter
+    specializations?: SpecializationListRelationFilter
+    expertises?: ExpertiseListRelationFilter
+    schedules?: ScheduleListRelationFilter
+    sessionNotes?: SessionNoteListRelationFilter
+  }
+
+  export type PsychologistProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    sipp?: SortOrder
+    str?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    educations?: EducationOrderByRelationAggregateInput
+    experiences?: ExperienceOrderByRelationAggregateInput
+    specializations?: SpecializationOrderByRelationAggregateInput
+    expertises?: ExpertiseOrderByRelationAggregateInput
+    schedules?: ScheduleOrderByRelationAggregateInput
+    sessionNotes?: SessionNoteOrderByRelationAggregateInput
+  }
+
+  export type PsychologistProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: PsychologistProfileWhereInput | PsychologistProfileWhereInput[]
+    OR?: PsychologistProfileWhereInput[]
+    NOT?: PsychologistProfileWhereInput | PsychologistProfileWhereInput[]
+    fullName?: StringFilter<"PsychologistProfile"> | string
+    sipp?: StringFilter<"PsychologistProfile"> | string
+    str?: StringFilter<"PsychologistProfile"> | string
+    about?: StringFilter<"PsychologistProfile"> | string
+    avatarUrl?: StringNullableFilter<"PsychologistProfile"> | string | null
+    createdAt?: DateTimeFilter<"PsychologistProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"PsychologistProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    educations?: EducationListRelationFilter
+    experiences?: ExperienceListRelationFilter
+    specializations?: SpecializationListRelationFilter
+    expertises?: ExpertiseListRelationFilter
+    schedules?: ScheduleListRelationFilter
+    sessionNotes?: SessionNoteListRelationFilter
+  }, "id" | "userId">
+
+  export type PsychologistProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    sipp?: SortOrder
+    str?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PsychologistProfileCountOrderByAggregateInput
+    _max?: PsychologistProfileMaxOrderByAggregateInput
+    _min?: PsychologistProfileMinOrderByAggregateInput
+  }
+
+  export type PsychologistProfileScalarWhereWithAggregatesInput = {
+    AND?: PsychologistProfileScalarWhereWithAggregatesInput | PsychologistProfileScalarWhereWithAggregatesInput[]
+    OR?: PsychologistProfileScalarWhereWithAggregatesInput[]
+    NOT?: PsychologistProfileScalarWhereWithAggregatesInput | PsychologistProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    userId?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    fullName?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    sipp?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    str?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    about?: StringWithAggregatesFilter<"PsychologistProfile"> | string
+    avatarUrl?: StringNullableWithAggregatesFilter<"PsychologistProfile"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PsychologistProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PsychologistProfile"> | Date | string
+  }
+
+  export type EducationWhereInput = {
+    AND?: EducationWhereInput | EducationWhereInput[]
+    OR?: EducationWhereInput[]
+    NOT?: EducationWhereInput | EducationWhereInput[]
+    id?: StringFilter<"Education"> | string
+    psychologistId?: StringFilter<"Education"> | string
+    degree?: StringFilter<"Education"> | string
+    institution?: StringFilter<"Education"> | string
+    city?: StringFilter<"Education"> | string
+    startYear?: IntFilter<"Education"> | number
+    endYear?: IntFilter<"Education"> | number
+    createdAt?: DateTimeFilter<"Education"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }
+
+  export type EducationOrderByWithRelationInput = {
     id?: SortOrder
     psychologistId?: SortOrder
-    patientId?: SortOrder
-    date?: SortOrder
-    startTime?: SortOrderInput | SortOrder
-    endTime?: SortOrderInput | SortOrder
-    status?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    degree?: SortOrder
+    institution?: SortOrder
+    city?: SortOrder
+    startYear?: SortOrder
+    endYear?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    psychologist?: PsychologistOrderByWithRelationInput
-    patient?: UserOrderByWithRelationInput
-    note?: SessionNoteOrderByWithRelationInput
+    psychologist?: PsychologistProfileOrderByWithRelationInput
   }
 
-  export type SessionWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: SessionWhereInput | SessionWhereInput[]
-    OR?: SessionWhereInput[]
-    NOT?: SessionWhereInput | SessionWhereInput[]
-    psychologistId?: IntFilter<"Session"> | number
-    patientId?: IntFilter<"Session"> | number
-    date?: DateTimeFilter<"Session"> | Date | string
-    startTime?: StringNullableFilter<"Session"> | string | null
-    endTime?: StringNullableFilter<"Session"> | string | null
-    status?: StringFilter<"Session"> | string
-    deletedAt?: DateTimeNullableFilter<"Session"> | Date | string | null
-    createdAt?: DateTimeFilter<"Session"> | Date | string
-    updatedAt?: DateTimeFilter<"Session"> | Date | string
-    psychologist?: XOR<PsychologistScalarRelationFilter, PsychologistWhereInput>
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
-    note?: XOR<SessionNoteNullableScalarRelationFilter, SessionNoteWhereInput> | null
+  export type EducationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EducationWhereInput | EducationWhereInput[]
+    OR?: EducationWhereInput[]
+    NOT?: EducationWhereInput | EducationWhereInput[]
+    psychologistId?: StringFilter<"Education"> | string
+    degree?: StringFilter<"Education"> | string
+    institution?: StringFilter<"Education"> | string
+    city?: StringFilter<"Education"> | string
+    startYear?: IntFilter<"Education"> | number
+    endYear?: IntFilter<"Education"> | number
+    createdAt?: DateTimeFilter<"Education"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
   }, "id">
 
-  export type SessionOrderByWithAggregationInput = {
+  export type EducationOrderByWithAggregationInput = {
     id?: SortOrder
     psychologistId?: SortOrder
-    patientId?: SortOrder
-    date?: SortOrder
-    startTime?: SortOrderInput | SortOrder
-    endTime?: SortOrderInput | SortOrder
-    status?: SortOrder
-    deletedAt?: SortOrderInput | SortOrder
+    degree?: SortOrder
+    institution?: SortOrder
+    city?: SortOrder
+    startYear?: SortOrder
+    endYear?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: SessionCountOrderByAggregateInput
-    _avg?: SessionAvgOrderByAggregateInput
-    _max?: SessionMaxOrderByAggregateInput
-    _min?: SessionMinOrderByAggregateInput
-    _sum?: SessionSumOrderByAggregateInput
+    _count?: EducationCountOrderByAggregateInput
+    _avg?: EducationAvgOrderByAggregateInput
+    _max?: EducationMaxOrderByAggregateInput
+    _min?: EducationMinOrderByAggregateInput
+    _sum?: EducationSumOrderByAggregateInput
   }
 
-  export type SessionScalarWhereWithAggregatesInput = {
-    AND?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
-    OR?: SessionScalarWhereWithAggregatesInput[]
-    NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Session"> | number
-    psychologistId?: IntWithAggregatesFilter<"Session"> | number
-    patientId?: IntWithAggregatesFilter<"Session"> | number
-    date?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    startTime?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    endTime?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    status?: StringWithAggregatesFilter<"Session"> | string
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"Session"> | Date | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+  export type EducationScalarWhereWithAggregatesInput = {
+    AND?: EducationScalarWhereWithAggregatesInput | EducationScalarWhereWithAggregatesInput[]
+    OR?: EducationScalarWhereWithAggregatesInput[]
+    NOT?: EducationScalarWhereWithAggregatesInput | EducationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Education"> | string
+    psychologistId?: StringWithAggregatesFilter<"Education"> | string
+    degree?: StringWithAggregatesFilter<"Education"> | string
+    institution?: StringWithAggregatesFilter<"Education"> | string
+    city?: StringWithAggregatesFilter<"Education"> | string
+    startYear?: IntWithAggregatesFilter<"Education"> | number
+    endYear?: IntWithAggregatesFilter<"Education"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Education"> | Date | string
+  }
+
+  export type ExperienceWhereInput = {
+    AND?: ExperienceWhereInput | ExperienceWhereInput[]
+    OR?: ExperienceWhereInput[]
+    NOT?: ExperienceWhereInput | ExperienceWhereInput[]
+    id?: StringFilter<"Experience"> | string
+    psychologistId?: StringFilter<"Experience"> | string
+    name?: StringFilter<"Experience"> | string
+    createdAt?: DateTimeFilter<"Experience"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }
+
+  export type ExperienceOrderByWithRelationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    psychologist?: PsychologistProfileOrderByWithRelationInput
+  }
+
+  export type ExperienceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExperienceWhereInput | ExperienceWhereInput[]
+    OR?: ExperienceWhereInput[]
+    NOT?: ExperienceWhereInput | ExperienceWhereInput[]
+    psychologistId?: StringFilter<"Experience"> | string
+    name?: StringFilter<"Experience"> | string
+    createdAt?: DateTimeFilter<"Experience"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }, "id">
+
+  export type ExperienceOrderByWithAggregationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: ExperienceCountOrderByAggregateInput
+    _max?: ExperienceMaxOrderByAggregateInput
+    _min?: ExperienceMinOrderByAggregateInput
+  }
+
+  export type ExperienceScalarWhereWithAggregatesInput = {
+    AND?: ExperienceScalarWhereWithAggregatesInput | ExperienceScalarWhereWithAggregatesInput[]
+    OR?: ExperienceScalarWhereWithAggregatesInput[]
+    NOT?: ExperienceScalarWhereWithAggregatesInput | ExperienceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Experience"> | string
+    psychologistId?: StringWithAggregatesFilter<"Experience"> | string
+    name?: StringWithAggregatesFilter<"Experience"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Experience"> | Date | string
+  }
+
+  export type SpecializationWhereInput = {
+    AND?: SpecializationWhereInput | SpecializationWhereInput[]
+    OR?: SpecializationWhereInput[]
+    NOT?: SpecializationWhereInput | SpecializationWhereInput[]
+    id?: StringFilter<"Specialization"> | string
+    psychologistId?: StringFilter<"Specialization"> | string
+    name?: StringFilter<"Specialization"> | string
+    createdAt?: DateTimeFilter<"Specialization"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }
+
+  export type SpecializationOrderByWithRelationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    psychologist?: PsychologistProfileOrderByWithRelationInput
+  }
+
+  export type SpecializationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SpecializationWhereInput | SpecializationWhereInput[]
+    OR?: SpecializationWhereInput[]
+    NOT?: SpecializationWhereInput | SpecializationWhereInput[]
+    psychologistId?: StringFilter<"Specialization"> | string
+    name?: StringFilter<"Specialization"> | string
+    createdAt?: DateTimeFilter<"Specialization"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }, "id">
+
+  export type SpecializationOrderByWithAggregationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: SpecializationCountOrderByAggregateInput
+    _max?: SpecializationMaxOrderByAggregateInput
+    _min?: SpecializationMinOrderByAggregateInput
+  }
+
+  export type SpecializationScalarWhereWithAggregatesInput = {
+    AND?: SpecializationScalarWhereWithAggregatesInput | SpecializationScalarWhereWithAggregatesInput[]
+    OR?: SpecializationScalarWhereWithAggregatesInput[]
+    NOT?: SpecializationScalarWhereWithAggregatesInput | SpecializationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Specialization"> | string
+    psychologistId?: StringWithAggregatesFilter<"Specialization"> | string
+    name?: StringWithAggregatesFilter<"Specialization"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Specialization"> | Date | string
+  }
+
+  export type ExpertiseWhereInput = {
+    AND?: ExpertiseWhereInput | ExpertiseWhereInput[]
+    OR?: ExpertiseWhereInput[]
+    NOT?: ExpertiseWhereInput | ExpertiseWhereInput[]
+    id?: StringFilter<"Expertise"> | string
+    psychologistId?: StringFilter<"Expertise"> | string
+    name?: StringFilter<"Expertise"> | string
+    createdAt?: DateTimeFilter<"Expertise"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }
+
+  export type ExpertiseOrderByWithRelationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    psychologist?: PsychologistProfileOrderByWithRelationInput
+  }
+
+  export type ExpertiseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExpertiseWhereInput | ExpertiseWhereInput[]
+    OR?: ExpertiseWhereInput[]
+    NOT?: ExpertiseWhereInput | ExpertiseWhereInput[]
+    psychologistId?: StringFilter<"Expertise"> | string
+    name?: StringFilter<"Expertise"> | string
+    createdAt?: DateTimeFilter<"Expertise"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+  }, "id">
+
+  export type ExpertiseOrderByWithAggregationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: ExpertiseCountOrderByAggregateInput
+    _max?: ExpertiseMaxOrderByAggregateInput
+    _min?: ExpertiseMinOrderByAggregateInput
+  }
+
+  export type ExpertiseScalarWhereWithAggregatesInput = {
+    AND?: ExpertiseScalarWhereWithAggregatesInput | ExpertiseScalarWhereWithAggregatesInput[]
+    OR?: ExpertiseScalarWhereWithAggregatesInput[]
+    NOT?: ExpertiseScalarWhereWithAggregatesInput | ExpertiseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Expertise"> | string
+    psychologistId?: StringWithAggregatesFilter<"Expertise"> | string
+    name?: StringWithAggregatesFilter<"Expertise"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Expertise"> | Date | string
+  }
+
+  export type ScheduleWhereInput = {
+    AND?: ScheduleWhereInput | ScheduleWhereInput[]
+    OR?: ScheduleWhereInput[]
+    NOT?: ScheduleWhereInput | ScheduleWhereInput[]
+    id?: StringFilter<"Schedule"> | string
+    psychologistId?: StringFilter<"Schedule"> | string
+    date?: DateTimeFilter<"Schedule"> | Date | string
+    startTime?: StringFilter<"Schedule"> | string
+    duration?: IntFilter<"Schedule"> | number
+    isAvailable?: BoolFilter<"Schedule"> | boolean
+    createdAt?: DateTimeFilter<"Schedule"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+    sessionNote?: XOR<SessionNoteNullableScalarRelationFilter, SessionNoteWhereInput> | null
+  }
+
+  export type ScheduleOrderByWithRelationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    date?: SortOrder
+    startTime?: SortOrder
+    duration?: SortOrder
+    isAvailable?: SortOrder
+    createdAt?: SortOrder
+    psychologist?: PsychologistProfileOrderByWithRelationInput
+    sessionNote?: SessionNoteOrderByWithRelationInput
+  }
+
+  export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ScheduleWhereInput | ScheduleWhereInput[]
+    OR?: ScheduleWhereInput[]
+    NOT?: ScheduleWhereInput | ScheduleWhereInput[]
+    psychologistId?: StringFilter<"Schedule"> | string
+    date?: DateTimeFilter<"Schedule"> | Date | string
+    startTime?: StringFilter<"Schedule"> | string
+    duration?: IntFilter<"Schedule"> | number
+    isAvailable?: BoolFilter<"Schedule"> | boolean
+    createdAt?: DateTimeFilter<"Schedule"> | Date | string
+    psychologist?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+    sessionNote?: XOR<SessionNoteNullableScalarRelationFilter, SessionNoteWhereInput> | null
+  }, "id">
+
+  export type ScheduleOrderByWithAggregationInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    date?: SortOrder
+    startTime?: SortOrder
+    duration?: SortOrder
+    isAvailable?: SortOrder
+    createdAt?: SortOrder
+    _count?: ScheduleCountOrderByAggregateInput
+    _avg?: ScheduleAvgOrderByAggregateInput
+    _max?: ScheduleMaxOrderByAggregateInput
+    _min?: ScheduleMinOrderByAggregateInput
+    _sum?: ScheduleSumOrderByAggregateInput
+  }
+
+  export type ScheduleScalarWhereWithAggregatesInput = {
+    AND?: ScheduleScalarWhereWithAggregatesInput | ScheduleScalarWhereWithAggregatesInput[]
+    OR?: ScheduleScalarWhereWithAggregatesInput[]
+    NOT?: ScheduleScalarWhereWithAggregatesInput | ScheduleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Schedule"> | string
+    psychologistId?: StringWithAggregatesFilter<"Schedule"> | string
+    date?: DateTimeWithAggregatesFilter<"Schedule"> | Date | string
+    startTime?: StringWithAggregatesFilter<"Schedule"> | string
+    duration?: IntWithAggregatesFilter<"Schedule"> | number
+    isAvailable?: BoolWithAggregatesFilter<"Schedule"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Schedule"> | Date | string
+  }
+
+  export type EmailVerificationWhereInput = {
+    AND?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    OR?: EmailVerificationWhereInput[]
+    NOT?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    id?: StringFilter<"EmailVerification"> | string
+    userId?: StringFilter<"EmailVerification"> | string
+    token?: StringFilter<"EmailVerification"> | string
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type EmailVerificationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type EmailVerificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    OR?: EmailVerificationWhereInput[]
+    NOT?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    userId?: StringFilter<"EmailVerification"> | string
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "token">
+
+  export type EmailVerificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: EmailVerificationCountOrderByAggregateInput
+    _max?: EmailVerificationMaxOrderByAggregateInput
+    _min?: EmailVerificationMinOrderByAggregateInput
+  }
+
+  export type EmailVerificationScalarWhereWithAggregatesInput = {
+    AND?: EmailVerificationScalarWhereWithAggregatesInput | EmailVerificationScalarWhereWithAggregatesInput[]
+    OR?: EmailVerificationScalarWhereWithAggregatesInput[]
+    NOT?: EmailVerificationScalarWhereWithAggregatesInput | EmailVerificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailVerification"> | string
+    userId?: StringWithAggregatesFilter<"EmailVerification"> | string
+    token?: StringWithAggregatesFilter<"EmailVerification"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
   }
 
   export type SessionNoteWhereInput = {
     AND?: SessionNoteWhereInput | SessionNoteWhereInput[]
     OR?: SessionNoteWhereInput[]
     NOT?: SessionNoteWhereInput | SessionNoteWhereInput[]
-    id?: IntFilter<"SessionNote"> | number
-    sessionId?: IntFilter<"SessionNote"> | number
-    psychologistId?: IntFilter<"SessionNote"> | number
-    patientId?: IntFilter<"SessionNote"> | number
+    id?: StringFilter<"SessionNote"> | string
+    psychologistProfileId?: StringFilter<"SessionNote"> | string
+    userId?: StringFilter<"SessionNote"> | string
+    scheduleId?: StringNullableFilter<"SessionNote"> | string | null
     subjective?: StringNullableFilter<"SessionNote"> | string | null
     objective?: StringNullableFilter<"SessionNote"> | string | null
     assessment?: StringNullableFilter<"SessionNote"> | string | null
@@ -7721,16 +16570,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"SessionNote"> | Date | string
     updatedAt?: DateTimeFilter<"SessionNote"> | Date | string
     deletedAt?: DateTimeNullableFilter<"SessionNote"> | Date | string | null
-    session?: XOR<SessionScalarRelationFilter, SessionWhereInput>
-    psychologist?: XOR<PsychologistScalarRelationFilter, PsychologistWhereInput>
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
+    psychologistProfile?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    schedule?: XOR<ScheduleNullableScalarRelationFilter, ScheduleWhereInput> | null
   }
 
   export type SessionNoteOrderByWithRelationInput = {
     id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
+    psychologistProfileId?: SortOrder
+    userId?: SortOrder
+    scheduleId?: SortOrderInput | SortOrder
     subjective?: SortOrderInput | SortOrder
     objective?: SortOrderInput | SortOrder
     assessment?: SortOrderInput | SortOrder
@@ -7742,19 +16591,19 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    session?: SessionOrderByWithRelationInput
-    psychologist?: PsychologistOrderByWithRelationInput
-    patient?: UserOrderByWithRelationInput
+    psychologistProfile?: PsychologistProfileOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    schedule?: ScheduleOrderByWithRelationInput
   }
 
   export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    sessionId?: number
+    id?: string
+    scheduleId?: string
     AND?: SessionNoteWhereInput | SessionNoteWhereInput[]
     OR?: SessionNoteWhereInput[]
     NOT?: SessionNoteWhereInput | SessionNoteWhereInput[]
-    psychologistId?: IntFilter<"SessionNote"> | number
-    patientId?: IntFilter<"SessionNote"> | number
+    psychologistProfileId?: StringFilter<"SessionNote"> | string
+    userId?: StringFilter<"SessionNote"> | string
     subjective?: StringNullableFilter<"SessionNote"> | string | null
     objective?: StringNullableFilter<"SessionNote"> | string | null
     assessment?: StringNullableFilter<"SessionNote"> | string | null
@@ -7766,16 +16615,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"SessionNote"> | Date | string
     updatedAt?: DateTimeFilter<"SessionNote"> | Date | string
     deletedAt?: DateTimeNullableFilter<"SessionNote"> | Date | string | null
-    session?: XOR<SessionScalarRelationFilter, SessionWhereInput>
-    psychologist?: XOR<PsychologistScalarRelationFilter, PsychologistWhereInput>
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "sessionId">
+    psychologistProfile?: XOR<PsychologistProfileScalarRelationFilter, PsychologistProfileWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    schedule?: XOR<ScheduleNullableScalarRelationFilter, ScheduleWhereInput> | null
+  }, "id" | "scheduleId">
 
   export type SessionNoteOrderByWithAggregationInput = {
     id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
+    psychologistProfileId?: SortOrder
+    userId?: SortOrder
+    scheduleId?: SortOrderInput | SortOrder
     subjective?: SortOrderInput | SortOrder
     objective?: SortOrderInput | SortOrder
     assessment?: SortOrderInput | SortOrder
@@ -7788,20 +16637,18 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: SessionNoteCountOrderByAggregateInput
-    _avg?: SessionNoteAvgOrderByAggregateInput
     _max?: SessionNoteMaxOrderByAggregateInput
     _min?: SessionNoteMinOrderByAggregateInput
-    _sum?: SessionNoteSumOrderByAggregateInput
   }
 
   export type SessionNoteScalarWhereWithAggregatesInput = {
     AND?: SessionNoteScalarWhereWithAggregatesInput | SessionNoteScalarWhereWithAggregatesInput[]
     OR?: SessionNoteScalarWhereWithAggregatesInput[]
     NOT?: SessionNoteScalarWhereWithAggregatesInput | SessionNoteScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"SessionNote"> | number
-    sessionId?: IntWithAggregatesFilter<"SessionNote"> | number
-    psychologistId?: IntWithAggregatesFilter<"SessionNote"> | number
-    patientId?: IntWithAggregatesFilter<"SessionNote"> | number
+    id?: StringWithAggregatesFilter<"SessionNote"> | string
+    psychologistProfileId?: StringWithAggregatesFilter<"SessionNote"> | string
+    userId?: StringWithAggregatesFilter<"SessionNote"> | string
+    scheduleId?: StringNullableWithAggregatesFilter<"SessionNote"> | string | null
     subjective?: StringNullableWithAggregatesFilter<"SessionNote"> | string | null
     objective?: StringNullableWithAggregatesFilter<"SessionNote"> | string | null
     assessment?: StringNullableWithAggregatesFilter<"SessionNote"> | string | null
@@ -7815,326 +16662,785 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"SessionNote"> | Date | string | null
   }
 
-  export type AuditLogWhereInput = {
-    AND?: AuditLogWhereInput | AuditLogWhereInput[]
-    OR?: AuditLogWhereInput[]
-    NOT?: AuditLogWhereInput | AuditLogWhereInput[]
-    id?: IntFilter<"AuditLog"> | number
-    actorUserId?: IntFilter<"AuditLog"> | number
-    actorRole?: EnumRoleFilter<"AuditLog"> | $Enums.Role
-    action?: StringFilter<"AuditLog"> | string
-    entity?: StringFilter<"AuditLog"> | string
-    entityId?: IntFilter<"AuditLog"> | number
-    metadata?: JsonNullableFilter<"AuditLog">
-    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
-  }
-
-  export type AuditLogOrderByWithRelationInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    actorRole?: SortOrder
-    action?: SortOrder
-    entity?: SortOrder
-    entityId?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type AuditLogWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: AuditLogWhereInput | AuditLogWhereInput[]
-    OR?: AuditLogWhereInput[]
-    NOT?: AuditLogWhereInput | AuditLogWhereInput[]
-    actorUserId?: IntFilter<"AuditLog"> | number
-    actorRole?: EnumRoleFilter<"AuditLog"> | $Enums.Role
-    action?: StringFilter<"AuditLog"> | string
-    entity?: StringFilter<"AuditLog"> | string
-    entityId?: IntFilter<"AuditLog"> | number
-    metadata?: JsonNullableFilter<"AuditLog">
-    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
-  }, "id">
-
-  export type AuditLogOrderByWithAggregationInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    actorRole?: SortOrder
-    action?: SortOrder
-    entity?: SortOrder
-    entityId?: SortOrder
-    metadata?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    _count?: AuditLogCountOrderByAggregateInput
-    _avg?: AuditLogAvgOrderByAggregateInput
-    _max?: AuditLogMaxOrderByAggregateInput
-    _min?: AuditLogMinOrderByAggregateInput
-    _sum?: AuditLogSumOrderByAggregateInput
-  }
-
-  export type AuditLogScalarWhereWithAggregatesInput = {
-    AND?: AuditLogScalarWhereWithAggregatesInput | AuditLogScalarWhereWithAggregatesInput[]
-    OR?: AuditLogScalarWhereWithAggregatesInput[]
-    NOT?: AuditLogScalarWhereWithAggregatesInput | AuditLogScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"AuditLog"> | number
-    actorUserId?: IntWithAggregatesFilter<"AuditLog"> | number
-    actorRole?: EnumRoleWithAggregatesFilter<"AuditLog"> | $Enums.Role
-    action?: StringWithAggregatesFilter<"AuditLog"> | string
-    entity?: StringWithAggregatesFilter<"AuditLog"> | string
-    entityId?: IntWithAggregatesFilter<"AuditLog"> | number
-    metadata?: JsonNullableWithAggregatesFilter<"AuditLog">
-    createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
-  }
-
   export type UserCreateInput = {
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistCreateNestedOneWithoutUserInput
-    sessionsAsPatient?: SessionCreateNestedManyWithoutPatientInput
-    notesAsPatient?: SessionNoteCreateNestedManyWithoutPatientInput
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
-    id?: number
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistUncheckedCreateNestedOneWithoutUserInput
-    sessionsAsPatient?: SessionUncheckedCreateNestedManyWithoutPatientInput
-    notesAsPatient?: SessionNoteUncheckedCreateNestedManyWithoutPatientInput
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneWithoutUserNestedInput
-    sessionsAsPatient?: SessionUpdateManyWithoutPatientNestedInput
-    notesAsPatient?: SessionNoteUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUncheckedUpdateOneWithoutUserNestedInput
-    sessionsAsPatient?: SessionUncheckedUpdateManyWithoutPatientNestedInput
-    notesAsPatient?: SessionNoteUncheckedUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
-    id?: number
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PsychologistCreateInput = {
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
+  export type AuthProviderCreateInput = {
+    id?: string
+    provider: string
+    providerId?: string | null
+    passwordHash?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPsychologistInput
-    sessions?: SessionCreateNestedManyWithoutPsychologistInput
-    notes?: SessionNoteCreateNestedManyWithoutPsychologistInput
+    user: UserCreateNestedOneWithoutAuthProviderInput
   }
 
-  export type PsychologistUncheckedCreateInput = {
-    id?: number
-    userId: number
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sessions?: SessionUncheckedCreateNestedManyWithoutPsychologistInput
-    notes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistInput
-  }
-
-  export type PsychologistUpdateInput = {
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPsychologistNestedInput
-    sessions?: SessionUpdateManyWithoutPsychologistNestedInput
-    notes?: SessionNoteUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type PsychologistUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutPsychologistNestedInput
-    notes?: SessionNoteUncheckedUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type PsychologistCreateManyInput = {
-    id?: number
-    userId: number
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
+  export type AuthProviderUncheckedCreateInput = {
+    id?: string
+    userId: string
+    provider: string
+    providerId?: string | null
+    passwordHash?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type PsychologistUpdateManyMutationInput = {
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  export type AuthProviderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuthProviderNestedInput
+  }
+
+  export type AuthProviderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PsychologistUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  export type AuthProviderCreateManyInput = {
+    id?: string
+    userId: string
+    provider: string
+    providerId?: string | null
+    passwordHash?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AuthProviderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionCreateInput = {
+  export type AuthProviderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetCreateInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPasswordResetsInput
+  }
+
+  export type PasswordResetUncheckedCreateInput = {
+    id?: string
+    userId: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPasswordResetsNestedInput
+  }
+
+  export type PasswordResetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetCreateManyInput = {
+    id?: string
+    userId: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProfileCreateInput = {
+    id?: string
+    fullName?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    country?: string | null
+    city?: string | null
+    fullAddress?: string | null
+    phone?: string | null
+    user: UserCreateNestedOneWithoutUserProfileInput
+  }
+
+  export type UserProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    fullName?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    country?: string | null
+    city?: string | null
+    fullAddress?: string | null
+    phone?: string | null
+  }
+
+  export type UserProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutUserProfileNestedInput
+  }
+
+  export type UserProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserProfileCreateManyInput = {
+    id?: string
+    userId: string
+    fullName?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    country?: string | null
+    city?: string | null
+    fullAddress?: string | null
+    phone?: string | null
+  }
+
+  export type UserProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PsychologistProfileCreateInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileCreateManyInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PsychologistProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PsychologistProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationCreateInput = {
+    id?: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
+    createdAt?: Date | string
+    psychologist: PsychologistProfileCreateNestedOneWithoutEducationsInput
+  }
+
+  export type EducationUncheckedCreateInput = {
+    id?: string
+    psychologistId: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
+    createdAt?: Date | string
+  }
+
+  export type EducationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutEducationsNestedInput
+  }
+
+  export type EducationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationCreateManyInput = {
+    id?: string
+    psychologistId: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
+    createdAt?: Date | string
+  }
+
+  export type EducationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExperienceCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    psychologist: PsychologistProfileCreateNestedOneWithoutExperiencesInput
+  }
+
+  export type ExperienceUncheckedCreateInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExperienceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutExperiencesNestedInput
+  }
+
+  export type ExperienceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExperienceCreateManyInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExperienceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExperienceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    psychologist: PsychologistProfileCreateNestedOneWithoutSpecializationsInput
+  }
+
+  export type SpecializationUncheckedCreateInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SpecializationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutSpecializationsNestedInput
+  }
+
+  export type SpecializationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationCreateManyInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SpecializationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    psychologist: PsychologistProfileCreateNestedOneWithoutExpertisesInput
+  }
+
+  export type ExpertiseUncheckedCreateInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExpertiseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutExpertisesNestedInput
+  }
+
+  export type ExpertiseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseCreateManyInput = {
+    id?: string
+    psychologistId: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExpertiseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleCreateInput = {
+    id?: string
     date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+    startTime: string
+    duration: number
+    isAvailable?: boolean
     createdAt?: Date | string
-    updatedAt?: Date | string
-    psychologist: PsychologistCreateNestedOneWithoutSessionsInput
-    patient: UserCreateNestedOneWithoutSessionsAsPatientInput
-    note?: SessionNoteCreateNestedOneWithoutSessionInput
+    psychologist: PsychologistProfileCreateNestedOneWithoutSchedulesInput
+    sessionNote?: SessionNoteCreateNestedOneWithoutScheduleInput
   }
 
-  export type SessionUncheckedCreateInput = {
-    id?: number
-    psychologistId: number
-    patientId: number
+  export type ScheduleUncheckedCreateInput = {
+    id?: string
+    psychologistId: string
     date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+    startTime: string
+    duration: number
+    isAvailable?: boolean
     createdAt?: Date | string
-    updatedAt?: Date | string
-    note?: SessionNoteUncheckedCreateNestedOneWithoutSessionInput
+    sessionNote?: SessionNoteUncheckedCreateNestedOneWithoutScheduleInput
   }
 
-  export type SessionUpdateInput = {
+  export type ScheduleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneRequiredWithoutSessionsNestedInput
-    patient?: UserUpdateOneRequiredWithoutSessionsAsPatientNestedInput
-    note?: SessionNoteUpdateOneWithoutSessionNestedInput
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutSchedulesNestedInput
+    sessionNote?: SessionNoteUpdateOneWithoutScheduleNestedInput
   }
 
-  export type SessionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+  export type ScheduleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    note?: SessionNoteUncheckedUpdateOneWithoutSessionNestedInput
+    sessionNote?: SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput
   }
 
-  export type SessionCreateManyInput = {
-    id?: number
-    psychologistId: number
-    patientId: number
+  export type ScheduleCreateManyInput = {
+    id?: string
+    psychologistId: string
     date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+    startTime: string
+    duration: number
+    isAvailable?: boolean
     createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
-  export type SessionUpdateManyMutationInput = {
+  export type ScheduleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+  export type ScheduleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationCreateInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutEmailVerificationsInput
+  }
+
+  export type EmailVerificationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmailVerificationsNestedInput
+  }
+
+  export type EmailVerificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationCreateManyInput = {
+    id?: string
+    userId: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionNoteCreateInput = {
+    id?: string
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -8146,16 +17452,16 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    session: SessionCreateNestedOneWithoutNoteInput
-    psychologist: PsychologistCreateNestedOneWithoutNotesInput
-    patient: UserCreateNestedOneWithoutNotesAsPatientInput
+    psychologistProfile: PsychologistProfileCreateNestedOneWithoutSessionNotesInput
+    user: UserCreateNestedOneWithoutSessionNotesInput
+    schedule?: ScheduleCreateNestedOneWithoutSessionNoteInput
   }
 
   export type SessionNoteUncheckedCreateInput = {
-    id?: number
-    sessionId: number
-    psychologistId: number
-    patientId: number
+    id?: string
+    psychologistProfileId: string
+    userId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -8170,6 +17476,7 @@ export namespace Prisma {
   }
 
   export type SessionNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8181,16 +17488,16 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    session?: SessionUpdateOneRequiredWithoutNoteNestedInput
-    psychologist?: PsychologistUpdateOneRequiredWithoutNotesNestedInput
-    patient?: UserUpdateOneRequiredWithoutNotesAsPatientNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
+    user?: UserUpdateOneRequiredWithoutSessionNotesNestedInput
+    schedule?: ScheduleUpdateOneWithoutSessionNoteNestedInput
   }
 
   export type SessionNoteUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistProfileId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8205,10 +17512,10 @@ export namespace Prisma {
   }
 
   export type SessionNoteCreateManyInput = {
-    id?: number
-    sessionId: number
-    psychologistId: number
-    patientId: number
+    id?: string
+    psychologistProfileId: string
+    userId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -8223,6 +17530,7 @@ export namespace Prisma {
   }
 
   export type SessionNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8237,10 +17545,10 @@ export namespace Prisma {
   }
 
   export type SessionNoteUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistProfileId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8252,91 +17560,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type AuditLogCreateInput = {
-    actorUserId: number
-    actorRole: $Enums.Role
-    action: string
-    entity: string
-    entityId: number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type AuditLogUncheckedCreateInput = {
-    id?: number
-    actorUserId: number
-    actorRole: $Enums.Role
-    action: string
-    entity: string
-    entityId: number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type AuditLogUpdateInput = {
-    actorUserId?: IntFieldUpdateOperationsInput | number
-    actorRole?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    action?: StringFieldUpdateOperationsInput | string
-    entity?: StringFieldUpdateOperationsInput | string
-    entityId?: IntFieldUpdateOperationsInput | number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    actorUserId?: IntFieldUpdateOperationsInput | number
-    actorRole?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    action?: StringFieldUpdateOperationsInput | string
-    entity?: StringFieldUpdateOperationsInput | string
-    entityId?: IntFieldUpdateOperationsInput | number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogCreateManyInput = {
-    id?: number
-    actorUserId: number
-    actorRole: $Enums.Role
-    action: string
-    entity: string
-    entityId: number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-  }
-
-  export type AuditLogUpdateManyMutationInput = {
-    actorUserId?: IntFieldUpdateOperationsInput | number
-    actorRole?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    action?: StringFieldUpdateOperationsInput | string
-    entity?: StringFieldUpdateOperationsInput | string
-    entityId?: IntFieldUpdateOperationsInput | number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    actorUserId?: IntFieldUpdateOperationsInput | number
-    actorRole?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    action?: StringFieldUpdateOperationsInput | string
-    entity?: StringFieldUpdateOperationsInput | string
-    entityId?: IntFieldUpdateOperationsInput | number
-    metadata?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8354,26 +17577,16 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -8387,15 +17600,31 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type PsychologistNullableScalarRelationFilter = {
-    is?: PsychologistWhereInput | null
-    isNot?: PsychologistWhereInput | null
+  export type AuthProviderNullableScalarRelationFilter = {
+    is?: AuthProviderWhereInput | null
+    isNot?: AuthProviderWhereInput | null
   }
 
-  export type SessionListRelationFilter = {
-    every?: SessionWhereInput
-    some?: SessionWhereInput
-    none?: SessionWhereInput
+  export type PasswordResetListRelationFilter = {
+    every?: PasswordResetWhereInput
+    some?: PasswordResetWhereInput
+    none?: PasswordResetWhereInput
+  }
+
+  export type UserProfileNullableScalarRelationFilter = {
+    is?: UserProfileWhereInput | null
+    isNot?: UserProfileWhereInput | null
+  }
+
+  export type PsychologistProfileNullableScalarRelationFilter = {
+    is?: PsychologistProfileWhereInput | null
+    isNot?: PsychologistProfileWhereInput | null
+  }
+
+  export type EmailVerificationListRelationFilter = {
+    every?: EmailVerificationWhereInput
+    some?: EmailVerificationWhereInput
+    none?: EmailVerificationWhereInput
   }
 
   export type SessionNoteListRelationFilter = {
@@ -8404,12 +17633,11 @@ export namespace Prisma {
     none?: SessionNoteWhereInput
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
+  export type PasswordResetOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type SessionOrderByRelationAggregateInput = {
+  export type EmailVerificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8420,23 +17648,21 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
-    phone?: SortOrder
     role?: SortOrder
+    isEmailVerified?: SortOrder
+    isProfileComplete?: SortOrder
+    isFirstLogin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type UserAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
-    phone?: SortOrder
     role?: SortOrder
+    isEmailVerified?: SortOrder
+    isProfileComplete?: SortOrder
+    isFirstLogin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8444,31 +17670,12 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    fullName?: SortOrder
-    phone?: SortOrder
     role?: SortOrder
+    isEmailVerified?: SortOrder
+    isProfileComplete?: SortOrder
+    isFirstLogin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type UserSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -8489,6 +17696,98 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type AuthProviderProviderProviderIdCompoundUniqueInput = {
+    provider: string
+    providerId: string
+  }
+
+  export type AuthProviderCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    provider?: SortOrder
+    providerId?: SortOrder
+    passwordHash?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthProviderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    provider?: SortOrder
+    providerId?: SortOrder
+    passwordHash?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthProviderMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    provider?: SortOrder
+    providerId?: SortOrder
+    passwordHash?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8507,78 +17806,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type PsychologistCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    education?: SortOrder
-    experience?: SortOrder
-    therapyApproach?: SortOrder
-    photoUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PsychologistAvgOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-  }
-
-  export type PsychologistMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    education?: SortOrder
-    experience?: SortOrder
-    therapyApproach?: SortOrder
-    photoUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PsychologistMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    education?: SortOrder
-    experience?: SortOrder
-    therapyApproach?: SortOrder
-    photoUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PsychologistSumOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-  }
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -8590,65 +17817,31 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type PsychologistScalarRelationFilter = {
-    is?: PsychologistWhereInput
-    isNot?: PsychologistWhereInput
-  }
-
-  export type SessionNoteNullableScalarRelationFilter = {
-    is?: SessionNoteWhereInput | null
-    isNot?: SessionNoteWhereInput | null
-  }
-
-  export type SessionCountOrderByAggregateInput = {
+  export type PasswordResetCountOrderByAggregateInput = {
     id?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-    date?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    status?: SortOrder
-    deletedAt?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type SessionAvgOrderByAggregateInput = {
+  export type PasswordResetMaxOrderByAggregateInput = {
     id?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-  }
-
-  export type SessionMaxOrderByAggregateInput = {
-    id?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-    date?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    status?: SortOrder
-    deletedAt?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type SessionMinOrderByAggregateInput = {
+  export type PasswordResetMinOrderByAggregateInput = {
     id?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-    date?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    status?: SortOrder
-    deletedAt?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type SessionSumOrderByAggregateInput = {
-    id?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8663,6 +17856,353 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
+  export type UserProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    birthday?: SortOrder
+    gender?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    fullAddress?: SortOrder
+    phone?: SortOrder
+  }
+
+  export type UserProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    birthday?: SortOrder
+    gender?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    fullAddress?: SortOrder
+    phone?: SortOrder
+  }
+
+  export type UserProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    birthday?: SortOrder
+    gender?: SortOrder
+    country?: SortOrder
+    city?: SortOrder
+    fullAddress?: SortOrder
+    phone?: SortOrder
+  }
+
+  export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
+  }
+
+  export type EducationListRelationFilter = {
+    every?: EducationWhereInput
+    some?: EducationWhereInput
+    none?: EducationWhereInput
+  }
+
+  export type ExperienceListRelationFilter = {
+    every?: ExperienceWhereInput
+    some?: ExperienceWhereInput
+    none?: ExperienceWhereInput
+  }
+
+  export type SpecializationListRelationFilter = {
+    every?: SpecializationWhereInput
+    some?: SpecializationWhereInput
+    none?: SpecializationWhereInput
+  }
+
+  export type ExpertiseListRelationFilter = {
+    every?: ExpertiseWhereInput
+    some?: ExpertiseWhereInput
+    none?: ExpertiseWhereInput
+  }
+
+  export type ScheduleListRelationFilter = {
+    every?: ScheduleWhereInput
+    some?: ScheduleWhereInput
+    none?: ScheduleWhereInput
+  }
+
+  export type EducationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExperienceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SpecializationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ExpertiseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ScheduleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PsychologistProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    sipp?: SortOrder
+    str?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PsychologistProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    sipp?: SortOrder
+    str?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PsychologistProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    sipp?: SortOrder
+    str?: SortOrder
+    about?: SortOrder
+    avatarUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PsychologistProfileScalarRelationFilter = {
+    is?: PsychologistProfileWhereInput
+    isNot?: PsychologistProfileWhereInput
+  }
+
+  export type EducationCountOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    degree?: SortOrder
+    institution?: SortOrder
+    city?: SortOrder
+    startYear?: SortOrder
+    endYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EducationAvgOrderByAggregateInput = {
+    startYear?: SortOrder
+    endYear?: SortOrder
+  }
+
+  export type EducationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    degree?: SortOrder
+    institution?: SortOrder
+    city?: SortOrder
+    startYear?: SortOrder
+    endYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EducationMinOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    degree?: SortOrder
+    institution?: SortOrder
+    city?: SortOrder
+    startYear?: SortOrder
+    endYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EducationSumOrderByAggregateInput = {
+    startYear?: SortOrder
+    endYear?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type ExperienceCountOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExperienceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExperienceMinOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SpecializationCountOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SpecializationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SpecializationMinOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExpertiseCountOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExpertiseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ExpertiseMinOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SessionNoteNullableScalarRelationFilter = {
+    is?: SessionNoteWhereInput | null
+    isNot?: SessionNoteWhereInput | null
+  }
+
+  export type ScheduleCountOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    date?: SortOrder
+    startTime?: SortOrder
+    duration?: SortOrder
+    isAvailable?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScheduleAvgOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type ScheduleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    date?: SortOrder
+    startTime?: SortOrder
+    duration?: SortOrder
+    isAvailable?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScheduleMinOrderByAggregateInput = {
+    id?: SortOrder
+    psychologistId?: SortOrder
+    date?: SortOrder
+    startTime?: SortOrder
+    duration?: SortOrder
+    isAvailable?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ScheduleSumOrderByAggregateInput = {
+    duration?: SortOrder
+  }
+
+  export type EmailVerificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmailVerificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmailVerificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumRiskLevelFilter<$PrismaModel = never> = {
@@ -8680,16 +18220,16 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type SessionScalarRelationFilter = {
-    is?: SessionWhereInput
-    isNot?: SessionWhereInput
+  export type ScheduleNullableScalarRelationFilter = {
+    is?: ScheduleWhereInput | null
+    isNot?: ScheduleWhereInput | null
   }
 
   export type SessionNoteCountOrderByAggregateInput = {
     id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
+    psychologistProfileId?: SortOrder
+    userId?: SortOrder
+    scheduleId?: SortOrder
     subjective?: SortOrder
     objective?: SortOrder
     assessment?: SortOrder
@@ -8703,18 +18243,11 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type SessionNoteAvgOrderByAggregateInput = {
-    id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-  }
-
   export type SessionNoteMaxOrderByAggregateInput = {
     id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
+    psychologistProfileId?: SortOrder
+    userId?: SortOrder
+    scheduleId?: SortOrder
     subjective?: SortOrder
     objective?: SortOrder
     assessment?: SortOrder
@@ -8729,9 +18262,9 @@ export namespace Prisma {
 
   export type SessionNoteMinOrderByAggregateInput = {
     id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
+    psychologistProfileId?: SortOrder
+    userId?: SortOrder
+    scheduleId?: SortOrder
     subjective?: SortOrder
     objective?: SortOrder
     assessment?: SortOrder
@@ -8744,13 +18277,6 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type SessionNoteSumOrderByAggregateInput = {
-    id?: SortOrder
-    sessionId?: SortOrder
-    psychologistId?: SortOrder
-    patientId?: SortOrder
-  }
-
   export type EnumRiskLevelWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.RiskLevel | EnumRiskLevelFieldRefInput<$PrismaModel>
     in?: $Enums.RiskLevel[] | ListEnumRiskLevelFieldRefInput<$PrismaModel>
@@ -8760,136 +18286,82 @@ export namespace Prisma {
     _min?: NestedEnumRiskLevelFilter<$PrismaModel>
     _max?: NestedEnumRiskLevelFilter<$PrismaModel>
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type AuthProviderCreateNestedOneWithoutUserInput = {
+    create?: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AuthProviderCreateOrConnectWithoutUserInput
+    connect?: AuthProviderWhereUniqueInput
   }
 
-  export type AuditLogCountOrderByAggregateInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    actorRole?: SortOrder
-    action?: SortOrder
-    entity?: SortOrder
-    entityId?: SortOrder
-    metadata?: SortOrder
-    createdAt?: SortOrder
+  export type PasswordResetCreateNestedManyWithoutUserInput = {
+    create?: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput> | PasswordResetCreateWithoutUserInput[] | PasswordResetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PasswordResetCreateOrConnectWithoutUserInput | PasswordResetCreateOrConnectWithoutUserInput[]
+    createMany?: PasswordResetCreateManyUserInputEnvelope
+    connect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
   }
 
-  export type AuditLogAvgOrderByAggregateInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    entityId?: SortOrder
+  export type UserProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserProfileCreateOrConnectWithoutUserInput
+    connect?: UserProfileWhereUniqueInput
   }
 
-  export type AuditLogMaxOrderByAggregateInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    actorRole?: SortOrder
-    action?: SortOrder
-    entity?: SortOrder
-    entityId?: SortOrder
-    createdAt?: SortOrder
+  export type PsychologistProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutUserInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type AuditLogMinOrderByAggregateInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    actorRole?: SortOrder
-    action?: SortOrder
-    entity?: SortOrder
-    entityId?: SortOrder
-    createdAt?: SortOrder
+  export type EmailVerificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
   }
 
-  export type AuditLogSumOrderByAggregateInput = {
-    id?: SortOrder
-    actorUserId?: SortOrder
-    entityId?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type PsychologistCreateNestedOneWithoutUserInput = {
-    create?: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutUserInput
-    connect?: PsychologistWhereUniqueInput
-  }
-
-  export type SessionCreateNestedManyWithoutPatientInput = {
-    create?: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput> | SessionCreateWithoutPatientInput[] | SessionUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPatientInput | SessionCreateOrConnectWithoutPatientInput[]
-    createMany?: SessionCreateManyPatientInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
-  export type SessionNoteCreateNestedManyWithoutPatientInput = {
-    create?: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput> | SessionNoteCreateWithoutPatientInput[] | SessionNoteUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPatientInput | SessionNoteCreateOrConnectWithoutPatientInput[]
-    createMany?: SessionNoteCreateManyPatientInputEnvelope
+  export type SessionNoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput> | SessionNoteCreateWithoutUserInput[] | SessionNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutUserInput | SessionNoteCreateOrConnectWithoutUserInput[]
+    createMany?: SessionNoteCreateManyUserInputEnvelope
     connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
   }
 
-  export type PsychologistUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutUserInput
-    connect?: PsychologistWhereUniqueInput
+  export type AuthProviderUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AuthProviderCreateOrConnectWithoutUserInput
+    connect?: AuthProviderWhereUniqueInput
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutPatientInput = {
-    create?: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput> | SessionCreateWithoutPatientInput[] | SessionUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPatientInput | SessionCreateOrConnectWithoutPatientInput[]
-    createMany?: SessionCreateManyPatientInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  export type PasswordResetUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput> | PasswordResetCreateWithoutUserInput[] | PasswordResetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PasswordResetCreateOrConnectWithoutUserInput | PasswordResetCreateOrConnectWithoutUserInput[]
+    createMany?: PasswordResetCreateManyUserInputEnvelope
+    connect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
   }
 
-  export type SessionNoteUncheckedCreateNestedManyWithoutPatientInput = {
-    create?: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput> | SessionNoteCreateWithoutPatientInput[] | SessionNoteUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPatientInput | SessionNoteCreateOrConnectWithoutPatientInput[]
-    createMany?: SessionNoteCreateManyPatientInputEnvelope
+  export type UserProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserProfileCreateOrConnectWithoutUserInput
+    connect?: UserProfileWhereUniqueInput
+  }
+
+  export type PsychologistProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutUserInput
+    connect?: PsychologistProfileWhereUniqueInput
+  }
+
+  export type EmailVerificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+  }
+
+  export type SessionNoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput> | SessionNoteCreateWithoutUserInput[] | SessionNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutUserInput | SessionNoteCreateOrConnectWithoutUserInput[]
+    createMany?: SessionNoteCreateManyUserInputEnvelope
     connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
   }
 
@@ -8897,54 +18369,486 @@ export namespace Prisma {
     set?: string
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type PsychologistUpdateOneWithoutUserNestedInput = {
-    create?: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutUserInput
-    upsert?: PsychologistUpsertWithoutUserInput
-    disconnect?: PsychologistWhereInput | boolean
-    delete?: PsychologistWhereInput | boolean
-    connect?: PsychologistWhereUniqueInput
-    update?: XOR<XOR<PsychologistUpdateToOneWithWhereWithoutUserInput, PsychologistUpdateWithoutUserInput>, PsychologistUncheckedUpdateWithoutUserInput>
+  export type AuthProviderUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AuthProviderCreateOrConnectWithoutUserInput
+    upsert?: AuthProviderUpsertWithoutUserInput
+    disconnect?: AuthProviderWhereInput | boolean
+    delete?: AuthProviderWhereInput | boolean
+    connect?: AuthProviderWhereUniqueInput
+    update?: XOR<XOR<AuthProviderUpdateToOneWithWhereWithoutUserInput, AuthProviderUpdateWithoutUserInput>, AuthProviderUncheckedUpdateWithoutUserInput>
   }
 
-  export type SessionUpdateManyWithoutPatientNestedInput = {
-    create?: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput> | SessionCreateWithoutPatientInput[] | SessionUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPatientInput | SessionCreateOrConnectWithoutPatientInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutPatientInput | SessionUpsertWithWhereUniqueWithoutPatientInput[]
-    createMany?: SessionCreateManyPatientInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutPatientInput | SessionUpdateWithWhereUniqueWithoutPatientInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutPatientInput | SessionUpdateManyWithWhereWithoutPatientInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  export type PasswordResetUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput> | PasswordResetCreateWithoutUserInput[] | PasswordResetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PasswordResetCreateOrConnectWithoutUserInput | PasswordResetCreateOrConnectWithoutUserInput[]
+    upsert?: PasswordResetUpsertWithWhereUniqueWithoutUserInput | PasswordResetUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PasswordResetCreateManyUserInputEnvelope
+    set?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    disconnect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    delete?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    connect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    update?: PasswordResetUpdateWithWhereUniqueWithoutUserInput | PasswordResetUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PasswordResetUpdateManyWithWhereWithoutUserInput | PasswordResetUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PasswordResetScalarWhereInput | PasswordResetScalarWhereInput[]
   }
 
-  export type SessionNoteUpdateManyWithoutPatientNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput> | SessionNoteCreateWithoutPatientInput[] | SessionNoteUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPatientInput | SessionNoteCreateOrConnectWithoutPatientInput[]
-    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPatientInput | SessionNoteUpsertWithWhereUniqueWithoutPatientInput[]
-    createMany?: SessionNoteCreateManyPatientInputEnvelope
+  export type UserProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserProfileCreateOrConnectWithoutUserInput
+    upsert?: UserProfileUpsertWithoutUserInput
+    disconnect?: UserProfileWhereInput | boolean
+    delete?: UserProfileWhereInput | boolean
+    connect?: UserProfileWhereUniqueInput
+    update?: XOR<XOR<UserProfileUpdateToOneWithWhereWithoutUserInput, UserProfileUpdateWithoutUserInput>, UserProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PsychologistProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutUserInput
+    upsert?: PsychologistProfileUpsertWithoutUserInput
+    disconnect?: PsychologistProfileWhereInput | boolean
+    delete?: PsychologistProfileWhereInput | boolean
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutUserInput, PsychologistProfileUpdateWithoutUserInput>, PsychologistProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmailVerificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationUpsertWithWhereUniqueWithoutUserInput | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    set?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    disconnect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    delete?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    update?: EmailVerificationUpdateWithWhereUniqueWithoutUserInput | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationUpdateManyWithWhereWithoutUserInput | EmailVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+  }
+
+  export type SessionNoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput> | SessionNoteCreateWithoutUserInput[] | SessionNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutUserInput | SessionNoteCreateOrConnectWithoutUserInput[]
+    upsert?: SessionNoteUpsertWithWhereUniqueWithoutUserInput | SessionNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionNoteCreateManyUserInputEnvelope
     set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
     disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
     delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
     connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    update?: SessionNoteUpdateWithWhereUniqueWithoutPatientInput | SessionNoteUpdateWithWhereUniqueWithoutPatientInput[]
-    updateMany?: SessionNoteUpdateManyWithWhereWithoutPatientInput | SessionNoteUpdateManyWithWhereWithoutPatientInput[]
+    update?: SessionNoteUpdateWithWhereUniqueWithoutUserInput | SessionNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionNoteUpdateManyWithWhereWithoutUserInput | SessionNoteUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
+  }
+
+  export type AuthProviderUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AuthProviderCreateOrConnectWithoutUserInput
+    upsert?: AuthProviderUpsertWithoutUserInput
+    disconnect?: AuthProviderWhereInput | boolean
+    delete?: AuthProviderWhereInput | boolean
+    connect?: AuthProviderWhereUniqueInput
+    update?: XOR<XOR<AuthProviderUpdateToOneWithWhereWithoutUserInput, AuthProviderUpdateWithoutUserInput>, AuthProviderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PasswordResetUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput> | PasswordResetCreateWithoutUserInput[] | PasswordResetUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PasswordResetCreateOrConnectWithoutUserInput | PasswordResetCreateOrConnectWithoutUserInput[]
+    upsert?: PasswordResetUpsertWithWhereUniqueWithoutUserInput | PasswordResetUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PasswordResetCreateManyUserInputEnvelope
+    set?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    disconnect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    delete?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    connect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
+    update?: PasswordResetUpdateWithWhereUniqueWithoutUserInput | PasswordResetUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PasswordResetUpdateManyWithWhereWithoutUserInput | PasswordResetUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PasswordResetScalarWhereInput | PasswordResetScalarWhereInput[]
+  }
+
+  export type UserProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserProfileCreateOrConnectWithoutUserInput
+    upsert?: UserProfileUpsertWithoutUserInput
+    disconnect?: UserProfileWhereInput | boolean
+    delete?: UserProfileWhereInput | boolean
+    connect?: UserProfileWhereUniqueInput
+    update?: XOR<XOR<UserProfileUpdateToOneWithWhereWithoutUserInput, UserProfileUpdateWithoutUserInput>, UserProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutUserInput
+    upsert?: PsychologistProfileUpsertWithoutUserInput
+    disconnect?: PsychologistProfileWhereInput | boolean
+    delete?: PsychologistProfileWhereInput | boolean
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutUserInput, PsychologistProfileUpdateWithoutUserInput>, PsychologistProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationUpsertWithWhereUniqueWithoutUserInput | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    set?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    disconnect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    delete?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    update?: EmailVerificationUpdateWithWhereUniqueWithoutUserInput | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationUpdateManyWithWhereWithoutUserInput | EmailVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+  }
+
+  export type SessionNoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput> | SessionNoteCreateWithoutUserInput[] | SessionNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutUserInput | SessionNoteCreateOrConnectWithoutUserInput[]
+    upsert?: SessionNoteUpsertWithWhereUniqueWithoutUserInput | SessionNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionNoteCreateManyUserInputEnvelope
+    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    update?: SessionNoteUpdateWithWhereUniqueWithoutUserInput | SessionNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionNoteUpdateManyWithWhereWithoutUserInput | SessionNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutAuthProviderInput = {
+    create?: XOR<UserCreateWithoutAuthProviderInput, UserUncheckedCreateWithoutAuthProviderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuthProviderInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutAuthProviderNestedInput = {
+    create?: XOR<UserCreateWithoutAuthProviderInput, UserUncheckedCreateWithoutAuthProviderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuthProviderInput
+    upsert?: UserUpsertWithoutAuthProviderInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthProviderInput, UserUpdateWithoutAuthProviderInput>, UserUncheckedUpdateWithoutAuthProviderInput>
+  }
+
+  export type UserCreateNestedOneWithoutPasswordResetsInput = {
+    create?: XOR<UserCreateWithoutPasswordResetsInput, UserUncheckedCreateWithoutPasswordResetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordResetsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutPasswordResetsNestedInput = {
+    create?: XOR<UserCreateWithoutPasswordResetsInput, UserUncheckedCreateWithoutPasswordResetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordResetsInput
+    upsert?: UserUpsertWithoutPasswordResetsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordResetsInput, UserUpdateWithoutPasswordResetsInput>, UserUncheckedUpdateWithoutPasswordResetsInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserProfileInput = {
+    create?: XOR<UserCreateWithoutUserProfileInput, UserUncheckedCreateWithoutUserProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableEnumGenderFieldUpdateOperationsInput = {
+    set?: $Enums.Gender | null
+  }
+
+  export type UserUpdateOneRequiredWithoutUserProfileNestedInput = {
+    create?: XOR<UserCreateWithoutUserProfileInput, UserUncheckedCreateWithoutUserProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserProfileInput
+    upsert?: UserUpsertWithoutUserProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserProfileInput, UserUpdateWithoutUserProfileInput>, UserUncheckedUpdateWithoutUserProfileInput>
+  }
+
+  export type UserCreateNestedOneWithoutPsychologistProfileInput = {
+    create?: XOR<UserCreateWithoutPsychologistProfileInput, UserUncheckedCreateWithoutPsychologistProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPsychologistProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EducationCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput> | EducationCreateWithoutPsychologistInput[] | EducationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: EducationCreateOrConnectWithoutPsychologistInput | EducationCreateOrConnectWithoutPsychologistInput[]
+    createMany?: EducationCreateManyPsychologistInputEnvelope
+    connect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+  }
+
+  export type ExperienceCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput> | ExperienceCreateWithoutPsychologistInput[] | ExperienceUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExperienceCreateOrConnectWithoutPsychologistInput | ExperienceCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ExperienceCreateManyPsychologistInputEnvelope
+    connect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+  }
+
+  export type SpecializationCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput> | SpecializationCreateWithoutPsychologistInput[] | SpecializationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: SpecializationCreateOrConnectWithoutPsychologistInput | SpecializationCreateOrConnectWithoutPsychologistInput[]
+    createMany?: SpecializationCreateManyPsychologistInputEnvelope
+    connect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+  }
+
+  export type ExpertiseCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput> | ExpertiseCreateWithoutPsychologistInput[] | ExpertiseUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExpertiseCreateOrConnectWithoutPsychologistInput | ExpertiseCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ExpertiseCreateManyPsychologistInputEnvelope
+    connect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+  }
+
+  export type ScheduleCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput> | ScheduleCreateWithoutPsychologistInput[] | ScheduleUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutPsychologistInput | ScheduleCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ScheduleCreateManyPsychologistInputEnvelope
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+  }
+
+  export type SessionNoteCreateNestedManyWithoutPsychologistProfileInput = {
+    create?: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput> | SessionNoteCreateWithoutPsychologistProfileInput[] | SessionNoteUncheckedCreateWithoutPsychologistProfileInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistProfileInput | SessionNoteCreateOrConnectWithoutPsychologistProfileInput[]
+    createMany?: SessionNoteCreateManyPsychologistProfileInputEnvelope
+    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+  }
+
+  export type EducationUncheckedCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput> | EducationCreateWithoutPsychologistInput[] | EducationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: EducationCreateOrConnectWithoutPsychologistInput | EducationCreateOrConnectWithoutPsychologistInput[]
+    createMany?: EducationCreateManyPsychologistInputEnvelope
+    connect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+  }
+
+  export type ExperienceUncheckedCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput> | ExperienceCreateWithoutPsychologistInput[] | ExperienceUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExperienceCreateOrConnectWithoutPsychologistInput | ExperienceCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ExperienceCreateManyPsychologistInputEnvelope
+    connect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+  }
+
+  export type SpecializationUncheckedCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput> | SpecializationCreateWithoutPsychologistInput[] | SpecializationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: SpecializationCreateOrConnectWithoutPsychologistInput | SpecializationCreateOrConnectWithoutPsychologistInput[]
+    createMany?: SpecializationCreateManyPsychologistInputEnvelope
+    connect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+  }
+
+  export type ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput> | ExpertiseCreateWithoutPsychologistInput[] | ExpertiseUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExpertiseCreateOrConnectWithoutPsychologistInput | ExpertiseCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ExpertiseCreateManyPsychologistInputEnvelope
+    connect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+  }
+
+  export type ScheduleUncheckedCreateNestedManyWithoutPsychologistInput = {
+    create?: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput> | ScheduleCreateWithoutPsychologistInput[] | ScheduleUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutPsychologistInput | ScheduleCreateOrConnectWithoutPsychologistInput[]
+    createMany?: ScheduleCreateManyPsychologistInputEnvelope
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+  }
+
+  export type SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput = {
+    create?: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput> | SessionNoteCreateWithoutPsychologistProfileInput[] | SessionNoteUncheckedCreateWithoutPsychologistProfileInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistProfileInput | SessionNoteCreateOrConnectWithoutPsychologistProfileInput[]
+    createMany?: SessionNoteCreateManyPsychologistProfileInputEnvelope
+    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutPsychologistProfileNestedInput = {
+    create?: XOR<UserCreateWithoutPsychologistProfileInput, UserUncheckedCreateWithoutPsychologistProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPsychologistProfileInput
+    upsert?: UserUpsertWithoutPsychologistProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPsychologistProfileInput, UserUpdateWithoutPsychologistProfileInput>, UserUncheckedUpdateWithoutPsychologistProfileInput>
+  }
+
+  export type EducationUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput> | EducationCreateWithoutPsychologistInput[] | EducationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: EducationCreateOrConnectWithoutPsychologistInput | EducationCreateOrConnectWithoutPsychologistInput[]
+    upsert?: EducationUpsertWithWhereUniqueWithoutPsychologistInput | EducationUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: EducationCreateManyPsychologistInputEnvelope
+    set?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    disconnect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    delete?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    connect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    update?: EducationUpdateWithWhereUniqueWithoutPsychologistInput | EducationUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: EducationUpdateManyWithWhereWithoutPsychologistInput | EducationUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: EducationScalarWhereInput | EducationScalarWhereInput[]
+  }
+
+  export type ExperienceUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput> | ExperienceCreateWithoutPsychologistInput[] | ExperienceUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExperienceCreateOrConnectWithoutPsychologistInput | ExperienceCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ExperienceUpsertWithWhereUniqueWithoutPsychologistInput | ExperienceUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ExperienceCreateManyPsychologistInputEnvelope
+    set?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    disconnect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    delete?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    connect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    update?: ExperienceUpdateWithWhereUniqueWithoutPsychologistInput | ExperienceUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ExperienceUpdateManyWithWhereWithoutPsychologistInput | ExperienceUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ExperienceScalarWhereInput | ExperienceScalarWhereInput[]
+  }
+
+  export type SpecializationUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput> | SpecializationCreateWithoutPsychologistInput[] | SpecializationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: SpecializationCreateOrConnectWithoutPsychologistInput | SpecializationCreateOrConnectWithoutPsychologistInput[]
+    upsert?: SpecializationUpsertWithWhereUniqueWithoutPsychologistInput | SpecializationUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: SpecializationCreateManyPsychologistInputEnvelope
+    set?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    disconnect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    delete?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    connect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    update?: SpecializationUpdateWithWhereUniqueWithoutPsychologistInput | SpecializationUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: SpecializationUpdateManyWithWhereWithoutPsychologistInput | SpecializationUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: SpecializationScalarWhereInput | SpecializationScalarWhereInput[]
+  }
+
+  export type ExpertiseUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput> | ExpertiseCreateWithoutPsychologistInput[] | ExpertiseUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExpertiseCreateOrConnectWithoutPsychologistInput | ExpertiseCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ExpertiseUpsertWithWhereUniqueWithoutPsychologistInput | ExpertiseUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ExpertiseCreateManyPsychologistInputEnvelope
+    set?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    disconnect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    delete?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    connect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    update?: ExpertiseUpdateWithWhereUniqueWithoutPsychologistInput | ExpertiseUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ExpertiseUpdateManyWithWhereWithoutPsychologistInput | ExpertiseUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ExpertiseScalarWhereInput | ExpertiseScalarWhereInput[]
+  }
+
+  export type ScheduleUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput> | ScheduleCreateWithoutPsychologistInput[] | ScheduleUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutPsychologistInput | ScheduleCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ScheduleUpsertWithWhereUniqueWithoutPsychologistInput | ScheduleUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ScheduleCreateManyPsychologistInputEnvelope
+    set?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    disconnect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    delete?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    update?: ScheduleUpdateWithWhereUniqueWithoutPsychologistInput | ScheduleUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ScheduleUpdateManyWithWhereWithoutPsychologistInput | ScheduleUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+  }
+
+  export type SessionNoteUpdateManyWithoutPsychologistProfileNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput> | SessionNoteCreateWithoutPsychologistProfileInput[] | SessionNoteUncheckedCreateWithoutPsychologistProfileInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistProfileInput | SessionNoteCreateOrConnectWithoutPsychologistProfileInput[]
+    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPsychologistProfileInput | SessionNoteUpsertWithWhereUniqueWithoutPsychologistProfileInput[]
+    createMany?: SessionNoteCreateManyPsychologistProfileInputEnvelope
+    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    update?: SessionNoteUpdateWithWhereUniqueWithoutPsychologistProfileInput | SessionNoteUpdateWithWhereUniqueWithoutPsychologistProfileInput[]
+    updateMany?: SessionNoteUpdateManyWithWhereWithoutPsychologistProfileInput | SessionNoteUpdateManyWithWhereWithoutPsychologistProfileInput[]
+    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
+  }
+
+  export type EducationUncheckedUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput> | EducationCreateWithoutPsychologistInput[] | EducationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: EducationCreateOrConnectWithoutPsychologistInput | EducationCreateOrConnectWithoutPsychologistInput[]
+    upsert?: EducationUpsertWithWhereUniqueWithoutPsychologistInput | EducationUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: EducationCreateManyPsychologistInputEnvelope
+    set?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    disconnect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    delete?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    connect?: EducationWhereUniqueInput | EducationWhereUniqueInput[]
+    update?: EducationUpdateWithWhereUniqueWithoutPsychologistInput | EducationUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: EducationUpdateManyWithWhereWithoutPsychologistInput | EducationUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: EducationScalarWhereInput | EducationScalarWhereInput[]
+  }
+
+  export type ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput> | ExperienceCreateWithoutPsychologistInput[] | ExperienceUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExperienceCreateOrConnectWithoutPsychologistInput | ExperienceCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ExperienceUpsertWithWhereUniqueWithoutPsychologistInput | ExperienceUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ExperienceCreateManyPsychologistInputEnvelope
+    set?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    disconnect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    delete?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    connect?: ExperienceWhereUniqueInput | ExperienceWhereUniqueInput[]
+    update?: ExperienceUpdateWithWhereUniqueWithoutPsychologistInput | ExperienceUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ExperienceUpdateManyWithWhereWithoutPsychologistInput | ExperienceUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ExperienceScalarWhereInput | ExperienceScalarWhereInput[]
+  }
+
+  export type SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput> | SpecializationCreateWithoutPsychologistInput[] | SpecializationUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: SpecializationCreateOrConnectWithoutPsychologistInput | SpecializationCreateOrConnectWithoutPsychologistInput[]
+    upsert?: SpecializationUpsertWithWhereUniqueWithoutPsychologistInput | SpecializationUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: SpecializationCreateManyPsychologistInputEnvelope
+    set?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    disconnect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    delete?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    connect?: SpecializationWhereUniqueInput | SpecializationWhereUniqueInput[]
+    update?: SpecializationUpdateWithWhereUniqueWithoutPsychologistInput | SpecializationUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: SpecializationUpdateManyWithWhereWithoutPsychologistInput | SpecializationUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: SpecializationScalarWhereInput | SpecializationScalarWhereInput[]
+  }
+
+  export type ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput> | ExpertiseCreateWithoutPsychologistInput[] | ExpertiseUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ExpertiseCreateOrConnectWithoutPsychologistInput | ExpertiseCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ExpertiseUpsertWithWhereUniqueWithoutPsychologistInput | ExpertiseUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ExpertiseCreateManyPsychologistInputEnvelope
+    set?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    disconnect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    delete?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    connect?: ExpertiseWhereUniqueInput | ExpertiseWhereUniqueInput[]
+    update?: ExpertiseUpdateWithWhereUniqueWithoutPsychologistInput | ExpertiseUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ExpertiseUpdateManyWithWhereWithoutPsychologistInput | ExpertiseUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ExpertiseScalarWhereInput | ExpertiseScalarWhereInput[]
+  }
+
+  export type ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput = {
+    create?: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput> | ScheduleCreateWithoutPsychologistInput[] | ScheduleUncheckedCreateWithoutPsychologistInput[]
+    connectOrCreate?: ScheduleCreateOrConnectWithoutPsychologistInput | ScheduleCreateOrConnectWithoutPsychologistInput[]
+    upsert?: ScheduleUpsertWithWhereUniqueWithoutPsychologistInput | ScheduleUpsertWithWhereUniqueWithoutPsychologistInput[]
+    createMany?: ScheduleCreateManyPsychologistInputEnvelope
+    set?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    disconnect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    delete?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    connect?: ScheduleWhereUniqueInput | ScheduleWhereUniqueInput[]
+    update?: ScheduleUpdateWithWhereUniqueWithoutPsychologistInput | ScheduleUpdateWithWhereUniqueWithoutPsychologistInput[]
+    updateMany?: ScheduleUpdateManyWithWhereWithoutPsychologistInput | ScheduleUpdateManyWithWhereWithoutPsychologistInput[]
+    deleteMany?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+  }
+
+  export type SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput> | SessionNoteCreateWithoutPsychologistProfileInput[] | SessionNoteUncheckedCreateWithoutPsychologistProfileInput[]
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistProfileInput | SessionNoteCreateOrConnectWithoutPsychologistProfileInput[]
+    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPsychologistProfileInput | SessionNoteUpsertWithWhereUniqueWithoutPsychologistProfileInput[]
+    createMany?: SessionNoteCreateManyPsychologistProfileInputEnvelope
+    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+    update?: SessionNoteUpdateWithWhereUniqueWithoutPsychologistProfileInput | SessionNoteUpdateWithWhereUniqueWithoutPsychologistProfileInput[]
+    updateMany?: SessionNoteUpdateManyWithWhereWithoutPsychologistProfileInput | SessionNoteUpdateManyWithWhereWithoutPsychologistProfileInput[]
+    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
+  }
+
+  export type PsychologistProfileCreateNestedOneWithoutEducationsInput = {
+    create?: XOR<PsychologistProfileCreateWithoutEducationsInput, PsychologistProfileUncheckedCreateWithoutEducationsInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutEducationsInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -8955,226 +18859,136 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type PsychologistUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutUserInput
-    upsert?: PsychologistUpsertWithoutUserInput
-    disconnect?: PsychologistWhereInput | boolean
-    delete?: PsychologistWhereInput | boolean
-    connect?: PsychologistWhereUniqueInput
-    update?: XOR<XOR<PsychologistUpdateToOneWithWhereWithoutUserInput, PsychologistUpdateWithoutUserInput>, PsychologistUncheckedUpdateWithoutUserInput>
+  export type PsychologistProfileUpdateOneRequiredWithoutEducationsNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutEducationsInput, PsychologistProfileUncheckedCreateWithoutEducationsInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutEducationsInput
+    upsert?: PsychologistProfileUpsertWithoutEducationsInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutEducationsInput, PsychologistProfileUpdateWithoutEducationsInput>, PsychologistProfileUncheckedUpdateWithoutEducationsInput>
   }
 
-  export type SessionUncheckedUpdateManyWithoutPatientNestedInput = {
-    create?: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput> | SessionCreateWithoutPatientInput[] | SessionUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPatientInput | SessionCreateOrConnectWithoutPatientInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutPatientInput | SessionUpsertWithWhereUniqueWithoutPatientInput[]
-    createMany?: SessionCreateManyPatientInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutPatientInput | SessionUpdateWithWhereUniqueWithoutPatientInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutPatientInput | SessionUpdateManyWithWhereWithoutPatientInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  export type PsychologistProfileCreateNestedOneWithoutExperiencesInput = {
+    create?: XOR<PsychologistProfileCreateWithoutExperiencesInput, PsychologistProfileUncheckedCreateWithoutExperiencesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutExperiencesInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type SessionNoteUncheckedUpdateManyWithoutPatientNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput> | SessionNoteCreateWithoutPatientInput[] | SessionNoteUncheckedCreateWithoutPatientInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPatientInput | SessionNoteCreateOrConnectWithoutPatientInput[]
-    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPatientInput | SessionNoteUpsertWithWhereUniqueWithoutPatientInput[]
-    createMany?: SessionNoteCreateManyPatientInputEnvelope
-    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    update?: SessionNoteUpdateWithWhereUniqueWithoutPatientInput | SessionNoteUpdateWithWhereUniqueWithoutPatientInput[]
-    updateMany?: SessionNoteUpdateManyWithWhereWithoutPatientInput | SessionNoteUpdateManyWithWhereWithoutPatientInput[]
-    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
+  export type PsychologistProfileUpdateOneRequiredWithoutExperiencesNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutExperiencesInput, PsychologistProfileUncheckedCreateWithoutExperiencesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutExperiencesInput
+    upsert?: PsychologistProfileUpsertWithoutExperiencesInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutExperiencesInput, PsychologistProfileUpdateWithoutExperiencesInput>, PsychologistProfileUncheckedUpdateWithoutExperiencesInput>
   }
 
-  export type UserCreateNestedOneWithoutPsychologistInput = {
-    create?: XOR<UserCreateWithoutPsychologistInput, UserUncheckedCreateWithoutPsychologistInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPsychologistInput
-    connect?: UserWhereUniqueInput
+  export type PsychologistProfileCreateNestedOneWithoutSpecializationsInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSpecializationsInput, PsychologistProfileUncheckedCreateWithoutSpecializationsInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSpecializationsInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type SessionCreateNestedManyWithoutPsychologistInput = {
-    create?: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput> | SessionCreateWithoutPsychologistInput[] | SessionUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPsychologistInput | SessionCreateOrConnectWithoutPsychologistInput[]
-    createMany?: SessionCreateManyPsychologistInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  export type PsychologistProfileUpdateOneRequiredWithoutSpecializationsNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSpecializationsInput, PsychologistProfileUncheckedCreateWithoutSpecializationsInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSpecializationsInput
+    upsert?: PsychologistProfileUpsertWithoutSpecializationsInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutSpecializationsInput, PsychologistProfileUpdateWithoutSpecializationsInput>, PsychologistProfileUncheckedUpdateWithoutSpecializationsInput>
   }
 
-  export type SessionNoteCreateNestedManyWithoutPsychologistInput = {
-    create?: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput> | SessionNoteCreateWithoutPsychologistInput[] | SessionNoteUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistInput | SessionNoteCreateOrConnectWithoutPsychologistInput[]
-    createMany?: SessionNoteCreateManyPsychologistInputEnvelope
-    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+  export type PsychologistProfileCreateNestedOneWithoutExpertisesInput = {
+    create?: XOR<PsychologistProfileCreateWithoutExpertisesInput, PsychologistProfileUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutExpertisesInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutPsychologistInput = {
-    create?: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput> | SessionCreateWithoutPsychologistInput[] | SessionUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPsychologistInput | SessionCreateOrConnectWithoutPsychologistInput[]
-    createMany?: SessionCreateManyPsychologistInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  export type PsychologistProfileUpdateOneRequiredWithoutExpertisesNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutExpertisesInput, PsychologistProfileUncheckedCreateWithoutExpertisesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutExpertisesInput
+    upsert?: PsychologistProfileUpsertWithoutExpertisesInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutExpertisesInput, PsychologistProfileUpdateWithoutExpertisesInput>, PsychologistProfileUncheckedUpdateWithoutExpertisesInput>
   }
 
-  export type SessionNoteUncheckedCreateNestedManyWithoutPsychologistInput = {
-    create?: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput> | SessionNoteCreateWithoutPsychologistInput[] | SessionNoteUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistInput | SessionNoteCreateOrConnectWithoutPsychologistInput[]
-    createMany?: SessionNoteCreateManyPsychologistInputEnvelope
-    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
+  export type PsychologistProfileCreateNestedOneWithoutSchedulesInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSchedulesInput, PsychologistProfileUncheckedCreateWithoutSchedulesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSchedulesInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutPsychologistNestedInput = {
-    create?: XOR<UserCreateWithoutPsychologistInput, UserUncheckedCreateWithoutPsychologistInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPsychologistInput
-    upsert?: UserUpsertWithoutPsychologistInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPsychologistInput, UserUpdateWithoutPsychologistInput>, UserUncheckedUpdateWithoutPsychologistInput>
-  }
-
-  export type SessionUpdateManyWithoutPsychologistNestedInput = {
-    create?: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput> | SessionCreateWithoutPsychologistInput[] | SessionUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPsychologistInput | SessionCreateOrConnectWithoutPsychologistInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutPsychologistInput | SessionUpsertWithWhereUniqueWithoutPsychologistInput[]
-    createMany?: SessionCreateManyPsychologistInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutPsychologistInput | SessionUpdateWithWhereUniqueWithoutPsychologistInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutPsychologistInput | SessionUpdateManyWithWhereWithoutPsychologistInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type SessionNoteUpdateManyWithoutPsychologistNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput> | SessionNoteCreateWithoutPsychologistInput[] | SessionNoteUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistInput | SessionNoteCreateOrConnectWithoutPsychologistInput[]
-    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPsychologistInput | SessionNoteUpsertWithWhereUniqueWithoutPsychologistInput[]
-    createMany?: SessionNoteCreateManyPsychologistInputEnvelope
-    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    update?: SessionNoteUpdateWithWhereUniqueWithoutPsychologistInput | SessionNoteUpdateWithWhereUniqueWithoutPsychologistInput[]
-    updateMany?: SessionNoteUpdateManyWithWhereWithoutPsychologistInput | SessionNoteUpdateManyWithWhereWithoutPsychologistInput[]
-    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
-  }
-
-  export type SessionUncheckedUpdateManyWithoutPsychologistNestedInput = {
-    create?: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput> | SessionCreateWithoutPsychologistInput[] | SessionUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutPsychologistInput | SessionCreateOrConnectWithoutPsychologistInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutPsychologistInput | SessionUpsertWithWhereUniqueWithoutPsychologistInput[]
-    createMany?: SessionCreateManyPsychologistInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutPsychologistInput | SessionUpdateWithWhereUniqueWithoutPsychologistInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutPsychologistInput | SessionUpdateManyWithWhereWithoutPsychologistInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type SessionNoteUncheckedUpdateManyWithoutPsychologistNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput> | SessionNoteCreateWithoutPsychologistInput[] | SessionNoteUncheckedCreateWithoutPsychologistInput[]
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutPsychologistInput | SessionNoteCreateOrConnectWithoutPsychologistInput[]
-    upsert?: SessionNoteUpsertWithWhereUniqueWithoutPsychologistInput | SessionNoteUpsertWithWhereUniqueWithoutPsychologistInput[]
-    createMany?: SessionNoteCreateManyPsychologistInputEnvelope
-    set?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    disconnect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    delete?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    connect?: SessionNoteWhereUniqueInput | SessionNoteWhereUniqueInput[]
-    update?: SessionNoteUpdateWithWhereUniqueWithoutPsychologistInput | SessionNoteUpdateWithWhereUniqueWithoutPsychologistInput[]
-    updateMany?: SessionNoteUpdateManyWithWhereWithoutPsychologistInput | SessionNoteUpdateManyWithWhereWithoutPsychologistInput[]
-    deleteMany?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
-  }
-
-  export type PsychologistCreateNestedOneWithoutSessionsInput = {
-    create?: XOR<PsychologistCreateWithoutSessionsInput, PsychologistUncheckedCreateWithoutSessionsInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutSessionsInput
-    connect?: PsychologistWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutSessionsAsPatientInput = {
-    create?: XOR<UserCreateWithoutSessionsAsPatientInput, UserUncheckedCreateWithoutSessionsAsPatientInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSessionsAsPatientInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type SessionNoteCreateNestedOneWithoutSessionInput = {
-    create?: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutSessionInput
+  export type SessionNoteCreateNestedOneWithoutScheduleInput = {
+    create?: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutScheduleInput
     connect?: SessionNoteWhereUniqueInput
   }
 
-  export type SessionNoteUncheckedCreateNestedOneWithoutSessionInput = {
-    create?: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutSessionInput
+  export type SessionNoteUncheckedCreateNestedOneWithoutScheduleInput = {
+    create?: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutScheduleInput
     connect?: SessionNoteWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type PsychologistProfileUpdateOneRequiredWithoutSchedulesNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSchedulesInput, PsychologistProfileUncheckedCreateWithoutSchedulesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSchedulesInput
+    upsert?: PsychologistProfileUpsertWithoutSchedulesInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutSchedulesInput, PsychologistProfileUpdateWithoutSchedulesInput>, PsychologistProfileUncheckedUpdateWithoutSchedulesInput>
   }
 
-  export type PsychologistUpdateOneRequiredWithoutSessionsNestedInput = {
-    create?: XOR<PsychologistCreateWithoutSessionsInput, PsychologistUncheckedCreateWithoutSessionsInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutSessionsInput
-    upsert?: PsychologistUpsertWithoutSessionsInput
-    connect?: PsychologistWhereUniqueInput
-    update?: XOR<XOR<PsychologistUpdateToOneWithWhereWithoutSessionsInput, PsychologistUpdateWithoutSessionsInput>, PsychologistUncheckedUpdateWithoutSessionsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutSessionsAsPatientNestedInput = {
-    create?: XOR<UserCreateWithoutSessionsAsPatientInput, UserUncheckedCreateWithoutSessionsAsPatientInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSessionsAsPatientInput
-    upsert?: UserUpsertWithoutSessionsAsPatientInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsAsPatientInput, UserUpdateWithoutSessionsAsPatientInput>, UserUncheckedUpdateWithoutSessionsAsPatientInput>
-  }
-
-  export type SessionNoteUpdateOneWithoutSessionNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutSessionInput
-    upsert?: SessionNoteUpsertWithoutSessionInput
+  export type SessionNoteUpdateOneWithoutScheduleNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutScheduleInput
+    upsert?: SessionNoteUpsertWithoutScheduleInput
     disconnect?: SessionNoteWhereInput | boolean
     delete?: SessionNoteWhereInput | boolean
     connect?: SessionNoteWhereUniqueInput
-    update?: XOR<XOR<SessionNoteUpdateToOneWithWhereWithoutSessionInput, SessionNoteUpdateWithoutSessionInput>, SessionNoteUncheckedUpdateWithoutSessionInput>
+    update?: XOR<XOR<SessionNoteUpdateToOneWithWhereWithoutScheduleInput, SessionNoteUpdateWithoutScheduleInput>, SessionNoteUncheckedUpdateWithoutScheduleInput>
   }
 
-  export type SessionNoteUncheckedUpdateOneWithoutSessionNestedInput = {
-    create?: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
-    connectOrCreate?: SessionNoteCreateOrConnectWithoutSessionInput
-    upsert?: SessionNoteUpsertWithoutSessionInput
+  export type SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput = {
+    create?: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
+    connectOrCreate?: SessionNoteCreateOrConnectWithoutScheduleInput
+    upsert?: SessionNoteUpsertWithoutScheduleInput
     disconnect?: SessionNoteWhereInput | boolean
     delete?: SessionNoteWhereInput | boolean
     connect?: SessionNoteWhereUniqueInput
-    update?: XOR<XOR<SessionNoteUpdateToOneWithWhereWithoutSessionInput, SessionNoteUpdateWithoutSessionInput>, SessionNoteUncheckedUpdateWithoutSessionInput>
+    update?: XOR<XOR<SessionNoteUpdateToOneWithWhereWithoutScheduleInput, SessionNoteUpdateWithoutScheduleInput>, SessionNoteUncheckedUpdateWithoutScheduleInput>
+  }
+
+  export type UserCreateNestedOneWithoutEmailVerificationsInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutEmailVerificationsNestedInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput
+    upsert?: UserUpsertWithoutEmailVerificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmailVerificationsInput, UserUpdateWithoutEmailVerificationsInput>, UserUncheckedUpdateWithoutEmailVerificationsInput>
   }
 
   export type SessionNoteCreatetagsInput = {
     set: string[]
   }
 
-  export type SessionCreateNestedOneWithoutNoteInput = {
-    create?: XOR<SessionCreateWithoutNoteInput, SessionUncheckedCreateWithoutNoteInput>
-    connectOrCreate?: SessionCreateOrConnectWithoutNoteInput
-    connect?: SessionWhereUniqueInput
+  export type PsychologistProfileCreateNestedOneWithoutSessionNotesInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSessionNotesInput, PsychologistProfileUncheckedCreateWithoutSessionNotesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSessionNotesInput
+    connect?: PsychologistProfileWhereUniqueInput
   }
 
-  export type PsychologistCreateNestedOneWithoutNotesInput = {
-    create?: XOR<PsychologistCreateWithoutNotesInput, PsychologistUncheckedCreateWithoutNotesInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutNotesInput
-    connect?: PsychologistWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutNotesAsPatientInput = {
-    create?: XOR<UserCreateWithoutNotesAsPatientInput, UserUncheckedCreateWithoutNotesAsPatientInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotesAsPatientInput
+  export type UserCreateNestedOneWithoutSessionNotesInput = {
+    create?: XOR<UserCreateWithoutSessionNotesInput, UserUncheckedCreateWithoutSessionNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSessionNotesInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ScheduleCreateNestedOneWithoutSessionNoteInput = {
+    create?: XOR<ScheduleCreateWithoutSessionNoteInput, ScheduleUncheckedCreateWithoutSessionNoteInput>
+    connectOrCreate?: ScheduleCreateOrConnectWithoutSessionNoteInput
+    connect?: ScheduleWhereUniqueInput
   }
 
   export type EnumRiskLevelFieldUpdateOperationsInput = {
@@ -9186,39 +19000,30 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type SessionUpdateOneRequiredWithoutNoteNestedInput = {
-    create?: XOR<SessionCreateWithoutNoteInput, SessionUncheckedCreateWithoutNoteInput>
-    connectOrCreate?: SessionCreateOrConnectWithoutNoteInput
-    upsert?: SessionUpsertWithoutNoteInput
-    connect?: SessionWhereUniqueInput
-    update?: XOR<XOR<SessionUpdateToOneWithWhereWithoutNoteInput, SessionUpdateWithoutNoteInput>, SessionUncheckedUpdateWithoutNoteInput>
+  export type PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput = {
+    create?: XOR<PsychologistProfileCreateWithoutSessionNotesInput, PsychologistProfileUncheckedCreateWithoutSessionNotesInput>
+    connectOrCreate?: PsychologistProfileCreateOrConnectWithoutSessionNotesInput
+    upsert?: PsychologistProfileUpsertWithoutSessionNotesInput
+    connect?: PsychologistProfileWhereUniqueInput
+    update?: XOR<XOR<PsychologistProfileUpdateToOneWithWhereWithoutSessionNotesInput, PsychologistProfileUpdateWithoutSessionNotesInput>, PsychologistProfileUncheckedUpdateWithoutSessionNotesInput>
   }
 
-  export type PsychologistUpdateOneRequiredWithoutNotesNestedInput = {
-    create?: XOR<PsychologistCreateWithoutNotesInput, PsychologistUncheckedCreateWithoutNotesInput>
-    connectOrCreate?: PsychologistCreateOrConnectWithoutNotesInput
-    upsert?: PsychologistUpsertWithoutNotesInput
-    connect?: PsychologistWhereUniqueInput
-    update?: XOR<XOR<PsychologistUpdateToOneWithWhereWithoutNotesInput, PsychologistUpdateWithoutNotesInput>, PsychologistUncheckedUpdateWithoutNotesInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutNotesAsPatientNestedInput = {
-    create?: XOR<UserCreateWithoutNotesAsPatientInput, UserUncheckedCreateWithoutNotesAsPatientInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotesAsPatientInput
-    upsert?: UserUpsertWithoutNotesAsPatientInput
+  export type UserUpdateOneRequiredWithoutSessionNotesNestedInput = {
+    create?: XOR<UserCreateWithoutSessionNotesInput, UserUncheckedCreateWithoutSessionNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSessionNotesInput
+    upsert?: UserUpsertWithoutSessionNotesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotesAsPatientInput, UserUpdateWithoutNotesAsPatientInput>, UserUncheckedUpdateWithoutNotesAsPatientInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionNotesInput, UserUpdateWithoutSessionNotesInput>, UserUncheckedUpdateWithoutSessionNotesInput>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type ScheduleUpdateOneWithoutSessionNoteNestedInput = {
+    create?: XOR<ScheduleCreateWithoutSessionNoteInput, ScheduleUncheckedCreateWithoutSessionNoteInput>
+    connectOrCreate?: ScheduleCreateOrConnectWithoutSessionNoteInput
+    upsert?: ScheduleUpsertWithoutSessionNoteInput
+    disconnect?: ScheduleWhereInput | boolean
+    delete?: ScheduleWhereInput | boolean
+    connect?: ScheduleWhereUniqueInput
+    update?: XOR<XOR<ScheduleUpdateToOneWithWhereWithoutSessionNoteInput, ScheduleUpdateWithoutSessionNoteInput>, ScheduleUncheckedUpdateWithoutSessionNoteInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9235,25 +19040,16 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -9265,33 +19061,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9309,6 +19078,63 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9339,30 +19165,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -9388,6 +19190,50 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
+  export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumRiskLevelFilter<$PrismaModel = never> = {
     equals?: $Enums.RiskLevel | EnumRiskLevelFieldRefInput<$PrismaModel>
     in?: $Enums.RiskLevel[] | ListEnumRiskLevelFieldRefInput<$PrismaModel>
@@ -9404,94 +19250,150 @@ export namespace Prisma {
     _min?: NestedEnumRiskLevelFilter<$PrismaModel>
     _max?: NestedEnumRiskLevelFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type PsychologistCreateWithoutUserInput = {
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
+  export type AuthProviderCreateWithoutUserInput = {
+    id?: string
+    provider: string
+    providerId?: string | null
+    passwordHash?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sessions?: SessionCreateNestedManyWithoutPsychologistInput
-    notes?: SessionNoteCreateNestedManyWithoutPsychologistInput
   }
 
-  export type PsychologistUncheckedCreateWithoutUserInput = {
-    id?: number
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
+  export type AuthProviderUncheckedCreateWithoutUserInput = {
+    id?: string
+    provider: string
+    providerId?: string | null
+    passwordHash?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    sessions?: SessionUncheckedCreateNestedManyWithoutPsychologistInput
-    notes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistInput
   }
 
-  export type PsychologistCreateOrConnectWithoutUserInput = {
-    where: PsychologistWhereUniqueInput
-    create: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
+  export type AuthProviderCreateOrConnectWithoutUserInput = {
+    where: AuthProviderWhereUniqueInput
+    create: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionCreateWithoutPatientInput = {
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type PasswordResetCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    psychologist: PsychologistCreateNestedOneWithoutSessionsInput
-    note?: SessionNoteCreateNestedOneWithoutSessionInput
   }
 
-  export type SessionUncheckedCreateWithoutPatientInput = {
-    id?: number
-    psychologistId: number
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type PasswordResetUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    note?: SessionNoteUncheckedCreateNestedOneWithoutSessionInput
   }
 
-  export type SessionCreateOrConnectWithoutPatientInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput>
+  export type PasswordResetCreateOrConnectWithoutUserInput = {
+    where: PasswordResetWhereUniqueInput
+    create: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionCreateManyPatientInputEnvelope = {
-    data: SessionCreateManyPatientInput | SessionCreateManyPatientInput[]
+  export type PasswordResetCreateManyUserInputEnvelope = {
+    data: PasswordResetCreateManyUserInput | PasswordResetCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type SessionNoteCreateWithoutPatientInput = {
+  export type UserProfileCreateWithoutUserInput = {
+    id?: string
+    fullName?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    country?: string | null
+    city?: string | null
+    fullAddress?: string | null
+    phone?: string | null
+  }
+
+  export type UserProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    fullName?: string | null
+    birthday?: Date | string | null
+    gender?: $Enums.Gender | null
+    country?: string | null
+    city?: string | null
+    fullAddress?: string | null
+    phone?: string | null
+  }
+
+  export type UserProfileCreateOrConnectWithoutUserInput = {
+    where: UserProfileWhereUniqueInput
+    create: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type PsychologistProfileCreateWithoutUserInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutUserInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationCreateOrConnectWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    create: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationCreateManyUserInputEnvelope = {
+    data: EmailVerificationCreateManyUserInput | EmailVerificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SessionNoteCreateWithoutUserInput = {
+    id?: string
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9503,14 +19405,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    session: SessionCreateNestedOneWithoutNoteInput
-    psychologist: PsychologistCreateNestedOneWithoutNotesInput
+    psychologistProfile: PsychologistProfileCreateNestedOneWithoutSessionNotesInput
+    schedule?: ScheduleCreateNestedOneWithoutSessionNoteInput
   }
 
-  export type SessionNoteUncheckedCreateWithoutPatientInput = {
-    id?: number
-    sessionId: number
-    psychologistId: number
+  export type SessionNoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    psychologistProfileId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9524,106 +19426,203 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type SessionNoteCreateOrConnectWithoutPatientInput = {
+  export type SessionNoteCreateOrConnectWithoutUserInput = {
     where: SessionNoteWhereUniqueInput
-    create: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput>
+    create: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionNoteCreateManyPatientInputEnvelope = {
-    data: SessionNoteCreateManyPatientInput | SessionNoteCreateManyPatientInput[]
+  export type SessionNoteCreateManyUserInputEnvelope = {
+    data: SessionNoteCreateManyUserInput | SessionNoteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type PsychologistUpsertWithoutUserInput = {
-    update: XOR<PsychologistUpdateWithoutUserInput, PsychologistUncheckedUpdateWithoutUserInput>
-    create: XOR<PsychologistCreateWithoutUserInput, PsychologistUncheckedCreateWithoutUserInput>
-    where?: PsychologistWhereInput
+  export type AuthProviderUpsertWithoutUserInput = {
+    update: XOR<AuthProviderUpdateWithoutUserInput, AuthProviderUncheckedUpdateWithoutUserInput>
+    create: XOR<AuthProviderCreateWithoutUserInput, AuthProviderUncheckedCreateWithoutUserInput>
+    where?: AuthProviderWhereInput
   }
 
-  export type PsychologistUpdateToOneWithWhereWithoutUserInput = {
-    where?: PsychologistWhereInput
-    data: XOR<PsychologistUpdateWithoutUserInput, PsychologistUncheckedUpdateWithoutUserInput>
+  export type AuthProviderUpdateToOneWithWhereWithoutUserInput = {
+    where?: AuthProviderWhereInput
+    data: XOR<AuthProviderUpdateWithoutUserInput, AuthProviderUncheckedUpdateWithoutUserInput>
   }
 
-  export type PsychologistUpdateWithoutUserInput = {
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  export type AuthProviderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUpdateManyWithoutPsychologistNestedInput
-    notes?: SessionNoteUpdateManyWithoutPsychologistNestedInput
   }
 
-  export type PsychologistUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  export type AuthProviderUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutPsychologistNestedInput
-    notes?: SessionNoteUncheckedUpdateManyWithoutPsychologistNestedInput
   }
 
-  export type SessionUpsertWithWhereUniqueWithoutPatientInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutPatientInput, SessionUncheckedUpdateWithoutPatientInput>
-    create: XOR<SessionCreateWithoutPatientInput, SessionUncheckedCreateWithoutPatientInput>
+  export type PasswordResetUpsertWithWhereUniqueWithoutUserInput = {
+    where: PasswordResetWhereUniqueInput
+    update: XOR<PasswordResetUpdateWithoutUserInput, PasswordResetUncheckedUpdateWithoutUserInput>
+    create: XOR<PasswordResetCreateWithoutUserInput, PasswordResetUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionUpdateWithWhereUniqueWithoutPatientInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutPatientInput, SessionUncheckedUpdateWithoutPatientInput>
+  export type PasswordResetUpdateWithWhereUniqueWithoutUserInput = {
+    where: PasswordResetWhereUniqueInput
+    data: XOR<PasswordResetUpdateWithoutUserInput, PasswordResetUncheckedUpdateWithoutUserInput>
   }
 
-  export type SessionUpdateManyWithWhereWithoutPatientInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutPatientInput>
+  export type PasswordResetUpdateManyWithWhereWithoutUserInput = {
+    where: PasswordResetScalarWhereInput
+    data: XOR<PasswordResetUpdateManyMutationInput, PasswordResetUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: IntFilter<"Session"> | number
-    psychologistId?: IntFilter<"Session"> | number
-    patientId?: IntFilter<"Session"> | number
-    date?: DateTimeFilter<"Session"> | Date | string
-    startTime?: StringNullableFilter<"Session"> | string | null
-    endTime?: StringNullableFilter<"Session"> | string | null
-    status?: StringFilter<"Session"> | string
-    deletedAt?: DateTimeNullableFilter<"Session"> | Date | string | null
-    createdAt?: DateTimeFilter<"Session"> | Date | string
-    updatedAt?: DateTimeFilter<"Session"> | Date | string
+  export type PasswordResetScalarWhereInput = {
+    AND?: PasswordResetScalarWhereInput | PasswordResetScalarWhereInput[]
+    OR?: PasswordResetScalarWhereInput[]
+    NOT?: PasswordResetScalarWhereInput | PasswordResetScalarWhereInput[]
+    id?: StringFilter<"PasswordReset"> | string
+    userId?: StringFilter<"PasswordReset"> | string
+    token?: StringFilter<"PasswordReset"> | string
+    expiresAt?: DateTimeFilter<"PasswordReset"> | Date | string
+    usedAt?: DateTimeNullableFilter<"PasswordReset"> | Date | string | null
+    createdAt?: DateTimeFilter<"PasswordReset"> | Date | string
   }
 
-  export type SessionNoteUpsertWithWhereUniqueWithoutPatientInput = {
+  export type UserProfileUpsertWithoutUserInput = {
+    update: XOR<UserProfileUpdateWithoutUserInput, UserProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
+    where?: UserProfileWhereInput
+  }
+
+  export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserProfileWhereInput
+    data: XOR<UserProfileUpdateWithoutUserInput, UserProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    fullAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PsychologistProfileUpsertWithoutUserInput = {
+    update: XOR<PsychologistProfileUpdateWithoutUserInput, PsychologistProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<PsychologistProfileCreateWithoutUserInput, PsychologistProfileUncheckedCreateWithoutUserInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutUserInput, PsychologistProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type EmailVerificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    update: XOR<EmailVerificationUpdateWithoutUserInput, EmailVerificationUncheckedUpdateWithoutUserInput>
+    create: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    data: XOR<EmailVerificationUpdateWithoutUserInput, EmailVerificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmailVerificationUpdateManyWithWhereWithoutUserInput = {
+    where: EmailVerificationScalarWhereInput
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EmailVerificationScalarWhereInput = {
+    AND?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+    OR?: EmailVerificationScalarWhereInput[]
+    NOT?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+    id?: StringFilter<"EmailVerification"> | string
+    userId?: StringFilter<"EmailVerification"> | string
+    token?: StringFilter<"EmailVerification"> | string
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+  }
+
+  export type SessionNoteUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionNoteWhereUniqueInput
-    update: XOR<SessionNoteUpdateWithoutPatientInput, SessionNoteUncheckedUpdateWithoutPatientInput>
-    create: XOR<SessionNoteCreateWithoutPatientInput, SessionNoteUncheckedCreateWithoutPatientInput>
+    update: XOR<SessionNoteUpdateWithoutUserInput, SessionNoteUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionNoteCreateWithoutUserInput, SessionNoteUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionNoteUpdateWithWhereUniqueWithoutPatientInput = {
+  export type SessionNoteUpdateWithWhereUniqueWithoutUserInput = {
     where: SessionNoteWhereUniqueInput
-    data: XOR<SessionNoteUpdateWithoutPatientInput, SessionNoteUncheckedUpdateWithoutPatientInput>
+    data: XOR<SessionNoteUpdateWithoutUserInput, SessionNoteUncheckedUpdateWithoutUserInput>
   }
 
-  export type SessionNoteUpdateManyWithWhereWithoutPatientInput = {
+  export type SessionNoteUpdateManyWithWhereWithoutUserInput = {
     where: SessionNoteScalarWhereInput
-    data: XOR<SessionNoteUpdateManyMutationInput, SessionNoteUncheckedUpdateManyWithoutPatientInput>
+    data: XOR<SessionNoteUpdateManyMutationInput, SessionNoteUncheckedUpdateManyWithoutUserInput>
   }
 
   export type SessionNoteScalarWhereInput = {
     AND?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
     OR?: SessionNoteScalarWhereInput[]
     NOT?: SessionNoteScalarWhereInput | SessionNoteScalarWhereInput[]
-    id?: IntFilter<"SessionNote"> | number
-    sessionId?: IntFilter<"SessionNote"> | number
-    psychologistId?: IntFilter<"SessionNote"> | number
-    patientId?: IntFilter<"SessionNote"> | number
+    id?: StringFilter<"SessionNote"> | string
+    psychologistProfileId?: StringFilter<"SessionNote"> | string
+    userId?: StringFilter<"SessionNote"> | string
+    scheduleId?: StringNullableFilter<"SessionNote"> | string | null
     subjective?: StringNullableFilter<"SessionNote"> | string | null
     objective?: StringNullableFilter<"SessionNote"> | string | null
     assessment?: StringNullableFilter<"SessionNote"> | string | null
@@ -9637,70 +19636,411 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"SessionNote"> | Date | string | null
   }
 
-  export type UserCreateWithoutPsychologistInput = {
+  export type UserCreateWithoutAuthProviderInput = {
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    sessionsAsPatient?: SessionCreateNestedManyWithoutPatientInput
-    notesAsPatient?: SessionNoteCreateNestedManyWithoutPatientInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutPsychologistInput = {
-    id?: number
+  export type UserUncheckedCreateWithoutAuthProviderInput = {
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    sessionsAsPatient?: SessionUncheckedCreateNestedManyWithoutPatientInput
-    notesAsPatient?: SessionNoteUncheckedCreateNestedManyWithoutPatientInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutPsychologistInput = {
+  export type UserCreateOrConnectWithoutAuthProviderInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPsychologistInput, UserUncheckedCreateWithoutPsychologistInput>
+    create: XOR<UserCreateWithoutAuthProviderInput, UserUncheckedCreateWithoutAuthProviderInput>
   }
 
-  export type SessionCreateWithoutPsychologistInput = {
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type UserUpsertWithoutAuthProviderInput = {
+    update: XOR<UserUpdateWithoutAuthProviderInput, UserUncheckedUpdateWithoutAuthProviderInput>
+    create: XOR<UserCreateWithoutAuthProviderInput, UserUncheckedCreateWithoutAuthProviderInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuthProviderInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuthProviderInput, UserUncheckedUpdateWithoutAuthProviderInput>
+  }
+
+  export type UserUpdateWithoutAuthProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAuthProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPasswordResetsInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    patient: UserCreateNestedOneWithoutSessionsAsPatientInput
-    note?: SessionNoteCreateNestedOneWithoutSessionInput
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
   }
 
-  export type SessionUncheckedCreateWithoutPsychologistInput = {
-    id?: number
-    patientId: number
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type UserUncheckedCreateWithoutPasswordResetsInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    note?: SessionNoteUncheckedCreateNestedOneWithoutSessionInput
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type SessionCreateOrConnectWithoutPsychologistInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput>
+  export type UserCreateOrConnectWithoutPasswordResetsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPasswordResetsInput, UserUncheckedCreateWithoutPasswordResetsInput>
   }
 
-  export type SessionCreateManyPsychologistInputEnvelope = {
-    data: SessionCreateManyPsychologistInput | SessionCreateManyPsychologistInput[]
+  export type UserUpsertWithoutPasswordResetsInput = {
+    update: XOR<UserUpdateWithoutPasswordResetsInput, UserUncheckedUpdateWithoutPasswordResetsInput>
+    create: XOR<UserCreateWithoutPasswordResetsInput, UserUncheckedCreateWithoutPasswordResetsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPasswordResetsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPasswordResetsInput, UserUncheckedUpdateWithoutPasswordResetsInput>
+  }
+
+  export type UserUpdateWithoutPasswordResetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPasswordResetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutUserProfileInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUserProfileInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUserProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserProfileInput, UserUncheckedCreateWithoutUserProfileInput>
+  }
+
+  export type UserUpsertWithoutUserProfileInput = {
+    update: XOR<UserUpdateWithoutUserProfileInput, UserUncheckedUpdateWithoutUserProfileInput>
+    create: XOR<UserCreateWithoutUserProfileInput, UserUncheckedCreateWithoutUserProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserProfileInput, UserUncheckedUpdateWithoutUserProfileInput>
+  }
+
+  export type UserUpdateWithoutUserProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPsychologistProfileInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPsychologistProfileInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPsychologistProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPsychologistProfileInput, UserUncheckedCreateWithoutPsychologistProfileInput>
+  }
+
+  export type EducationCreateWithoutPsychologistInput = {
+    id?: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
+    createdAt?: Date | string
+  }
+
+  export type EducationUncheckedCreateWithoutPsychologistInput = {
+    id?: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
+    createdAt?: Date | string
+  }
+
+  export type EducationCreateOrConnectWithoutPsychologistInput = {
+    where: EducationWhereUniqueInput
+    create: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type EducationCreateManyPsychologistInputEnvelope = {
+    data: EducationCreateManyPsychologistInput | EducationCreateManyPsychologistInput[]
     skipDuplicates?: boolean
   }
 
-  export type SessionNoteCreateWithoutPsychologistInput = {
+  export type ExperienceCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExperienceUncheckedCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExperienceCreateOrConnectWithoutPsychologistInput = {
+    where: ExperienceWhereUniqueInput
+    create: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ExperienceCreateManyPsychologistInputEnvelope = {
+    data: ExperienceCreateManyPsychologistInput | ExperienceCreateManyPsychologistInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SpecializationCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SpecializationUncheckedCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SpecializationCreateOrConnectWithoutPsychologistInput = {
+    where: SpecializationWhereUniqueInput
+    create: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type SpecializationCreateManyPsychologistInputEnvelope = {
+    data: SpecializationCreateManyPsychologistInput | SpecializationCreateManyPsychologistInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ExpertiseCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExpertiseUncheckedCreateWithoutPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExpertiseCreateOrConnectWithoutPsychologistInput = {
+    where: ExpertiseWhereUniqueInput
+    create: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ExpertiseCreateManyPsychologistInputEnvelope = {
+    data: ExpertiseCreateManyPsychologistInput | ExpertiseCreateManyPsychologistInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ScheduleCreateWithoutPsychologistInput = {
+    id?: string
+    date: Date | string
+    startTime: string
+    duration: number
+    isAvailable?: boolean
+    createdAt?: Date | string
+    sessionNote?: SessionNoteCreateNestedOneWithoutScheduleInput
+  }
+
+  export type ScheduleUncheckedCreateWithoutPsychologistInput = {
+    id?: string
+    date: Date | string
+    startTime: string
+    duration: number
+    isAvailable?: boolean
+    createdAt?: Date | string
+    sessionNote?: SessionNoteUncheckedCreateNestedOneWithoutScheduleInput
+  }
+
+  export type ScheduleCreateOrConnectWithoutPsychologistInput = {
+    where: ScheduleWhereUniqueInput
+    create: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ScheduleCreateManyPsychologistInputEnvelope = {
+    data: ScheduleCreateManyPsychologistInput | ScheduleCreateManyPsychologistInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SessionNoteCreateWithoutPsychologistProfileInput = {
+    id?: string
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9712,14 +20052,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    session: SessionCreateNestedOneWithoutNoteInput
-    patient: UserCreateNestedOneWithoutNotesAsPatientInput
+    user: UserCreateNestedOneWithoutSessionNotesInput
+    schedule?: ScheduleCreateNestedOneWithoutSessionNoteInput
   }
 
-  export type SessionNoteUncheckedCreateWithoutPsychologistInput = {
-    id?: number
-    sessionId: number
-    patientId: number
+  export type SessionNoteUncheckedCreateWithoutPsychologistProfileInput = {
+    id?: string
+    userId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9733,139 +20073,589 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type SessionNoteCreateOrConnectWithoutPsychologistInput = {
+  export type SessionNoteCreateOrConnectWithoutPsychologistProfileInput = {
     where: SessionNoteWhereUniqueInput
-    create: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput>
+    create: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput>
   }
 
-  export type SessionNoteCreateManyPsychologistInputEnvelope = {
-    data: SessionNoteCreateManyPsychologistInput | SessionNoteCreateManyPsychologistInput[]
+  export type SessionNoteCreateManyPsychologistProfileInputEnvelope = {
+    data: SessionNoteCreateManyPsychologistProfileInput | SessionNoteCreateManyPsychologistProfileInput[]
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutPsychologistInput = {
-    update: XOR<UserUpdateWithoutPsychologistInput, UserUncheckedUpdateWithoutPsychologistInput>
-    create: XOR<UserCreateWithoutPsychologistInput, UserUncheckedCreateWithoutPsychologistInput>
+  export type UserUpsertWithoutPsychologistProfileInput = {
+    update: XOR<UserUpdateWithoutPsychologistProfileInput, UserUncheckedUpdateWithoutPsychologistProfileInput>
+    create: XOR<UserCreateWithoutPsychologistProfileInput, UserUncheckedCreateWithoutPsychologistProfileInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutPsychologistInput = {
+  export type UserUpdateToOneWithWhereWithoutPsychologistProfileInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutPsychologistInput, UserUncheckedUpdateWithoutPsychologistInput>
+    data: XOR<UserUpdateWithoutPsychologistProfileInput, UserUncheckedUpdateWithoutPsychologistProfileInput>
   }
 
-  export type UserUpdateWithoutPsychologistInput = {
+  export type UserUpdateWithoutPsychologistProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessionsAsPatient?: SessionUpdateManyWithoutPatientNestedInput
-    notesAsPatient?: SessionNoteUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutPsychologistInput = {
-    id?: IntFieldUpdateOperationsInput | number
+  export type UserUncheckedUpdateWithoutPsychologistProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessionsAsPatient?: SessionUncheckedUpdateManyWithoutPatientNestedInput
-    notesAsPatient?: SessionNoteUncheckedUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type SessionUpsertWithWhereUniqueWithoutPsychologistInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutPsychologistInput, SessionUncheckedUpdateWithoutPsychologistInput>
-    create: XOR<SessionCreateWithoutPsychologistInput, SessionUncheckedCreateWithoutPsychologistInput>
+  export type EducationUpsertWithWhereUniqueWithoutPsychologistInput = {
+    where: EducationWhereUniqueInput
+    update: XOR<EducationUpdateWithoutPsychologistInput, EducationUncheckedUpdateWithoutPsychologistInput>
+    create: XOR<EducationCreateWithoutPsychologistInput, EducationUncheckedCreateWithoutPsychologistInput>
   }
 
-  export type SessionUpdateWithWhereUniqueWithoutPsychologistInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutPsychologistInput, SessionUncheckedUpdateWithoutPsychologistInput>
+  export type EducationUpdateWithWhereUniqueWithoutPsychologistInput = {
+    where: EducationWhereUniqueInput
+    data: XOR<EducationUpdateWithoutPsychologistInput, EducationUncheckedUpdateWithoutPsychologistInput>
   }
 
-  export type SessionUpdateManyWithWhereWithoutPsychologistInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutPsychologistInput>
+  export type EducationUpdateManyWithWhereWithoutPsychologistInput = {
+    where: EducationScalarWhereInput
+    data: XOR<EducationUpdateManyMutationInput, EducationUncheckedUpdateManyWithoutPsychologistInput>
   }
 
-  export type SessionNoteUpsertWithWhereUniqueWithoutPsychologistInput = {
+  export type EducationScalarWhereInput = {
+    AND?: EducationScalarWhereInput | EducationScalarWhereInput[]
+    OR?: EducationScalarWhereInput[]
+    NOT?: EducationScalarWhereInput | EducationScalarWhereInput[]
+    id?: StringFilter<"Education"> | string
+    psychologistId?: StringFilter<"Education"> | string
+    degree?: StringFilter<"Education"> | string
+    institution?: StringFilter<"Education"> | string
+    city?: StringFilter<"Education"> | string
+    startYear?: IntFilter<"Education"> | number
+    endYear?: IntFilter<"Education"> | number
+    createdAt?: DateTimeFilter<"Education"> | Date | string
+  }
+
+  export type ExperienceUpsertWithWhereUniqueWithoutPsychologistInput = {
+    where: ExperienceWhereUniqueInput
+    update: XOR<ExperienceUpdateWithoutPsychologistInput, ExperienceUncheckedUpdateWithoutPsychologistInput>
+    create: XOR<ExperienceCreateWithoutPsychologistInput, ExperienceUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ExperienceUpdateWithWhereUniqueWithoutPsychologistInput = {
+    where: ExperienceWhereUniqueInput
+    data: XOR<ExperienceUpdateWithoutPsychologistInput, ExperienceUncheckedUpdateWithoutPsychologistInput>
+  }
+
+  export type ExperienceUpdateManyWithWhereWithoutPsychologistInput = {
+    where: ExperienceScalarWhereInput
+    data: XOR<ExperienceUpdateManyMutationInput, ExperienceUncheckedUpdateManyWithoutPsychologistInput>
+  }
+
+  export type ExperienceScalarWhereInput = {
+    AND?: ExperienceScalarWhereInput | ExperienceScalarWhereInput[]
+    OR?: ExperienceScalarWhereInput[]
+    NOT?: ExperienceScalarWhereInput | ExperienceScalarWhereInput[]
+    id?: StringFilter<"Experience"> | string
+    psychologistId?: StringFilter<"Experience"> | string
+    name?: StringFilter<"Experience"> | string
+    createdAt?: DateTimeFilter<"Experience"> | Date | string
+  }
+
+  export type SpecializationUpsertWithWhereUniqueWithoutPsychologistInput = {
+    where: SpecializationWhereUniqueInput
+    update: XOR<SpecializationUpdateWithoutPsychologistInput, SpecializationUncheckedUpdateWithoutPsychologistInput>
+    create: XOR<SpecializationCreateWithoutPsychologistInput, SpecializationUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type SpecializationUpdateWithWhereUniqueWithoutPsychologistInput = {
+    where: SpecializationWhereUniqueInput
+    data: XOR<SpecializationUpdateWithoutPsychologistInput, SpecializationUncheckedUpdateWithoutPsychologistInput>
+  }
+
+  export type SpecializationUpdateManyWithWhereWithoutPsychologistInput = {
+    where: SpecializationScalarWhereInput
+    data: XOR<SpecializationUpdateManyMutationInput, SpecializationUncheckedUpdateManyWithoutPsychologistInput>
+  }
+
+  export type SpecializationScalarWhereInput = {
+    AND?: SpecializationScalarWhereInput | SpecializationScalarWhereInput[]
+    OR?: SpecializationScalarWhereInput[]
+    NOT?: SpecializationScalarWhereInput | SpecializationScalarWhereInput[]
+    id?: StringFilter<"Specialization"> | string
+    psychologistId?: StringFilter<"Specialization"> | string
+    name?: StringFilter<"Specialization"> | string
+    createdAt?: DateTimeFilter<"Specialization"> | Date | string
+  }
+
+  export type ExpertiseUpsertWithWhereUniqueWithoutPsychologistInput = {
+    where: ExpertiseWhereUniqueInput
+    update: XOR<ExpertiseUpdateWithoutPsychologistInput, ExpertiseUncheckedUpdateWithoutPsychologistInput>
+    create: XOR<ExpertiseCreateWithoutPsychologistInput, ExpertiseUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ExpertiseUpdateWithWhereUniqueWithoutPsychologistInput = {
+    where: ExpertiseWhereUniqueInput
+    data: XOR<ExpertiseUpdateWithoutPsychologistInput, ExpertiseUncheckedUpdateWithoutPsychologistInput>
+  }
+
+  export type ExpertiseUpdateManyWithWhereWithoutPsychologistInput = {
+    where: ExpertiseScalarWhereInput
+    data: XOR<ExpertiseUpdateManyMutationInput, ExpertiseUncheckedUpdateManyWithoutPsychologistInput>
+  }
+
+  export type ExpertiseScalarWhereInput = {
+    AND?: ExpertiseScalarWhereInput | ExpertiseScalarWhereInput[]
+    OR?: ExpertiseScalarWhereInput[]
+    NOT?: ExpertiseScalarWhereInput | ExpertiseScalarWhereInput[]
+    id?: StringFilter<"Expertise"> | string
+    psychologistId?: StringFilter<"Expertise"> | string
+    name?: StringFilter<"Expertise"> | string
+    createdAt?: DateTimeFilter<"Expertise"> | Date | string
+  }
+
+  export type ScheduleUpsertWithWhereUniqueWithoutPsychologistInput = {
+    where: ScheduleWhereUniqueInput
+    update: XOR<ScheduleUpdateWithoutPsychologistInput, ScheduleUncheckedUpdateWithoutPsychologistInput>
+    create: XOR<ScheduleCreateWithoutPsychologistInput, ScheduleUncheckedCreateWithoutPsychologistInput>
+  }
+
+  export type ScheduleUpdateWithWhereUniqueWithoutPsychologistInput = {
+    where: ScheduleWhereUniqueInput
+    data: XOR<ScheduleUpdateWithoutPsychologistInput, ScheduleUncheckedUpdateWithoutPsychologistInput>
+  }
+
+  export type ScheduleUpdateManyWithWhereWithoutPsychologistInput = {
+    where: ScheduleScalarWhereInput
+    data: XOR<ScheduleUpdateManyMutationInput, ScheduleUncheckedUpdateManyWithoutPsychologistInput>
+  }
+
+  export type ScheduleScalarWhereInput = {
+    AND?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+    OR?: ScheduleScalarWhereInput[]
+    NOT?: ScheduleScalarWhereInput | ScheduleScalarWhereInput[]
+    id?: StringFilter<"Schedule"> | string
+    psychologistId?: StringFilter<"Schedule"> | string
+    date?: DateTimeFilter<"Schedule"> | Date | string
+    startTime?: StringFilter<"Schedule"> | string
+    duration?: IntFilter<"Schedule"> | number
+    isAvailable?: BoolFilter<"Schedule"> | boolean
+    createdAt?: DateTimeFilter<"Schedule"> | Date | string
+  }
+
+  export type SessionNoteUpsertWithWhereUniqueWithoutPsychologistProfileInput = {
     where: SessionNoteWhereUniqueInput
-    update: XOR<SessionNoteUpdateWithoutPsychologistInput, SessionNoteUncheckedUpdateWithoutPsychologistInput>
-    create: XOR<SessionNoteCreateWithoutPsychologistInput, SessionNoteUncheckedCreateWithoutPsychologistInput>
+    update: XOR<SessionNoteUpdateWithoutPsychologistProfileInput, SessionNoteUncheckedUpdateWithoutPsychologistProfileInput>
+    create: XOR<SessionNoteCreateWithoutPsychologistProfileInput, SessionNoteUncheckedCreateWithoutPsychologistProfileInput>
   }
 
-  export type SessionNoteUpdateWithWhereUniqueWithoutPsychologistInput = {
+  export type SessionNoteUpdateWithWhereUniqueWithoutPsychologistProfileInput = {
     where: SessionNoteWhereUniqueInput
-    data: XOR<SessionNoteUpdateWithoutPsychologistInput, SessionNoteUncheckedUpdateWithoutPsychologistInput>
+    data: XOR<SessionNoteUpdateWithoutPsychologistProfileInput, SessionNoteUncheckedUpdateWithoutPsychologistProfileInput>
   }
 
-  export type SessionNoteUpdateManyWithWhereWithoutPsychologistInput = {
+  export type SessionNoteUpdateManyWithWhereWithoutPsychologistProfileInput = {
     where: SessionNoteScalarWhereInput
-    data: XOR<SessionNoteUpdateManyMutationInput, SessionNoteUncheckedUpdateManyWithoutPsychologistInput>
+    data: XOR<SessionNoteUpdateManyMutationInput, SessionNoteUncheckedUpdateManyWithoutPsychologistProfileInput>
   }
 
-  export type PsychologistCreateWithoutSessionsInput = {
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPsychologistInput
-    notes?: SessionNoteCreateNestedManyWithoutPsychologistInput
-  }
-
-  export type PsychologistUncheckedCreateWithoutSessionsInput = {
-    id?: number
-    userId: number
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    notes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistInput
-  }
-
-  export type PsychologistCreateOrConnectWithoutSessionsInput = {
-    where: PsychologistWhereUniqueInput
-    create: XOR<PsychologistCreateWithoutSessionsInput, PsychologistUncheckedCreateWithoutSessionsInput>
-  }
-
-  export type UserCreateWithoutSessionsAsPatientInput = {
-    email: string
+  export type PsychologistProfileCreateWithoutEducationsInput = {
+    id?: string
     fullName: string
-    phone?: string | null
-    role?: $Enums.Role
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistCreateNestedOneWithoutUserInput
-    notesAsPatient?: SessionNoteCreateNestedManyWithoutPatientInput
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   }
 
-  export type UserUncheckedCreateWithoutSessionsAsPatientInput = {
-    id?: number
-    email: string
+  export type PsychologistProfileUncheckedCreateWithoutEducationsInput = {
+    id?: string
+    userId: string
     fullName: string
-    phone?: string | null
-    role?: $Enums.Role
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistUncheckedCreateNestedOneWithoutUserInput
-    notesAsPatient?: SessionNoteUncheckedCreateNestedManyWithoutPatientInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   }
 
-  export type UserCreateOrConnectWithoutSessionsAsPatientInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSessionsAsPatientInput, UserUncheckedCreateWithoutSessionsAsPatientInput>
+  export type PsychologistProfileCreateOrConnectWithoutEducationsInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutEducationsInput, PsychologistProfileUncheckedCreateWithoutEducationsInput>
   }
 
-  export type SessionNoteCreateWithoutSessionInput = {
+  export type PsychologistProfileUpsertWithoutEducationsInput = {
+    update: XOR<PsychologistProfileUpdateWithoutEducationsInput, PsychologistProfileUncheckedUpdateWithoutEducationsInput>
+    create: XOR<PsychologistProfileCreateWithoutEducationsInput, PsychologistProfileUncheckedCreateWithoutEducationsInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutEducationsInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutEducationsInput, PsychologistProfileUncheckedUpdateWithoutEducationsInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutEducationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutEducationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileCreateWithoutExperiencesInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateWithoutExperiencesInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutExperiencesInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutExperiencesInput, PsychologistProfileUncheckedCreateWithoutExperiencesInput>
+  }
+
+  export type PsychologistProfileUpsertWithoutExperiencesInput = {
+    update: XOR<PsychologistProfileUpdateWithoutExperiencesInput, PsychologistProfileUncheckedUpdateWithoutExperiencesInput>
+    create: XOR<PsychologistProfileCreateWithoutExperiencesInput, PsychologistProfileUncheckedCreateWithoutExperiencesInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutExperiencesInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutExperiencesInput, PsychologistProfileUncheckedUpdateWithoutExperiencesInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutExperiencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutExperiencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileCreateWithoutSpecializationsInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateWithoutSpecializationsInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutSpecializationsInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutSpecializationsInput, PsychologistProfileUncheckedCreateWithoutSpecializationsInput>
+  }
+
+  export type PsychologistProfileUpsertWithoutSpecializationsInput = {
+    update: XOR<PsychologistProfileUpdateWithoutSpecializationsInput, PsychologistProfileUncheckedUpdateWithoutSpecializationsInput>
+    create: XOR<PsychologistProfileCreateWithoutSpecializationsInput, PsychologistProfileUncheckedCreateWithoutSpecializationsInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutSpecializationsInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutSpecializationsInput, PsychologistProfileUncheckedUpdateWithoutSpecializationsInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutSpecializationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutSpecializationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileCreateWithoutExpertisesInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateWithoutExpertisesInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutExpertisesInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutExpertisesInput, PsychologistProfileUncheckedCreateWithoutExpertisesInput>
+  }
+
+  export type PsychologistProfileUpsertWithoutExpertisesInput = {
+    update: XOR<PsychologistProfileUpdateWithoutExpertisesInput, PsychologistProfileUncheckedUpdateWithoutExpertisesInput>
+    create: XOR<PsychologistProfileCreateWithoutExpertisesInput, PsychologistProfileUncheckedCreateWithoutExpertisesInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutExpertisesInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutExpertisesInput, PsychologistProfileUncheckedUpdateWithoutExpertisesInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutExpertisesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  }
+
+  export type PsychologistProfileCreateWithoutSchedulesInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileUncheckedCreateWithoutSchedulesInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutSchedulesInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutSchedulesInput, PsychologistProfileUncheckedCreateWithoutSchedulesInput>
+  }
+
+  export type SessionNoteCreateWithoutScheduleInput = {
+    id?: string
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9877,14 +20667,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    psychologist: PsychologistCreateNestedOneWithoutNotesInput
-    patient: UserCreateNestedOneWithoutNotesAsPatientInput
+    psychologistProfile: PsychologistProfileCreateNestedOneWithoutSessionNotesInput
+    user: UserCreateNestedOneWithoutSessionNotesInput
   }
 
-  export type SessionNoteUncheckedCreateWithoutSessionInput = {
-    id?: number
-    psychologistId: number
-    patientId: number
+  export type SessionNoteUncheckedCreateWithoutScheduleInput = {
+    id?: string
+    psychologistProfileId: string
+    userId: string
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -9898,91 +20688,69 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type SessionNoteCreateOrConnectWithoutSessionInput = {
+  export type SessionNoteCreateOrConnectWithoutScheduleInput = {
     where: SessionNoteWhereUniqueInput
-    create: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
+    create: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
   }
 
-  export type PsychologistUpsertWithoutSessionsInput = {
-    update: XOR<PsychologistUpdateWithoutSessionsInput, PsychologistUncheckedUpdateWithoutSessionsInput>
-    create: XOR<PsychologistCreateWithoutSessionsInput, PsychologistUncheckedCreateWithoutSessionsInput>
-    where?: PsychologistWhereInput
+  export type PsychologistProfileUpsertWithoutSchedulesInput = {
+    update: XOR<PsychologistProfileUpdateWithoutSchedulesInput, PsychologistProfileUncheckedUpdateWithoutSchedulesInput>
+    create: XOR<PsychologistProfileCreateWithoutSchedulesInput, PsychologistProfileUncheckedCreateWithoutSchedulesInput>
+    where?: PsychologistProfileWhereInput
   }
 
-  export type PsychologistUpdateToOneWithWhereWithoutSessionsInput = {
-    where?: PsychologistWhereInput
-    data: XOR<PsychologistUpdateWithoutSessionsInput, PsychologistUncheckedUpdateWithoutSessionsInput>
+  export type PsychologistProfileUpdateToOneWithWhereWithoutSchedulesInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutSchedulesInput, PsychologistProfileUncheckedUpdateWithoutSchedulesInput>
   }
 
-  export type PsychologistUpdateWithoutSessionsInput = {
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPsychologistNestedInput
-    notes?: SessionNoteUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type PsychologistUncheckedUpdateWithoutSessionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    notes?: SessionNoteUncheckedUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type UserUpsertWithoutSessionsAsPatientInput = {
-    update: XOR<UserUpdateWithoutSessionsAsPatientInput, UserUncheckedUpdateWithoutSessionsAsPatientInput>
-    create: XOR<UserCreateWithoutSessionsAsPatientInput, UserUncheckedCreateWithoutSessionsAsPatientInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutSessionsAsPatientInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSessionsAsPatientInput, UserUncheckedUpdateWithoutSessionsAsPatientInput>
-  }
-
-  export type UserUpdateWithoutSessionsAsPatientInput = {
-    email?: StringFieldUpdateOperationsInput | string
+  export type PsychologistProfileUpdateWithoutSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneWithoutUserNestedInput
-    notesAsPatient?: SessionNoteUpdateManyWithoutPatientNestedInput
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutSessionsAsPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
+  export type PsychologistProfileUncheckedUpdateWithoutSchedulesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUncheckedUpdateOneWithoutUserNestedInput
-    notesAsPatient?: SessionNoteUncheckedUpdateManyWithoutPatientNestedInput
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   }
 
-  export type SessionNoteUpsertWithoutSessionInput = {
-    update: XOR<SessionNoteUpdateWithoutSessionInput, SessionNoteUncheckedUpdateWithoutSessionInput>
-    create: XOR<SessionNoteCreateWithoutSessionInput, SessionNoteUncheckedCreateWithoutSessionInput>
+  export type SessionNoteUpsertWithoutScheduleInput = {
+    update: XOR<SessionNoteUpdateWithoutScheduleInput, SessionNoteUncheckedUpdateWithoutScheduleInput>
+    create: XOR<SessionNoteCreateWithoutScheduleInput, SessionNoteUncheckedCreateWithoutScheduleInput>
     where?: SessionNoteWhereInput
   }
 
-  export type SessionNoteUpdateToOneWithWhereWithoutSessionInput = {
+  export type SessionNoteUpdateToOneWithWhereWithoutScheduleInput = {
     where?: SessionNoteWhereInput
-    data: XOR<SessionNoteUpdateWithoutSessionInput, SessionNoteUncheckedUpdateWithoutSessionInput>
+    data: XOR<SessionNoteUpdateWithoutScheduleInput, SessionNoteUncheckedUpdateWithoutScheduleInput>
   }
 
-  export type SessionNoteUpdateWithoutSessionInput = {
+  export type SessionNoteUpdateWithoutScheduleInput = {
+    id?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9994,14 +20762,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    psychologist?: PsychologistUpdateOneRequiredWithoutNotesNestedInput
-    patient?: UserUpdateOneRequiredWithoutNotesAsPatientNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
+    user?: UserUpdateOneRequiredWithoutSessionNotesNestedInput
   }
 
-  export type SessionNoteUncheckedUpdateWithoutSessionInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+  export type SessionNoteUncheckedUpdateWithoutScheduleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistProfileId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10015,212 +20783,326 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type SessionCreateWithoutNoteInput = {
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    psychologist: PsychologistCreateNestedOneWithoutSessionsInput
-    patient: UserCreateNestedOneWithoutSessionsAsPatientInput
-  }
-
-  export type SessionUncheckedCreateWithoutNoteInput = {
-    id?: number
-    psychologistId: number
-    patientId: number
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SessionCreateOrConnectWithoutNoteInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutNoteInput, SessionUncheckedCreateWithoutNoteInput>
-  }
-
-  export type PsychologistCreateWithoutNotesInput = {
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPsychologistInput
-    sessions?: SessionCreateNestedManyWithoutPsychologistInput
-  }
-
-  export type PsychologistUncheckedCreateWithoutNotesInput = {
-    id?: number
-    userId: number
-    education?: string | null
-    experience?: string | null
-    therapyApproach?: string | null
-    photoUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sessions?: SessionUncheckedCreateNestedManyWithoutPsychologistInput
-  }
-
-  export type PsychologistCreateOrConnectWithoutNotesInput = {
-    where: PsychologistWhereUniqueInput
-    create: XOR<PsychologistCreateWithoutNotesInput, PsychologistUncheckedCreateWithoutNotesInput>
-  }
-
-  export type UserCreateWithoutNotesAsPatientInput = {
+  export type UserCreateWithoutEmailVerificationsInput = {
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistCreateNestedOneWithoutUserInput
-    sessionsAsPatient?: SessionCreateNestedManyWithoutPatientInput
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    sessionNotes?: SessionNoteCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutNotesAsPatientInput = {
-    id?: number
+  export type UserUncheckedCreateWithoutEmailVerificationsInput = {
+    id?: string
     email: string
-    fullName: string
-    phone?: string | null
     role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    psychologist?: PsychologistUncheckedCreateNestedOneWithoutUserInput
-    sessionsAsPatient?: SessionUncheckedCreateNestedManyWithoutPatientInput
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    sessionNotes?: SessionNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutNotesAsPatientInput = {
+  export type UserCreateOrConnectWithoutEmailVerificationsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutNotesAsPatientInput, UserUncheckedCreateWithoutNotesAsPatientInput>
+    create: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
   }
 
-  export type SessionUpsertWithoutNoteInput = {
-    update: XOR<SessionUpdateWithoutNoteInput, SessionUncheckedUpdateWithoutNoteInput>
-    create: XOR<SessionCreateWithoutNoteInput, SessionUncheckedCreateWithoutNoteInput>
-    where?: SessionWhereInput
-  }
-
-  export type SessionUpdateToOneWithWhereWithoutNoteInput = {
-    where?: SessionWhereInput
-    data: XOR<SessionUpdateWithoutNoteInput, SessionUncheckedUpdateWithoutNoteInput>
-  }
-
-  export type SessionUpdateWithoutNoteInput = {
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneRequiredWithoutSessionsNestedInput
-    patient?: UserUpdateOneRequiredWithoutSessionsAsPatientNestedInput
-  }
-
-  export type SessionUncheckedUpdateWithoutNoteInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PsychologistUpsertWithoutNotesInput = {
-    update: XOR<PsychologistUpdateWithoutNotesInput, PsychologistUncheckedUpdateWithoutNotesInput>
-    create: XOR<PsychologistCreateWithoutNotesInput, PsychologistUncheckedCreateWithoutNotesInput>
-    where?: PsychologistWhereInput
-  }
-
-  export type PsychologistUpdateToOneWithWhereWithoutNotesInput = {
-    where?: PsychologistWhereInput
-    data: XOR<PsychologistUpdateWithoutNotesInput, PsychologistUncheckedUpdateWithoutNotesInput>
-  }
-
-  export type PsychologistUpdateWithoutNotesInput = {
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPsychologistNestedInput
-    sessions?: SessionUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type PsychologistUncheckedUpdateWithoutNotesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    education?: NullableStringFieldUpdateOperationsInput | string | null
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    therapyApproach?: NullableStringFieldUpdateOperationsInput | string | null
-    photoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutPsychologistNestedInput
-  }
-
-  export type UserUpsertWithoutNotesAsPatientInput = {
-    update: XOR<UserUpdateWithoutNotesAsPatientInput, UserUncheckedUpdateWithoutNotesAsPatientInput>
-    create: XOR<UserCreateWithoutNotesAsPatientInput, UserUncheckedCreateWithoutNotesAsPatientInput>
+  export type UserUpsertWithoutEmailVerificationsInput = {
+    update: XOR<UserUpdateWithoutEmailVerificationsInput, UserUncheckedUpdateWithoutEmailVerificationsInput>
+    create: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutNotesAsPatientInput = {
+  export type UserUpdateToOneWithWhereWithoutEmailVerificationsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutNotesAsPatientInput, UserUncheckedUpdateWithoutNotesAsPatientInput>
+    data: XOR<UserUpdateWithoutEmailVerificationsInput, UserUncheckedUpdateWithoutEmailVerificationsInput>
   }
 
-  export type UserUpdateWithoutNotesAsPatientInput = {
+  export type UserUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneWithoutUserNestedInput
-    sessionsAsPatient?: SessionUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    sessionNotes?: SessionNoteUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutNotesAsPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
+  export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUncheckedUpdateOneWithoutUserNestedInput
-    sessionsAsPatient?: SessionUncheckedUpdateManyWithoutPatientNestedInput
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    sessionNotes?: SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type SessionCreateManyPatientInput = {
-    id?: number
-    psychologistId: number
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type PsychologistProfileCreateWithoutSessionNotesInput = {
+    id?: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPsychologistProfileInput
+    educations?: EducationCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleCreateNestedManyWithoutPsychologistInput
   }
 
-  export type SessionNoteCreateManyPatientInput = {
-    id?: number
-    sessionId: number
-    psychologistId: number
+  export type PsychologistProfileUncheckedCreateWithoutSessionNotesInput = {
+    id?: string
+    userId: string
+    fullName: string
+    sipp: string
+    str: string
+    about: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    educations?: EducationUncheckedCreateNestedManyWithoutPsychologistInput
+    experiences?: ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+    specializations?: SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+    expertises?: ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+  }
+
+  export type PsychologistProfileCreateOrConnectWithoutSessionNotesInput = {
+    where: PsychologistProfileWhereUniqueInput
+    create: XOR<PsychologistProfileCreateWithoutSessionNotesInput, PsychologistProfileUncheckedCreateWithoutSessionNotesInput>
+  }
+
+  export type UserCreateWithoutSessionNotesInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSessionNotesInput = {
+    id?: string
+    email: string
+    role?: $Enums.Role
+    isEmailVerified?: boolean
+    isProfileComplete?: boolean
+    isFirstLogin?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    authProvider?: AuthProviderUncheckedCreateNestedOneWithoutUserInput
+    passwordResets?: PasswordResetUncheckedCreateNestedManyWithoutUserInput
+    userProfile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    psychologistProfile?: PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSessionNotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSessionNotesInput, UserUncheckedCreateWithoutSessionNotesInput>
+  }
+
+  export type ScheduleCreateWithoutSessionNoteInput = {
+    id?: string
+    date: Date | string
+    startTime: string
+    duration: number
+    isAvailable?: boolean
+    createdAt?: Date | string
+    psychologist: PsychologistProfileCreateNestedOneWithoutSchedulesInput
+  }
+
+  export type ScheduleUncheckedCreateWithoutSessionNoteInput = {
+    id?: string
+    psychologistId: string
+    date: Date | string
+    startTime: string
+    duration: number
+    isAvailable?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ScheduleCreateOrConnectWithoutSessionNoteInput = {
+    where: ScheduleWhereUniqueInput
+    create: XOR<ScheduleCreateWithoutSessionNoteInput, ScheduleUncheckedCreateWithoutSessionNoteInput>
+  }
+
+  export type PsychologistProfileUpsertWithoutSessionNotesInput = {
+    update: XOR<PsychologistProfileUpdateWithoutSessionNotesInput, PsychologistProfileUncheckedUpdateWithoutSessionNotesInput>
+    create: XOR<PsychologistProfileCreateWithoutSessionNotesInput, PsychologistProfileUncheckedCreateWithoutSessionNotesInput>
+    where?: PsychologistProfileWhereInput
+  }
+
+  export type PsychologistProfileUpdateToOneWithWhereWithoutSessionNotesInput = {
+    where?: PsychologistProfileWhereInput
+    data: XOR<PsychologistProfileUpdateWithoutSessionNotesInput, PsychologistProfileUncheckedUpdateWithoutSessionNotesInput>
+  }
+
+  export type PsychologistProfileUpdateWithoutSessionNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+    educations?: EducationUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUpdateManyWithoutPsychologistNestedInput
+  }
+
+  export type PsychologistProfileUncheckedUpdateWithoutSessionNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    sipp?: StringFieldUpdateOperationsInput | string
+    str?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    educations?: EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+    experiences?: ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+    specializations?: SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+    expertises?: ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+  }
+
+  export type UserUpsertWithoutSessionNotesInput = {
+    update: XOR<UserUpdateWithoutSessionNotesInput, UserUncheckedUpdateWithoutSessionNotesInput>
+    create: XOR<UserCreateWithoutSessionNotesInput, UserUncheckedCreateWithoutSessionNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSessionNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSessionNotesInput, UserUncheckedUpdateWithoutSessionNotesInput>
+  }
+
+  export type UserUpdateWithoutSessionNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSessionNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isProfileComplete?: BoolFieldUpdateOperationsInput | boolean
+    isFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    authProvider?: AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+    passwordResets?: PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+    userProfile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    psychologistProfile?: PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ScheduleUpsertWithoutSessionNoteInput = {
+    update: XOR<ScheduleUpdateWithoutSessionNoteInput, ScheduleUncheckedUpdateWithoutSessionNoteInput>
+    create: XOR<ScheduleCreateWithoutSessionNoteInput, ScheduleUncheckedCreateWithoutSessionNoteInput>
+    where?: ScheduleWhereInput
+  }
+
+  export type ScheduleUpdateToOneWithWhereWithoutSessionNoteInput = {
+    where?: ScheduleWhereInput
+    data: XOR<ScheduleUpdateWithoutSessionNoteInput, ScheduleUncheckedUpdateWithoutSessionNoteInput>
+  }
+
+  export type ScheduleUpdateWithoutSessionNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    psychologist?: PsychologistProfileUpdateOneRequiredWithoutSchedulesNestedInput
+  }
+
+  export type ScheduleUncheckedUpdateWithoutSessionNoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetCreateManyUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationCreateManyUserInput = {
+    id?: string
+    token: string
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type SessionNoteCreateManyUserInput = {
+    id?: string
+    psychologistProfileId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -10234,44 +21116,56 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type SessionUpdateWithoutPatientInput = {
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type PasswordResetUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    psychologist?: PsychologistUpdateOneRequiredWithoutSessionsNestedInput
-    note?: SessionNoteUpdateOneWithoutSessionNestedInput
   }
 
-  export type SessionUncheckedUpdateWithoutPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type PasswordResetUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    note?: SessionNoteUncheckedUpdateOneWithoutSessionNestedInput
   }
 
-  export type SessionUncheckedUpdateManyWithoutPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type PasswordResetUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionNoteUpdateWithoutPatientInput = {
+  export type EmailVerificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionNoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10283,14 +21177,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    session?: SessionUpdateOneRequiredWithoutNoteNestedInput
-    psychologist?: PsychologistUpdateOneRequiredWithoutNotesNestedInput
+    psychologistProfile?: PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
+    schedule?: ScheduleUpdateOneWithoutSessionNoteNestedInput
   }
 
-  export type SessionNoteUncheckedUpdateWithoutPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
+  export type SessionNoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10304,10 +21198,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type SessionNoteUncheckedUpdateManyWithoutPatientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    psychologistId?: IntFieldUpdateOperationsInput | number
+  export type SessionNoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    psychologistProfileId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10321,22 +21215,47 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type SessionCreateManyPsychologistInput = {
-    id?: number
-    patientId: number
-    date: Date | string
-    startTime?: string | null
-    endTime?: string | null
-    status?: string
-    deletedAt?: Date | string | null
+  export type EducationCreateManyPsychologistInput = {
+    id?: string
+    degree: string
+    institution: string
+    city: string
+    startYear: number
+    endYear: number
     createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
-  export type SessionNoteCreateManyPsychologistInput = {
-    id?: number
-    sessionId: number
-    patientId: number
+  export type ExperienceCreateManyPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type SpecializationCreateManyPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ExpertiseCreateManyPsychologistInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type ScheduleCreateManyPsychologistInput = {
+    id?: string
+    date: Date | string
+    startTime: string
+    duration: number
+    isAvailable?: boolean
+    createdAt?: Date | string
+  }
+
+  export type SessionNoteCreateManyPsychologistProfileInput = {
+    id?: string
+    userId: string
+    scheduleId?: string | null
     subjective?: string | null
     objective?: string | null
     assessment?: string | null
@@ -10350,44 +21269,121 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
-  export type SessionUpdateWithoutPsychologistInput = {
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type EducationUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    patient?: UserUpdateOneRequiredWithoutSessionsAsPatientNestedInput
-    note?: SessionNoteUpdateOneWithoutSessionNestedInput
   }
 
-  export type SessionUncheckedUpdateWithoutPsychologistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type EducationUncheckedUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    note?: SessionNoteUncheckedUpdateOneWithoutSessionNestedInput
   }
 
-  export type SessionUncheckedUpdateManyWithoutPsychologistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: NullableStringFieldUpdateOperationsInput | string | null
-    endTime?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type EducationUncheckedUpdateManyWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    degree?: StringFieldUpdateOperationsInput | string
+    institution?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    startYear?: IntFieldUpdateOperationsInput | number
+    endYear?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionNoteUpdateWithoutPsychologistInput = {
+  export type ExperienceUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExperienceUncheckedUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExperienceUncheckedUpdateManyWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationUncheckedUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SpecializationUncheckedUpdateManyWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseUncheckedUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertiseUncheckedUpdateManyWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ScheduleUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionNote?: SessionNoteUpdateOneWithoutScheduleNestedInput
+  }
+
+  export type ScheduleUncheckedUpdateWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionNote?: SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput
+  }
+
+  export type ScheduleUncheckedUpdateManyWithoutPsychologistInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionNoteUpdateWithoutPsychologistProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10399,14 +21395,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    session?: SessionUpdateOneRequiredWithoutNoteNestedInput
-    patient?: UserUpdateOneRequiredWithoutNotesAsPatientNestedInput
+    user?: UserUpdateOneRequiredWithoutSessionNotesNestedInput
+    schedule?: ScheduleUpdateOneWithoutSessionNoteNestedInput
   }
 
-  export type SessionNoteUncheckedUpdateWithoutPsychologistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+  export type SessionNoteUncheckedUpdateWithoutPsychologistProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10420,10 +21416,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type SessionNoteUncheckedUpdateManyWithoutPsychologistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    sessionId?: IntFieldUpdateOperationsInput | number
-    patientId?: IntFieldUpdateOperationsInput | number
+  export type SessionNoteUncheckedUpdateManyWithoutPsychologistProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    scheduleId?: NullableStringFieldUpdateOperationsInput | string | null
     subjective?: NullableStringFieldUpdateOperationsInput | string | null
     objective?: NullableStringFieldUpdateOperationsInput | string | null
     assessment?: NullableStringFieldUpdateOperationsInput | string | null

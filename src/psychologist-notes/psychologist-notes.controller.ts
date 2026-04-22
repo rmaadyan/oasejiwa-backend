@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Put,
   Post,
   Query,
@@ -14,11 +13,10 @@ import { PsychologistNotesService } from './psychologist-notes.service';
 import { CreatePsychologistNoteDto } from './dto/create-psychologist-note.dto';
 import { UpdatePsychologistNoteDto } from './dto/update-psychologist-note.dto';
 import { QueryPsychologistNoteDto } from './dto/query-psychologist-note.dto';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { Roles } from '../common/decorators/roles.decorator';
-import { RolesGuard } from '../common/guards/roles.guard';
-import type { AuthUser } from '../common/interfaces/auth-user.interface';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('psychologist')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +28,7 @@ export class PsychologistNotesController {
 
   @Post('notes')
   create(
-    @CurrentUser() user: AuthUser,
+    @CurrentUser() user: any,
     @Body() dto: CreatePsychologistNoteDto,
   ) {
     return this.psychologistNotesService.create(user, dto);
@@ -38,7 +36,7 @@ export class PsychologistNotesController {
 
   @Get('notes')
   findAll(
-    @CurrentUser() user: AuthUser,
+    @CurrentUser() user: any,
     @Query() query: QueryPsychologistNoteDto,
   ) {
     return this.psychologistNotesService.findAll(user, query);
@@ -46,24 +44,24 @@ export class PsychologistNotesController {
 
   @Get('notes/:id')
   findOne(
-    @CurrentUser() user: AuthUser,
-    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: any,
+    @Param('id') id: string,
   ) {
     return this.psychologistNotesService.findOne(user, id);
   }
 
-  @Get('sessions/:sessionId/notes')
-  findBySessionId(
-    @CurrentUser() user: AuthUser,
-    @Param('sessionId', ParseIntPipe) sessionId: number,
+  @Get('sessions/:scheduleId/notes')
+  findByScheduleId(
+    @CurrentUser() user: any,
+    @Param('scheduleId') scheduleId: string,
   ) {
-    return this.psychologistNotesService.findBySessionId(user, sessionId);
+    return this.psychologistNotesService.findByScheduleId(user, scheduleId);
   }
 
   @Put('notes/:id')
   update(
-    @CurrentUser() user: AuthUser,
-    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: any,
+    @Param('id') id: string,
     @Body() dto: UpdatePsychologistNoteDto,
   ) {
     return this.psychologistNotesService.update(user, id, dto);
@@ -71,8 +69,8 @@ export class PsychologistNotesController {
 
   @Delete('notes/:id')
   remove(
-    @CurrentUser() user: AuthUser,
-    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: any,
+    @Param('id') id: string,
   ) {
     return this.psychologistNotesService.remove(user, id);
   }

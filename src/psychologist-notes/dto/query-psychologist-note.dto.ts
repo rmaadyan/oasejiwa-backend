@@ -7,8 +7,8 @@ export class QueryPsychologistNoteDto {
   search?: string;
 
   @IsOptional()
-  @Transform(({ value }) => Number(value))
-  patientId?: number;
+  @IsString()
+  userId?: string;
 
   @IsOptional()
   @IsIn(['low', 'medium', 'high', 'all'])

@@ -1,16 +1,17 @@
 import {
   IsArray,
   IsIn,
-  IsInt,
   IsOptional,
   IsString,
-  Min,
 } from 'class-validator';
 
 export class CreatePsychologistNoteDto {
-  @IsInt()
-  @Min(1)
-  sessionId!: number;
+  @IsOptional()
+  @IsString()
+  scheduleId?: string;
+
+  @IsString()
+  userId!: string;
 
   @IsString()
   subjective!: string;

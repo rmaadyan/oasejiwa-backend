@@ -4,10 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { Prisma } from '../../.prisma-client/client';
-import { RiskLevel, Role } from '../../.prisma-client/enums';
 import { PrismaService } from '../prisma/prisma.service';
-import type { AuthUser } from '../common/interfaces/auth-user.interface';
 import { CreatePsychologistNoteDto } from './dto/create-psychologist-note.dto';
 import { UpdatePsychologistNoteDto } from './dto/update-psychologist-note.dto';
 import { QueryPsychologistNoteDto } from './dto/query-psychologist-note.dto';
@@ -16,77 +13,64 @@ import { QueryPsychologistNoteDto } from './dto/query-psychologist-note.dto';
 export class PsychologistNotesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly riskLevelMap: Record<'low' | 'medium' | 'high', RiskLevel> = {
-    low: RiskLevel.LOW,
-    medium: RiskLevel.MEDIUM,
-    high: RiskLevel.HIGH,
-  };
+  private readonly riskLevelMap = {
+    low: 'LOW',
+    medium: 'MEDIUM',
+    high: 'HIGH',
+  } as const;
 
-  private readonly reverseRiskLevelMap: Record<RiskLevel, 'low' | 'medium' | 'high'> = {
+  private readonly reverseRiskLevelMap = {
     LOW: 'low',
     MEDIUM: 'medium',
     HIGH: 'high',
-  };
+  } as const;
 
-  private async getPsychologistId(currentUser: AuthUser): Promise<number> {
-    if (currentUser.psychologistId) {
-      return currentUser.psychologistId;
-    }
-
-    const psychologist = await this.prisma.psychologist.findUnique({
-      where: { userId: currentUser.sub },
-      select: { id: true },
+  private async getPsychologistProfile(currentUser: any) {
+    const profile = await this.prisma.psychologistProfile.findUnique({
+      where: { userId: currentUser.id },
+      select: {
+        id: true,
+        fullName: true,
+      },
     });
 
-    if (!psychologist) {
+    if (!profile) {
       throw new ForbiddenException('Akun ini bukan psikolog');
     }
 
-    return psychologist.id;
+    return profile;
   }
 
-  private async writeAuditLog(params: {
-    actorUserId: number;
-    actorRole: Role;
-    action: string;
-    entity: string;
-    entityId: number;
-    metadata?: Prisma.InputJsonValue;
-  }) {
-    await this.prisma.auditLog.create({
-      data: {
-        actorUserId: params.actorUserId,
-        actorRole: params.actorRole,
-        action: params.action,
-        entity: params.entity,
-        entityId: params.entityId,
-        metadata: params.metadata,
-      },
-    });
+  private calculateDuration(startTime?: string | null, duration?: number | null) {
+    if (!startTime || !duration) return duration ?? null;
+    return duration;
   }
 
   private mapNoteResponse(note: any) {
     return {
       id: note.id,
-      sessionId: note.sessionId,
-      psychologistId: note.psychologistId,
-      patientId: note.patient.id,
-      patientName: note.patient.fullName,
-      sessionDate: note.session?.date
-        ? new Date(note.session.date).toISOString().split('T')[0]
+      scheduleId: note.scheduleId,
+      psychologistId: note.psychologistProfileId,
+      patientId: note.user.id,
+      patientName:
+        note.user.userProfile?.fullName ||
+        note.user.email ||
+        'Unknown User',
+      sessionDate: note.schedule?.date
+        ? new Date(note.schedule.date).toISOString().split('T')[0]
         : null,
-      sessionTime: note.session?.startTime ?? null,
-      duration:
-        note.session?.startTime && note.session?.endTime
-          ? this.calculateDuration(note.session.startTime, note.session.endTime)
-          : null,
+      sessionTime: note.schedule?.startTime ?? null,
+      duration: this.calculateDuration(
+        note.schedule?.startTime,
+        note.schedule?.duration,
+      ),
       sessionNumber: 1,
       service: 'Konseling Individu',
       subjective: note.subjective,
       objective: note.objective,
       assessment: note.assessment,
       plan: note.plan,
-      riskLevel: this.reverseRiskLevelMap[note.riskLevel],
+      riskLevel: this.reverseRiskLevelMap[note.riskLevel as 'LOW' | 'MEDIUM' | 'HIGH'],
       followUpDate: note.followUpDate
         ? new Date(note.followUpDate).toISOString().split('T')[0]
         : null,
@@ -97,125 +81,99 @@ export class PsychologistNotesService {
     };
   }
 
-  private calculateDuration(startTime: string, endTime: string): number | null {
-    const [startHour, startMinute] = startTime.split(':').map(Number);
-    const [endHour, endMinute] = endTime.split(':').map(Number);
+  async create(currentUser: any, dto: CreatePsychologistNoteDto) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
-    if (
-      Number.isNaN(startHour) ||
-      Number.isNaN(startMinute) ||
-      Number.isNaN(endHour) ||
-      Number.isNaN(endMinute)
-    ) {
-      return null;
-    }
-
-    const start = startHour * 60 + startMinute;
-    const end = endHour * 60 + endMinute;
-
-    return end > start ? end - start : null;
-  }
-
-  async create(currentUser: AuthUser, dto: CreatePsychologistNoteDto) {
-    const psychologistId = await this.getPsychologistId(currentUser);
-
-    const session = await this.prisma.session.findFirst({
-      where: {
-        id: dto.sessionId,
-        psychologistId,
-        deletedAt: null,
-      },
+    const user = await this.prisma.user.findUnique({
+      where: { id: dto.userId },
       select: {
         id: true,
-        patientId: true,
+        role: true,
       },
     });
 
-    if (!session) {
-      throw new ForbiddenException('Sesi tidak ditemukan atau bukan milik Anda');
+    if (!user) {
+      throw new NotFoundException('Pasien tidak ditemukan');
     }
 
-    const existingNote = await this.prisma.sessionNote.findFirst({
-      where: {
-        sessionId: dto.sessionId,
-        deletedAt: null,
-      },
-      select: { id: true },
-    });
+    if (user.role !== 'USER') {
+      throw new BadRequestException('Target note harus user/pasien');
+    }
 
-    if (existingNote) {
-      throw new BadRequestException('Catatan untuk sesi ini sudah ada');
+    if (dto.scheduleId) {
+      const schedule = await this.prisma.schedule.findFirst({
+        where: {
+          id: dto.scheduleId,
+          psychologistId: psychologist.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!schedule) {
+        throw new ForbiddenException('Jadwal tidak ditemukan atau bukan milik Anda');
+      }
+
+      const existingNote = await this.prisma.sessionNote.findFirst({
+        where: {
+          scheduleId: dto.scheduleId,
+          deletedAt: null,
+        },
+        select: { id: true },
+      });
+
+      if (existingNote) {
+        throw new BadRequestException('Catatan untuk jadwal ini sudah ada');
+      }
     }
 
     const note = await this.prisma.sessionNote.create({
       data: {
-        sessionId: dto.sessionId,
-        psychologistId,
-        patientId: session.patientId,
+        psychologistProfileId: psychologist.id,
+        userId: dto.userId,
+        scheduleId: dto.scheduleId,
         subjective: dto.subjective,
         objective: dto.objective,
         assessment: dto.assessment,
         plan: dto.plan,
         riskLevel: dto.riskLevel
           ? this.riskLevelMap[dto.riskLevel]
-          : RiskLevel.LOW,
+          : 'LOW',
         followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
         nextSessionRecommendation: dto.nextSessionRecommendation,
         tags: dto.tags ?? [],
       },
       include: {
-        patient: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-            phone: true,
+        user: {
+          include: {
+            userProfile: true,
           },
         },
-        session: {
-          select: {
-            id: true,
-            date: true,
-            startTime: true,
-            endTime: true,
-            status: true,
-          },
-        },
-      },
-    });
-
-    await this.writeAuditLog({
-      actorUserId: currentUser.sub,
-      actorRole: Role.PSYCHOLOGIST,
-      action: 'CREATE',
-      entity: 'SessionNote',
-      entityId: note.id,
-      metadata: {
-        sessionId: note.sessionId,
-        psychologistId,
+        schedule: true,
       },
     });
 
     return this.mapNoteResponse(note);
   }
 
-  async findAll(currentUser: AuthUser, query: QueryPsychologistNoteDto) {
-    const psychologistId = await this.getPsychologistId(currentUser);
+  async findAll(currentUser: any, query: QueryPsychologistNoteDto) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.SessionNoteWhereInput = {
-      psychologistId,
+    const where: any = {
+      psychologistProfileId: psychologist.id,
       deletedAt: null,
-      ...(query.patientId ? { patientId: query.patientId } : {}),
+      ...(query.userId ? { userId: query.userId } : {}),
       ...(query.riskLevel && query.riskLevel !== 'all'
         ? { riskLevel: this.riskLevelMap[query.riskLevel] }
         : {}),
       ...(query.dateFrom || query.dateTo
         ? {
-            session: {
+            schedule: {
               date: {
                 ...(query.dateFrom ? { gte: new Date(query.dateFrom) } : {}),
                 ...(query.dateTo ? { lte: new Date(query.dateTo) } : {}),
@@ -231,8 +189,15 @@ export class PsychologistNotesService {
               { assessment: { contains: query.search, mode: 'insensitive' } },
               { plan: { contains: query.search, mode: 'insensitive' } },
               {
-                patient: {
-                  fullName: { contains: query.search, mode: 'insensitive' },
+                user: {
+                  userProfile: {
+                    fullName: { contains: query.search, mode: 'insensitive' },
+                  },
+                },
+              },
+              {
+                user: {
+                  email: { contains: query.search, mode: 'insensitive' },
                 },
               },
             ],
@@ -240,14 +205,14 @@ export class PsychologistNotesService {
         : {}),
     };
 
-    let orderBy: Prisma.SessionNoteOrderByWithRelationInput = {
+    let orderBy: any = {
       createdAt: 'desc',
     };
 
     if (query.sortBy === 'patient') {
       orderBy = {
-        patient: {
-          fullName: 'asc',
+        user: {
+          email: 'asc',
         },
       };
     }
@@ -262,13 +227,13 @@ export class PsychologistNotesService {
       await this.prisma.$transaction([
         this.prisma.sessionNote.count({ where }),
         this.prisma.sessionNote.count({
-          where: { ...where, riskLevel: RiskLevel.LOW },
+          where: { ...where, riskLevel: 'LOW' },
         }),
         this.prisma.sessionNote.count({
-          where: { ...where, riskLevel: RiskLevel.MEDIUM },
+          where: { ...where, riskLevel: 'MEDIUM' },
         }),
         this.prisma.sessionNote.count({
-          where: { ...where, riskLevel: RiskLevel.HIGH },
+          where: { ...where, riskLevel: 'HIGH' },
         }),
         this.prisma.sessionNote.findMany({
           where,
@@ -276,29 +241,18 @@ export class PsychologistNotesService {
           take: limit,
           orderBy,
           include: {
-            patient: {
-              select: {
-                id: true,
-                fullName: true,
-                email: true,
-                phone: true,
+            user: {
+              include: {
+                userProfile: true,
               },
             },
-            session: {
-              select: {
-                id: true,
-                date: true,
-                startTime: true,
-                endTime: true,
-                status: true,
-              },
-            },
+            schedule: true,
           },
         }),
       ]);
 
     return {
-      notes: notes.map((note) => this.mapNoteResponse(note)),
+      notes: notes.map((note: any) => this.mapNoteResponse(note)),
       total,
       lowRiskCount,
       mediumRiskCount,
@@ -309,33 +263,22 @@ export class PsychologistNotesService {
     };
   }
 
-  async findOne(currentUser: AuthUser, id: number) {
-    const psychologistId = await this.getPsychologistId(currentUser);
+  async findOne(currentUser: any, id: string) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
     const note = await this.prisma.sessionNote.findFirst({
       where: {
         id,
-        psychologistId,
+        psychologistProfileId: psychologist.id,
         deletedAt: null,
       },
       include: {
-        patient: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-            phone: true,
+        user: {
+          include: {
+            userProfile: true,
           },
         },
-        session: {
-          select: {
-            id: true,
-            date: true,
-            startTime: true,
-            endTime: true,
-            status: true,
-          },
-        },
+        schedule: true,
       },
     });
 
@@ -343,45 +286,25 @@ export class PsychologistNotesService {
       throw new NotFoundException('Catatan tidak ditemukan');
     }
 
-    await this.writeAuditLog({
-      actorUserId: currentUser.sub,
-      actorRole: Role.PSYCHOLOGIST,
-      action: 'READ_DETAIL',
-      entity: 'SessionNote',
-      entityId: note.id,
-      metadata: { psychologistId },
-    });
-
     return this.mapNoteResponse(note);
   }
 
-  async findBySessionId(currentUser: AuthUser, sessionId: number) {
-    const psychologistId = await this.getPsychologistId(currentUser);
+  async findByScheduleId(currentUser: any, scheduleId: string) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
     const note = await this.prisma.sessionNote.findFirst({
       where: {
-        sessionId,
-        psychologistId,
+        scheduleId,
+        psychologistProfileId: psychologist.id,
         deletedAt: null,
       },
       include: {
-        patient: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-            phone: true,
+        user: {
+          include: {
+            userProfile: true,
           },
         },
-        session: {
-          select: {
-            id: true,
-            date: true,
-            startTime: true,
-            endTime: true,
-            status: true,
-          },
-        },
+        schedule: true,
       },
     });
 
@@ -392,22 +315,18 @@ export class PsychologistNotesService {
     return this.mapNoteResponse(note);
   }
 
-  async update(
-    currentUser: AuthUser,
-    id: number,
-    dto: UpdatePsychologistNoteDto,
-  ) {
-    const psychologistId = await this.getPsychologistId(currentUser);
+  async update(currentUser: any, id: string, dto: UpdatePsychologistNoteDto) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
     const existingNote = await this.prisma.sessionNote.findFirst({
       where: {
         id,
-        psychologistId,
+        psychologistProfileId: psychologist.id,
         deletedAt: null,
       },
       select: {
         id: true,
-        sessionId: true,
+        scheduleId: true,
       },
     });
 
@@ -415,8 +334,12 @@ export class PsychologistNotesService {
       throw new NotFoundException('Catatan tidak ditemukan');
     }
 
-    if (dto.sessionId && dto.sessionId !== existingNote.sessionId) {
-      throw new BadRequestException('sessionId tidak boleh diubah');
+    if (dto.scheduleId && dto.scheduleId !== existingNote.scheduleId) {
+      throw new BadRequestException('scheduleId tidak boleh diubah');
+    }
+
+    if (dto.userId) {
+      throw new BadRequestException('userId tidak boleh diubah');
     }
 
     const updated = await this.prisma.sessionNote.update({
@@ -441,45 +364,25 @@ export class PsychologistNotesService {
         tags: dto.tags ?? undefined,
       },
       include: {
-        patient: {
-          select: {
-            id: true,
-            fullName: true,
-            email: true,
-            phone: true,
+        user: {
+          include: {
+            userProfile: true,
           },
         },
-        session: {
-          select: {
-            id: true,
-            date: true,
-            startTime: true,
-            endTime: true,
-            status: true,
-          },
-        },
+        schedule: true,
       },
-    });
-
-    await this.writeAuditLog({
-      actorUserId: currentUser.sub,
-      actorRole: Role.PSYCHOLOGIST,
-      action: 'UPDATE',
-      entity: 'SessionNote',
-      entityId: updated.id,
-      metadata: { psychologistId },
     });
 
     return this.mapNoteResponse(updated);
   }
 
-  async remove(currentUser: AuthUser, id: number) {
-    const psychologistId = await this.getPsychologistId(currentUser);
+  async remove(currentUser: any, id: string) {
+    const psychologist = await this.getPsychologistProfile(currentUser);
 
     const existingNote = await this.prisma.sessionNote.findFirst({
       where: {
         id,
-        psychologistId,
+        psychologistProfileId: psychologist.id,
         deletedAt: null,
       },
       select: { id: true },
@@ -494,15 +397,6 @@ export class PsychologistNotesService {
       data: {
         deletedAt: new Date(),
       },
-    });
-
-    await this.writeAuditLog({
-      actorUserId: currentUser.sub,
-      actorRole: Role.PSYCHOLOGIST,
-      action: 'SOFT_DELETE',
-      entity: 'SessionNote',
-      entityId: id,
-      metadata: { psychologistId },
     });
 
     return {
