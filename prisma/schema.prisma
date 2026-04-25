@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 enum Role {
@@ -24,20 +24,23 @@ enum Gender {
 }
 
 model User {
-  id                String    @id @default(uuid())
-  email             String    @unique
-  role              Role      @default(USER)
-  isEmailVerified   Boolean   @default(false)
-  isProfileComplete Boolean   @default(false)
-  isFirstLogin      Boolean   @default(false)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id                String   @id @default(uuid())
+  email             String   @unique
+  role              Role     @default(USER)
+  isEmailVerified   Boolean  @default(false)
+  isProfileComplete Boolean  @default(false)
+  isFirstLogin      Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   authProvider        AuthProvider?
   passwordResets      PasswordReset[]
   userProfile         UserProfile?
   psychologistProfile PsychologistProfile?
-  emailVerifications   EmailVerification[]
+  emailVerifications  EmailVerification[]
+  bookings            Booking[]           @relation("UserBookings")
+  adminApprovals      Booking[]           @relation("AdminApprovals")
+  reviews             BookingReview[]     @relation("UserReviews")
 }
 
 model AuthProvider {
@@ -49,7 +52,7 @@ model AuthProvider {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerId])
 }
@@ -62,21 +65,21 @@ model PasswordReset {
   usedAt    DateTime?
   createdAt DateTime  @default(now())
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserProfile {
-  id        String    @id @default(uuid())
-  userId    String    @unique
-  fullName  String?
-  birthday  DateTime?
-  gender    Gender?
-  country   String?
-  city      String?
-  fullAddress   String?
-  phone     String?
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  fullName    String?
+  birthday    DateTime?
+  gender      Gender?
+  country     String?
+  city        String?
+  fullAddress String?
+  phone       String?
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PsychologistProfile {
@@ -96,6 +99,8 @@ model PsychologistProfile {
   specializations Specialization[]
   expertises      Expertise[]
   schedules       Schedule[]
+  bookings        Booking[]           @relation("PsychologistBookings")
+  reviews         BookingReview[]     @relation("PsychologistReviews")
 }
 
 model Education {
@@ -108,16 +113,16 @@ model Education {
   endYear        Int
   createdAt      DateTime @default(now())
 
-  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
 model Experience {
   id             String   @id @default(uuid())
   psychologistId String
-  name          String
+  name           String
   createdAt      DateTime @default(now())
 
-  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
 model Specialization {
@@ -126,7 +131,7 @@ model Specialization {
   name           String
   createdAt      DateTime @default(now())
 
-  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
 model Expertise {
@@ -135,7 +140,7 @@ model Expertise {
   name           String
   createdAt      DateTime @default(now())
 
-  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
 model Schedule {
@@ -147,18 +152,18 @@ model Schedule {
   isAvailable    Boolean  @default(true)
   createdAt      DateTime @default(now())
 
-  psychologist   PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
-model EmailVerification{
-  id            String    @id @default(uuid())
-  userId        String
-  token         String    @unique
-  expiresAt     DateTime
-  usedAt        DateTime?
-  createdAt     DateTime    @default(now())
+model EmailVerification {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum JenisLayanan {
@@ -174,17 +179,221 @@ enum Kategori {
 }
 
 model Layanan {
-  id            Int      @id @default(autoincrement())
-  nama          String   @unique
-  jenis         JenisLayanan
-  kategori      Kategori
-  deskripsi     String?
-  catatan       String?
-  durasiMenit   Int
-  harga         Int      // dalam rupiah (misalnya 150000)
-  status        String   @default("Aktif")
-  gambar        String?
+  id          Int          @id @default(autoincrement())
+  nama        String       @unique
+  jenis       JenisLayanan
+  kategori    Kategori
+  deskripsi   String?
+  catatan     String?
+  durasiMenit Int
+  harga       Int // dalam rupiah (misalnya 150000)
+  status      String       @default("Aktif")
+  gambar      String?
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking[] @relation("LayananBookings")
+}
+
+enum BookingStatus {
+  PENDING_DP
+  WAITING_APPROVAL
+  APPROVED
+  REJECTED
+  FULLY_PAID
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id               Int           @id @default(autoincrement())
+  bookingCode      String        @unique
+  userId           String
+  psychologistId   String
+  serviceId        Int
+  scheduledDate    DateTime      @db.Date
+  scheduledTime    String
+  totalPrice       Int
+  dpAmount         Int
+  remainingAmount  Int
+  status           BookingStatus @default(PENDING_DP)
+  adminApprovedBy  String?
+  approvedAt       DateTime?
+  rejectionReason  String?
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  user             User                @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist     PsychologistProfile @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
+  service          Layanan             @relation("LayananBookings", fields: [serviceId], references: [id])
+  approvedByAdmin  User?               @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
+
+  consultationForm ConsultationForm?
+  consentForm      ConsentForm?
+  payments         Payment[]
+  review           BookingReview?
+}
+
+// ─── ConsultationForm ────────────────────────────────────────────────────────
+
+enum ProblemDuration {
+  LESS_THAN_1_MONTH
+  ONE_TO_3_MONTHS
+  THREE_TO_6_MONTHS
+  MORE_THAN_6_MONTHS
+}
+
+enum SymptomFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  RARELY
+}
+
+enum DailyImpact {
+  NONE
+  MILD
+  MODERATE
+  SEVERE
+}
+
+enum SleepQuality {
+  GOOD
+  FAIR
+  POOR
+  DISTURBED
+}
+
+enum SelfHarmThoughts {
+  NEVER
+  SOMETIMES
+  FREQUENT
+}
+
+enum EatingPattern {
+  REGULAR
+  IRREGULAR
+  OVEREATING
+  UNDEREATING
+}
+
+enum ExerciseFrequency {
+  NEVER
+  RARELY
+  SOMETIMES
+  REGULARLY
+}
+
+enum StressLevel {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum TherapyPreference {
+  DIRECTIVE
+  COLLABORATIVE
+  NO_PREFERENCE
+}
+
+model ConsultationForm {
+  id                        Int               @id @default(autoincrement())
+  bookingId                 Int               @unique
+  mainReason                String
+  takingPsychiatricMeds     Boolean
+  problemDuration           ProblemDuration
+  symptomFrequency          SymptomFrequency
+  dailyImpact               DailyImpact
+  hasSimilarHistory         Boolean
+  similarHistoryDetail      String?
+  hasFamilyHistory          Boolean
+  familyHistoryDetail       String?
+  hasMedicalTreatment       Boolean
+  medicalTreatmentDetail    String?
+  hasTraumaticEvent         Boolean
+  traumaticEventDetail      String?
+  sleepQuality              SleepQuality
+  selfHarmThoughts          SelfHarmThoughts
+  usesAddictiveSubstances   Boolean
+  addictiveSubstancesDetail String?
+  eatingPattern             EatingPattern
+  exerciseFrequency         ExerciseFrequency
+  stressLevel               StressLevel
+  consultationGoals         String[]
+  therapyPreference         TherapyPreference
+  createdAt                 DateTime          @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+// ─── ConsentForm ─────────────────────────────────────────────────────────────
+
+enum SignatureType {
+  TEXT
+  DRAWING
+}
+
+model ConsentForm {
+  id                     Int           @id @default(autoincrement())
+  bookingId              Int           @unique
+  consentDate            DateTime      @db.Date
+  clientNameConfirmation String
+  signatureData          String
+  signatureType          SignatureType
+  agreedToTerms          Boolean
+  ipAddress              String?
+  createdAt              DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+// ─── Payment ─────────────────────────────────────────────────────────────────
+
+enum PaymentType {
+  DOWN_PAYMENT
+  FULL_PAYMENT
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  EXPIRED
+  FAILED
+}
+
+model Payment {
+  id               Int           @id @default(autoincrement())
+  bookingId        Int
+  type             PaymentType
+  amount           Int
+  method           String
+  orderId          String        @unique
+  virtualAccount   String?
+  paymentProofUrl  String?
+  status           PaymentStatus @default(PENDING)
+  paidAt           DateTime?
+  expiredAt        DateTime
+  createdAt        DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+// ─── BookingReview ────────────────────────────────────────────────────────────
+
+model BookingReview {
+  id             Int     @id @default(autoincrement())
+  bookingId      Int     @unique
+  userId         String
+  psychologistId String
+  rating         Int
+  comment        String?
+  isAnonymous    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  booking      Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user         User                @relation("UserReviews", fields: [userId], references: [id])
+  psychologist PsychologistProfile @relation("PsychologistReviews", fields: [psychologistId], references: [id])
 }

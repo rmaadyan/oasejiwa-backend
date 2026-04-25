@@ -10,6 +10,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
+import { BookingModule } from './booking/booking.module';
+import { PaymentModule } from './payment/payment.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
@@ -18,6 +20,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     AuthModule,
     EmailModule,
     LayananModule,
+    BookingModule,
+    PaymentModule,
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',

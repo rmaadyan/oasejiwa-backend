@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Get, Param, Patch, Delete } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get, Param, Patch, Delete, Req, ParseIntPipe, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreatePsychologistDto } from './dto/create-psychologist.dto';
 import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
@@ -8,12 +8,16 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadedFile, UseInterceptors } from '@nestjs/common';
 import { multerConfig } from './config/upload.config';
+import { BookingService } from '../booking/booking.service';
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')
 export class AdminController {
-    constructor(private adminService: AdminService){}
+    constructor(
+        private adminService: AdminService,
+        private bookingService: BookingService,
+    ){}
 
     @Post('psychologist')
     @UseInterceptors(FileInterceptor('avatar', multerConfig))
@@ -63,4 +67,31 @@ export class AdminController {
     deleteUser(@Param('id') id: string) {
         return this.adminService.deleteUser(id);
     }
+
+    // ─── Booking Management ──────────────────────────────────
+
+    @Get('bookings')
+    getAllBookings() {
+        return this.bookingService.getAllBookings();
+    }
+
+    @Get('bookings/:id')
+    getBookingDetail(@Param('id', ParseIntPipe) id: number, @Req() req) {
+        return this.bookingService.getBookingById(id, req.user.id, req.user.role);
+    }
+
+    @Patch('bookings/:id/approve')
+    approveBooking(@Param('id', ParseIntPipe) id: number, @Req() req) {
+        return this.bookingService.approveBooking(id, req.user.id);
+    }
+
+    @Patch('bookings/:id/reject')
+    rejectBooking(
+        @Param('id', ParseIntPipe) id: number,
+        @Req() req,
+        @Body('reason') reason?: string,
+    ) {
+        return this.bookingService.rejectBooking(id, req.user.id, reason);
+    }
 }
+
