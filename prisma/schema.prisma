@@ -1,12 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
@@ -44,19 +41,41 @@ enum TestAttemptStatus {
   COMPLETED
 }
 
+enum JenisLayanan {
+  Konseling
+  Workshop
+  Training
+  Lainnya
+}
+
+enum Kategori {
+  Paket
+  NonPaket
+}
+
+enum TesStatus {
+  Aktif
+  Draft
+}
+
+enum ArahItem {
+  positif
+  negatif
+}
+
 // ─── Models ───────────────────────────────────────────────────────────────────
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  passwordHash  String    @map("password_hash")
-  fullName      String    @map("full_name")
-  role          Role
-  phoneNumber   String?   @map("phone_number")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  fullName     String   @map("full_name")
+  role         Role
+  phoneNumber  String?  @map("phone_number")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  clientProfile  ClientProfile?
+  clientProfile   ClientProfile?
   psikologProfile PsikologProfile?
 
   @@map("users")
@@ -92,63 +111,65 @@ model PsikologProfile {
   @@map("psikolog_profiles")
 }
 
-model Service {
-  id              String  @id @default(uuid())
-  name            String
-  description     String?
-  durationMinutes Int?    @map("duration_minutes")
-  basePrice       Float?  @map("base_price")
+model Layanan {
+  id          Int          @id @default(autoincrement())
+  nama        String       @unique
+  jenis       JenisLayanan
+  kategori    Kategori
+  deskripsi   String?
+  catatan     String?
+  durasiMenit Int
+  harga       Int
+  status      String       @default("Aktif")
+  gambar      String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   bookings Booking[]
-
-  @@map("services")
-}
-
-model Package {
-  id            String @id @default(uuid())
-  name          String
-  sessionsCount Int    @map("sessions_count")
-  price         Float
-  discount      Float  @default(0)
-
-  @@map("packages")
-}
-
-model Test {
-  id                      String  @id @default(uuid())
-  name                    String
-  description             String?
-  price                   Float?
-  estimatedDurationMinutes Int?   @map("estimated_duration_minutes")
-
-  attempts TestAttempt[]
-
-  @@map("tests")
 }
 
 model Booking {
-  id             String        @id @default(uuid())
-  clientId       String        @map("client_id")
-  psikologId     String        @map("psikolog_id")
-  serviceId      String        @map("service_id")
-  scheduleStart  DateTime      @map("schedule_start")
-  scheduleEnd    DateTime      @map("schedule_end")
-  status         BookingStatus @default(PENDING)
-  paymentStatus  PaymentStatus @default(UNPAID) @map("payment_status")
-  meetingLink    String?       @map("meeting_link")
-  notes          String?
+  id            String        @id @default(uuid())
+  clientId      String        @map("client_id")
+  psikologId    String        @map("psikolog_id")
+  layananId     Int           @map("layanan_id")
+  scheduleStart DateTime      @map("schedule_start")
+  scheduleEnd   DateTime      @map("schedule_end")
+  status        BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(UNPAID) @map("payment_status")
+  meetingLink   String?       @map("meeting_link")
+  notes         String?
 
   client   ClientProfile   @relation(fields: [clientId], references: [id])
   psikolog PsikologProfile @relation(fields: [psikologId], references: [id])
-  service  Service         @relation(fields: [serviceId], references: [id])
+  layanan  Layanan         @relation(fields: [layananId], references: [id])
 
   @@map("bookings")
+}
+
+model Tes {
+  id              Int               @id @default(autoincrement())
+  nama            String
+  jumlah          Int
+  status          TesStatus         @default(Draft)
+  deskripsi       String
+  penjelasanHasil String
+  jenis           String?
+  coverUrl        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  pertanyaan      Pertanyaan[]
+  likertOptions   LikertOption[]
+  kategori        DiagnosisKategori[]
+  sectionKategori SectionKategori[]
+  attempts        TestAttempt[]
 }
 
 model TestAttempt {
   id            String            @id @default(uuid())
   clientId      String            @map("client_id")
-  testId        String            @map("test_id")
+  tesId         Int               @map("tes_id")
   status        TestAttemptStatus @default(IN_PROGRESS)
   score         Float?
   resultSummary String?           @map("result_summary")
@@ -156,9 +177,49 @@ model TestAttempt {
   completedAt   DateTime?         @map("completed_at")
 
   client ClientProfile @relation(fields: [clientId], references: [id])
-  test   Test          @relation(fields: [testId], references: [id])
+  tes    Tes           @relation(fields: [tesId], references: [id])
 
   @@map("test_attempts")
+}
+
+model Pertanyaan {
+  id      String   @id @default(uuid())
+  teks    String
+  arah    ArahItem
+  section String?
+  urutan  Int
+  tesId   Int
+  tes     Tes      @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model LikertOption {
+  id    String @id @default(uuid())
+  label String
+  value Int
+  tesId Int
+  tes   Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model DiagnosisKategori {
+  id        String  @id @default(uuid())
+  nama      String
+  minPersen Float
+  maxPersen Float
+  deskripsi String?
+  result    String?
+  tesId     Int
+  tes       Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model SectionKategori {
+  id          String  @id @default(uuid())
+  sectionNama String
+  nama        String
+  minSkor     Int
+  maxSkor     Int
+  deskripsi   String?
+  tesId       Int
+  tes         Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }
 
 model Testimonial {
@@ -173,4 +234,3 @@ model Testimonial {
 
   @@map("testimonials")
 }
-

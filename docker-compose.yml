@@ -1,5 +1,4 @@
 services:
-  # Database PostgreSQL
   postgres:
     image: postgres:15-alpine
     container_name: oase_db
@@ -13,7 +12,18 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # Portainer (UI untuk manajemen Docker)
+  backend:
+    build: .
+    container_name: oase_backend
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db?schema=public
+      PORT: 3000
+    depends_on:
+      - postgres
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
