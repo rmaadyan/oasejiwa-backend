@@ -10,6 +10,8 @@ import { PsychologistPatientsModule } from './psychologist-patients/psychologist
 import { PsychologistScheduleModule } from './psychologist-schedule/psychologist-schedule.module';
 import { PsychologistDashboardModule } from './psychologist-dashboard/psychologist-dashboard.module';
 import { AdminUsersModule } from './admin-users/admin-users.module';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
+import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
 
 @Module({
   imports: [  PrismaModule,
@@ -19,7 +21,9 @@ import { AdminUsersModule } from './admin-users/admin-users.module';
   PsychologistPatientsModule,
   PsychologistScheduleModule,
   PsychologistDashboardModule,
-  AdminUsersModule],
+  AdminUsersModule,
+  AdminDashboardModule,
+  AdminAnalyticsModule],
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })

@@ -16,7 +16,7 @@ import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
+@Roles('ADMIN')
 @Controller('admin-users')
 export class AdminUsersController {
   constructor(private readonly adminUsersService: AdminUsersService) {}
@@ -26,18 +26,18 @@ export class AdminUsersController {
     return this.adminUsersService.findAll(query);
   }
 
-@Get(':id')
-findOne(@Param('id') id: string) {
-  return this.adminUsersService.findOne(id);
-}
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.adminUsersService.findOne(id);
+  }
 
-@Patch(':id')
-update(@Param('id') id: string, @Body() dto: UpdateAdminUserDto) {
-  return this.adminUsersService.update(id, dto);
-}
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateAdminUserDto) {
+    return this.adminUsersService.update(id, dto);
+  }
 
-@Delete(':id')
-remove(@Param('id') id: string) {
-  return this.adminUsersService.remove(id);
-}
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.adminUsersService.remove(id);
+  }
 }

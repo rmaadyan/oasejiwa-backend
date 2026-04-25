@@ -33,3 +33,52 @@ export const RiskLevel = {
 } as const
 
 export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
+
+
+export const JenisLayanan = {
+  Konseling: 'Konseling',
+  Workshop: 'Workshop',
+  Training: 'Training',
+  Lainnya: 'Lainnya'
+} as const
+
+export type JenisLayanan = (typeof JenisLayanan)[keyof typeof JenisLayanan]
+
+
+export const Kategori = {
+  Paket: 'Paket',
+  NonPaket: 'NonPaket'
+} as const
+
+export type Kategori = (typeof Kategori)[keyof typeof Kategori]
+
+
+export const BookingStatus = {
+  PENDING_DP: 'PENDING_DP',
+  WAITING_APPROVAL: 'WAITING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  FULLY_PAID: 'FULLY_PAID',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const PaymentType = {
+  DOWN_PAYMENT: 'DOWN_PAYMENT',
+  FULL_PAYMENT: 'FULL_PAYMENT'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  EXPIRED: 'EXPIRED',
+  FAILED: 'FAILED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

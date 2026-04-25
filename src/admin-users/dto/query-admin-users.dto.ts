@@ -19,6 +19,6 @@ export class QueryAdminUsersDto {
   sort?: string = 'newest';
 
   @IsOptional()
-  @IsIn(['all', 'male', 'female'])
+  @IsIn(['all', 'male', 'female', 'MALE', 'FEMALE'])
   gender?: string = 'all';
 }

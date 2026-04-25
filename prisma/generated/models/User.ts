@@ -212,6 +212,8 @@ export type UserWhereInput = {
   psychologistProfile?: Prisma.XOR<Prisma.PsychologistProfileNullableScalarRelationFilter, Prisma.PsychologistProfileWhereInput> | null
   emailVerifications?: Prisma.EmailVerificationListRelationFilter
   sessionNotes?: Prisma.SessionNoteListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
+  adminApprovals?: Prisma.BookingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -229,6 +231,8 @@ export type UserOrderByWithRelationInput = {
   psychologistProfile?: Prisma.PsychologistProfileOrderByWithRelationInput
   emailVerifications?: Prisma.EmailVerificationOrderByRelationAggregateInput
   sessionNotes?: Prisma.SessionNoteOrderByRelationAggregateInput
+  bookings?: Prisma.BookingOrderByRelationAggregateInput
+  adminApprovals?: Prisma.BookingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -249,6 +253,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   psychologistProfile?: Prisma.XOR<Prisma.PsychologistProfileNullableScalarRelationFilter, Prisma.PsychologistProfileWhereInput> | null
   emailVerifications?: Prisma.EmailVerificationListRelationFilter
   sessionNotes?: Prisma.SessionNoteListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
+  adminApprovals?: Prisma.BookingListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -294,6 +300,8 @@ export type UserCreateInput = {
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -311,6 +319,8 @@ export type UserUncheckedCreateInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUpdateInput = {
@@ -328,6 +338,8 @@ export type UserUpdateInput = {
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -345,6 +357,8 @@ export type UserUncheckedUpdateInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -416,6 +430,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -518,6 +537,36 @@ export type UserUpdateOneRequiredWithoutSessionNotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionNotesInput, Prisma.UserUpdateWithoutSessionNotesInput>, Prisma.UserUncheckedUpdateWithoutSessionNotesInput>
 }
 
+export type UserCreateNestedOneWithoutBookingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutAdminApprovalsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalsInput, Prisma.UserUncheckedCreateWithoutAdminApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminApprovalsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookingsInput
+  upsert?: Prisma.UserUpsertWithoutBookingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBookingsInput, Prisma.UserUpdateWithoutBookingsInput>, Prisma.UserUncheckedUpdateWithoutBookingsInput>
+}
+
+export type UserUpdateOneWithoutAdminApprovalsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalsInput, Prisma.UserUncheckedCreateWithoutAdminApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminApprovalsInput
+  upsert?: Prisma.UserUpsertWithoutAdminApprovalsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminApprovalsInput, Prisma.UserUpdateWithoutAdminApprovalsInput>, Prisma.UserUncheckedUpdateWithoutAdminApprovalsInput>
+}
+
 export type UserCreateWithoutAuthProviderInput = {
   id?: string
   email: string
@@ -532,6 +581,8 @@ export type UserCreateWithoutAuthProviderInput = {
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutAuthProviderInput = {
@@ -548,6 +599,8 @@ export type UserUncheckedCreateWithoutAuthProviderInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutAuthProviderInput = {
@@ -580,6 +633,8 @@ export type UserUpdateWithoutAuthProviderInput = {
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthProviderInput = {
@@ -596,6 +651,8 @@ export type UserUncheckedUpdateWithoutAuthProviderInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutPasswordResetsInput = {
@@ -612,6 +669,8 @@ export type UserCreateWithoutPasswordResetsInput = {
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetsInput = {
@@ -628,6 +687,8 @@ export type UserUncheckedCreateWithoutPasswordResetsInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetsInput = {
@@ -660,6 +721,8 @@ export type UserUpdateWithoutPasswordResetsInput = {
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetsInput = {
@@ -676,6 +739,8 @@ export type UserUncheckedUpdateWithoutPasswordResetsInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutUserProfileInput = {
@@ -692,6 +757,8 @@ export type UserCreateWithoutUserProfileInput = {
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutUserProfileInput = {
@@ -708,6 +775,8 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutUserProfileInput = {
@@ -740,6 +809,8 @@ export type UserUpdateWithoutUserProfileInput = {
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserProfileInput = {
@@ -756,6 +827,8 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutPsychologistProfileInput = {
@@ -772,6 +845,8 @@ export type UserCreateWithoutPsychologistProfileInput = {
   userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutPsychologistProfileInput = {
@@ -788,6 +863,8 @@ export type UserUncheckedCreateWithoutPsychologistProfileInput = {
   userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutPsychologistProfileInput = {
@@ -820,6 +897,8 @@ export type UserUpdateWithoutPsychologistProfileInput = {
   userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPsychologistProfileInput = {
@@ -836,6 +915,8 @@ export type UserUncheckedUpdateWithoutPsychologistProfileInput = {
   userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -852,6 +933,8 @@ export type UserCreateWithoutEmailVerificationsInput = {
   userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -868,6 +951,8 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -900,6 +985,8 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -916,6 +1003,8 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserCreateWithoutSessionNotesInput = {
@@ -932,6 +1021,8 @@ export type UserCreateWithoutSessionNotesInput = {
   userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserUncheckedCreateWithoutSessionNotesInput = {
@@ -948,6 +1039,8 @@ export type UserUncheckedCreateWithoutSessionNotesInput = {
   userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
 }
 
 export type UserCreateOrConnectWithoutSessionNotesInput = {
@@ -980,6 +1073,8 @@ export type UserUpdateWithoutSessionNotesInput = {
   userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionNotesInput = {
@@ -996,6 +1091,184 @@ export type UserUncheckedUpdateWithoutSessionNotesInput = {
   userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserCreateWithoutBookingsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutBookingsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderUncheckedCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutBookingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+}
+
+export type UserCreateWithoutAdminApprovalsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdminApprovalsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderUncheckedCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdminApprovalsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalsInput, Prisma.UserUncheckedCreateWithoutAdminApprovalsInput>
+}
+
+export type UserUpsertWithoutBookingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBookingsInput, Prisma.UserUncheckedUpdateWithoutBookingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookingsInput, Prisma.UserUncheckedCreateWithoutBookingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBookingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBookingsInput, Prisma.UserUncheckedUpdateWithoutBookingsInput>
+}
+
+export type UserUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+}
+
+export type UserUpsertWithoutAdminApprovalsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminApprovalsInput, Prisma.UserUncheckedUpdateWithoutAdminApprovalsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalsInput, Prisma.UserUncheckedCreateWithoutAdminApprovalsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdminApprovalsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminApprovalsInput, Prisma.UserUncheckedUpdateWithoutAdminApprovalsInput>
+}
+
+export type UserUpdateWithoutAdminApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdminApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1007,12 +1280,16 @@ export type UserCountOutputType = {
   passwordResets: number
   emailVerifications: number
   sessionNotes: number
+  bookings: number
+  adminApprovals: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   passwordResets?: boolean | UserCountOutputTypeCountPasswordResetsArgs
   emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs
   sessionNotes?: boolean | UserCountOutputTypeCountSessionNotesArgs
+  bookings?: boolean | UserCountOutputTypeCountBookingsArgs
+  adminApprovals?: boolean | UserCountOutputTypeCountAdminApprovalsArgs
 }
 
 /**
@@ -1046,6 +1323,20 @@ export type UserCountOutputTypeCountSessionNotesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.SessionNoteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAdminApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1062,6 +1353,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   psychologistProfile?: boolean | Prisma.User$psychologistProfileArgs<ExtArgs>
   emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>
   sessionNotes?: boolean | Prisma.User$sessionNotesArgs<ExtArgs>
+  bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
+  adminApprovals?: boolean | Prisma.User$adminApprovalsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1106,6 +1399,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   psychologistProfile?: boolean | Prisma.User$psychologistProfileArgs<ExtArgs>
   emailVerifications?: boolean | Prisma.User$emailVerificationsArgs<ExtArgs>
   sessionNotes?: boolean | Prisma.User$sessionNotesArgs<ExtArgs>
+  bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
+  adminApprovals?: boolean | Prisma.User$adminApprovalsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1120,6 +1415,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     psychologistProfile: Prisma.$PsychologistProfilePayload<ExtArgs> | null
     emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[]
     sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
+    bookings: Prisma.$BookingPayload<ExtArgs>[]
+    adminApprovals: Prisma.$BookingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1530,6 +1827,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   psychologistProfile<T extends Prisma.User$psychologistProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$psychologistProfileArgs<ExtArgs>>): Prisma.Prisma__PsychologistProfileClient<runtime.Types.Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   emailVerifications<T extends Prisma.User$emailVerificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessionNotes<T extends Prisma.User$sessionNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  adminApprovals<T extends Prisma.User$adminApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2081,6 +2380,54 @@ export type User$sessionNotesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.SessionNoteScalarFieldEnum | Prisma.SessionNoteScalarFieldEnum[]
+}
+
+/**
+ * User.bookings
+ */
+export type User$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * User.adminApprovals
+ */
+export type User$adminApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
 }
 
 /**

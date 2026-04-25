@@ -62,7 +62,10 @@ export const ModelName = {
   Expertise: 'Expertise',
   Schedule: 'Schedule',
   EmailVerification: 'EmailVerification',
-  SessionNote: 'SessionNote'
+  SessionNote: 'SessionNote',
+  Layanan: 'Layanan',
+  Booking: 'Booking',
+  Payment: 'Payment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -238,6 +241,66 @@ export const SessionNoteScalarFieldEnum = {
 } as const
 
 export type SessionNoteScalarFieldEnum = (typeof SessionNoteScalarFieldEnum)[keyof typeof SessionNoteScalarFieldEnum]
+
+
+export const LayananScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  jenis: 'jenis',
+  kategori: 'kategori',
+  deskripsi: 'deskripsi',
+  catatan: 'catatan',
+  durasiMenit: 'durasiMenit',
+  harga: 'harga',
+  status: 'status',
+  gambar: 'gambar',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LayananScalarFieldEnum = (typeof LayananScalarFieldEnum)[keyof typeof LayananScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  bookingCode: 'bookingCode',
+  userId: 'userId',
+  psychologistId: 'psychologistId',
+  serviceId: 'serviceId',
+  scheduleId: 'scheduleId',
+  scheduledDate: 'scheduledDate',
+  scheduledTime: 'scheduledTime',
+  totalPrice: 'totalPrice',
+  dpAmount: 'dpAmount',
+  remainingAmount: 'remainingAmount',
+  status: 'status',
+  adminApprovedBy: 'adminApprovedBy',
+  approvedAt: 'approvedAt',
+  rejectionReason: 'rejectionReason',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  type: 'type',
+  amount: 'amount',
+  method: 'method',
+  orderId: 'orderId',
+  virtualAccount: 'virtualAccount',
+  paymentProofUrl: 'paymentProofUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  expiredAt: 'expiredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
 export const SortOrder = {

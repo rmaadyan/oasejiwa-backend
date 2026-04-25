@@ -77,7 +77,19 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     return this.client.sessionNote;
   }
 
-    $connect() {
+  get layanan() {
+  return this.client.layanan;
+}
+
+get booking() {
+  return this.client.booking;
+}
+
+get payment() {
+  return this.client.payment;
+}
+
+  $connect() {
     return this.client.$connect();
   }
 

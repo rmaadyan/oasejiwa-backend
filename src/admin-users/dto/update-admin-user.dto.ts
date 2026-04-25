@@ -2,10 +2,10 @@ import { IsIn, IsOptional } from 'class-validator';
 
 export class UpdateAdminUserDto {
   @IsOptional()
-  @IsIn(['admin', 'patient', 'psychologist'])
-  role?: string;
+  @IsIn(['USER', 'ADMIN', 'PSYCHOLOGIST'])
+  role?: 'USER' | 'ADMIN' | 'PSYCHOLOGIST';
 
   @IsOptional()
   @IsIn(['active', 'inactive'])
-  status?: string;
+  status?: 'active' | 'inactive';
 }

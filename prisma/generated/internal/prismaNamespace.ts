@@ -395,7 +395,10 @@ export const ModelName = {
   Expertise: 'Expertise',
   Schedule: 'Schedule',
   EmailVerification: 'EmailVerification',
-  SessionNote: 'SessionNote'
+  SessionNote: 'SessionNote',
+  Layanan: 'Layanan',
+  Booking: 'Booking',
+  Payment: 'Payment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authProvider" | "passwordReset" | "userProfile" | "psychologistProfile" | "education" | "experience" | "specialization" | "expertise" | "schedule" | "emailVerification" | "sessionNote"
+    modelProps: "user" | "authProvider" | "passwordReset" | "userProfile" | "psychologistProfile" | "education" | "experience" | "specialization" | "expertise" | "schedule" | "emailVerification" | "sessionNote" | "layanan" | "booking" | "payment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1303,6 +1306,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Layanan: {
+      payload: Prisma.$LayananPayload<ExtArgs>
+      fields: Prisma.LayananFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LayananFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LayananFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        findFirst: {
+          args: Prisma.LayananFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LayananFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        findMany: {
+          args: Prisma.LayananFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>[]
+        }
+        create: {
+          args: Prisma.LayananCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        createMany: {
+          args: Prisma.LayananCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LayananCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>[]
+        }
+        delete: {
+          args: Prisma.LayananDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        update: {
+          args: Prisma.LayananUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        deleteMany: {
+          args: Prisma.LayananDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LayananUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LayananUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>[]
+        }
+        upsert: {
+          args: Prisma.LayananUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LayananPayload>
+        }
+        aggregate: {
+          args: Prisma.LayananAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLayanan>
+        }
+        groupBy: {
+          args: Prisma.LayananGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LayananGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LayananCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LayananCountAggregateOutputType> | number
+        }
+      }
+    }
+    Booking: {
+      payload: Prisma.$BookingPayload<ExtArgs>
+      fields: Prisma.BookingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BookingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BookingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        findFirst: {
+          args: Prisma.BookingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BookingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        findMany: {
+          args: Prisma.BookingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>[]
+        }
+        create: {
+          args: Prisma.BookingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        createMany: {
+          args: Prisma.BookingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BookingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>[]
+        }
+        delete: {
+          args: Prisma.BookingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        update: {
+          args: Prisma.BookingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        deleteMany: {
+          args: Prisma.BookingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BookingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BookingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>[]
+        }
+        upsert: {
+          args: Prisma.BookingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingPayload>
+        }
+        aggregate: {
+          args: Prisma.BookingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBooking>
+        }
+        groupBy: {
+          args: Prisma.BookingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BookingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingCountAggregateOutputType> | number
+        }
+      }
+    }
+    Payment: {
+      payload: Prisma.$PaymentPayload<ExtArgs>
+      fields: Prisma.PaymentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PaymentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        findFirst: {
+          args: Prisma.PaymentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        findMany: {
+          args: Prisma.PaymentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+        }
+        create: {
+          args: Prisma.PaymentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        createMany: {
+          args: Prisma.PaymentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+        }
+        delete: {
+          args: Prisma.PaymentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        update: {
+          args: Prisma.PaymentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        deleteMany: {
+          args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+        }
+        upsert: {
+          args: Prisma.PaymentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PaymentPayload>
+        }
+        aggregate: {
+          args: Prisma.PaymentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePayment>
+        }
+        groupBy: {
+          args: Prisma.PaymentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PaymentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PaymentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1501,6 +1726,66 @@ export const SessionNoteScalarFieldEnum = {
 export type SessionNoteScalarFieldEnum = (typeof SessionNoteScalarFieldEnum)[keyof typeof SessionNoteScalarFieldEnum]
 
 
+export const LayananScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  jenis: 'jenis',
+  kategori: 'kategori',
+  deskripsi: 'deskripsi',
+  catatan: 'catatan',
+  durasiMenit: 'durasiMenit',
+  harga: 'harga',
+  status: 'status',
+  gambar: 'gambar',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LayananScalarFieldEnum = (typeof LayananScalarFieldEnum)[keyof typeof LayananScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  bookingCode: 'bookingCode',
+  userId: 'userId',
+  psychologistId: 'psychologistId',
+  serviceId: 'serviceId',
+  scheduleId: 'scheduleId',
+  scheduledDate: 'scheduledDate',
+  scheduledTime: 'scheduledTime',
+  totalPrice: 'totalPrice',
+  dpAmount: 'dpAmount',
+  remainingAmount: 'remainingAmount',
+  status: 'status',
+  adminApprovedBy: 'adminApprovedBy',
+  approvedAt: 'approvedAt',
+  rejectionReason: 'rejectionReason',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  type: 'type',
+  amount: 'amount',
+  method: 'method',
+  orderId: 'orderId',
+  virtualAccount: 'virtualAccount',
+  paymentProofUrl: 'paymentProofUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  expiredAt: 'expiredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1619,6 +1904,76 @@ export type EnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'RiskLevel[]'
  */
 export type ListEnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'JenisLayanan'
+ */
+export type EnumJenisLayananFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JenisLayanan'>
+    
+
+
+/**
+ * Reference to a field of type 'JenisLayanan[]'
+ */
+export type ListEnumJenisLayananFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JenisLayanan[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Kategori'
+ */
+export type EnumKategoriFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Kategori'>
+    
+
+
+/**
+ * Reference to a field of type 'Kategori[]'
+ */
+export type ListEnumKategoriFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Kategori[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingStatus'
+ */
+export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BookingStatus[]'
+ */
+export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentType'
+ */
+export type EnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentType[]'
+ */
+export type ListEnumPaymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus'
+ */
+export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentStatus[]'
+ */
+export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
     
 
 
@@ -1742,6 +2097,9 @@ export type GlobalOmitConfig = {
   schedule?: Prisma.ScheduleOmit
   emailVerification?: Prisma.EmailVerificationOmit
   sessionNote?: Prisma.SessionNoteOmit
+  layanan?: Prisma.LayananOmit
+  booking?: Prisma.BookingOmit
+  payment?: Prisma.PaymentOmit
 }
 
 /* Types for Logging */

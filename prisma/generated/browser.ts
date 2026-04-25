@@ -77,3 +77,18 @@ export type EmailVerification = Prisma.EmailVerificationModel
  * 
  */
 export type SessionNote = Prisma.SessionNoteModel
+/**
+ * Model Layanan
+ * 
+ */
+export type Layanan = Prisma.LayananModel
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
