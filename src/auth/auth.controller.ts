@@ -3,13 +3,14 @@ import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { EmailInputDto } from './dto/email-input.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ChangePasswordPsychologistDto } from './dto/change-password-psychologist.dto';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -28,15 +29,15 @@ export class AuthController {
     }
 
     @Throttle({ default: { ttl: 3600000, limit: 3 } })
-    @Post('forgot-password')
-    forgotPassword(@Body() dto: ForgotPasswordDto) {
-        return this.authService.forgotPassword(dto.email);
+    @Post('email-input')
+    emailInput(@Body() dto: EmailInputDto) {
+        return this.authService.emailInput(dto.email);
     }
 
     @SkipThrottle()
     @Post('reset-password')
     resetPassword(@Body() dto: ResetPasswordDto) {
-        return this.authService.resetPassword(dto.token, dto.newPassword);
+        return this.authService.resetPassword(dto.token, dto);
     }
 
     @SkipThrottle()
@@ -54,11 +55,15 @@ export class AuthController {
 
     @SkipThrottle()
     @Get('google/callback')
-    @UseGuards(AuthGuard('google'))
+    @UseGuards(GoogleAuthGuard)
     googleCallback(@Request() req, @Res() res){
-        const data = req.user;
         const frontendUrl = process.env.FRONTEND_URL;
-        const token = data.accessToken;
+        if (!req.user) {
+            const msg = encodeURIComponent("Akun ini sudah terdaftar dengan email & password, silahkan login dengan email");
+            return res.redirect(`${frontendUrl}/auth/callback?error=${msg}`);
+        }
+
+        const token = req.user.accessToken;
         res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
     }
 
@@ -77,7 +82,7 @@ export class AuthController {
 
     @Throttle({ default: {ttl: 3600000, limit: 3}})
     @Post('resend-verification')
-    resendVerification(@Body() dto: ForgotPasswordDto) {
+    resendVerification(@Body() dto: EmailInputDto) {
         return this.authService.resendVerificationEmail(dto.email);
     }
 }

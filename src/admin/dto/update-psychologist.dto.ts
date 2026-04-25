@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray, ValidateNested, IsInt, Min, ArrayMinSize, IsDateString, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsArray, ValidateNested, IsInt, Min, ArrayMinSize, IsDateString, IsBoolean, IsEmail } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateEducationDto {
@@ -55,6 +55,11 @@ export class UpdatePsychologistDto {
     @IsOptional()
     @IsString()
     fullName?: string;
+
+    @IsOptional()
+    @IsString()
+    @IsEmail({}, {message: 'Format email tidak valid'})
+    email?: string;
 
     @IsOptional()
     @IsString()

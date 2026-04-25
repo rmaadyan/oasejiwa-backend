@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
+import { SkipThrottle } from '@nestjs/throttler';
 
 describe('UserController', () => {
   let controller: UserController;

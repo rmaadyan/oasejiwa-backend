@@ -8,7 +8,7 @@ export class EmailService {
     constructor(private mailerService: MailerService){}
 
     async sendPasswordResetEmail(email: string, token: string){
-        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+        const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password?token=${token}`;
         try{
             await this.mailerService.sendMail({
                 to: email,
@@ -21,13 +21,13 @@ export class EmailService {
             });
 
             this.logger.log(`Reset password email sent to ${email}`);
-        }catch(error){
+        }catch(error:any){
             this.logger.error(`Failed to send email to ${email}`, error.stack);
         }
     }
 
     async sendVerificationEmail(email:string, token:string){
-        const verifyLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+        const verifyLink = `${process.env.FRONTEND_URL}/auth/verify-email?token=${token}`;
 
         try{
             await this.mailerService.sendMail({
@@ -41,7 +41,7 @@ export class EmailService {
             });
 
             this.logger.log(`Verification email sent to ${email}`);
-        }catch(error){
+        }catch(error:any){
             this.logger.error(`Failed to send email to ${email}`, error.stack);
         }
     }

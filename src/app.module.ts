@@ -10,6 +10,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
 import {MailerModule} from '@nestjs-modules/mailer';
+import { PsychologistModule } from './psychologist/psychologist.module';
+
 @Module({
   imports: [
     PrismaModule,
@@ -29,6 +31,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
         from: `"Oase Jiwa" <${process.env.EMAIL_USER}>`,
       },
     }),
+    PsychologistModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
@@ -39,6 +42,7 @@ import {MailerModule} from '@nestjs-modules/mailer';
     }),
     AdminModule,
     UserModule,
+    PsychologistModule,
   ],
   controllers: [AppController],
   providers: [

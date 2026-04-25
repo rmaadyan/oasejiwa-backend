@@ -4,14 +4,17 @@ import { CreatePsychologistDto } from './dto/create-psychologist.dto';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
-import { promises as fs } from 'fs';
+import { CloudinaryService } from './cloudinary.service';
 
 @Injectable()
 export class AdminService {
-    constructor(private prisma: PrismaService){}
+    constructor(
+        private prisma: PrismaService,
+        private cloudinaryService: CloudinaryService,
+    ){}
 
     async createPsychologist(dto: CreatePsychologistDto, file?: Express.Multer.File){
-        const avatarUrl = file? `/uploads/psychologists/${file.filename}`: undefined;
+        const avatarUrl = file ? file.path : undefined;
         const existingUser = await this.prisma.user.findUnique({
             where: {email: dto.email},
         });
@@ -150,9 +153,10 @@ export class AdminService {
 
     async updatePsychologist(psychologistId: string, dto: UpdatePsychologistDto, file?: Express.Multer.File) {
         console.log('FILE:', file);
-        const avatarUrl = file? `/uploads/psychologists/${file.filename}`: undefined;
+        const avatarUrl = file ? file.path : undefined;
         const profile = await this.prisma.psychologistProfile.findUnique({
             where: { id: psychologistId },
+            include: {user:true},
         });
 
         if (!profile) {
@@ -160,15 +164,45 @@ export class AdminService {
         }
 
         if (file && profile.avatarUrl) {
-            const oldPath = `.${profile.avatarUrl}`;
-            try {
-                await fs.unlink(oldPath);
-            } catch (err) {
-                console.log('Gagal hapus file lama:', err.message);
-            }
+            await this.cloudinaryService.deleteImage(profile.avatarUrl);
         }
 
+        let tempPassword: string | undefined;
+
         await this.prisma.$transaction(async (prisma) => {
+            // Jika email berubah, update di tabel user + reset password
+            if (dto.email && dto.email !== profile.user.email) {
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: dto.email },
+                });
+                if (existingUser) {
+                    throw new ConflictException('Email sudah digunakan');
+                }
+
+                tempPassword = crypto.randomBytes(8).toString('hex');
+                const passwordHash = await bcrypt.hash(tempPassword, 10);
+
+                await prisma.user.update({
+                    where: { id: profile.userId },
+                    data: { email: dto.email },
+                });
+
+                await prisma.authProvider.update({
+                    where: { userId: profile.userId },
+                    data: {
+                        passwordHash,
+                    },
+                });
+
+                // Reset isFirstLogin agar psikolog wajib ganti password baru
+                await prisma.user.update({
+                    where: { id: profile.userId },
+                    data: {
+                        email: dto.email,
+                        isFirstLogin: true,
+                    },
+                });
+            }
             await prisma.psychologistProfile.update({
                 where: { id: psychologistId },
                 data: {
@@ -229,7 +263,12 @@ export class AdminService {
             }
         });
 
-        return { message: 'Data psikolog berhasil diupdate' };
+        return { message: 'Data psikolog berhasil diupdate',
+            ...(tempPassword && {
+                emailChanged: true,
+                tempPassword,
+            }),
+        };
     }
 
     async deletePsychologist(psychologistId: string) {
@@ -239,6 +278,10 @@ export class AdminService {
 
         if (!profile) {
             throw new NotFoundException('Psikolog tidak ditemukan');
+        }
+
+        if (profile.avatarUrl) {
+            await this.cloudinaryService.deleteImage(profile.avatarUrl);
         }
 
         await this.prisma.user.delete({

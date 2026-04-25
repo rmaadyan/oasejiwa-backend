@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsDateString, IsEnum, Matches } from "class-validator";
+import { IsEmail } from "class-validator";
 
 export enum GenderDto{
     MALE = 'MALE',
@@ -9,6 +10,10 @@ export class UpdateProfileDto{
     @IsOptional()
     @IsString()
     fullName?: string;
+
+    @IsOptional()
+    @IsEmail({}, { message: 'Format email tidak valid' })
+    email?: string;
 
     @IsOptional()
     @IsDateString({}, { message: 'Format tanggal tidak valid (YYYY-MM-DD)'})

@@ -4,39 +4,39 @@ import { Type } from 'class-transformer';
 export class EducationDto {
     @IsString()
     @IsNotEmpty({ message: 'Gelar tidak boleh kosong' })
-    degree: string;
+    degree!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Institusi tidak boleh kosong' })
-    institution: string;
+    institution!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Kota tidak boleh kosong' })
-    city: string;
+    city!: string;
 
     @Type(() => Number)
     @IsInt()
     @Min(1900)
-    startYear: number;
+    startYear!: number;
 
     @Type(() => Number)
     @IsInt()
     @Min(1900)
-    endYear: number;
+    endYear!: number;
 }
 
 export class ScheduleDto {
     @IsDateString({}, { message: 'Format tanggal tidak valid' })
-    date: string;
+    date!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Jam mulai tidak boleh kosong' })
-    startTime: string;
+    startTime!: string;
 
     @Type(() => Number)
     @IsInt()
     @Min(30, { message: 'Durasi minimal 30 menit' })
-    duration: number;
+    duration!: number;
 
     @IsOptional()
     @IsBoolean()
@@ -46,44 +46,44 @@ export class ScheduleDto {
 export class CreatePsychologistDto {
     @IsEmail({}, { message: 'Format email tidak valid' })
     @IsNotEmpty({ message: 'Email tidak boleh kosong' })
-    email: string;
+    email!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Nama tidak boleh kosong' })
-    fullName: string;
+    fullName!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'SIPP tidak boleh kosong' })
-    sipp: string;
+    sipp!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'STR tidak boleh kosong' })
-    str: string;
+    str!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Tentang psikolog tidak boleh kosong' })
-    about: string;
+    about!: string;
 
     @IsArray()
     @ArrayMinSize(1, { message: 'Minimal harus ada 1 pendidikan' })
     @ValidateNested({ each: true })
     @Type(() => EducationDto)
-    educations: EducationDto[];
+    educations!: EducationDto[];
 
     @IsArray()
     @ArrayMinSize(1, { message: 'Minimal harus ada 1 pengalaman' })
     @IsString({ each: true })
-    experiences: string[];
+    experiences!: string[];
 
     @IsArray()
     @ArrayMinSize(1, { message: 'Minimal harus ada 1 spesialisasi' })
     @IsString({ each: true })
-    specializations: string[];
+    specializations!: string[];
 
     @IsArray()
     @ArrayMinSize(1, { message: 'Minimal harus ada 1 keahlian' })
     @IsString({ each: true })
-    expertises: string[];
+    expertises!: string[];
 
     @IsArray()
     @ValidateNested({ each: true })
