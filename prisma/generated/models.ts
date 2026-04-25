@@ -8,4 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/User.js'
+export type * from './models/AuthProvider.js'
+export type * from './models/PasswordReset.js'
+export type * from './models/UserProfile.js'
+export type * from './models/PsychologistProfile.js'
+export type * from './models/Education.js'
+export type * from './models/Experience.js'
+export type * from './models/Specialization.js'
+export type * from './models/Expertise.js'
+export type * from './models/Schedule.js'
+export type * from './models/EmailVerification.js'
+export type * from './models/SessionNote.js'
 export type * from './commonInputTypes.js'

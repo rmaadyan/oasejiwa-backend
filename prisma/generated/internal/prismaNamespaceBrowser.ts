@@ -51,7 +51,18 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-
+  User: 'User',
+  AuthProvider: 'AuthProvider',
+  PasswordReset: 'PasswordReset',
+  UserProfile: 'UserProfile',
+  PsychologistProfile: 'PsychologistProfile',
+  Education: 'Education',
+  Experience: 'Experience',
+  Specialization: 'Specialization',
+  Expertise: 'Expertise',
+  Schedule: 'Schedule',
+  EmailVerification: 'EmailVerification',
+  SessionNote: 'SessionNote'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,4 +79,187 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  role: 'role',
+  isEmailVerified: 'isEmailVerified',
+  isProfileComplete: 'isProfileComplete',
+  isFirstLogin: 'isFirstLogin',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AuthProviderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  provider: 'provider',
+  providerId: 'providerId',
+  passwordHash: 'passwordHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AuthProviderScalarFieldEnum = (typeof AuthProviderScalarFieldEnum)[keyof typeof AuthProviderScalarFieldEnum]
+
+
+export const PasswordResetScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetScalarFieldEnum = (typeof PasswordResetScalarFieldEnum)[keyof typeof PasswordResetScalarFieldEnum]
+
+
+export const UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  birthday: 'birthday',
+  gender: 'gender',
+  country: 'country',
+  city: 'city',
+  fullAddress: 'fullAddress',
+  phone: 'phone'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const PsychologistProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  sipp: 'sipp',
+  str: 'str',
+  about: 'about',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PsychologistProfileScalarFieldEnum = (typeof PsychologistProfileScalarFieldEnum)[keyof typeof PsychologistProfileScalarFieldEnum]
+
+
+export const EducationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  degree: 'degree',
+  institution: 'institution',
+  city: 'city',
+  startYear: 'startYear',
+  endYear: 'endYear',
+  createdAt: 'createdAt'
+} as const
+
+export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
+
+
+export const ExperienceScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type ExperienceScalarFieldEnum = (typeof ExperienceScalarFieldEnum)[keyof typeof ExperienceScalarFieldEnum]
+
+
+export const SpecializationScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type SpecializationScalarFieldEnum = (typeof SpecializationScalarFieldEnum)[keyof typeof SpecializationScalarFieldEnum]
+
+
+export const ExpertiseScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type ExpertiseScalarFieldEnum = (typeof ExpertiseScalarFieldEnum)[keyof typeof ExpertiseScalarFieldEnum]
+
+
+export const ScheduleScalarFieldEnum = {
+  id: 'id',
+  psychologistId: 'psychologistId',
+  date: 'date',
+  startTime: 'startTime',
+  duration: 'duration',
+  isAvailable: 'isAvailable',
+  createdAt: 'createdAt'
+} as const
+
+export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+
+
+export const EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailVerificationScalarFieldEnum = (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum]
+
+
+export const SessionNoteScalarFieldEnum = {
+  id: 'id',
+  psychologistProfileId: 'psychologistProfileId',
+  userId: 'userId',
+  scheduleId: 'scheduleId',
+  subjective: 'subjective',
+  objective: 'objective',
+  assessment: 'assessment',
+  plan: 'plan',
+  riskLevel: 'riskLevel',
+  followUpDate: 'followUpDate',
+  nextSessionRecommendation: 'nextSessionRecommendation',
+  tags: 'tags',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type SessionNoteScalarFieldEnum = (typeof SessionNoteScalarFieldEnum)[keyof typeof SessionNoteScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

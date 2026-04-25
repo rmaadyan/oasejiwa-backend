@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../.prisma-client"
+  provider     = "prisma-client-js"
+  output       = "../.prisma-client"
+  moduleFormat = "esm"
 }
 
 datasource db {
@@ -24,10 +25,18 @@ enum RiskLevel {
   HIGH
 }
 
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
 model User {
   id                String   @id @default(uuid())
   email             String   @unique
+  name              String?
+  phone             String?
   role              Role     @default(USER)
+  status            Status   @default(ACTIVE)
   isEmailVerified   Boolean  @default(false)
   isProfileComplete Boolean  @default(false)
   isFirstLogin      Boolean  @default(false)

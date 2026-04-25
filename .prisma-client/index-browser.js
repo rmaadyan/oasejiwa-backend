@@ -123,7 +123,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  name: 'name',
+  phone: 'phone',
   role: 'role',
+  status: 'status',
   isEmailVerified: 'isEmailVerified',
   isProfileComplete: 'isProfileComplete',
   isFirstLogin: 'isFirstLogin',
@@ -261,6 +264,11 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN',
   PSYCHOLOGIST: 'PSYCHOLOGIST'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
 };
 
 exports.Gender = exports.$Enums.Gender = {

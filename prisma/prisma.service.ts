@@ -1,56 +1,50 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
-
-let PrismaClientClass: any;
-let prismaClientLoaded = false;
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService implements OnModuleInit, OnModuleDestroy {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   private readonly logger = new Logger(PrismaService.name);
-  private client: any;
+
+  constructor() {
+    super({
+      log: ['error', 'warn'],
+    });
+  }
 
   async onModuleInit() {
     try {
-      if (!prismaClientLoaded) {
-        // Dynamic import from .prisma-client/client.js (ESM format)
-        // Both src/ and dist/ paths work with this approach
-        const clientModule = await import('../.prisma-client/client.js');
-        PrismaClientClass = clientModule.PrismaClient;
-        prismaClientLoaded = true;
-      }
-
-      this.client = new PrismaClientClass();
-      await this.client.$connect();
+      await this.$connect();
       this.logger.log('✓ Database connected successfully');
     } catch (error) {
-      this.logger.error(`✗ Database connection failed: ${error instanceof Error ? error.message : String(error)}`, error instanceof Error ? error.stack : '');
+      this.logger.error(
+        `✗ Database connection failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+        error instanceof Error ? error.stack : '',
+      );
+
       throw new Error('Failed to initialize Prisma service');
     }
   }
 
   async onModuleDestroy() {
-    if (this.client) {
-      try {
-        await this.client.$disconnect();
-        this.logger.log('✓ Database disconnected');
-      } catch (error) {
-        this.logger.error(`✗ Error disconnecting database: ${error instanceof Error ? error.message : String(error)}`);
-      }
+    try {
+      await this.$disconnect();
+      this.logger.log('✓ Database disconnected');
+    } catch (error) {
+      this.logger.error(
+        `✗ Error disconnecting database: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
     }
   }
-
-  // Delegate all Prisma operations to the client instance
-  $connect() {
-    return this.client?.$connect();
-  }
-
-  $disconnect() {
-    return this.client?.$disconnect();
-  }
-
-  $transaction(fn: any) {
-    return this.client?.$transaction(fn);
-  }
-
-  // Proxy all model access (user, post, etc.) to the client
-  [key: string]: any;
 }

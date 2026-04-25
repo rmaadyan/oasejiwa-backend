@@ -1,0 +1,116 @@
+
+> oasejiwa-backend@0.0.1 prebuild C:\NONSISTEM\oasejiwa-backend
+> pnpm prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (v7.3.0) to .\node_modules\.pnpm\@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100\node_modules\@prisma\client in 222ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+> oasejiwa-backend@0.0.1 build C:\NONSISTEM\oasejiwa-backend
+> nest build
+
+[96msrc/admin-users/admin-users.service.ts[0m:[93m44[0m:[93m13[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'name' does not exist in type 'UserSelect<DefaultArgs>'.
+
+[7m44[0m             name: true,
+[7m  [0m [91m            ~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m54[0m:[93m43[0m - [91merror[0m[90m TS2322: [0mType '"patient"' is not assignable to type 'Role | EnumRoleFilter<"User"> | undefined'.
+
+[7m54[0m         this.prisma.user.count({ where: { role: 'patient' } }),
+[7m  [0m [91m                                          ~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m55[0m:[93m43[0m - [91merror[0m[90m TS2820: [0mType '"psychologist"' is not assignable to type 'Role | EnumRoleFilter<"User"> | undefined'. Did you mean '"PSYCHOLOGIST"'?
+
+[7m55[0m         this.prisma.user.count({ where: { role: 'psychologist' } }),
+[7m  [0m [91m                                          ~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m61[0m:[93m20[0m - [91merror[0m[90m TS2339: [0mProperty 'name' does not exist on type '{ id: string; createdAt: Date; updatedAt: Date; email: string; role: Role; isEmailVerified: boolean; isProfileComplete: boolean; isFirstLogin: boolean; }'.
+
+[7m61[0m         name: user.name,
+[7m  [0m [91m                   ~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m63[0m:[93m22[0m - [91merror[0m[90m TS2339: [0mProperty 'gender' does not exist on type '{ id: string; createdAt: Date; updatedAt: Date; email: string; role: Role; isEmailVerified: boolean; isProfileComplete: boolean; isFirstLogin: boolean; }'.
+
+[7m63[0m         gender: user.gender,
+[7m  [0m [91m                     ~~~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m64[0m:[93m21[0m - [91merror[0m[90m TS2339: [0mProperty 'phone' does not exist on type '{ id: string; createdAt: Date; updatedAt: Date; email: string; role: Role; isEmailVerified: boolean; isProfileComplete: boolean; isFirstLogin: boolean; }'.
+
+[7m64[0m         phone: user.phone,
+[7m  [0m [91m                    ~~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m66[0m:[93m22[0m - [91merror[0m[90m TS2339: [0mProperty 'status' does not exist on type '{ id: string; createdAt: Date; updatedAt: Date; email: string; role: Role; isEmailVerified: boolean; isProfileComplete: boolean; isFirstLogin: boolean; }'.
+
+[7m66[0m         status: user.status,
+[7m  [0m [91m                     ~~~~~~[0m
+[96msrc/admin-users/admin-users.service.ts[0m:[93m83[0m:[93m16[0m - [91merror[0m[90m TS2322: [0mType 'number' is not assignable to type 'string'.
+
+[7m83[0m       where: { id },
+[7m  [0m [91m               ~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m15861[0m:[93m5[0m
+    [7m15861[0m     id?: string
+    [7m     [0m [96m    ~~[0m
+    The expected type comes from property 'id' which is declared here on type 'UserWhereUniqueInput'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m86[0m:[93m9[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'name' does not exist in type 'UserSelect<DefaultArgs>'.
+
+[7m86[0m         name: true,
+[7m  [0m [91m        ~~~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m2743[0m:[93m5[0m
+    [7m2743[0m     select?: UserSelect<ExtArgs> | null
+    [7m    [0m [96m    ~~~~~~[0m
+    The expected type comes from property 'select' which is declared here on type '{ select?: UserSelect<DefaultArgs> | null | undefined; omit?: UserOmit<DefaultArgs> | null | undefined; include?: UserInclude<DefaultArgs> | null | undefined; where: UserWhereUniqueInput; }'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m110[0m:[93m16[0m - [91merror[0m[90m TS2322: [0mType 'number' is not assignable to type 'string'.
+
+[7m110[0m       where: { id },
+[7m   [0m [91m               ~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m15861[0m:[93m5[0m
+    [7m15861[0m     id?: string
+    [7m     [0m [96m    ~~[0m
+    The expected type comes from property 'id' which is declared here on type 'UserWhereUniqueInput'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m111[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType 'UpdateAdminUserDto' is not assignable to type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.
+  Type 'UpdateAdminUserDto' is not assignable to type 'Without<UserUncheckedUpdateInput, UserUpdateInput> & UserUpdateInput'.
+    Types of property 'role' are incompatible.
+      Type 'string | undefined' is not assignable to type 'Role | EnumRoleFieldUpdateOperationsInput | undefined'.
+        Type 'string' is not assignable to type 'Role | EnumRoleFieldUpdateOperationsInput | undefined'.
+
+[7m111[0m       data: dto,
+[7m   [0m [91m      ~~~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m3002[0m:[93m5[0m
+    [7m3002[0m     data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    [7m    [0m [96m    ~~~~[0m
+    The expected type comes from property 'data' which is declared here on type '{ select?: UserSelect<DefaultArgs> | null | undefined; omit?: UserOmit<DefaultArgs> | null | undefined; include?: UserInclude<DefaultArgs> | null | undefined; data: (Without<...> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput); where: UserWhereUniqueInput; }'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m114[0m:[93m9[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'name' does not exist in type 'UserSelect<DefaultArgs>'.
+
+[7m114[0m         name: true,
+[7m   [0m [91m        ~~~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m2990[0m:[93m5[0m
+    [7m2990[0m     select?: UserSelect<ExtArgs> | null
+    [7m    [0m [96m    ~~~~~~[0m
+    The expected type comes from property 'select' which is declared here on type '{ select?: UserSelect<DefaultArgs> | null | undefined; omit?: UserOmit<DefaultArgs> | null | undefined; include?: UserInclude<DefaultArgs> | null | undefined; data: (Without<...> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput); where: UserWhereUniqueInput; }'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m130[0m:[93m16[0m - [91merror[0m[90m TS2322: [0mType 'number' is not assignable to type 'string'.
+
+[7m130[0m       where: { id },
+[7m   [0m [91m               ~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m15861[0m:[93m5[0m
+    [7m15861[0m     id?: string
+    [7m     [0m [96m    ~~[0m
+    The expected type comes from property 'id' which is declared here on type 'UserWhereUniqueInput'
+[96msrc/admin-users/admin-users.service.ts[0m:[93m132[0m:[93m9[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'status' does not exist in type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.
+
+[7m132[0m         status: 'inactive',
+[7m   [0m [91m        ~~~~~~[0m
+
+  [96mnode_modules/.pnpm/@prisma+client@7.3.0_prisma_ad499f351a7b7e0487b50331b8717100/node_modules/.prisma/client/index.d.ts[0m:[93m3002[0m:[93m5[0m
+    [7m3002[0m     data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    [7m    [0m [96m    ~~~~[0m
+    The expected type comes from property 'data' which is declared here on type '{ select?: UserSelect<DefaultArgs> | null | undefined; omit?: UserOmit<DefaultArgs> | null | undefined; include?: UserInclude<DefaultArgs> | null | undefined; data: (Without<...> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput); where: UserWhereUniqueInput; }'
+
+Found 14 error(s).
+
+ ELIFECYCLE  Command failed with exit code 1.

@@ -1,57 +1,99 @@
 import {
-  INestApplication,
   Injectable,
   Logger,
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '../../.prisma-client';
+import { PrismaClient } from '../../prisma/generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+export class PrismaService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
 
-  constructor() {
-    const connectionString = process.env.DATABASE_URL;
+  private readonly adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL!,
+  });
 
-    if (!connectionString) {
-      throw new Error('DATABASE_URL tidak ditemukan di environment variables');
-    }
-
-    const adapter = new PrismaPg({ connectionString });
-
-    super({ adapter });
-  }
+  private readonly client: any = new PrismaClient({
+    adapter: this.adapter,
+  });
 
   async onModuleInit() {
-    try {
-      await this.$connect();
-      this.logger.log('✓ Database connected successfully');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      const stack = err instanceof Error ? err.stack : '';
-      this.logger.error(`✗ Database connection failed: ${message}`, stack);
-      throw new Error('Failed to initialize Prisma service');
-    }
+    await this.client.$connect();
+    this.logger.log('✓ Database connected successfully');
   }
 
   async onModuleDestroy() {
-    try {
-      await this.$disconnect();
-      this.logger.log('✓ Database disconnected');
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      this.logger.error(`✗ Error disconnecting database: ${message}`);
-    }
+    await this.client.$disconnect();
+    this.logger.log('✓ Database disconnected');
   }
 
-  enableShutdownHooks(app: INestApplication): void {
-    process.on('beforeExit', () => {
-      void app.close();
-    });
+  get user() {
+    return this.client.user;
+  }
+
+  get userProfile() {
+    return this.client.userProfile;
+  }
+
+  get authProvider() {
+    return this.client.authProvider;
+  }
+
+  get passwordReset() {
+    return this.client.passwordReset;
+  }
+
+  get psychologistProfile() {
+    return this.client.psychologistProfile;
+  }
+
+  get education() {
+    return this.client.education;
+  }
+
+  get experience() {
+    return this.client.experience;
+  }
+
+  get specialization() {
+    return this.client.specialization;
+  }
+
+  get expertise() {
+    return this.client.expertise;
+  }
+
+  get schedule() {
+    return this.client.schedule;
+  }
+
+  get emailVerification() {
+    return this.client.emailVerification;
+  }
+
+  get sessionNote() {
+    return this.client.sessionNote;
+  }
+
+    $connect() {
+    return this.client.$connect();
+  }
+
+  $disconnect() {
+    return this.client.$disconnect();
+  }
+
+  $transaction(arg: any) {
+    return this.client.$transaction(arg);
+  }
+
+  $queryRaw(...args: any[]) {
+    return this.client.$queryRaw(...args);
+  }
+
+  $executeRaw(...args: any[]) {
+    return this.client.$executeRaw(...args);
   }
 }
