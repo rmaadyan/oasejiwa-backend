@@ -13,9 +13,9 @@ import { PsychologistNotesService } from './psychologist-notes.service';
 import { CreatePsychologistNoteDto } from './dto/create-psychologist-note.dto';
 import { UpdatePsychologistNoteDto } from './dto/update-psychologist-note.dto';
 import { QueryPsychologistNoteDto } from './dto/query-psychologist-note.dto';
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
-import { RolesGuard } from '../common/guards/roles.guard';
-import { Roles } from '../common/decorators/roles.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('psychologist')
