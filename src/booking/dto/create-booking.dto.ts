@@ -1,4 +1,7 @@
-import { IsString, IsNotEmpty, IsInt, IsOptional, IsDateString } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, IsOptional, IsDateString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ConsultationFormDto } from './consultation-form.dto';
+import { ConsentFormDto } from './consent-form.dto';
 
 export class CreateBookingDto {
     @IsString()
@@ -18,4 +21,12 @@ export class CreateBookingDto {
     @IsOptional()
     @IsString()
     notes?: string;
+
+    @ValidateNested()
+    @Type(() => ConsultationFormDto)
+    consultationForm: ConsultationFormDto;
+
+    @ValidateNested()
+    @Type(() => ConsentFormDto)
+    consentForm: ConsentFormDto;
 }

@@ -108,6 +108,27 @@ export class BookingService {
                 },
             });
 
+            // Buat ConsultationForm
+            await prisma.consultationForm.create({
+                data: {
+                    bookingId: newBooking.id,
+                    ...dto.consultationForm,
+                },
+            });
+
+            // Buat ConsentForm
+            await prisma.consentForm.create({
+                data: {
+                    bookingId: newBooking.id,
+                    consentDate: new Date(dto.consentForm.consentDate),
+                    clientNameConfirmation: dto.consentForm.clientNameConfirmation,
+                    signatureData: dto.consentForm.signatureData,
+                    signatureType: dto.consentForm.signatureType,
+                    agreedToTerms: dto.consentForm.agreedToTerms,
+                    ipAddress: dto.consentForm.ipAddress,
+                },
+            });
+
             return newBooking;
         });
 
