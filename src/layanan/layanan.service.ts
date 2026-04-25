@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service'; // sesuaikan path-nya
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class LayananService {
@@ -7,6 +7,12 @@ export class LayananService {
 
   async findAll() {
     return this.prisma.layanan.findMany();
+  }
+
+  async findOne(id: number) {
+    return this.prisma.layanan.findUnique({
+      where: { id },
+    });
   }
 
   async create(data: any) {
@@ -17,6 +23,12 @@ export class LayananService {
     return this.prisma.layanan.update({
       where: { id: Number(id) },
       data,
+    });
+  }
+
+  async remove(id: number) {
+    return this.prisma.layanan.delete({
+      where: { id: Number(id) },
     });
   }
 }
