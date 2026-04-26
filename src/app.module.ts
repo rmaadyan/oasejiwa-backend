@@ -2,7 +2,6 @@ import 'dotenv/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
@@ -11,12 +10,21 @@ import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
 import {MailerModule} from '@nestjs-modules/mailer';
 import { PsychologistModule } from './psychologist/psychologist.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { LayananModule } from './layanan/layanan.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { TesModule } from './tes/tes.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     EmailModule,
+    LayananModule,
+    TesModule,
+    UploadModule,
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',
@@ -44,9 +52,10 @@ import { PsychologistModule } from './psychologist/psychologist.module';
     UserModule,
     PsychologistModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, AuthController],
   providers: [
     AppService,
+    AuthService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

@@ -1,11 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
@@ -160,3 +158,102 @@ model EmailVerification{
 
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+enum JenisLayanan {
+  Konseling
+  Workshop
+  Training
+  Lainnya
+}
+
+enum Kategori {
+  Paket
+  NonPaket
+}
+
+enum TesStatus {
+  Aktif
+  Draft
+}
+
+enum ArahItem {
+  positif
+  negatif
+}
+
+model Layanan {
+  id          Int          @id @default(autoincrement())
+  nama        String       @unique
+  jenis       JenisLayanan
+  kategori    Kategori
+  deskripsi   String?
+  catatan     String?
+  durasiMenit Int
+  harga       Int
+  status      String       @default("Aktif")
+  gambar      String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  bookings Booking[]
+}
+
+model Tes {
+  id              Int               @id @default(autoincrement())
+  nama            String
+  jumlah          Int
+  status          TesStatus         @default(Draft)
+  deskripsi       String
+  penjelasanHasil String
+  jenis           String?
+  coverUrl        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  pertanyaan      Pertanyaan[]
+  likertOptions   LikertOption[]
+  kategori        DiagnosisKategori[]
+  sectionKategori SectionKategori[]
+  attempts        TestAttempt[]
+}
+
+model Pertanyaan {
+  id      String   @id @default(uuid())
+  teks    String
+  arah    ArahItem
+  section String?
+  urutan  Int
+  tesId   Int
+  tes     Tes      @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model LikertOption {
+  id    String @id @default(uuid())
+  label String
+  value Int
+  tesId Int
+  tes   Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model DiagnosisKategori {
+  id        String  @id @default(uuid())
+  nama      String
+  minPersen Float
+  maxPersen Float
+  deskripsi String?
+  result    String?
+  tesId     Int
+  tes       Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
+model SectionKategori {
+  id          String  @id @default(uuid())
+  sectionNama String
+  nama        String
+  minSkor     Int
+  maxSkor     Int
+  deskripsi   String?
+  tesId       Int
+  tes         Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
+}
+
