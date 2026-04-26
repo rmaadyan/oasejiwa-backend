@@ -89,6 +89,14 @@ get payment() {
   return this.client.payment;
 }
 
+get patientMedicalRecord() {
+  return this.client.patientMedicalRecord;
+}
+
+get emergencyContact() {
+  return this.client.emergencyContact;
+}
+
   $connect() {
     return this.client.$connect();
   }

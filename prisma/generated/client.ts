@@ -58,6 +58,16 @@ export type PasswordReset = Prisma.PasswordResetModel
  */
 export type UserProfile = Prisma.UserProfileModel
 /**
+ * Model PatientMedicalRecord
+ * 
+ */
+export type PatientMedicalRecord = Prisma.PatientMedicalRecordModel
+/**
+ * Model EmergencyContact
+ * 
+ */
+export type EmergencyContact = Prisma.EmergencyContactModel
+/**
  * Model PsychologistProfile
  * 
  */
@@ -112,3 +122,8 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model BookingReview
+ * 
+ */
+export type BookingReview = Prisma.BookingReviewModel

@@ -222,6 +222,7 @@ export type PsychologistProfileWhereInput = {
   schedules?: Prisma.ScheduleListRelationFilter
   sessionNotes?: Prisma.SessionNoteListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.BookingReviewListRelationFilter
 }
 
 export type PsychologistProfileOrderByWithRelationInput = {
@@ -242,6 +243,7 @@ export type PsychologistProfileOrderByWithRelationInput = {
   schedules?: Prisma.ScheduleOrderByRelationAggregateInput
   sessionNotes?: Prisma.SessionNoteOrderByRelationAggregateInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  reviews?: Prisma.BookingReviewOrderByRelationAggregateInput
 }
 
 export type PsychologistProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -265,6 +267,7 @@ export type PsychologistProfileWhereUniqueInput = Prisma.AtLeast<{
   schedules?: Prisma.ScheduleListRelationFilter
   sessionNotes?: Prisma.SessionNoteListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.BookingReviewListRelationFilter
 }, "id" | "userId">
 
 export type PsychologistProfileOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type PsychologistProfileCreateInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateInput = {
@@ -333,6 +337,7 @@ export type PsychologistProfileUncheckedCreateInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUpdateInput = {
@@ -352,6 +357,7 @@ export type PsychologistProfileUpdateInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateInput = {
@@ -371,6 +377,7 @@ export type PsychologistProfileUncheckedUpdateInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateManyInput = {
@@ -584,6 +591,20 @@ export type PsychologistProfileUpdateOneRequiredWithoutBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PsychologistProfileUpdateToOneWithWhereWithoutBookingsInput, Prisma.PsychologistProfileUpdateWithoutBookingsInput>, Prisma.PsychologistProfileUncheckedUpdateWithoutBookingsInput>
 }
 
+export type PsychologistProfileCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.PsychologistProfileCreateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.PsychologistProfileCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.PsychologistProfileWhereUniqueInput
+}
+
+export type PsychologistProfileUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.PsychologistProfileCreateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.PsychologistProfileCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.PsychologistProfileUpsertWithoutReviewsInput
+  connect?: Prisma.PsychologistProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PsychologistProfileUpdateToOneWithWhereWithoutReviewsInput, Prisma.PsychologistProfileUpdateWithoutReviewsInput>, Prisma.PsychologistProfileUncheckedUpdateWithoutReviewsInput>
+}
+
 export type PsychologistProfileCreateWithoutUserInput = {
   id?: string
   fullName: string
@@ -600,6 +621,7 @@ export type PsychologistProfileCreateWithoutUserInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutUserInput = {
@@ -618,6 +640,7 @@ export type PsychologistProfileUncheckedCreateWithoutUserInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutUserInput = {
@@ -652,6 +675,7 @@ export type PsychologistProfileUpdateWithoutUserInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutUserInput = {
@@ -670,6 +694,7 @@ export type PsychologistProfileUncheckedUpdateWithoutUserInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutEducationsInput = {
@@ -688,6 +713,7 @@ export type PsychologistProfileCreateWithoutEducationsInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutEducationsInput = {
@@ -706,6 +732,7 @@ export type PsychologistProfileUncheckedCreateWithoutEducationsInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutEducationsInput = {
@@ -740,6 +767,7 @@ export type PsychologistProfileUpdateWithoutEducationsInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutEducationsInput = {
@@ -758,6 +786,7 @@ export type PsychologistProfileUncheckedUpdateWithoutEducationsInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutExperiencesInput = {
@@ -776,6 +805,7 @@ export type PsychologistProfileCreateWithoutExperiencesInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutExperiencesInput = {
@@ -794,6 +824,7 @@ export type PsychologistProfileUncheckedCreateWithoutExperiencesInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutExperiencesInput = {
@@ -828,6 +859,7 @@ export type PsychologistProfileUpdateWithoutExperiencesInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutExperiencesInput = {
@@ -846,6 +878,7 @@ export type PsychologistProfileUncheckedUpdateWithoutExperiencesInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutSpecializationsInput = {
@@ -864,6 +897,7 @@ export type PsychologistProfileCreateWithoutSpecializationsInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutSpecializationsInput = {
@@ -882,6 +916,7 @@ export type PsychologistProfileUncheckedCreateWithoutSpecializationsInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutSpecializationsInput = {
@@ -916,6 +951,7 @@ export type PsychologistProfileUpdateWithoutSpecializationsInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutSpecializationsInput = {
@@ -934,6 +970,7 @@ export type PsychologistProfileUncheckedUpdateWithoutSpecializationsInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutExpertisesInput = {
@@ -952,6 +989,7 @@ export type PsychologistProfileCreateWithoutExpertisesInput = {
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutExpertisesInput = {
@@ -970,6 +1008,7 @@ export type PsychologistProfileUncheckedCreateWithoutExpertisesInput = {
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutExpertisesInput = {
@@ -1004,6 +1043,7 @@ export type PsychologistProfileUpdateWithoutExpertisesInput = {
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutExpertisesInput = {
@@ -1022,6 +1062,7 @@ export type PsychologistProfileUncheckedUpdateWithoutExpertisesInput = {
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutSchedulesInput = {
@@ -1040,6 +1081,7 @@ export type PsychologistProfileCreateWithoutSchedulesInput = {
   expertises?: Prisma.ExpertiseCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutSchedulesInput = {
@@ -1058,6 +1100,7 @@ export type PsychologistProfileUncheckedCreateWithoutSchedulesInput = {
   expertises?: Prisma.ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutSchedulesInput = {
@@ -1092,6 +1135,7 @@ export type PsychologistProfileUpdateWithoutSchedulesInput = {
   expertises?: Prisma.ExpertiseUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutSchedulesInput = {
@@ -1110,6 +1154,7 @@ export type PsychologistProfileUncheckedUpdateWithoutSchedulesInput = {
   expertises?: Prisma.ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutSessionNotesInput = {
@@ -1128,6 +1173,7 @@ export type PsychologistProfileCreateWithoutSessionNotesInput = {
   expertises?: Prisma.ExpertiseCreateNestedManyWithoutPsychologistInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutSessionNotesInput = {
@@ -1146,6 +1192,7 @@ export type PsychologistProfileUncheckedCreateWithoutSessionNotesInput = {
   expertises?: Prisma.ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutSessionNotesInput = {
@@ -1180,6 +1227,7 @@ export type PsychologistProfileUpdateWithoutSessionNotesInput = {
   expertises?: Prisma.ExpertiseUpdateManyWithoutPsychologistNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutSessionNotesInput = {
@@ -1198,6 +1246,7 @@ export type PsychologistProfileUncheckedUpdateWithoutSessionNotesInput = {
   expertises?: Prisma.ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileCreateWithoutBookingsInput = {
@@ -1216,6 +1265,7 @@ export type PsychologistProfileCreateWithoutBookingsInput = {
   expertises?: Prisma.ExpertiseCreateNestedManyWithoutPsychologistInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileUncheckedCreateWithoutBookingsInput = {
@@ -1234,6 +1284,7 @@ export type PsychologistProfileUncheckedCreateWithoutBookingsInput = {
   expertises?: Prisma.ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
   schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutPsychologistInput
 }
 
 export type PsychologistProfileCreateOrConnectWithoutBookingsInput = {
@@ -1268,6 +1319,7 @@ export type PsychologistProfileUpdateWithoutBookingsInput = {
   expertises?: Prisma.ExpertiseUpdateManyWithoutPsychologistNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutPsychologistNestedInput
 }
 
 export type PsychologistProfileUncheckedUpdateWithoutBookingsInput = {
@@ -1286,6 +1338,99 @@ export type PsychologistProfileUncheckedUpdateWithoutBookingsInput = {
   expertises?: Prisma.ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
   schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutPsychologistNestedInput
+}
+
+export type PsychologistProfileCreateWithoutReviewsInput = {
+  id?: string
+  fullName: string
+  sipp: string
+  str: string
+  about: string
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
+  educations?: Prisma.EducationCreateNestedManyWithoutPsychologistInput
+  experiences?: Prisma.ExperienceCreateNestedManyWithoutPsychologistInput
+  specializations?: Prisma.SpecializationCreateNestedManyWithoutPsychologistInput
+  expertises?: Prisma.ExpertiseCreateNestedManyWithoutPsychologistInput
+  schedules?: Prisma.ScheduleCreateNestedManyWithoutPsychologistInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutPsychologistProfileInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutPsychologistInput
+}
+
+export type PsychologistProfileUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  userId: string
+  fullName: string
+  sipp: string
+  str: string
+  about: string
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
+  experiences?: Prisma.ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
+  specializations?: Prisma.SpecializationUncheckedCreateNestedManyWithoutPsychologistInput
+  expertises?: Prisma.ExpertiseUncheckedCreateNestedManyWithoutPsychologistInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutPsychologistInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutPsychologistProfileInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPsychologistInput
+}
+
+export type PsychologistProfileCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.PsychologistProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.PsychologistProfileCreateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedCreateWithoutReviewsInput>
+}
+
+export type PsychologistProfileUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.PsychologistProfileUpdateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.PsychologistProfileCreateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.PsychologistProfileWhereInput
+}
+
+export type PsychologistProfileUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.PsychologistProfileWhereInput
+  data: Prisma.XOR<Prisma.PsychologistProfileUpdateWithoutReviewsInput, Prisma.PsychologistProfileUncheckedUpdateWithoutReviewsInput>
+}
+
+export type PsychologistProfileUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  sipp?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.StringFieldUpdateOperationsInput | string
+  about?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
+  educations?: Prisma.EducationUpdateManyWithoutPsychologistNestedInput
+  experiences?: Prisma.ExperienceUpdateManyWithoutPsychologistNestedInput
+  specializations?: Prisma.SpecializationUpdateManyWithoutPsychologistNestedInput
+  expertises?: Prisma.ExpertiseUpdateManyWithoutPsychologistNestedInput
+  schedules?: Prisma.ScheduleUpdateManyWithoutPsychologistNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutPsychologistProfileNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutPsychologistNestedInput
+}
+
+export type PsychologistProfileUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  sipp?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.StringFieldUpdateOperationsInput | string
+  about?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
+  experiences?: Prisma.ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
+  specializations?: Prisma.SpecializationUncheckedUpdateManyWithoutPsychologistNestedInput
+  expertises?: Prisma.ExpertiseUncheckedUpdateManyWithoutPsychologistNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutPsychologistNestedInput
 }
 
 
@@ -1301,6 +1446,7 @@ export type PsychologistProfileCountOutputType = {
   schedules: number
   sessionNotes: number
   bookings: number
+  reviews: number
 }
 
 export type PsychologistProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1311,6 +1457,7 @@ export type PsychologistProfileCountOutputTypeSelect<ExtArgs extends runtime.Typ
   schedules?: boolean | PsychologistProfileCountOutputTypeCountSchedulesArgs
   sessionNotes?: boolean | PsychologistProfileCountOutputTypeCountSessionNotesArgs
   bookings?: boolean | PsychologistProfileCountOutputTypeCountBookingsArgs
+  reviews?: boolean | PsychologistProfileCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -1372,6 +1519,13 @@ export type PsychologistProfileCountOutputTypeCountBookingsArgs<ExtArgs extends 
   where?: Prisma.BookingWhereInput
 }
 
+/**
+ * PsychologistProfileCountOutputType without action
+ */
+export type PsychologistProfileCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingReviewWhereInput
+}
+
 
 export type PsychologistProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1391,6 +1545,7 @@ export type PsychologistProfileSelect<ExtArgs extends runtime.Types.Extensions.I
   schedules?: boolean | Prisma.PsychologistProfile$schedulesArgs<ExtArgs>
   sessionNotes?: boolean | Prisma.PsychologistProfile$sessionNotesArgs<ExtArgs>
   bookings?: boolean | Prisma.PsychologistProfile$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.PsychologistProfile$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.PsychologistProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["psychologistProfile"]>
 
@@ -1442,6 +1597,7 @@ export type PsychologistProfileInclude<ExtArgs extends runtime.Types.Extensions.
   schedules?: boolean | Prisma.PsychologistProfile$schedulesArgs<ExtArgs>
   sessionNotes?: boolean | Prisma.PsychologistProfile$sessionNotesArgs<ExtArgs>
   bookings?: boolean | Prisma.PsychologistProfile$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.PsychologistProfile$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.PsychologistProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PsychologistProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1462,6 +1618,7 @@ export type $PsychologistProfilePayload<ExtArgs extends runtime.Types.Extensions
     schedules: Prisma.$SchedulePayload<ExtArgs>[]
     sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    reviews: Prisma.$BookingReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1875,6 +2032,7 @@ export interface Prisma__PsychologistProfileClient<T, Null = never, ExtArgs exte
   schedules<T extends Prisma.PsychologistProfile$schedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfile$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessionNotes<T extends Prisma.PsychologistProfile$sessionNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfile$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookings<T extends Prisma.PsychologistProfile$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.PsychologistProfile$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2474,6 +2632,30 @@ export type PsychologistProfile$bookingsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * PsychologistProfile.reviews
+ */
+export type PsychologistProfile$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookingReview
+   */
+  select?: Prisma.BookingReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookingReview
+   */
+  omit?: Prisma.BookingReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingReviewInclude<ExtArgs> | null
+  where?: Prisma.BookingReviewWhereInput
+  orderBy?: Prisma.BookingReviewOrderByWithRelationInput | Prisma.BookingReviewOrderByWithRelationInput[]
+  cursor?: Prisma.BookingReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingReviewScalarFieldEnum | Prisma.BookingReviewScalarFieldEnum[]
 }
 
 /**

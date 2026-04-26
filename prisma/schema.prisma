@@ -25,180 +25,6 @@ enum RiskLevel {
   HIGH
 }
 
-model User {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  role                Role                  @default(USER)
-  isEmailVerified     Boolean               @default(false)
-  isProfileComplete   Boolean               @default(false)
-  isFirstLogin        Boolean               @default(false)
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-
-  authProvider        AuthProvider?
-  passwordResets      PasswordReset[]
-  userProfile         UserProfile?
-  psychologistProfile PsychologistProfile?
-  emailVerifications  EmailVerification[]
-  sessionNotes        SessionNote[]
-  bookings       Booking[] @relation("UserBookings")
-  adminApprovals Booking[] @relation("AdminApprovals")
-}
-
-model AuthProvider {
-  id           String   @id @default(uuid())
-  userId       String   @unique
-  provider     String
-  providerId   String?
-  passwordHash String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerId])
-}
-
-model PasswordReset {
-  id        String    @id @default(uuid())
-  userId    String
-  token     String    @unique
-  expiresAt DateTime
-  usedAt    DateTime?
-  createdAt DateTime  @default(now())
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model UserProfile {
-  id          String    @id @default(uuid())
-  userId      String    @unique
-  fullName    String?
-  birthday    DateTime?
-  gender      Gender?
-  country     String?
-  city        String?
-  fullAddress String?
-  phone       String?
-
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model PsychologistProfile {
-  id              String          @id @default(uuid())
-  userId          String          @unique
-  fullName        String
-  sipp            String
-  str             String
-  about           String
-  avatarUrl       String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  educations      Education[]
-  experiences     Experience[]
-  specializations Specialization[]
-  expertises      Expertise[]
-  schedules       Schedule[]
-  sessionNotes    SessionNote[]
-  bookings Booking[] @relation("PsychologistBookings")
-}
-
-model Education {
-  id             String               @id @default(uuid())
-  psychologistId String
-  degree         String
-  institution    String
-  city           String
-  startYear      Int
-  endYear        Int
-  createdAt      DateTime             @default(now())
-
-  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-}
-
-model Experience {
-  id             String               @id @default(uuid())
-  psychologistId String
-  name           String
-  createdAt      DateTime             @default(now())
-
-  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-}
-
-model Specialization {
-  id             String               @id @default(uuid())
-  psychologistId String
-  name           String
-  createdAt      DateTime             @default(now())
-
-  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-}
-
-model Expertise {
-  id             String               @id @default(uuid())
-  psychologistId String
-  name           String
-  createdAt      DateTime             @default(now())
-
-  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-}
-
-model Schedule {
-  id             String               @id @default(uuid())
-  psychologistId String
-  date           DateTime
-  startTime      String
-  duration       Int
-  isAvailable    Boolean              @default(true)
-  createdAt      DateTime             @default(now())
-
-  psychologist   PsychologistProfile  @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-  sessionNote    SessionNote?
-  bookings Booking[]
-}
-
-model EmailVerification {
-  id         String    @id @default(uuid())
-  userId     String
-  token      String    @unique
-  expiresAt  DateTime
-  usedAt     DateTime?
-  createdAt  DateTime  @default(now())
-
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model SessionNote {
-  id                        String               @id @default(uuid())
-  psychologistProfileId     String
-  userId                    String
-  scheduleId                String?              @unique
-
-  subjective                String?              @db.Text
-  objective                 String?              @db.Text
-  assessment                String?              @db.Text
-  plan                      String?              @db.Text
-  riskLevel                 RiskLevel            @default(LOW)
-
-  followUpDate              DateTime?
-  nextSessionRecommendation String?              @db.Text
-  tags                      String[]             @default([])
-
-  createdAt                 DateTime             @default(now())
-  updatedAt                 DateTime             @updatedAt
-  deletedAt                 DateTime?
-
-  psychologistProfile       PsychologistProfile  @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
-  user                      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  schedule                  Schedule?            @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
-
-  @@index([psychologistProfileId, createdAt])
-  @@index([userId])
-  @@index([riskLevel])
-}
-
 enum JenisLayanan {
   Konseling
   Workshop
@@ -233,6 +59,217 @@ enum PaymentStatus {
   FAILED
 }
 
+model User {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  role              Role     @default(USER)
+  isEmailVerified   Boolean  @default(false)
+  isProfileComplete Boolean  @default(false)
+  isFirstLogin      Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  authProvider        AuthProvider?
+  passwordResets      PasswordReset[]
+  userProfile         UserProfile?
+  psychologistProfile PsychologistProfile?
+  emailVerifications  EmailVerification[]
+
+  bookings       Booking[]       @relation("UserBookings")
+  adminApprovals Booking[]       @relation("AdminApprovals")
+  reviews        BookingReview[] @relation("UserReviews")
+
+  sessionNotes      SessionNote[]
+  medicalRecord     PatientMedicalRecord?
+  emergencyContacts EmergencyContact[]
+}
+
+model AuthProvider {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  provider     String
+  providerId   String?
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserProfile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  fullName    String?
+  birthday    DateTime?
+  gender      Gender?
+  country     String?
+  city        String?
+  fullAddress String?
+  phone       String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PatientMedicalRecord {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  diagnosis         String[] @default([])
+  currentMedication String[] @default([])
+  allergies         String[] @default([])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmergencyContact {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  phone     String
+  relation  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model PsychologistProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  fullName  String
+  sipp      String
+  str       String
+  about     String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  educations      Education[]
+  experiences     Experience[]
+  specializations Specialization[]
+  expertises      Expertise[]
+  schedules       Schedule[]
+  sessionNotes    SessionNote[]
+  bookings        Booking[]        @relation("PsychologistBookings")
+  reviews         BookingReview[]  @relation("PsychologistReviews")
+}
+
+model Education {
+  id             String   @id @default(uuid())
+  psychologistId String
+  degree         String
+  institution    String
+  city           String
+  startYear      Int
+  endYear        Int
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id             String   @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Specialization {
+  id             String   @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Expertise {
+  id             String   @id @default(uuid())
+  psychologistId String
+  name           String
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+}
+
+model Schedule {
+  id             String   @id @default(uuid())
+  psychologistId String
+  date           DateTime
+  startTime      String
+  duration       Int
+  isAvailable    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  sessionNotes  SessionNote[]
+  bookings      Booking[]
+
+  @@index([psychologistId])
+  @@index([date])
+}
+
+model EmailVerification {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SessionNote {
+  id                    String    @id @default(uuid())
+  psychologistProfileId String
+  userId                String
+  scheduleId            String?
+
+  subjective String? @db.Text
+  objective  String? @db.Text
+  assessment String? @db.Text
+  plan       String? @db.Text
+
+  riskLevel RiskLevel @default(LOW)
+
+  followUpDate              DateTime?
+  nextSessionRecommendation String?   @db.Text
+  tags                      String[]  @default([])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedule            Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+
+  @@index([psychologistProfileId, createdAt])
+  @@index([userId])
+  @@index([riskLevel])
+  @@index([scheduleId])
+}
+
 model Layanan {
   id          Int          @id @default(autoincrement())
   nama        String       @unique
@@ -245,10 +282,10 @@ model Layanan {
   status      String       @default("Aktif")
   gambar      String?
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  bookings    Booking[]
+  bookings Booking[]
 }
 
 model Booking {
@@ -271,17 +308,19 @@ model Booking {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  user            User                 @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
-  psychologist    PsychologistProfile  @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
-  service         Layanan              @relation(fields: [serviceId], references: [id])
-  schedule        Schedule?            @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
-  approvedByAdmin User?                @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
+  user            User                @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist    PsychologistProfile @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
+  service         Layanan             @relation(fields: [serviceId], references: [id])
+  schedule        Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  approvedByAdmin User?               @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
 
-  payments        Payment[]
+  payments Payment[]
+  review   BookingReview?
 
   @@index([userId])
   @@index([psychologistId])
   @@index([serviceId])
+  @@index([scheduleId])
   @@index([scheduledDate])
   @@index([status])
 }
@@ -300,10 +339,29 @@ model Payment {
   expiredAt       DateTime
   createdAt       DateTime      @default(now())
 
-  booking         Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@index([bookingId])
   @@index([status])
   @@index([type])
   @@index([createdAt])
+}
+
+model BookingReview {
+  id             Int      @id @default(autoincrement())
+  bookingId      Int      @unique
+  userId         String
+  psychologistId String
+  rating         Int
+  comment        String?
+  isAnonymous    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  booking      Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user         User                @relation("UserReviews", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation("PsychologistReviews", fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([psychologistId])
+  @@index([rating])
 }

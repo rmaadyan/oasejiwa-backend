@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
+type UiSessionStatus = 'upcoming' | 'completed' | 'cancelled';
+
 @Injectable()
 export class PsychologistDashboardService {
   constructor(private readonly prisma: PrismaService) {}
@@ -26,34 +28,67 @@ export class PsychologistDashboardService {
     return date.toISOString().split('T')[0];
   }
 
-  private mapSchedule(schedule: any) {
-    const dateOnly = this.toDateOnly(schedule.date);
-    const todayOnly = this.toDateOnly(new Date());
+  private mapBookingStatus(status: string): UiSessionStatus {
+    if (status === 'COMPLETED') return 'completed';
 
-    let status: 'upcoming' | 'completed' | 'cancelled' = 'upcoming';
-
-    if (!schedule.isAvailable) {
-      status = 'cancelled';
-    } else if (dateOnly < todayOnly) {
-      status = 'completed';
+    if (status === 'CANCELLED' || status === 'REJECTED') {
+      return 'cancelled';
     }
 
+    return 'upcoming';
+  }
+
+  private mapPaymentStatus(payments: any[]): 'paid' | 'pending' {
+    const hasFullPaid = payments.some(
+      (payment) => payment.type === 'FULL_PAYMENT' && payment.status === 'PAID',
+    );
+
+    if (hasFullPaid) return 'paid';
+
+    return 'pending';
+  }
+
+  private getPatientName(booking: any) {
+    return (
+      booking.user?.userProfile?.fullName ||
+      booking.user?.email ||
+      'Pasien'
+    );
+  }
+
+  private mapBookingToSession(booking: any) {
     return {
-      id: schedule.id,
-      patientId: null,
-      patientName: 'Belum ada pasien',
+      id: String(booking.id),
+      bookingId: booking.id,
+
+      patientId: booking.userId,
+      patientName: this.getPatientName(booking),
       patientPhoto: null,
-      service: 'Konseling Individu',
-      date: dateOnly,
-      time: schedule.startTime,
-      duration: schedule.duration,
-      status,
-      paymentStatus: 'pending',
+
+      service: booking.service?.nama || 'Konseling',
+      date: this.toDateOnly(booking.scheduledDate),
+      time: booking.scheduledTime,
+      duration: booking.service?.durasiMenit || 60,
+
+      status: this.mapBookingStatus(booking.status),
+      paymentStatus: this.mapPaymentStatus(booking.payments || []),
+
       sessionNumber: 1,
       meetingLink: null,
-      notes: schedule.isAvailable ? 'Slot tersedia' : 'Slot tidak tersedia',
-      isAvailable: schedule.isAvailable,
+      notes: booking.notes || null,
+
+      bookingCode: booking.bookingCode,
+      bookingStatus: booking.status,
+      totalPrice: booking.totalPrice,
+      dpAmount: booking.dpAmount,
+      remainingAmount: booking.remainingAmount,
     };
+  }
+
+  private isUpcomingBooking(status: string) {
+    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(
+      status,
+    );
   }
 
   async getDashboard(currentUser: any) {
@@ -68,100 +103,145 @@ export class PsychologistDashboardService {
     const sevenDaysLater = new Date();
     sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
 
-    const [
-      todaySchedules,
-      upcomingSchedules,
-      allSchedulesThisWeek,
-      notes,
-      highRiskCount,
-    ] = await this.prisma.$transaction([
-      this.prisma.schedule.findMany({
-        where: {
-          psychologistId: psychologist.id,
-          date: {
-            gte: startToday,
-            lte: endToday,
-          },
-        },
-        orderBy: {
-          startTime: 'asc',
-        },
-      }),
-
-      this.prisma.schedule.findMany({
-        where: {
-          psychologistId: psychologist.id,
-          date: {
-            gte: now,
-            lte: sevenDaysLater,
-          },
-          isAvailable: true,
-        },
-        orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
-        take: 5,
-      }),
-
-      this.prisma.schedule.findMany({
-        where: {
-          psychologistId: psychologist.id,
-          date: {
-            gte: startToday,
-            lte: sevenDaysLater,
-          },
-        },
-      }),
-
-      this.prisma.sessionNote.findMany({
-        where: {
-          psychologistProfileId: psychologist.id,
-          deletedAt: null,
-        },
-        include: {
-          user: {
-            include: {
-              userProfile: true,
+    const [todayBookings, weekBookings, upcomingBookings, allBookings, notes] =
+      await this.prisma.$transaction([
+        this.prisma.booking.findMany({
+          where: {
+            psychologistId: psychologist.id,
+            scheduledDate: {
+              gte: startToday,
+              lte: endToday,
             },
           },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      }),
+          include: {
+            user: {
+              include: {
+                userProfile: true,
+              },
+            },
+            service: true,
+            payments: true,
+          },
+          orderBy: {
+            scheduledTime: 'asc',
+          },
+        }),
 
-      this.prisma.sessionNote.count({
-        where: {
-          psychologistProfileId: psychologist.id,
-          deletedAt: null,
-          riskLevel: 'HIGH',
-        },
-      }),
-    ]);
+        this.prisma.booking.findMany({
+          where: {
+            psychologistId: psychologist.id,
+            scheduledDate: {
+              gte: startToday,
+              lte: sevenDaysLater,
+            },
+          },
+          include: {
+            user: {
+              include: {
+                userProfile: true,
+              },
+            },
+            service: true,
+            payments: true,
+          },
+        }),
 
-    const uniquePatientIds = new Set(notes.map((note) => note.userId));
+        this.prisma.booking.findMany({
+          where: {
+            psychologistId: psychologist.id,
+            scheduledDate: {
+              gte: now,
+              lte: sevenDaysLater,
+            },
+            status: {
+              in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'],
+            },
+          },
+          include: {
+            user: {
+              include: {
+                userProfile: true,
+              },
+            },
+            service: true,
+            payments: true,
+          },
+          orderBy: [{ scheduledDate: 'asc' }, { scheduledTime: 'asc' }],
+          take: 5,
+        }),
 
-    const todayCompleted = todaySchedules.filter((schedule) => {
-      const mapped = this.mapSchedule(schedule);
-      return mapped.status === 'completed';
-    }).length;
+        this.prisma.booking.findMany({
+          where: {
+            psychologistId: psychologist.id,
+          },
+          include: {
+            user: {
+              include: {
+                userProfile: true,
+              },
+            },
+            service: true,
+            payments: true,
+          },
+          orderBy: {
+            scheduledDate: 'desc',
+          },
+        }),
+
+        this.prisma.sessionNote.findMany({
+          where: {
+            psychologistProfileId: psychologist.id,
+            deletedAt: null,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        }),
+      ]);
+
+    const uniquePatientIds = new Set(allBookings.map((booking) => booking.userId));
+
+    const activePatientsThisMonth = new Set(
+      allBookings
+        .filter((booking) => {
+          const bookingDate = new Date(booking.scheduledDate);
+          return (
+            bookingDate.getMonth() === now.getMonth() &&
+            bookingDate.getFullYear() === now.getFullYear()
+          );
+        })
+        .map((booking) => booking.userId),
+    );
 
     const recentPatientsMap = new Map<string, any>();
 
-    for (const note of notes) {
-      if (!recentPatientsMap.has(note.userId)) {
-        recentPatientsMap.set(note.userId, {
-          id: note.userId,
-          name:
-            note.user.userProfile?.fullName ||
-            note.user.email ||
-            'Unknown User',
-          email: note.user.email,
-          phone: note.user.userProfile?.phone || null,
+    for (const booking of allBookings) {
+      if (!recentPatientsMap.has(booking.userId)) {
+        const patientBookings = allBookings.filter(
+          (b) => b.userId === booking.userId,
+        );
+
+        const patientNotes = notes.filter((note) => note.userId === booking.userId);
+
+        recentPatientsMap.set(booking.userId, {
+          id: booking.userId,
+          name: this.getPatientName(booking),
+          email: booking.user?.email || '',
+          phone: booking.user?.userProfile?.phone || null,
           photo: null,
-          firstSessionDate: note.createdAt,
-          lastSessionDate: note.createdAt,
-          totalSessions: notes.filter((n) => n.userId === note.userId).length,
-          upcomingSessionDate: null,
-          notes: note.assessment || note.subjective || null,
+          firstSessionDate:
+            patientBookings[patientBookings.length - 1]?.scheduledDate ||
+            booking.scheduledDate,
+          lastSessionDate: booking.scheduledDate,
+          totalSessions: patientBookings.length,
+          upcomingSessionDate:
+            patientBookings.find((b) => this.isUpcomingBooking(b.status))
+              ?.scheduledDate || null,
+          notes:
+            patientNotes[0]?.assessment ||
+            patientNotes[0]?.subjective ||
+            booking.notes ||
+            null,
         });
       }
     }
@@ -175,21 +255,22 @@ export class PsychologistDashboardService {
         avatarUrl: psychologist.avatarUrl,
       },
       stats: {
-        todaySessions: todaySchedules.length,
-        todayCompleted,
-        weekSessions: allSchedulesThisWeek.length,
+        todaySessions: todayBookings.length,
+        todayCompleted: todayBookings.filter(
+          (booking) => booking.status === 'COMPLETED',
+        ).length,
+        weekSessions: weekBookings.length,
         totalPatients: uniquePatientIds.size,
-        activePatientsThisMonth: uniquePatientIds.size,
-        totalLifetimeSessions: notes.length,
+        activePatientsThisMonth: activePatientsThisMonth.size,
+        totalLifetimeSessions: allBookings.length,
         averageRating: 0,
-        highRiskCount,
-        nextSessionTime: upcomingSchedules[0]?.startTime || null,
+        nextSessionTime: upcomingBookings[0]?.scheduledTime || null,
       },
-      todaySchedule: todaySchedules.map((schedule) =>
-        this.mapSchedule(schedule),
+      todaySchedule: todayBookings.map((booking) =>
+        this.mapBookingToSession(booking),
       ),
-      upcomingSessions: upcomingSchedules.map((schedule) =>
-        this.mapSchedule(schedule),
+      upcomingSessions: upcomingBookings.map((booking) =>
+        this.mapBookingToSession(booking),
       ),
       recentPatients,
     };

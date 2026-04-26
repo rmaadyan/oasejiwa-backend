@@ -286,12 +286,12 @@ export type SessionNoteOrderByWithRelationInput = {
 
 export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  scheduleId?: string
   AND?: Prisma.SessionNoteWhereInput | Prisma.SessionNoteWhereInput[]
   OR?: Prisma.SessionNoteWhereInput[]
   NOT?: Prisma.SessionNoteWhereInput | Prisma.SessionNoteWhereInput[]
   psychologistProfileId?: Prisma.StringFilter<"SessionNote"> | string
   userId?: Prisma.StringFilter<"SessionNote"> | string
+  scheduleId?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   subjective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   objective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   assessment?: Prisma.StringNullableFilter<"SessionNote"> | string | null
@@ -306,7 +306,7 @@ export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
   psychologistProfile?: Prisma.XOR<Prisma.PsychologistProfileScalarRelationFilter, Prisma.PsychologistProfileWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   schedule?: Prisma.XOR<Prisma.ScheduleNullableScalarRelationFilter, Prisma.ScheduleWhereInput> | null
-}, "id" | "scheduleId">
+}, "id">
 
 export type SessionNoteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -365,7 +365,7 @@ export type SessionNoteCreateInput = {
   deletedAt?: Date | string | null
   psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
   user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
-  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNoteInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
 }
 
 export type SessionNoteUncheckedCreateInput = {
@@ -401,7 +401,7 @@ export type SessionNoteUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
-  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNoteNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
 }
 
 export type SessionNoteUncheckedUpdateInput = {
@@ -481,19 +481,6 @@ export type SessionNoteListRelationFilter = {
 
 export type SessionNoteOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type SessionNoteNullableScalarRelationFilter = {
-  is?: Prisma.SessionNoteWhereInput | null
-  isNot?: Prisma.SessionNoteWhereInput | null
-}
-
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type SessionNoteCountOrderByAggregateInput = {
@@ -632,36 +619,46 @@ export type SessionNoteUncheckedUpdateManyWithoutPsychologistProfileNestedInput 
   deleteMany?: Prisma.SessionNoteScalarWhereInput | Prisma.SessionNoteScalarWhereInput[]
 }
 
-export type SessionNoteCreateNestedOneWithoutScheduleInput = {
-  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
-  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput
-  connect?: Prisma.SessionNoteWhereUniqueInput
+export type SessionNoteCreateNestedManyWithoutScheduleInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput> | Prisma.SessionNoteCreateWithoutScheduleInput[] | Prisma.SessionNoteUncheckedCreateWithoutScheduleInput[]
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput | Prisma.SessionNoteCreateOrConnectWithoutScheduleInput[]
+  createMany?: Prisma.SessionNoteCreateManyScheduleInputEnvelope
+  connect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
 }
 
-export type SessionNoteUncheckedCreateNestedOneWithoutScheduleInput = {
-  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
-  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput
-  connect?: Prisma.SessionNoteWhereUniqueInput
+export type SessionNoteUncheckedCreateNestedManyWithoutScheduleInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput> | Prisma.SessionNoteCreateWithoutScheduleInput[] | Prisma.SessionNoteUncheckedCreateWithoutScheduleInput[]
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput | Prisma.SessionNoteCreateOrConnectWithoutScheduleInput[]
+  createMany?: Prisma.SessionNoteCreateManyScheduleInputEnvelope
+  connect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
 }
 
-export type SessionNoteUpdateOneWithoutScheduleNestedInput = {
-  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
-  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput
-  upsert?: Prisma.SessionNoteUpsertWithoutScheduleInput
-  disconnect?: Prisma.SessionNoteWhereInput | boolean
-  delete?: Prisma.SessionNoteWhereInput | boolean
-  connect?: Prisma.SessionNoteWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionNoteUpdateToOneWithWhereWithoutScheduleInput, Prisma.SessionNoteUpdateWithoutScheduleInput>, Prisma.SessionNoteUncheckedUpdateWithoutScheduleInput>
+export type SessionNoteUpdateManyWithoutScheduleNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput> | Prisma.SessionNoteCreateWithoutScheduleInput[] | Prisma.SessionNoteUncheckedCreateWithoutScheduleInput[]
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput | Prisma.SessionNoteCreateOrConnectWithoutScheduleInput[]
+  upsert?: Prisma.SessionNoteUpsertWithWhereUniqueWithoutScheduleInput | Prisma.SessionNoteUpsertWithWhereUniqueWithoutScheduleInput[]
+  createMany?: Prisma.SessionNoteCreateManyScheduleInputEnvelope
+  set?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  disconnect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  delete?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  connect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  update?: Prisma.SessionNoteUpdateWithWhereUniqueWithoutScheduleInput | Prisma.SessionNoteUpdateWithWhereUniqueWithoutScheduleInput[]
+  updateMany?: Prisma.SessionNoteUpdateManyWithWhereWithoutScheduleInput | Prisma.SessionNoteUpdateManyWithWhereWithoutScheduleInput[]
+  deleteMany?: Prisma.SessionNoteScalarWhereInput | Prisma.SessionNoteScalarWhereInput[]
 }
 
-export type SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput = {
-  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
-  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput
-  upsert?: Prisma.SessionNoteUpsertWithoutScheduleInput
-  disconnect?: Prisma.SessionNoteWhereInput | boolean
-  delete?: Prisma.SessionNoteWhereInput | boolean
-  connect?: Prisma.SessionNoteWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionNoteUpdateToOneWithWhereWithoutScheduleInput, Prisma.SessionNoteUpdateWithoutScheduleInput>, Prisma.SessionNoteUncheckedUpdateWithoutScheduleInput>
+export type SessionNoteUncheckedUpdateManyWithoutScheduleNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput> | Prisma.SessionNoteCreateWithoutScheduleInput[] | Prisma.SessionNoteUncheckedCreateWithoutScheduleInput[]
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutScheduleInput | Prisma.SessionNoteCreateOrConnectWithoutScheduleInput[]
+  upsert?: Prisma.SessionNoteUpsertWithWhereUniqueWithoutScheduleInput | Prisma.SessionNoteUpsertWithWhereUniqueWithoutScheduleInput[]
+  createMany?: Prisma.SessionNoteCreateManyScheduleInputEnvelope
+  set?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  disconnect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  delete?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  connect?: Prisma.SessionNoteWhereUniqueInput | Prisma.SessionNoteWhereUniqueInput[]
+  update?: Prisma.SessionNoteUpdateWithWhereUniqueWithoutScheduleInput | Prisma.SessionNoteUpdateWithWhereUniqueWithoutScheduleInput[]
+  updateMany?: Prisma.SessionNoteUpdateManyWithWhereWithoutScheduleInput | Prisma.SessionNoteUpdateManyWithWhereWithoutScheduleInput[]
+  deleteMany?: Prisma.SessionNoteScalarWhereInput | Prisma.SessionNoteScalarWhereInput[]
 }
 
 export type SessionNoteCreatetagsInput = {
@@ -691,7 +688,7 @@ export type SessionNoteCreateWithoutUserInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
-  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNoteInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
 }
 
 export type SessionNoteUncheckedCreateWithoutUserInput = {
@@ -772,7 +769,7 @@ export type SessionNoteCreateWithoutPsychologistProfileInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
-  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNoteInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
 }
 
 export type SessionNoteUncheckedCreateWithoutPsychologistProfileInput = {
@@ -857,49 +854,25 @@ export type SessionNoteCreateOrConnectWithoutScheduleInput = {
   create: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
 }
 
-export type SessionNoteUpsertWithoutScheduleInput = {
-  update: Prisma.XOR<Prisma.SessionNoteUpdateWithoutScheduleInput, Prisma.SessionNoteUncheckedUpdateWithoutScheduleInput>
-  create: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
-  where?: Prisma.SessionNoteWhereInput
+export type SessionNoteCreateManyScheduleInputEnvelope = {
+  data: Prisma.SessionNoteCreateManyScheduleInput | Prisma.SessionNoteCreateManyScheduleInput[]
+  skipDuplicates?: boolean
 }
 
-export type SessionNoteUpdateToOneWithWhereWithoutScheduleInput = {
-  where?: Prisma.SessionNoteWhereInput
+export type SessionNoteUpsertWithWhereUniqueWithoutScheduleInput = {
+  where: Prisma.SessionNoteWhereUniqueInput
+  update: Prisma.XOR<Prisma.SessionNoteUpdateWithoutScheduleInput, Prisma.SessionNoteUncheckedUpdateWithoutScheduleInput>
+  create: Prisma.XOR<Prisma.SessionNoteCreateWithoutScheduleInput, Prisma.SessionNoteUncheckedCreateWithoutScheduleInput>
+}
+
+export type SessionNoteUpdateWithWhereUniqueWithoutScheduleInput = {
+  where: Prisma.SessionNoteWhereUniqueInput
   data: Prisma.XOR<Prisma.SessionNoteUpdateWithoutScheduleInput, Prisma.SessionNoteUncheckedUpdateWithoutScheduleInput>
 }
 
-export type SessionNoteUpdateWithoutScheduleInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
-  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
-}
-
-export type SessionNoteUncheckedUpdateWithoutScheduleInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
-  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+export type SessionNoteUpdateManyWithWhereWithoutScheduleInput = {
+  where: Prisma.SessionNoteScalarWhereInput
+  data: Prisma.XOR<Prisma.SessionNoteUpdateManyMutationInput, Prisma.SessionNoteUncheckedUpdateManyWithoutScheduleInput>
 }
 
 export type SessionNoteCreateManyUserInput = {
@@ -933,7 +906,7 @@ export type SessionNoteUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
-  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNoteNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
 }
 
 export type SessionNoteUncheckedUpdateWithoutUserInput = {
@@ -1001,7 +974,7 @@ export type SessionNoteUpdateWithoutPsychologistProfileInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
-  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNoteNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
 }
 
 export type SessionNoteUncheckedUpdateWithoutPsychologistProfileInput = {
@@ -1025,6 +998,74 @@ export type SessionNoteUncheckedUpdateManyWithoutPsychologistProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type SessionNoteCreateManyScheduleInput = {
+  id?: string
+  psychologistProfileId: string
+  userId: string
+  subjective?: string | null
+  objective?: string | null
+  assessment?: string | null
+  plan?: string | null
+  riskLevel?: $Enums.RiskLevel
+  followUpDate?: Date | string | null
+  nextSessionRecommendation?: string | null
+  tags?: Prisma.SessionNoteCreatetagsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type SessionNoteUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
+}
+
+export type SessionNoteUncheckedUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type SessionNoteUncheckedUpdateManyWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null

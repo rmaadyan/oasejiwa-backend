@@ -233,7 +233,7 @@ export type ScheduleWhereInput = {
   isAvailable?: Prisma.BoolFilter<"Schedule"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   psychologist?: Prisma.XOR<Prisma.PsychologistProfileScalarRelationFilter, Prisma.PsychologistProfileWhereInput>
-  sessionNote?: Prisma.XOR<Prisma.SessionNoteNullableScalarRelationFilter, Prisma.SessionNoteWhereInput> | null
+  sessionNotes?: Prisma.SessionNoteListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
 }
 
@@ -246,7 +246,7 @@ export type ScheduleOrderByWithRelationInput = {
   isAvailable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   psychologist?: Prisma.PsychologistProfileOrderByWithRelationInput
-  sessionNote?: Prisma.SessionNoteOrderByWithRelationInput
+  sessionNotes?: Prisma.SessionNoteOrderByRelationAggregateInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
 }
 
@@ -262,7 +262,7 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
   isAvailable?: Prisma.BoolFilter<"Schedule"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   psychologist?: Prisma.XOR<Prisma.PsychologistProfileScalarRelationFilter, Prisma.PsychologistProfileWhereInput>
-  sessionNote?: Prisma.XOR<Prisma.SessionNoteNullableScalarRelationFilter, Prisma.SessionNoteWhereInput> | null
+  sessionNotes?: Prisma.SessionNoteListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
 }, "id">
 
@@ -302,7 +302,7 @@ export type ScheduleCreateInput = {
   isAvailable?: boolean
   createdAt?: Date | string
   psychologist: Prisma.PsychologistProfileCreateNestedOneWithoutSchedulesInput
-  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutScheduleInput
   bookings?: Prisma.BookingCreateNestedManyWithoutScheduleInput
 }
 
@@ -314,7 +314,7 @@ export type ScheduleUncheckedCreateInput = {
   duration: number
   isAvailable?: boolean
   createdAt?: Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutScheduleInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutScheduleInput
 }
 
@@ -326,7 +326,7 @@ export type ScheduleUpdateInput = {
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   psychologist?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSchedulesNestedInput
-  sessionNote?: Prisma.SessionNoteUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutScheduleNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutScheduleNestedInput
 }
 
@@ -338,7 +338,7 @@ export type ScheduleUncheckedUpdateInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutScheduleNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
@@ -466,20 +466,20 @@ export type ScheduleUncheckedUpdateManyWithoutPsychologistNestedInput = {
   deleteMany?: Prisma.ScheduleScalarWhereInput | Prisma.ScheduleScalarWhereInput[]
 }
 
-export type ScheduleCreateNestedOneWithoutSessionNoteInput = {
-  create?: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNoteInput, Prisma.ScheduleUncheckedCreateWithoutSessionNoteInput>
-  connectOrCreate?: Prisma.ScheduleCreateOrConnectWithoutSessionNoteInput
+export type ScheduleCreateNestedOneWithoutSessionNotesInput = {
+  create?: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNotesInput, Prisma.ScheduleUncheckedCreateWithoutSessionNotesInput>
+  connectOrCreate?: Prisma.ScheduleCreateOrConnectWithoutSessionNotesInput
   connect?: Prisma.ScheduleWhereUniqueInput
 }
 
-export type ScheduleUpdateOneWithoutSessionNoteNestedInput = {
-  create?: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNoteInput, Prisma.ScheduleUncheckedCreateWithoutSessionNoteInput>
-  connectOrCreate?: Prisma.ScheduleCreateOrConnectWithoutSessionNoteInput
-  upsert?: Prisma.ScheduleUpsertWithoutSessionNoteInput
+export type ScheduleUpdateOneWithoutSessionNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNotesInput, Prisma.ScheduleUncheckedCreateWithoutSessionNotesInput>
+  connectOrCreate?: Prisma.ScheduleCreateOrConnectWithoutSessionNotesInput
+  upsert?: Prisma.ScheduleUpsertWithoutSessionNotesInput
   disconnect?: Prisma.ScheduleWhereInput | boolean
   delete?: Prisma.ScheduleWhereInput | boolean
   connect?: Prisma.ScheduleWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ScheduleUpdateToOneWithWhereWithoutSessionNoteInput, Prisma.ScheduleUpdateWithoutSessionNoteInput>, Prisma.ScheduleUncheckedUpdateWithoutSessionNoteInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ScheduleUpdateToOneWithWhereWithoutSessionNotesInput, Prisma.ScheduleUpdateWithoutSessionNotesInput>, Prisma.ScheduleUncheckedUpdateWithoutSessionNotesInput>
 }
 
 export type ScheduleCreateNestedOneWithoutBookingsInput = {
@@ -505,7 +505,7 @@ export type ScheduleCreateWithoutPsychologistInput = {
   duration: number
   isAvailable?: boolean
   createdAt?: Date | string
-  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutScheduleInput
   bookings?: Prisma.BookingCreateNestedManyWithoutScheduleInput
 }
 
@@ -516,7 +516,7 @@ export type ScheduleUncheckedCreateWithoutPsychologistInput = {
   duration: number
   isAvailable?: boolean
   createdAt?: Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutScheduleInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutScheduleInput
 }
 
@@ -559,7 +559,7 @@ export type ScheduleScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
 }
 
-export type ScheduleCreateWithoutSessionNoteInput = {
+export type ScheduleCreateWithoutSessionNotesInput = {
   id?: string
   date: Date | string
   startTime: string
@@ -570,7 +570,7 @@ export type ScheduleCreateWithoutSessionNoteInput = {
   bookings?: Prisma.BookingCreateNestedManyWithoutScheduleInput
 }
 
-export type ScheduleUncheckedCreateWithoutSessionNoteInput = {
+export type ScheduleUncheckedCreateWithoutSessionNotesInput = {
   id?: string
   psychologistId: string
   date: Date | string
@@ -581,23 +581,23 @@ export type ScheduleUncheckedCreateWithoutSessionNoteInput = {
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutScheduleInput
 }
 
-export type ScheduleCreateOrConnectWithoutSessionNoteInput = {
+export type ScheduleCreateOrConnectWithoutSessionNotesInput = {
   where: Prisma.ScheduleWhereUniqueInput
-  create: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNoteInput, Prisma.ScheduleUncheckedCreateWithoutSessionNoteInput>
+  create: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNotesInput, Prisma.ScheduleUncheckedCreateWithoutSessionNotesInput>
 }
 
-export type ScheduleUpsertWithoutSessionNoteInput = {
-  update: Prisma.XOR<Prisma.ScheduleUpdateWithoutSessionNoteInput, Prisma.ScheduleUncheckedUpdateWithoutSessionNoteInput>
-  create: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNoteInput, Prisma.ScheduleUncheckedCreateWithoutSessionNoteInput>
+export type ScheduleUpsertWithoutSessionNotesInput = {
+  update: Prisma.XOR<Prisma.ScheduleUpdateWithoutSessionNotesInput, Prisma.ScheduleUncheckedUpdateWithoutSessionNotesInput>
+  create: Prisma.XOR<Prisma.ScheduleCreateWithoutSessionNotesInput, Prisma.ScheduleUncheckedCreateWithoutSessionNotesInput>
   where?: Prisma.ScheduleWhereInput
 }
 
-export type ScheduleUpdateToOneWithWhereWithoutSessionNoteInput = {
+export type ScheduleUpdateToOneWithWhereWithoutSessionNotesInput = {
   where?: Prisma.ScheduleWhereInput
-  data: Prisma.XOR<Prisma.ScheduleUpdateWithoutSessionNoteInput, Prisma.ScheduleUncheckedUpdateWithoutSessionNoteInput>
+  data: Prisma.XOR<Prisma.ScheduleUpdateWithoutSessionNotesInput, Prisma.ScheduleUncheckedUpdateWithoutSessionNotesInput>
 }
 
-export type ScheduleUpdateWithoutSessionNoteInput = {
+export type ScheduleUpdateWithoutSessionNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
@@ -608,7 +608,7 @@ export type ScheduleUpdateWithoutSessionNoteInput = {
   bookings?: Prisma.BookingUpdateManyWithoutScheduleNestedInput
 }
 
-export type ScheduleUncheckedUpdateWithoutSessionNoteInput = {
+export type ScheduleUncheckedUpdateWithoutSessionNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   psychologistId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -627,7 +627,7 @@ export type ScheduleCreateWithoutBookingsInput = {
   isAvailable?: boolean
   createdAt?: Date | string
   psychologist: Prisma.PsychologistProfileCreateNestedOneWithoutSchedulesInput
-  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutScheduleInput
 }
 
 export type ScheduleUncheckedCreateWithoutBookingsInput = {
@@ -638,7 +638,7 @@ export type ScheduleUncheckedCreateWithoutBookingsInput = {
   duration: number
   isAvailable?: boolean
   createdAt?: Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutScheduleInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutScheduleInput
 }
 
 export type ScheduleCreateOrConnectWithoutBookingsInput = {
@@ -665,7 +665,7 @@ export type ScheduleUpdateWithoutBookingsInput = {
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   psychologist?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSchedulesNestedInput
-  sessionNote?: Prisma.SessionNoteUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutScheduleNestedInput
 }
 
 export type ScheduleUncheckedUpdateWithoutBookingsInput = {
@@ -676,7 +676,7 @@ export type ScheduleUncheckedUpdateWithoutBookingsInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
 export type ScheduleCreateManyPsychologistInput = {
@@ -695,7 +695,7 @@ export type ScheduleUpdateWithoutPsychologistInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionNote?: Prisma.SessionNoteUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutScheduleNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutScheduleNestedInput
 }
 
@@ -706,7 +706,7 @@ export type ScheduleUncheckedUpdateWithoutPsychologistInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutScheduleNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutScheduleNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
@@ -725,10 +725,12 @@ export type ScheduleUncheckedUpdateManyWithoutPsychologistInput = {
  */
 
 export type ScheduleCountOutputType = {
+  sessionNotes: number
   bookings: number
 }
 
 export type ScheduleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sessionNotes?: boolean | ScheduleCountOutputTypeCountSessionNotesArgs
   bookings?: boolean | ScheduleCountOutputTypeCountBookingsArgs
 }
 
@@ -740,6 +742,13 @@ export type ScheduleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
    * Select specific fields to fetch from the ScheduleCountOutputType
    */
   select?: Prisma.ScheduleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ScheduleCountOutputType without action
+ */
+export type ScheduleCountOutputTypeCountSessionNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionNoteWhereInput
 }
 
 /**
@@ -759,7 +768,7 @@ export type ScheduleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   isAvailable?: boolean
   createdAt?: boolean
   psychologist?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
-  sessionNote?: boolean | Prisma.Schedule$sessionNoteArgs<ExtArgs>
+  sessionNotes?: boolean | Prisma.Schedule$sessionNotesArgs<ExtArgs>
   bookings?: boolean | Prisma.Schedule$bookingsArgs<ExtArgs>
   _count?: boolean | Prisma.ScheduleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["schedule"]>
@@ -799,7 +808,7 @@ export type ScheduleSelectScalar = {
 export type ScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "psychologistId" | "date" | "startTime" | "duration" | "isAvailable" | "createdAt", ExtArgs["result"]["schedule"]>
 export type ScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   psychologist?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
-  sessionNote?: boolean | Prisma.Schedule$sessionNoteArgs<ExtArgs>
+  sessionNotes?: boolean | Prisma.Schedule$sessionNotesArgs<ExtArgs>
   bookings?: boolean | Prisma.Schedule$bookingsArgs<ExtArgs>
   _count?: boolean | Prisma.ScheduleCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -814,7 +823,7 @@ export type $SchedulePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Schedule"
   objects: {
     psychologist: Prisma.$PsychologistProfilePayload<ExtArgs>
-    sessionNote: Prisma.$SessionNotePayload<ExtArgs> | null
+    sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
     bookings: Prisma.$BookingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1220,7 +1229,7 @@ readonly fields: ScheduleFieldRefs;
 export interface Prisma__ScheduleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   psychologist<T extends Prisma.PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__PsychologistProfileClient<runtime.Types.Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  sessionNote<T extends Prisma.Schedule$sessionNoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Schedule$sessionNoteArgs<ExtArgs>>): Prisma.Prisma__SessionNoteClient<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sessionNotes<T extends Prisma.Schedule$sessionNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Schedule$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookings<T extends Prisma.Schedule$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Schedule$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1654,9 +1663,9 @@ export type ScheduleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Schedule.sessionNote
+ * Schedule.sessionNotes
  */
-export type Schedule$sessionNoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Schedule$sessionNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the SessionNote
    */
@@ -1670,6 +1679,11 @@ export type Schedule$sessionNoteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.SessionNoteInclude<ExtArgs> | null
   where?: Prisma.SessionNoteWhereInput
+  orderBy?: Prisma.SessionNoteOrderByWithRelationInput | Prisma.SessionNoteOrderByWithRelationInput[]
+  cursor?: Prisma.SessionNoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionNoteScalarFieldEnum | Prisma.SessionNoteScalarFieldEnum[]
 }
 
 /**

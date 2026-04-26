@@ -55,6 +55,8 @@ export const ModelName = {
   AuthProvider: 'AuthProvider',
   PasswordReset: 'PasswordReset',
   UserProfile: 'UserProfile',
+  PatientMedicalRecord: 'PatientMedicalRecord',
+  EmergencyContact: 'EmergencyContact',
   PsychologistProfile: 'PsychologistProfile',
   Education: 'Education',
   Experience: 'Experience',
@@ -65,7 +67,8 @@ export const ModelName = {
   SessionNote: 'SessionNote',
   Layanan: 'Layanan',
   Booking: 'Booking',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  BookingReview: 'BookingReview'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -136,6 +139,32 @@ export const UserProfileScalarFieldEnum = {
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const PatientMedicalRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  diagnosis: 'diagnosis',
+  currentMedication: 'currentMedication',
+  allergies: 'allergies',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PatientMedicalRecordScalarFieldEnum = (typeof PatientMedicalRecordScalarFieldEnum)[keyof typeof PatientMedicalRecordScalarFieldEnum]
+
+
+export const EmergencyContactScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  phone: 'phone',
+  relation: 'relation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EmergencyContactScalarFieldEnum = (typeof EmergencyContactScalarFieldEnum)[keyof typeof EmergencyContactScalarFieldEnum]
 
 
 export const PsychologistProfileScalarFieldEnum = {
@@ -301,6 +330,20 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const BookingReviewScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  userId: 'userId',
+  psychologistId: 'psychologistId',
+  rating: 'rating',
+  comment: 'comment',
+  isAnonymous: 'isAnonymous',
+  createdAt: 'createdAt'
+} as const
+
+export type BookingReviewScalarFieldEnum = (typeof BookingReviewScalarFieldEnum)[keyof typeof BookingReviewScalarFieldEnum]
 
 
 export const SortOrder = {
