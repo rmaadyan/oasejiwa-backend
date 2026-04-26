@@ -43,19 +43,17 @@ import { UploadModule } from './upload/upload.module';
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 3600000,
-          limit: 3,     
+          ttl: 60000,
+          limit: 60,     
         },
       ],
     }),
     AdminModule,
     UserModule,
-    PsychologistModule,
   ],
-  controllers: [AppController, AuthController],
+  controllers: [AppController],
   providers: [
     AppService,
-    AuthService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

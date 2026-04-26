@@ -16,13 +16,13 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
 export class AuthController {
     constructor(private authService: AuthService) {}
 
-    @SkipThrottle()
+    @Throttle({ default: { ttl: 3600000, limit: 5 } })
     @Post('register')
     register(@Body() dto: RegisterDto) {
         return this.authService.register(dto);
     }
 
-    @SkipThrottle()
+    @Throttle({ default: { ttl: 900000, limit: 10 } })
     @Post('login')
     login(@Body() dto: LoginDto) {
         return this.authService.login(dto);

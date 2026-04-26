@@ -171,6 +171,22 @@ enum Kategori {
   NonPaket
 }
 
+model Layanan {
+  id            Int      @id @default(autoincrement())
+  nama          String   @unique
+  jenis         JenisLayanan
+  kategori      Kategori
+  deskripsi     String?
+  catatan       String?
+  durasiMenit   Int
+  harga         Int      // dalam rupiah (misalnya 150000)
+  status        String   @default("Aktif")
+  gambar        String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
 enum TesStatus {
   Aktif
   Draft
@@ -181,40 +197,21 @@ enum ArahItem {
   negatif
 }
 
-model Layanan {
-  id          Int          @id @default(autoincrement())
-  nama        String       @unique
-  jenis       JenisLayanan
-  kategori    Kategori
-  deskripsi   String?
-  catatan     String?
-  durasiMenit Int
-  harga       Int
-  status      String       @default("Aktif")
-  gambar      String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  bookings Booking[]
-}
-
 model Tes {
-  id              Int               @id @default(autoincrement())
+  id              Int                 @id @default(autoincrement())
   nama            String
   jumlah          Int
-  status          TesStatus         @default(Draft)
+  status          TesStatus           @default(Draft)
   deskripsi       String
   penjelasanHasil String
   jenis           String?
   coverUrl        String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-
   pertanyaan      Pertanyaan[]
   likertOptions   LikertOption[]
   kategori        DiagnosisKategori[]
   sectionKategori SectionKategori[]
-  attempts        TestAttempt[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
 }
 
 model Pertanyaan {
@@ -236,24 +233,23 @@ model LikertOption {
 }
 
 model DiagnosisKategori {
-  id        String  @id @default(uuid())
+  id        String @id @default(uuid())
   nama      String
   minPersen Float
   maxPersen Float
   deskripsi String?
   result    String?
   tesId     Int
-  tes       Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
+  tes       Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }
 
 model SectionKategori {
-  id          String  @id @default(uuid())
+  id          String @id @default(uuid())
   sectionNama String
   nama        String
   minSkor     Int
   maxSkor     Int
   deskripsi   String?
   tesId       Int
-  tes         Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
+  tes         Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }
-
