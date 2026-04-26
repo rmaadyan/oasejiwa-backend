@@ -1,37 +1,37 @@
 import 'dotenv/config';
-import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 import { ValidationPipe } from './common/pipes/validation.pipe';
 import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
   const configService = app.get(ConfigService);
 
-  // Apply global exception filter
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Apply global validation pipe
   app.useGlobalPipes(new ValidationPipe());
 
-  // Enable CORS for development
-  if (configService.isDevelopment) {
-    app.enableCors({
-      origin: 'http://localhost:3001',
-      credentials: true,
-    });
-  }
-
-  // Log configuration
-  configService.logConfiguration();
-
-  const port = configService.port;
-  await app.listen(port, () => {
-    logger.log(`✓ Server is running on http://localhost:${port}`);
+  app.enableCors({
+    origin: true,
+    credentials: true,
   });
+
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
+
+  const port = configService.port || Number(process.env.PORT) || 3000;
+
+  await app.listen(port);
+
+  logger.log(`✓ Application is running on port ${port}`);
 }
 
 bootstrap().catch((error) => {

@@ -15,6 +15,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    build: .
+    container_name: oase_db
+    restart: always
+    ports:
+      - "5433:5432"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+    environment:
+      DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@localhost:5433/oase_jiwa_db
+
   # Portainer (UI untuk manajemen Docker)
   portainer:
     image: portainer/portainer-ce:latest

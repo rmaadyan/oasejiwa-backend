@@ -1,0 +1,311 @@
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreatePsychologistDto } from './dto/create-psychologist.dto';
+import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
+import { promises as fs } from 'fs';
+
+@Injectable()
+export class AdminService {
+    constructor(private prisma: PrismaService){}
+
+    async createPsychologist(dto: CreatePsychologistDto, file?: Express.Multer.File){
+        const avatarUrl = file? `/uploads/psychologists/${file.filename}`: undefined;
+        const existingUser = await this.prisma.user.findUnique({
+            where: {email: dto.email},
+        });
+
+        if (existingUser){
+            throw new ConflictException('Email sudah terdaftar');
+        }
+
+        const tempPassword = crypto.randomBytes(8).toString('hex');
+        const passwordHash = await bcrypt.hash(tempPassword, 10);
+
+        const user = await this.prisma.user.create({
+            data:{
+                email: dto.email,
+                role: 'PSYCHOLOGIST',
+                isEmailVerified: true,
+                isFirstLogin: true,
+                authProvider: {
+                    create: {
+                        provider: 'local',
+                        passwordHash,
+                    },
+                },
+                psychologistProfile: {
+                    create: {
+                        fullName: dto.fullName,
+                        sipp: dto.sipp,
+                        str: dto.str,
+                        about: dto.about,
+                        avatarUrl,
+                        educations: {
+                            create: dto.educations,
+                        },
+                        experiences: {
+                            create: dto.experiences.map(name => ({name})),
+                        },
+                        specializations: {
+                            create: dto.specializations.map(name => ({name})),
+                        },
+                        expertises: {
+                            create: dto.expertises.map(name => ({name})),
+                        },
+                        schedules: dto.schedules ? {
+                            create: dto.schedules.map(s => ({
+                                date: new Date(s.date),
+                                startTime: s.startTime,
+                                duration: s.duration,
+                                isAvailable: s.isAvailable ?? true,
+                            })),
+                        } : undefined,
+                    },
+                },
+            },
+        });
+
+        return {
+            message: 'Akun psikolog berhasil dibuat',
+            user: {
+                id: user.id,
+                email: user.email,
+                role: user.role,
+                tempPassword,
+            },
+        };
+    }
+
+    async getAllPsychologists() {
+        const psychologists = await this.prisma.psychologistProfile.findMany({
+            select: {
+                id: true,
+                fullName: true,
+                avatarUrl: true,
+                sipp: true,
+                specializations: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        });
+
+        return {
+            data: psychologists.map(p => ({
+                id: p.id,
+                name: p.fullName,
+                avatarUrl: p.avatarUrl,
+                sipp: p.sipp,
+                specializations: p.specializations.map(s => s.name),
+            })),
+        };
+    }
+
+    async getPsychologistById(psychologistId: string) {
+        const profile = await this.prisma.psychologistProfile.findUnique({
+            where: { id: psychologistId },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        role: true,
+                        isEmailVerified: true,
+                        isProfileComplete: true,
+                        isFirstLogin: true,
+                    },
+                },
+                educations: true,
+                experiences: true,
+                specializations: true,
+                expertises: true,
+                schedules: true,
+            },
+        });
+
+        if (!profile) {
+            throw new NotFoundException('Psikolog tidak ditemukan');
+        }
+
+        return { 
+            data: {
+                id: profile.id,
+                name: profile.fullName,
+                avatarUrl: profile.avatarUrl,
+                about: profile.about,
+                sipp: profile.sipp,
+                str: profile.str,
+                user: profile.user,
+                educations: profile.educations,
+                experiences: profile.experiences,
+                specializations: profile.specializations,
+                expertises: profile.expertises,
+                schedules: profile.schedules,
+            },
+        };
+    }
+
+    async updatePsychologist(psychologistId: string, dto: UpdatePsychologistDto, file?: Express.Multer.File) {
+        console.log('FILE:', file);
+        const avatarUrl = file? `/uploads/psychologists/${file.filename}`: undefined;
+        const profile = await this.prisma.psychologistProfile.findUnique({
+            where: { id: psychologistId },
+        });
+
+        if (!profile) {
+            throw new NotFoundException('Psikolog tidak ditemukan');
+        }
+
+        if (file && profile.avatarUrl) {
+            const oldPath = `.${profile.avatarUrl}`;
+            try {
+                await fs.unlink(oldPath);
+            } catch (err) {
+                console.log('Gagal hapus file lama:', err.message);
+            }
+        }
+
+        await this.prisma.$transaction(async (prisma) => {
+            await prisma.psychologistProfile.update({
+                where: { id: psychologistId },
+                data: {
+                    ...(dto.fullName && { fullName: dto.fullName }),
+                    ...(dto.sipp && { sipp: dto.sipp }),
+                    ...(dto.str && { str: dto.str }),
+                    ...(dto.about && { about: dto.about }),
+                    ...(avatarUrl !== undefined && { avatarUrl }),
+                },
+            });
+
+            if (dto.educations) {
+                await prisma.education.deleteMany({ where: { psychologistId } });
+                    await prisma.education.createMany({
+                    data: dto.educations.map(e => ({
+                        psychologistId,
+                        degree: e.degree ?? '',
+                        institution: e.institution ?? '',
+                        city: e.city ?? '',
+                        startYear: e.startYear ?? new Date().getFullYear(),
+                        endYear: e.endYear ?? new Date().getFullYear(),
+                    })),
+                });
+            }
+
+            if (dto.experiences) {
+                await prisma.experience.deleteMany({ where: { psychologistId } });
+                    await prisma.experience.createMany({
+                    data: dto.experiences.map(name => ({ psychologistId, name })),
+                });
+            }
+
+            if (dto.specializations) {
+                await prisma.specialization.deleteMany({ where: { psychologistId } });
+                    await prisma.specialization.createMany({
+                    data: dto.specializations.map(name => ({ psychologistId, name })),
+                });
+            }
+
+            if (dto.expertises) {
+                await prisma.expertise.deleteMany({ where: { psychologistId } });
+                    await prisma.expertise.createMany({
+                    data: dto.expertises.map(name => ({ psychologistId, name })),
+                });
+            }
+
+            if (dto.schedules) {
+                await prisma.schedule.deleteMany({ where: { psychologistId } });
+                await prisma.schedule.createMany({
+                    data: dto.schedules.map(s => ({
+                        psychologistId,
+                        date: new Date(s.date!),
+                        startTime: s.startTime ?? '',
+                        duration: s.duration ?? 60,
+                        isAvailable: s.isAvailable ?? true,
+                    })),
+                });
+            }
+        });
+
+        return { message: 'Data psikolog berhasil diupdate' };
+    }
+
+    async deletePsychologist(psychologistId: string) {
+        const profile = await this.prisma.psychologistProfile.findUnique({
+            where: { id: psychologistId },
+        });
+
+        if (!profile) {
+            throw new NotFoundException('Psikolog tidak ditemukan');
+        }
+
+        await this.prisma.user.delete({
+            where: { id: profile.userId },
+        });
+
+        return { message: 'Data psikolog berhasil dihapus' };
+    }
+
+    async getAllUsers() {
+        const users = await this.prisma.user.findMany({
+            where: { role: 'USER' },
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                isEmailVerified: true,
+                isProfileComplete: true,
+                createdAt: true,
+                userProfile: {
+                    select: {
+                        fullName: true,
+                        phone: true,
+                        city: true,
+                        country: true,
+                    },
+                },
+            },
+        });
+
+        return { data: users };
+    }
+
+    async getUserById(userId: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId, role: 'USER' },
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                isEmailVerified: true,
+                isProfileComplete: true,
+                createdAt: true,
+                userProfile: true,
+            },
+        });
+
+        if (!user) {
+            throw new NotFoundException('User tidak ditemukan');
+        }
+
+        return { data: user };
+    }
+
+    async deleteUser(userId: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId, role: 'USER' },
+        });
+
+        if (!user) {
+            throw new NotFoundException('User tidak ditemukan');
+        }
+
+        await this.prisma.user.delete({
+            where: { id: userId },
+        });
+
+        return { message: 'User berhasil dihapus' };
+    }
+}

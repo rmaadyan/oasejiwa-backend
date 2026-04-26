@@ -59,6 +59,72 @@ enum PaymentStatus {
   FAILED
 }
 
+enum ProblemDuration {
+  LESS_THAN_1_MONTH
+  ONE_TO_3_MONTHS
+  THREE_TO_6_MONTHS
+  MORE_THAN_6_MONTHS
+}
+
+enum SymptomFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  RARELY
+}
+
+enum DailyImpact {
+  NONE
+  MILD
+  MODERATE
+  SEVERE
+}
+
+enum SleepQuality {
+  GOOD
+  FAIR
+  POOR
+  DISTURBED
+}
+
+enum SelfHarmThoughts {
+  NEVER
+  SOMETIMES
+  FREQUENT
+}
+
+enum EatingPattern {
+  REGULAR
+  IRREGULAR
+  OVEREATING
+  UNDEREATING
+}
+
+enum ExerciseFrequency {
+  NEVER
+  RARELY
+  SOMETIMES
+  REGULARLY
+}
+
+enum StressLevel {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum TherapyPreference {
+  DIRECTIVE
+  COLLABORATIVE
+  NO_PREFERENCE
+}
+
+enum SignatureType {
+  TEXT
+  DRAWING
+}
+
 model User {
   id                String   @id @default(uuid())
   email             String   @unique
@@ -285,7 +351,7 @@ model Layanan {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  bookings Booking[]
+  bookings Booking[] @relation("LayananBookings")
 }
 
 model Booking {
@@ -308,14 +374,15 @@ model Booking {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  user            User                @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
-  psychologist    PsychologistProfile @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
-  service         Layanan             @relation(fields: [serviceId], references: [id])
-  schedule        Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
-  approvedByAdmin User?               @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
-
-  payments Payment[]
-  review   BookingReview?
+  user             User                @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist     PsychologistProfile @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
+  service          Layanan             @relation("LayananBookings", fields: [serviceId], references: [id])
+  schedule         Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  approvedByAdmin  User?               @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
+  consultationForm ConsultationForm?
+  consentForm      ConsentForm?
+  payments         Payment[]
+  review           BookingReview?
 
   @@index([userId])
   @@index([psychologistId])
@@ -323,6 +390,50 @@ model Booking {
   @@index([scheduleId])
   @@index([scheduledDate])
   @@index([status])
+}
+
+model ConsultationForm {
+  id                        Int               @id @default(autoincrement())
+  bookingId                 Int               @unique
+  mainReason                String
+  takingPsychiatricMeds     Boolean
+  problemDuration           ProblemDuration
+  symptomFrequency          SymptomFrequency
+  dailyImpact               DailyImpact
+  hasSimilarHistory         Boolean
+  similarHistoryDetail      String?
+  hasFamilyHistory          Boolean
+  familyHistoryDetail      String?
+  hasMedicalTreatment       Boolean
+  medicalTreatmentDetail    String?
+  hasTraumaticEvent         Boolean
+  traumaticEventDetail      String?
+  sleepQuality              SleepQuality
+  selfHarmThoughts          SelfHarmThoughts
+  usesAddictiveSubstances   Boolean
+  addictiveSubstancesDetail String?
+  eatingPattern             EatingPattern
+  exerciseFrequency         ExerciseFrequency
+  stressLevel               StressLevel
+  consultationGoals         String[]
+  therapyPreference         TherapyPreference
+  createdAt                 DateTime          @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+model ConsentForm {
+  id                     Int           @id @default(autoincrement())
+  bookingId              Int           @unique
+  consentDate            DateTime      @db.Date
+  clientNameConfirmation String
+  signatureData          String
+  signatureType          SignatureType
+  agreedToTerms          Boolean
+  ipAddress              String?
+  createdAt              DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 }
 
 model Payment {
