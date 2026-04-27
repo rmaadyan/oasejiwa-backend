@@ -6,17 +6,17 @@ import { ConsentFormDto } from './consent-form.dto';
 export class CreateBookingDto {
     @IsString()
     @IsNotEmpty({ message: 'Psychologist ID tidak boleh kosong' })
-    psychologistId: string;
+    psychologistId!: string;
 
     @IsInt()
-    serviceId: number;
+    serviceId!: number;
 
     @IsDateString({}, { message: 'Format tanggal tidak valid (gunakan YYYY-MM-DD)' })
-    scheduledDate: string;
+    scheduledDate!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Jam jadwal tidak boleh kosong' })
-    scheduledTime: string;
+    scheduledTime!: string;
 
     @IsOptional()
     @IsString()
@@ -24,9 +24,9 @@ export class CreateBookingDto {
 
     @ValidateNested()
     @Type(() => ConsultationFormDto)
-    consultationForm: ConsultationFormDto;
+    consultationForm!: ConsultationFormDto;
 
     @ValidateNested()
     @Type(() => ConsentFormDto)
-    consentForm: ConsentFormDto;
+    consentForm!: ConsentFormDto;
 }

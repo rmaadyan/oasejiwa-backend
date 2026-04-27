@@ -94,6 +94,12 @@ export class UserService {
         }
 
         const result = await this.prisma.$transaction(async (prisma)=> {
+            if (dto.email) {
+                await prisma.user.update({
+                    where: { id: userId },
+                    data: { email: dto.email },
+                });
+            }
             const profile = await prisma.userProfile.upsert({
                 where: {userId},
                 update: {

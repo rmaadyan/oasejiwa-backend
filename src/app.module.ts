@@ -13,6 +13,11 @@ import { UserModule } from './user/user.module';
 import { BookingModule } from './booking/booking.module';
 import { PaymentModule } from './payment/payment.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { PsychologistModule } from './psychologist/psychologist.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { TesModule } from './tes/tes.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -22,6 +27,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     LayananModule,
     BookingModule,
     PaymentModule,
+    TesModule,
+    UploadModule,
     MailerModule.forRoot({
       transport: {
         host: 'smtp.gmail.com',
@@ -36,11 +43,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
         from: `"Oase Jiwa" <${process.env.EMAIL_USER}>`,
       },
     }),
+    PsychologistModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 3600000,
-          limit: 3,     
+          ttl: 60000,
+          limit: 60,     
         },
       ],
     }),

@@ -7,6 +7,7 @@ import { EmailService } from '../email/email.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { ChangePasswordPsychologistDto } from './dto/change-password-psychologist.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +31,7 @@ export class AuthService {
             data: {
                 email: dto.email,
                 isProfileComplete: true,
+                isFirstLogin: true,
                 authProvider: {
                     create: {
                         provider: 'local',
@@ -127,6 +129,10 @@ export class AuthService {
             throw new UnauthorizedException('Email atau password salah');
         }
 
+        if (!user.isEmailVerified) {
+            throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
+        }
+
         const payload = {
             sub: user.id,
             email: user.email,
@@ -144,12 +150,13 @@ export class AuthService {
                 role: user.role,
                 isProfileComplete: user.isProfileComplete,
                 isEmailVerified: user.isEmailVerified,
+                isFirstLogin: user.isFirstLogin,
             },
         };
 
     }
 
-    async forgotPassword(email: string) {
+    async emailInput(email: string) {
 
         if (!email || !email.includes('@')) {
             throw new BadRequestException('Email tidak valid');
@@ -159,8 +166,12 @@ export class AuthService {
             include: { authProvider: true },
         });
 
-        if (!user || user.authProvider?.provider === 'google') {
+        if (!user) {
             return { message: 'Jika email terdaftar, kami akan mengirimkan link reset password' };
+        }
+
+        if (user.authProvider?.provider === 'google') {
+            return { message: 'Akun ini menggunakan Google Login, silakan login dengan Google' };
         }
 
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -191,7 +202,7 @@ export class AuthService {
         return { message: 'Jika email terdaftar, kami akan mengirimkan link reset password' };
     }
 
-    async resetPassword(token: string, newPassword: string) {
+    async resetPassword(token: string, dto: ResetPasswordDto) {
         const passwordReset = await this.prisma.passwordReset.findUnique({
             where: { token },
         });
@@ -208,7 +219,7 @@ export class AuthService {
             throw new BadRequestException('Token sudah digunakan');
         }
 
-        const passwordHash = await bcrypt.hash(newPassword, 10);
+        const passwordHash = await bcrypt.hash(dto.newPassword, 10);
 
         await this.prisma.$transaction([
             this.prisma.authProvider.update({
@@ -242,6 +253,7 @@ export class AuthService {
                 data: {
                     email: data.email,
                     isEmailVerified: true,
+                    isFirstLogin:true,
                     authProvider: {
                         create: {
                             provider: 'google',

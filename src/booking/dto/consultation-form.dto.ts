@@ -64,74 +64,74 @@ export enum TherapyPreference {
 export class ConsultationFormDto {
   @IsString()
   @IsNotEmpty()
-  mainReason: string;
+  mainReason!: string;
 
   @IsBoolean()
-  takingPsychiatricMeds: boolean;
+  takingPsychiatricMeds!: boolean;
 
   @IsEnum(ProblemDuration)
-  problemDuration: ProblemDuration;
+  problemDuration!: ProblemDuration;
 
   @IsEnum(SymptomFrequency)
-  symptomFrequency: SymptomFrequency;
+  symptomFrequency!: SymptomFrequency;
 
   @IsEnum(DailyImpact)
-  dailyImpact: DailyImpact;
+  dailyImpact!: DailyImpact;
 
   @IsBoolean()
-  hasSimilarHistory: boolean;
+  hasSimilarHistory!: boolean;
 
   @IsOptional()
   @IsString()
   similarHistoryDetail?: string;
 
   @IsBoolean()
-  hasFamilyHistory: boolean;
+  hasFamilyHistory!: boolean;
 
   @IsOptional()
   @IsString()
   familyHistoryDetail?: string;
 
   @IsBoolean()
-  hasMedicalTreatment: boolean;
+  hasMedicalTreatment!: boolean;
 
   @IsOptional()
   @IsString()
   medicalTreatmentDetail?: string;
 
   @IsBoolean()
-  hasTraumaticEvent: boolean;
+  hasTraumaticEvent!: boolean;
 
   @IsOptional()
   @IsString()
   traumaticEventDetail?: string;
 
   @IsEnum(SleepQuality)
-  sleepQuality: SleepQuality;
+  sleepQuality!: SleepQuality;
 
   @IsEnum(SelfHarmThoughts)
-  selfHarmThoughts: SelfHarmThoughts;
+  selfHarmThoughts!: SelfHarmThoughts;
 
   @IsBoolean()
-  usesAddictiveSubstances: boolean;
+  usesAddictiveSubstances!: boolean;
 
   @IsOptional()
   @IsString()
   addictiveSubstancesDetail?: string;
 
   @IsEnum(EatingPattern)
-  eatingPattern: EatingPattern;
+  eatingPattern!: EatingPattern;
 
   @IsEnum(ExerciseFrequency)
-  exerciseFrequency: ExerciseFrequency;
+  exerciseFrequency!: ExerciseFrequency;
 
   @IsEnum(StressLevel)
-  stressLevel: StressLevel;
+  stressLevel!: StressLevel;
 
   @IsArray()
   @IsString({ each: true })
-  consultationGoals: string[];
+  consultationGoals!: string[];
 
   @IsEnum(TherapyPreference)
-  therapyPreference: TherapyPreference;
+  therapyPreference!: TherapyPreference;
 }

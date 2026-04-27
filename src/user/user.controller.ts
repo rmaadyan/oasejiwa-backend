@@ -2,7 +2,9 @@ import { Controller, Get, Patch, Req, Body, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle() 
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService){}

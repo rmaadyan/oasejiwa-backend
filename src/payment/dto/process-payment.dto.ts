@@ -1,12 +1,14 @@
 import { IsInt, IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class ProcessPaymentDto {
+    @Type(() => Number)
     @IsInt()
-    bookingId: number;
+    bookingId!: number;
 
     @IsString()
     @IsNotEmpty({ message: 'Metode pembayaran tidak boleh kosong' })
-    method: string;
+    method!: string;
 
     @IsOptional()
     @IsString()

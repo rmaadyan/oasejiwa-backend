@@ -9,7 +9,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadedFile, UseInterceptors } from '@nestjs/common';
 import { multerConfig } from './config/upload.config';
 import { BookingService } from '../booking/booking.service';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle() 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')
@@ -19,12 +21,13 @@ export class AdminController {
         private bookingService: BookingService,
     ){}
 
-    @Post('psychologist')
+    @Post('psychologists')
     @UseInterceptors(FileInterceptor('avatar', multerConfig))
     createPsychologist(
-        @Body() dto: CreatePsychologistDto,
+        @Body('data') rawData: string,
         @UploadedFile() file?: Express.Multer.File,
     ) {
+        const dto = JSON.parse(rawData) as CreatePsychologistDto;
         return this.adminService.createPsychologist(dto, file);
     }
 
@@ -42,9 +45,10 @@ export class AdminController {
     @UseInterceptors(FileInterceptor('avatar', multerConfig))
     updatePsychologist(
         @Param('id') id: string,
-        @Body() dto: UpdatePsychologistDto,
+        @Body('data') rawData: string,
         @UploadedFile() file?: Express.Multer.File,
     ) {
+        const dto = JSON.parse(rawData) as UpdatePsychologistDto;
         return this.adminService.updatePsychologist(id, dto, file);
     }
 

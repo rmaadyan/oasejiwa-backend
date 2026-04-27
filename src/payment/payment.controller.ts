@@ -7,12 +7,16 @@ import {
     Req,
     UseGuards,
     ParseIntPipe,
+    UseInterceptors,
+    UploadedFile,
 } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ProcessPaymentDto } from './dto/process-payment.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { multerConfig } from '../admin/config/upload.config';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('payments')
 @UseGuards(JwtAuthGuard)
@@ -26,8 +30,13 @@ export class PaymentController {
     @Post('dp')
     @UseGuards(RolesGuard)
     @Roles('USER')
-    payDP(@Req() req, @Body() dto: ProcessPaymentDto) {
-        return this.paymentService.payDP(req.user.id, dto);
+    @UseInterceptors(FileInterceptor('file', multerConfig)) 
+    payDP(
+        @Req() req, 
+        @Body() dto: ProcessPaymentDto,
+        @UploadedFile() file: Express.Multer.File
+    ) {
+        return this.paymentService.payDP(req.user.id, dto, file);
     }
 
     /**
@@ -37,8 +46,13 @@ export class PaymentController {
     @Post('full')
     @UseGuards(RolesGuard)
     @Roles('USER')
-    payFull(@Req() req, @Body() dto: ProcessPaymentDto) {
-        return this.paymentService.payFull(req.user.id, dto);
+    @UseInterceptors(FileInterceptor('file', multerConfig))
+    payFull(
+        @Req() req, 
+        @Body() dto: ProcessPaymentDto,
+        @UploadedFile() file: Express.Multer.File
+    ) {
+        return this.paymentService.payFull(req.user.id, dto, file);
     }
 
     /**

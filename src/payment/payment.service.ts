@@ -17,9 +17,14 @@ export class PaymentService {
      * - Update Payment(DOWN_PAYMENT) → PAID
      * - Update Booking status → WAITING_APPROVAL
      */
-    async payDP(userId: string, dto: ProcessPaymentDto) {
+    async payDP(userId: string, dto: ProcessPaymentDto, file: Express.Multer.File) {
+        if (!file) {
+            throw new BadRequestException('Bukti pembayaran wajib diunggah');
+        }
+        const bookingId = Number(dto.bookingId);
+        
         const booking = await this.prisma.booking.findUnique({
-            where: { id: dto.bookingId },
+            where: { id: bookingId },
             include: {
                 payments: {
                     where: { type: 'DOWN_PAYMENT' },
@@ -60,14 +65,14 @@ export class PaymentService {
                 data: {
                     status: 'PAID',
                     method: dto.method,
-                    paymentProofUrl: dto.paymentProofUrl,
+                    paymentProofUrl: file.path,
                     paidAt: new Date(),
                 },
             });
 
             // Update booking status → WAITING_APPROVAL
             await prisma.booking.update({
-                where: { id: dto.bookingId },
+                where: { id: bookingId },
                 data: { status: 'WAITING_APPROVAL' },
             });
         });
@@ -75,7 +80,7 @@ export class PaymentService {
         return {
             message: 'Pembayaran DP berhasil. Menunggu approval dari admin.',
             data: {
-                bookingId: dto.bookingId,
+                bookingId: bookingId,
                 bookingCode: booking.bookingCode,
                 dpAmount: dpPayment.amount,
                 status: 'WAITING_APPROVAL',
@@ -89,9 +94,14 @@ export class PaymentService {
      * - Update Payment(FULL_PAYMENT) → PAID
      * - Update Booking status → FULLY_PAID
      */
-    async payFull(userId: string, dto: ProcessPaymentDto) {
+    async payFull(userId: string, dto: ProcessPaymentDto, file: Express.Multer.File) {
+        if (!file) {
+            throw new BadRequestException('Bukti pembayaran wajib diunggah');
+        }
+        
+        const bookingId = Number(dto.bookingId);
         const booking = await this.prisma.booking.findUnique({
-            where: { id: dto.bookingId },
+            where: { id: bookingId },
             include: {
                 payments: {
                     where: { type: 'FULL_PAYMENT' },
@@ -129,14 +139,14 @@ export class PaymentService {
                 data: {
                     status: 'PAID',
                     method: dto.method,
-                    paymentProofUrl: dto.paymentProofUrl,
+                    paymentProofUrl: file.path,
                     paidAt: new Date(),
                 },
             });
 
             // Update booking status → FULLY_PAID
             await prisma.booking.update({
-                where: { id: dto.bookingId },
+                where: { id: bookingId },
                 data: { status: 'FULLY_PAID' },
             });
         });
@@ -144,7 +154,7 @@ export class PaymentService {
         return {
             message: 'Pembayaran pelunasan berhasil. Booking telah dikonfirmasi.',
             data: {
-                bookingId: dto.bookingId,
+                bookingId: bookingId,
                 bookingCode: booking.bookingCode,
                 amountPaid: fullPayment.amount,
                 status: 'FULLY_PAID',

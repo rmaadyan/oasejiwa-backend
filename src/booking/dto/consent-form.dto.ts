@@ -7,21 +7,21 @@ export enum SignatureType {
 
 export class ConsentFormDto {
   @IsDateString()
-  consentDate: string;
+  consentDate!: string;
 
   @IsString()
   @IsNotEmpty()
-  clientNameConfirmation: string;
+  clientNameConfirmation!: string;
 
   @IsString()
   @IsNotEmpty()
-  signatureData: string;
+  signatureData!: string;
 
   @IsEnum(SignatureType)
-  signatureType: SignatureType;
+  signatureType!: SignatureType;
 
   @IsBoolean()
-  agreedToTerms: boolean;
+  agreedToTerms!: boolean;
 
   @IsOptional()
   @IsString()

@@ -66,4 +66,13 @@ export class BookingController {
     ) {
         return this.bookingService.rescheduleBooking(id, req.user.id, dto);
     }
+
+    @Patch(':id/confirm-full-payment')
+    confirmFullPayment(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req,
+    ) {
+    return this.bookingService.confirmFullPayment(id, req.user.id);
+    }
+    
 }

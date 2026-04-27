@@ -16,7 +16,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google'){
         super({
             clientID,
             clientSecret,
-            callbackURL: 'http://localhost:3000/auth/google/callback',
+            callbackURL: 'http://localhost:3001/auth/google/callback',
             scope: ['email', 'profile'],
         });
     }
@@ -30,11 +30,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google'){
         const {emails, displayName} = profile;
         const email = emails[0].value;
 
-        const user = await this.authService.handleGoogleLogin({
-            email,
-            fullName: displayName
-        });
-
-        done(null, user);
+        try {
+            const user = await this.authService.handleGoogleLogin({
+                email,
+                fullName: displayName
+            });
+            done(null, user);
+        } catch (error: any) {
+            done(null, false, { message: error.message });
+        }
     }
 }
