@@ -5,7 +5,7 @@ import { UpdateLayananDto } from './dto/update-layanan.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { JenisLayanan } from '@prisma/client';
+import { JenisLayanan } from '../prisma/generated/enums';
 
 @Controller('layanan')
 export class LayananController {
