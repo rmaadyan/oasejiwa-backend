@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
-  @Throttle({ default: { ttl: 900000, limit: 10 } })
+  @Throttle({ default: { ttl: 900000, limit: 20 } })
   @Post('login')
   login(@Body() dto: LoginDto, @Res({ passthrough: true }) res) {
     return this.authService.login(dto).then((result) => {

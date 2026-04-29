@@ -5,7 +5,7 @@ import { UpdateLayananDto } from './dto/update-layanan.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { JenisLayanan } from '../prisma/generated/enums';
+
 
 @Controller('layanan')
 export class LayananController {
@@ -33,7 +33,6 @@ export class LayananController {
   @Roles('ADMIN')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateLayananDto) {
     console.log('Body diterima:', dto);
-    console.log('JenisLayanan enum:', JenisLayanan);
     return this.layananService.update(id, dto);
   }
 
