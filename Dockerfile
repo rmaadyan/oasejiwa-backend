@@ -1,8 +1,8 @@
-FROM node:20-alpine
+FROM node:20
 
 RUN npm install -g pnpm
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
@@ -12,6 +12,6 @@ COPY . .
 RUN pnpm prisma generate
 RUN pnpm build
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/main"]
