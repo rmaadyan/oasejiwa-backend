@@ -37,7 +37,8 @@ export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
 
 export const JenisLayanan = {
   Konseling: 'Konseling',
-  Workshop: 'Workshop',
+  Seminar: 'Seminar',
+  Tes: 'Tes',
   Training: 'Training',
   Lainnya: 'Lainnya'
 } as const

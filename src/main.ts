@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
@@ -11,6 +11,8 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
+
+  app.use(cookieParser());
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
@@ -21,6 +23,10 @@ async function bootstrap() {
       transform: true,
       transformOptions: {
         enableImplicitConversion: true,
+      },
+      exceptionFactory: (errors) => {
+        console.log('Validation errors:', JSON.stringify(errors, null, 2));
+        return new BadRequestException(errors);
       },
     }),
   );

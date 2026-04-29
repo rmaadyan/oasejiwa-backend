@@ -34,8 +34,31 @@ export class AuthController {
 
   @Throttle({ default: { ttl: 900000, limit: 10 } })
   @Post('login')
-  login(@Body() dto: LoginDto) {
-    return this.authService.login(dto);
+  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res) {
+    return this.authService.login(dto).then((result) => {
+      res.cookie('token', result.accessToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      return result;
+    });
+  }
+
+  @SkipThrottle()
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  me(@Request() req) {
+    return {
+      id: req.user.id,
+      email: req.user.email,
+      role: req.user.role,
+      isProfileComplete: req.user.isProfileComplete,
+      isEmailVerified: req.user.isEmailVerified,
+      isFirstLogin: req.user.isFirstLogin,
+    };
   }
 
   @Throttle({ default: { ttl: 3600000, limit: 3 } })
@@ -67,18 +90,25 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   googleCallback(@Request() req, @Res() res) {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
     if (!req.user) {
       const msg = encodeURIComponent(
-        'Akun ini sudah terdaftar dengan email & password, silahkan login dengan email',
+        'Akun ini sudah terdaftar dengan email & password',
       );
-
       return res.redirect(`${frontendUrl}/auth/callback?error=${msg}`);
     }
 
     const token = req.user.accessToken;
-    return res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.redirect(`${frontendUrl}/auth/callback`);
   }
 
   @SkipThrottle()

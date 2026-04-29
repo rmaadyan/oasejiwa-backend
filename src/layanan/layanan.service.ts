@@ -20,12 +20,12 @@ export class LayananService {
   }
 
   async create(dto: CreateLayananDto) {
-    return this.prisma.layanan.create({ data: dto });
+    return this.prisma.layanan.create({ data: dto as any });
   }
 
   async update(id: number, dto: UpdateLayananDto) {
     await this.findOne(id);
-    return this.prisma.layanan.update({ where: { id }, data: dto });
+    return this.prisma.layanan.update({ where: { id }, data: dto as any});
   }
 
   async remove(id: number) {

@@ -1,26 +1,14 @@
 import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
-
-export enum JenisLayanan {
-  Konseling = 'Konseling',
-  Workshop = 'Workshop',
-  Training = 'Training',
-  Lainnya = 'Lainnya',
-}
-
-export enum Kategori {
-  Paket = 'Paket',
-  NonPaket = 'NonPaket',
-}
-
+import { JenisLayanan, Kategori } from '../../../prisma/generated/enums';
 export class CreateLayananDto {
   @IsString()
-  nama: string;
+  nama!: string;
 
   @IsEnum(JenisLayanan)
-  jenis: JenisLayanan;
+  jenis!: JenisLayanan;
 
   @IsEnum(Kategori)
-  kategori: Kategori;
+  kategori!: Kategori;
 
   @IsOptional()
   @IsString()
@@ -31,12 +19,12 @@ export class CreateLayananDto {
   catatan?: string;
 
   @IsInt()
-  @Min(1)
-  durasiMenit: number;
+  @Min(0)
+  durasiMenit!: number;
 
   @IsInt()
   @Min(0)
-  harga: number;
+  harga!: number;
 
   @IsOptional()
   @IsString()

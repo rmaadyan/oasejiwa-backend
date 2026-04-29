@@ -27,7 +27,8 @@ enum RiskLevel {
 
 enum JenisLayanan {
   Konseling
-  Workshop
+  Seminar
+  Tes
   Training
   Lainnya
 }
