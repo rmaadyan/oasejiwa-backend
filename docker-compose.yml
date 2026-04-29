@@ -14,28 +14,16 @@ services:
 
   app:
     build: .
-    container_name: oase_db
+    container_name: oase_backend
     restart: always
     ports:
-      - "5433:5432"
+      - "3001:3001"
     depends_on:
       - postgres
     volumes:
-      - .:/app
       - ./uploads:/app/uploads
     environment:
-      DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@localhost:5433/oase_jiwa_db
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    restart: always
-    ports:
-      - "9443:9443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/var/data
+      DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db
 
 volumes:
   postgres_data:
-  portainer_data:
