@@ -2,7 +2,7 @@ FROM node:20
 
 RUN npm install -g pnpm
 
-WORKDIR /usr/src/app
+WORKDIR /app 
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
@@ -14,4 +14,4 @@ RUN pnpm build
 
 EXPOSE 3001
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]
