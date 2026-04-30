@@ -84,6 +84,7 @@ export class BookingService {
           userId,
           psychologistId: dto.psychologistId,
           serviceId: dto.serviceId,
+          scheduleId: schedule.id,
           scheduledDate,
           scheduledTime: dto.scheduledTime,
           totalPrice,

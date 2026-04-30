@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePsychologistDto } from './dto/create-psychologist.dto';
 import * as bcrypt from 'bcrypt';
@@ -250,16 +250,71 @@ export class AdminService {
             }
 
             if (dto.schedules) {
-                await prisma.schedule.deleteMany({ where: { psychologistId } });
-                await prisma.schedule.createMany({
-                    data: dto.schedules.map(s => ({
-                        psychologistId,
-                        date: new Date(s.date! + 'T17:00:00.000Z'),
-                        startTime: s.startTime ?? '',
-                        duration: s.duration ?? 60,
-                        isAvailable: s.isAvailable ?? true,
-                    })),
+                // Ambil jadwal existing beserta booking aktifnya
+                const existingSchedules = await prisma.schedule.findMany({
+                    where: { psychologistId },
+                    include: {
+                        bookings: {
+                            where: {
+                                status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
+                            },
+                        },
+                    },
                 });
+
+                // Buat map key: "date_startTime" jadwal existing
+                const existingMap = new Map(
+                    existingSchedules.map(s => [
+                        `${s.date.toISOString().split('T')[0]}_${s.startTime}`,
+                        s,
+                    ])
+                );
+
+                // Key dari jadwal yang dikirim frontend
+                const incomingKeys = new Set(
+                    dto.schedules.map(s => `${s.date}_${s.startTime}`)
+                );
+
+                // Hapus jadwal yang tidak ada di frontend, tapi cek dulu booking aktifnya
+                for (const [key, existing] of existingMap) {
+                    if (!incomingKeys.has(key)) {
+                        if (existing.bookings.length > 0) {
+                            throw new BadRequestException(
+                                `Jadwal ${existing.startTime} pada ${existing.date.toISOString().split('T')[0]} tidak bisa dihapus karena masih ada booking aktif`
+                            );
+                        }
+                        await prisma.schedule.delete({ where: { id: existing.id } });
+                    }
+                }
+
+                // Update atau buat jadwal
+                for (const s of dto.schedules) {
+                    const key = `${s.date}_${s.startTime}`;
+                    const existing = existingMap.get(key);
+
+                    if (existing) {
+                        // jika jadwal sudah ada maka pertahankan isAvailable jika sedang dibooking
+                        const isBooked = existing.bookings.length > 0;
+                        await prisma.schedule.update({
+                            where: { id: existing.id },
+                            data: {
+                                duration: s.duration ?? existing.duration,
+                                isAvailable: isBooked ? existing.isAvailable : true,
+                            },
+                        });
+                    } else {
+                        //Jadwal baru, buat dengan isAvailable true
+                        await prisma.schedule.create({
+                            data: {
+                                psychologistId,
+                                date: new Date(s.date! + 'T17:00:00.000Z'),
+                                startTime: s.startTime ?? '',
+                                duration: s.duration ?? 60,
+                                isAvailable: true,
+                            },
+                        });
+                    }
+                }
             }
         });
 
