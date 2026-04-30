@@ -10,7 +10,7 @@ import { CloudinaryService } from './cloudinary.service';
 export class AdminService {
     constructor(
         private prisma: PrismaService,
-        private acloudinaryService: CloudinaryService,
+        private cloudinaryService: CloudinaryService,
     ){}
 
     async createPsychologist(dto: CreatePsychologistDto, file?: Express.Multer.File){

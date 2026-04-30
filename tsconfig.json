@@ -25,5 +25,5 @@
     "lib": ["ES2022"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "prisma", ".prisma*"]
+  "exclude": ["node_modules", "dist", "prisma", ".prisma*"]
 }

@@ -1,12 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "types": ["jest", "node"],
     "esModuleInterop": true
   },
   "include": [
+    "src/**/*",
     "src/**/*.spec.ts",
     "test/**/*.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "dist"]
 }
