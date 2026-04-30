@@ -139,7 +139,9 @@ export class AuthService {
             role: user.role,
         };
 
-        const accessToken = await this.jwtService.signAsync(payload);
+        const accessToken = await this.jwtService.signAsync(payload, {
+          expiresIn:'1d',
+        });
 
         return {
             message: 'Login berhasil',
@@ -276,7 +278,9 @@ export class AuthService {
             role: user.role,
         };
 
-        const accessToken = await this.jwtService.signAsync(payload);
+        const accessToken = await this.jwtService.signAsync(payload, {
+          expiresIn: '1d',
+        });
 
         return {
             message: 'Login dengan Google berhasil',

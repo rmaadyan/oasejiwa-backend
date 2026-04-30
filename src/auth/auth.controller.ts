@@ -38,13 +38,25 @@ export class AuthController {
     return this.authService.login(dto).then((result) => {
       res.cookie('token', result.accessToken, {
         httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: 'none',
+        secure: true,
+        maxAge: 1 * 24 * 60 * 60 * 1000,
       });
 
       return result;
     });
+  }
+
+  @SkipThrottle()
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res) {
+      res.cookie('token', '', {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+          maxAge: 0,
+      });
+      return { message: 'Logout berhasil' };
   }
 
   @SkipThrottle()
@@ -103,9 +115,9 @@ export class AuthController {
 
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: 'none',
+      secure: true,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
     return res.redirect(`${frontendUrl}/auth/callback`);

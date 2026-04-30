@@ -16,7 +16,7 @@ async function main() {
         return;
     }
 
-    const passwordHash = await bcrypt.hash('OaseAdmin^jiwa@1162', 10);
+    const passwordHash = await bcrypt.hash('janadminJiwa01', 10);
 
     const admin = await prisma.user.create({
         data: {
