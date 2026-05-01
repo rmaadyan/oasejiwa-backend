@@ -1,9 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { BookingStatus, PaymentStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class AdminDashboardService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private readonly ignoredBookingStatuses: BookingStatus[] = [
+    BookingStatus.CANCELLED,
+    BookingStatus.REJECTED,
+  ];
+
+  private toNumber(value: any) {
+    if (value === null || value === undefined) return 0;
+    return Number(value);
+  }
 
   async getDashboard() {
     const now = new Date();
@@ -17,6 +28,15 @@ export class AdminDashboardService {
     const startThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const startNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const startLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+    const validRevenuePaymentWhere = {
+      status: PaymentStatus.PAID,
+      booking: {
+        status: {
+          notIn: this.ignoredBookingStatuses,
+        },
+      },
+    };
 
     const [
       totalPatients,
@@ -59,20 +79,28 @@ export class AdminDashboardService {
             gt: now,
           },
           status: {
-            in: ['APPROVED', 'FULLY_PAID'],
+            in: [BookingStatus.APPROVED, BookingStatus.FULLY_PAID],
           },
         },
       }),
 
-      this.prisma.payment.count({
+      /**
+       * Pembayaran yang perlu divalidasi admin.
+       * Patokannya booking yang sudah upload bukti dan menunggu approval.
+       */
+      this.prisma.booking.count({
         where: {
-          status: 'PENDING',
+          status: BookingStatus.WAITING_APPROVAL,
         },
       }),
 
+      /**
+       * Revenue bulan ini.
+       * Payment PAID dari booking CANCELLED / REJECTED tidak ikut dihitung.
+       */
       this.prisma.payment.aggregate({
         where: {
-          status: 'PAID',
+          ...validRevenuePaymentWhere,
           paidAt: {
             gte: startThisMonth,
             lt: startNextMonth,
@@ -83,9 +111,13 @@ export class AdminDashboardService {
         },
       }),
 
+      /**
+       * Revenue bulan lalu.
+       * Dipakai untuk menghitung revenueGrowth.
+       */
       this.prisma.payment.aggregate({
         where: {
-          status: 'PAID',
+          ...validRevenuePaymentWhere,
           paidAt: {
             gte: startLastMonth,
             lt: startThisMonth,
@@ -110,21 +142,27 @@ export class AdminDashboardService {
         },
       }),
 
-      this.prisma.payment.findMany({
+      /**
+       * List pembayaran pending yang ditampilkan di dashboard.
+       * ID yang dikirim adalah booking.id supaya tombol "Validasi Sekarang"
+       * bisa langsung ke /admin/bookings/{id}.
+       */
+      this.prisma.booking.findMany({
         take: 3,
         where: {
-          status: 'PENDING',
+          status: BookingStatus.WAITING_APPROVAL,
         },
-        orderBy: { createdAt: 'asc' },
+        orderBy: { updatedAt: 'asc' },
         include: {
-          booking: {
+          user: {
             include: {
-              user: {
-                include: {
-                  userProfile: true,
-                },
-              },
-              service: true,
+              userProfile: true,
+            },
+          },
+          service: true,
+          payments: {
+            orderBy: {
+              createdAt: 'desc',
             },
           },
         },
@@ -150,8 +188,8 @@ export class AdminDashboardService {
       }),
     ]);
 
-    const thisRevenue = monthlyRevenue._sum.amount ?? 0;
-    const previousRevenue = lastMonthRevenue._sum.amount ?? 0;
+    const thisRevenue = this.toNumber(monthlyRevenue._sum?.amount);
+    const previousRevenue = this.toNumber(lastMonthRevenue._sum?.amount);
 
     const revenueGrowth =
       previousRevenue === 0
@@ -170,6 +208,7 @@ export class AdminDashboardService {
         monthlyRevenue: thisRevenue,
         revenueGrowth,
       },
+
       recentBookings: recentBookings.map((booking) => ({
         id: booking.id,
         patient: booking.user.userProfile?.fullName ?? booking.user.email,
@@ -179,30 +218,63 @@ export class AdminDashboardService {
         time: booking.scheduledTime,
         status: this.mapBookingStatus(booking.status),
       })),
-      pendingPayments: pendingPaymentList.map((payment) => ({
-        id: payment.id,
-        patient:
-          payment.booking.user.userProfile?.fullName ?? payment.booking.user.email,
-        service: payment.booking.service.nama,
-        amount: payment.amount,
-        uploadedAt: payment.createdAt.toISOString().slice(0, 10),
-        urgent: payment.expiredAt < new Date(Date.now() + 6 * 60 * 60 * 1000),
-      })),
+
+      pendingPayments: pendingPaymentList.map((booking) => {
+        const latestPayment = booking.payments?.[0];
+
+        return {
+          id: booking.id,
+          patient: booking.user.userProfile?.fullName ?? booking.user.email,
+          service: booking.service.nama,
+          amount: this.toNumber(
+            latestPayment?.amount ?? booking.dpAmount ?? booking.totalPrice,
+          ),
+          uploadedAt: latestPayment?.createdAt
+            ? latestPayment.createdAt.toISOString().slice(0, 10)
+            : booking.updatedAt.toISOString().slice(0, 10),
+          urgent: latestPayment?.expiredAt
+            ? latestPayment.expiredAt <
+              new Date(Date.now() + 6 * 60 * 60 * 1000)
+            : false,
+        };
+      }),
+
       todaySchedule: todaySchedule.map((booking) => ({
         time: booking.scheduledTime,
         psychologist: booking.psychologist.fullName,
         patient: booking.user.userProfile?.fullName ?? booking.user.email,
         service: booking.service.nama,
       })),
+
       alerts: [],
     };
   }
 
   private mapBookingStatus(status: string) {
-    if (status === 'PENDING_DP' || status === 'WAITING_APPROVAL') return 'pending';
-    if (status === 'APPROVED' || status === 'FULLY_PAID') return 'confirmed';
-    if (status === 'COMPLETED') return 'completed';
-    if (status === 'CANCELLED' || status === 'REJECTED') return 'cancelled';
+    if (
+      status === BookingStatus.PENDING_DP ||
+      status === BookingStatus.WAITING_APPROVAL
+    ) {
+      return 'pending';
+    }
+
+    if (
+      status === BookingStatus.APPROVED ||
+      status === BookingStatus.FULLY_PAID
+    ) {
+      return 'confirmed';
+    }
+
+    if (status === BookingStatus.COMPLETED) {
+      return 'completed';
+    }
+
+    if (
+      status === BookingStatus.CANCELLED ||
+      status === BookingStatus.REJECTED
+    ) {
+      return 'cancelled';
+    }
 
     return 'pending';
   }

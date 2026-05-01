@@ -30,6 +30,10 @@ export class PsychologistPatientsService {
     );
   }
 
+  private isPatientBookingStatus(status: string) {
+    return status !== 'CANCELLED' && status !== 'REJECTED';
+  }
+
   private normalizeStatus(status: string) {
     if (status === 'COMPLETED') return 'completed';
 
@@ -63,10 +67,14 @@ export class PsychologistPatientsService {
 
     let patients: any[] = [];
 
-    if (bookings.length > 0) {
+    const validPatientBookings = bookings.filter((booking) =>
+      this.isPatientBookingStatus(booking.status),
+    );
+
+    if (validPatientBookings.length > 0) {
       const patientMap = new Map<string, any>();
 
-      for (const booking of bookings) {
+      for (const booking of validPatientBookings) {
         const existing = patientMap.get(booking.userId);
 
         if (!existing) {
@@ -102,11 +110,15 @@ export class PsychologistPatientsService {
           ) {
             existing.upcomingSessionDate = booking.scheduledDate;
           }
+
+          if (!existing.notes && booking.notes) {
+            existing.notes = booking.notes;
+          }
         }
       }
 
       patients = Array.from(patientMap.values());
-    } else {
+    } else if (bookings.length === 0) {
       const notes = await this.prisma.sessionNote.findMany({
         where: {
           psychologistProfileId: psychologistId,
@@ -151,6 +163,10 @@ export class PsychologistPatientsService {
 
           if (note.createdAt > existing.lastSessionDate) {
             existing.lastSessionDate = note.createdAt;
+          }
+
+          if (!existing.notes && (note.assessment || note.subjective)) {
+            existing.notes = note.assessment || note.subjective;
           }
         }
       }

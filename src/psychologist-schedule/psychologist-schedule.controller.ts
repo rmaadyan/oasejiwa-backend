@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { PsychologistScheduleService } from './psychologist-schedule.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -19,5 +27,19 @@ export class PsychologistScheduleController {
   @Get('sessions/:id')
   getById(@CurrentUser() user: any, @Param('id') id: string) {
     return this.service.getById(user, id);
+  }
+
+  @Patch('sessions/:id/complete')
+  completeSession(@CurrentUser() user: any, @Param('id') id: string) {
+    return this.service.completeSession(user, id);
+  }
+
+  @Patch('sessions/:id/cancel')
+  cancelSession(
+    @CurrentUser() user: any,
+    @Param('id') id: string,
+    @Body() body: { reason?: string },
+  ) {
+    return this.service.cancelSession(user, id, body);
   }
 }

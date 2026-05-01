@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 const MONTH_LABELS = [
@@ -20,6 +21,16 @@ const MONTH_LABELS = [
 export class AdminAnalyticsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private readonly ignoredBookingStatuses: BookingStatus[] = [
+    BookingStatus.CANCELLED,
+    BookingStatus.REJECTED,
+  ];
+
+  private toNumber(value: any) {
+    if (value === null || value === undefined) return 0;
+    return Number(value);
+  }
+
   async getAnalytics(params: { bookingMonth?: string; patientYear?: string }) {
     const now = new Date();
 
@@ -36,12 +47,16 @@ export class AdminAnalyticsService {
     const yearStart = new Date(patientYear, 0, 1);
     const yearEnd = new Date(patientYear + 1, 0, 1);
 
+    const validBookingStatusWhere = {
+      notIn: this.ignoredBookingStatuses,
+    };
+
     const [
       totalUsers,
       revenueDp,
       revenuePaid,
       bookingsThisMonth,
-      topServicesRaw,
+      bookingsForTopServices,
       patientsRaw,
     ] = await Promise.all([
       this.prisma.user.count(),
@@ -53,6 +68,9 @@ export class AdminAnalyticsService {
           paidAt: {
             gte: bookingStart,
             lt: bookingEnd,
+          },
+          booking: {
+            status: validBookingStatusWhere,
           },
         },
         _sum: {
@@ -68,6 +86,9 @@ export class AdminAnalyticsService {
             gte: bookingStart,
             lt: bookingEnd,
           },
+          booking: {
+            status: validBookingStatusWhere,
+          },
         },
         _sum: {
           amount: true,
@@ -80,6 +101,7 @@ export class AdminAnalyticsService {
             gte: bookingStart,
             lt: bookingEnd,
           },
+          status: validBookingStatusWhere,
         },
         select: {
           id: true,
@@ -88,23 +110,17 @@ export class AdminAnalyticsService {
         },
       }),
 
-      this.prisma.booking.groupBy({
-        by: ['serviceId'],
+      this.prisma.booking.findMany({
         where: {
           createdAt: {
             gte: bookingStart,
             lt: bookingEnd,
           },
+          status: validBookingStatusWhere,
         },
-        _count: {
-          serviceId: true,
+        include: {
+          service: true,
         },
-        orderBy: {
-          _count: {
-            serviceId: 'desc',
-          },
-        },
-        take: 5,
       }),
 
       this.prisma.booking.findMany({
@@ -113,6 +129,7 @@ export class AdminAnalyticsService {
             gte: yearStart,
             lt: yearEnd,
           },
+          status: validBookingStatusWhere,
         },
         include: {
           user: {
@@ -129,38 +146,13 @@ export class AdminAnalyticsService {
     ]);
 
     const monthlyPatients = await this.getMonthlyPatients(patientYear);
+
     const bookings = await this.getNewVsReturningBookings(
       bookingsThisMonth,
       bookingStart,
     );
 
-    const services = await this.prisma.layanan.findMany({
-      where: {
-        id: {
-          in: topServicesRaw.map((item) => item.serviceId),
-        },
-      },
-    });
-
-    const totalTopServiceBookings = topServicesRaw.reduce(
-      (sum, item) => sum + item._count.serviceId,
-      0,
-    );
-
-    const topServices = topServicesRaw.map((item) => {
-      const service = services.find((s) => s.id === item.serviceId);
-      const percentage =
-        totalTopServiceBookings === 0
-          ? 0
-          : Math.round((item._count.serviceId / totalTopServiceBookings) * 100);
-
-      return {
-        id: item.serviceId,
-        name: service?.nama ?? `Layanan ${item.serviceId}`,
-        total: item._count.serviceId,
-        percentage,
-      };
-    });
+    const topServices = this.buildTopServices(bookingsForTopServices);
 
     const patientMap = new Map<
       string,
@@ -186,8 +178,8 @@ export class AdminAnalyticsService {
         id: booking.userId,
         name: booking.user.userProfile?.fullName ?? booking.user.email,
         date: booking.createdAt.toISOString().slice(0, 10),
-        service: booking.service.nama,
-        description: booking.service.deskripsi ?? '-',
+        service: booking.service?.nama ?? '-',
+        description: booking.service?.deskripsi ?? '-',
         bookingCount: 1,
       });
     }
@@ -198,8 +190,8 @@ export class AdminAnalyticsService {
         totalVisitors: 0,
       },
       revenue: {
-        paid: revenuePaid._sum.amount ?? 0,
-        dp: revenueDp._sum.amount ?? 0,
+        paid: this.toNumber(revenuePaid._sum?.amount),
+        dp: this.toNumber(revenueDp._sum?.amount),
       },
       monthlyPatients,
       bookings,
@@ -209,8 +201,61 @@ export class AdminAnalyticsService {
     };
   }
 
-private async getMonthlyPatients(year: number) {
-  const result: Array<{ month: string; value: number }> = [];
+  private buildTopServices(
+    bookings: Array<{
+      serviceId: number;
+      service: {
+        id: number;
+        nama: string;
+      } | null;
+    }>,
+  ) {
+    const serviceMap = new Map<
+      number,
+      {
+        id: number;
+        name: string;
+        total: number;
+      }
+    >();
+
+    for (const booking of bookings) {
+      const existing = serviceMap.get(booking.serviceId);
+
+      if (existing) {
+        existing.total += 1;
+        continue;
+      }
+
+      serviceMap.set(booking.serviceId, {
+        id: booking.serviceId,
+        name: booking.service?.nama ?? `Layanan ${booking.serviceId}`,
+        total: 1,
+      });
+    }
+
+    const services = Array.from(serviceMap.values())
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 5);
+
+    const totalTopServiceBookings = services.reduce(
+      (sum, service) => sum + service.total,
+      0,
+    );
+
+    return services.map((service) => ({
+      id: service.id,
+      name: service.name,
+      total: service.total,
+      percentage:
+        totalTopServiceBookings === 0
+          ? 0
+          : Math.round((service.total / totalTopServiceBookings) * 100),
+    }));
+  }
+
+  private async getMonthlyPatients(year: number) {
+    const result: Array<{ month: string; value: number }> = [];
 
     for (let month = 0; month < 12; month++) {
       const start = new Date(year, month, 1);
@@ -221,6 +266,9 @@ private async getMonthlyPatients(year: number) {
           createdAt: {
             gte: start,
             lt: end,
+          },
+          status: {
+            notIn: this.ignoredBookingStatuses,
           },
         },
       });
@@ -247,6 +295,9 @@ private async getMonthlyPatients(year: number) {
           userId: booking.userId,
           createdAt: {
             lt: bookingStart,
+          },
+          status: {
+            notIn: this.ignoredBookingStatuses,
           },
         },
         select: {

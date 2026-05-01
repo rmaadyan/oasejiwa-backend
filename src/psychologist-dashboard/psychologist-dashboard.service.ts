@@ -56,6 +56,16 @@ export class PsychologistDashboardService {
     );
   }
 
+  private isUpcomingBooking(status: string) {
+    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(
+      status,
+    );
+  }
+
+  private isPatientBookingStatus(status: string) {
+    return status !== 'CANCELLED' && status !== 'REJECTED';
+  }
+
   private mapBookingToSession(booking: any) {
     return {
       id: String(booking.id),
@@ -83,12 +93,6 @@ export class PsychologistDashboardService {
       dpAmount: booking.dpAmount,
       remainingAmount: booking.remainingAmount,
     };
-  }
-
-  private isUpcomingBooking(status: string) {
-    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(
-      status,
-    );
   }
 
   async getDashboard(currentUser: any) {
@@ -199,12 +203,19 @@ export class PsychologistDashboardService {
         }),
       ]);
 
-    const uniquePatientIds = new Set(allBookings.map((booking) => booking.userId));
+    const patientBookings = allBookings.filter((booking) =>
+      this.isPatientBookingStatus(booking.status),
+    );
+
+    const uniquePatientIds = new Set(
+      patientBookings.map((booking) => booking.userId),
+    );
 
     const activePatientsThisMonth = new Set(
-      allBookings
+      patientBookings
         .filter((booking) => {
           const bookingDate = new Date(booking.scheduledDate);
+
           return (
             bookingDate.getMonth() === now.getMonth() &&
             bookingDate.getFullYear() === now.getFullYear()
@@ -215,9 +226,9 @@ export class PsychologistDashboardService {
 
     const recentPatientsMap = new Map<string, any>();
 
-    for (const booking of allBookings) {
+    for (const booking of patientBookings) {
       if (!recentPatientsMap.has(booking.userId)) {
-        const patientBookings = allBookings.filter(
+        const samePatientBookings = patientBookings.filter(
           (b) => b.userId === booking.userId,
         );
 
@@ -230,12 +241,12 @@ export class PsychologistDashboardService {
           phone: booking.user?.userProfile?.phone || null,
           photo: null,
           firstSessionDate:
-            patientBookings[patientBookings.length - 1]?.scheduledDate ||
-            booking.scheduledDate,
+            samePatientBookings[samePatientBookings.length - 1]
+              ?.scheduledDate || booking.scheduledDate,
           lastSessionDate: booking.scheduledDate,
-          totalSessions: patientBookings.length,
+          totalSessions: samePatientBookings.length,
           upcomingSessionDate:
-            patientBookings.find((b) => this.isUpcomingBooking(b.status))
+            samePatientBookings.find((b) => this.isUpcomingBooking(b.status))
               ?.scheduledDate || null,
           notes:
             patientNotes[0]?.assessment ||
@@ -262,7 +273,7 @@ export class PsychologistDashboardService {
         weekSessions: weekBookings.length,
         totalPatients: uniquePatientIds.size,
         activePatientsThisMonth: activePatientsThisMonth.size,
-        totalLifetimeSessions: allBookings.length,
+        totalLifetimeSessions: patientBookings.length,
         averageRating: 0,
         nextSessionTime: upcomingBookings[0]?.scheduledTime || null,
       },

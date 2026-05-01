@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
-  @Throttle({ default: { ttl: 900000, limit: 20 } })
+  @Throttle({ default: { ttl: 900000, limit: 10 } })
   @Post('login')
   login(@Body() dto: LoginDto, @Res({ passthrough: true }) res) {
     return this.authService.login(dto).then((result) => {
@@ -73,13 +73,13 @@ export class AuthController {
     };
   }
 
-  @Throttle({ default: { ttl: 3600000, limit: 3 } })
+  @Throttle({ default: { ttl: 3600000, limit: 5 } })
   @Post('email-input')
   emailInput(@Body() dto: EmailInputDto) {
     return this.authService.emailInput(dto.email);
   }
 
-  @SkipThrottle()
+  @Throttle({ default: { ttl: 3600000, limit: 5 } })
   @Post('reset-password')
   resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto.token, dto);
@@ -133,13 +133,13 @@ export class AuthController {
     return this.authService.changePasswordPsychologist(req.user.id, dto);
   }
 
-  @SkipThrottle()
+  @Throttle({ default: { ttl: 3600000, limit: 5 } })
   @Get('verify-email')
   verifyEmail(@Query('token') token: string) {
     return this.authService.verifyEmail(token);
   }
 
-  @Throttle({ default: { ttl: 3600000, limit: 3 } })
+  @Throttle({ default: { ttl: 3600000, limit: 5 } })
   @Post('resend-verification')
   resendVerification(@Body() dto: EmailInputDto) {
     return this.authService.resendVerificationEmail(dto.email);

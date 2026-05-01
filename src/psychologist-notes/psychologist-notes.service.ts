@@ -41,44 +41,114 @@ export class PsychologistNotesService {
     return profile;
   }
 
-  private calculateDuration(startTime?: string | null, duration?: number | null) {
+  private calculateDuration(
+    startTime?: string | null,
+    duration?: number | null,
+  ) {
     if (!startTime || !duration) return duration ?? null;
     return duration;
   }
 
-  private mapNoteResponse(note: any) {
+  private toDateOnly(date?: Date | string | null) {
+    if (!date) return null;
+
+    const parsedDate = date instanceof Date ? date : new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return null;
+    }
+
+    return parsedDate.toISOString().split('T')[0];
+  }
+
+  private async getFallbackBookingForNote(note: any) {
+    if (note.schedule) return null;
+
+    return this.prisma.booking.findFirst({
+      where: {
+        psychologistId: note.psychologistProfileId,
+        userId: note.userId,
+        status: {
+          notIn: ['CANCELLED', 'REJECTED'],
+        },
+      },
+      include: {
+        service: true,
+        schedule: true,
+      },
+      orderBy: [
+        {
+          scheduledDate: 'desc',
+        },
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
+  }
+
+  private mapNoteResponse(note: any, fallbackBooking?: any) {
+    const sessionDate =
+      note.schedule?.date ||
+      fallbackBooking?.scheduledDate ||
+      fallbackBooking?.schedule?.date ||
+      null;
+
+    const sessionTime =
+      note.schedule?.startTime ||
+      fallbackBooking?.scheduledTime ||
+      fallbackBooking?.schedule?.startTime ||
+      null;
+
+    const duration =
+      note.schedule?.duration ||
+      fallbackBooking?.service?.durasiMenit ||
+      fallbackBooking?.schedule?.duration ||
+      null;
+
     return {
       id: note.id,
       scheduleId: note.scheduleId,
       psychologistId: note.psychologistProfileId,
       patientId: note.user.id,
       patientName:
-        note.user.userProfile?.fullName ||
-        note.user.email ||
-        'Unknown User',
-      sessionDate: note.schedule?.date
-        ? new Date(note.schedule.date).toISOString().split('T')[0]
-        : null,
-      sessionTime: note.schedule?.startTime ?? null,
-      duration: this.calculateDuration(
-        note.schedule?.startTime,
-        note.schedule?.duration,
-      ),
+        note.user.userProfile?.fullName || note.user.email || 'Unknown User',
+
+      sessionDate: this.toDateOnly(sessionDate),
+      sessionTime,
+      duration: this.calculateDuration(sessionTime, duration),
+
       sessionNumber: 1,
-      service: 'Konseling Individu',
+      service: fallbackBooking?.service?.nama || 'Konseling Individu',
+
       subjective: note.subjective,
       objective: note.objective,
       assessment: note.assessment,
       plan: note.plan,
-      riskLevel: this.reverseRiskLevelMap[note.riskLevel as 'LOW' | 'MEDIUM' | 'HIGH'],
-      followUpDate: note.followUpDate
-        ? new Date(note.followUpDate).toISOString().split('T')[0]
-        : null,
+
+      riskLevel:
+        this.reverseRiskLevelMap[
+          note.riskLevel as 'LOW' | 'MEDIUM' | 'HIGH'
+        ],
+
+      followUpDate: this.toDateOnly(note.followUpDate),
       nextSessionRecommendation: note.nextSessionRecommendation,
       tags: note.tags ?? [],
+
       createdAt: note.createdAt,
       updatedAt: note.updatedAt,
     };
+  }
+
+  private async mapNoteResponseWithFallback(note: any) {
+    const fallbackBooking = await this.getFallbackBookingForNote(note);
+    return this.mapNoteResponse(note, fallbackBooking);
+  }
+
+  private async mapNotesResponseWithFallback(notes: any[]) {
+    return Promise.all(
+      notes.map((note) => this.mapNoteResponseWithFallback(note)),
+    );
   }
 
   async create(currentUser: any, dto: CreatePsychologistNoteDto) {
@@ -112,7 +182,9 @@ export class PsychologistNotesService {
       });
 
       if (!schedule) {
-        throw new ForbiddenException('Jadwal tidak ditemukan atau bukan milik Anda');
+        throw new ForbiddenException(
+          'Jadwal tidak ditemukan atau bukan milik Anda',
+        );
       }
 
       const existingNote = await this.prisma.sessionNote.findFirst({
@@ -137,9 +209,7 @@ export class PsychologistNotesService {
         objective: dto.objective,
         assessment: dto.assessment,
         plan: dto.plan,
-        riskLevel: dto.riskLevel
-          ? this.riskLevelMap[dto.riskLevel]
-          : 'LOW',
+        riskLevel: dto.riskLevel ? this.riskLevelMap[dto.riskLevel] : 'LOW',
         followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
         nextSessionRecommendation: dto.nextSessionRecommendation,
         tags: dto.tags ?? [],
@@ -154,7 +224,7 @@ export class PsychologistNotesService {
       },
     });
 
-    return this.mapNoteResponse(note);
+    return this.mapNoteResponseWithFallback(note);
   }
 
   async findAll(currentUser: any, query: QueryPsychologistNoteDto) {
@@ -252,7 +322,7 @@ export class PsychologistNotesService {
       ]);
 
     return {
-      notes: notes.map((note: any) => this.mapNoteResponse(note)),
+      notes: await this.mapNotesResponseWithFallback(notes),
       total,
       lowRiskCount,
       mediumRiskCount,
@@ -286,7 +356,7 @@ export class PsychologistNotesService {
       throw new NotFoundException('Catatan tidak ditemukan');
     }
 
-    return this.mapNoteResponse(note);
+    return this.mapNoteResponseWithFallback(note);
   }
 
   async findByScheduleId(currentUser: any, scheduleId: string) {
@@ -312,7 +382,7 @@ export class PsychologistNotesService {
       throw new NotFoundException('Catatan tidak ditemukan');
     }
 
-    return this.mapNoteResponse(note);
+    return this.mapNoteResponseWithFallback(note);
   }
 
   async update(currentUser: any, id: string, dto: UpdatePsychologistNoteDto) {
@@ -349,9 +419,7 @@ export class PsychologistNotesService {
         objective: dto.objective,
         assessment: dto.assessment,
         plan: dto.plan,
-        riskLevel: dto.riskLevel
-          ? this.riskLevelMap[dto.riskLevel]
-          : undefined,
+        riskLevel: dto.riskLevel ? this.riskLevelMap[dto.riskLevel] : undefined,
         followUpDate: dto.followUpDate
           ? new Date(dto.followUpDate)
           : dto.followUpDate === ''
@@ -373,7 +441,7 @@ export class PsychologistNotesService {
       },
     });
 
-    return this.mapNoteResponse(updated);
+    return this.mapNoteResponseWithFallback(updated);
   }
 
   async remove(currentUser: any, id: string) {

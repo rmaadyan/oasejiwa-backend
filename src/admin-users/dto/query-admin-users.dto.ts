@@ -15,8 +15,9 @@ export class QueryAdminUsersDto {
   search?: string;
 
   @IsOptional()
-  @IsIn(['newest', 'oldest', 'name_asc', 'name_desc'])
-  sort?: string = 'newest';
+  @IsIn(['newest', 'oldest', 'name_asc', 'name_desc', 'most-bookings'])
+  sort?: 'newest' | 'oldest' | 'name_asc' | 'name_desc' | 'most-bookings' =
+    'newest';
 
   @IsOptional()
   @IsIn(['all', 'male', 'female', 'MALE', 'FEMALE'])

@@ -84,6 +84,16 @@ export class PsychologistScheduleService {
     };
   }
 
+  private parseBookingId(id: string) {
+    const bookingId = Number(id);
+
+    if (Number.isNaN(bookingId)) {
+      throw new NotFoundException('Sesi tidak ditemukan');
+    }
+
+    return bookingId;
+  }
+
   async getAll(currentUser: any, query: any) {
     const psychologistId = await this.getPsychologistProfileId(currentUser.id);
 
@@ -139,10 +149,11 @@ export class PsychologistScheduleService {
 
   async getById(currentUser: any, id: string) {
     const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+    const bookingId = this.parseBookingId(id);
 
     const booking = await this.prisma.booking.findFirst({
       where: {
-        id: Number(id),
+        id: bookingId,
         psychologistId,
       },
       include: {
@@ -164,5 +175,97 @@ export class PsychologistScheduleService {
     }
 
     return this.mapBookingToSession(booking);
+  }
+
+  async completeSession(currentUser: any, id: string) {
+    const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+    const bookingId = this.parseBookingId(id);
+
+    const booking = await this.prisma.booking.findFirst({
+      where: {
+        id: bookingId,
+        psychologistId,
+      },
+      select: {
+        id: true,
+        status: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Sesi tidak ditemukan');
+    }
+
+    const updatedBooking = await this.prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status: 'COMPLETED',
+      },
+      include: {
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
+        service: true,
+        payments: true,
+      },
+    });
+
+    return this.mapBookingToSession(updatedBooking);
+  }
+
+  async cancelSession(
+    currentUser: any,
+    id: string,
+    payload?: { reason?: string },
+  ) {
+    const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+    const bookingId = this.parseBookingId(id);
+
+    const booking = await this.prisma.booking.findFirst({
+      where: {
+        id: bookingId,
+        psychologistId,
+      },
+      select: {
+        id: true,
+        status: true,
+        notes: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Sesi tidak ditemukan');
+    }
+
+    const reason = payload?.reason?.trim();
+
+    const updatedBooking = await this.prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status: 'CANCELLED',
+        ...(reason && {
+          notes: booking.notes
+            ? `${booking.notes}\n\nAlasan pembatalan: ${reason}`
+            : `Alasan pembatalan: ${reason}`,
+        }),
+      },
+      include: {
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
+        service: true,
+        payments: true,
+      },
+    });
+
+    return this.mapBookingToSession(updatedBooking);
   }
 }
