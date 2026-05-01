@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 const MONTH_LABELS = [
@@ -21,10 +20,7 @@ const MONTH_LABELS = [
 export class AdminAnalyticsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly ignoredBookingStatuses: BookingStatus[] = [
-    BookingStatus.CANCELLED,
-    BookingStatus.REJECTED,
-  ];
+  private readonly ignoredBookingStatuses = ['CANCELLED', 'REJECTED'];
 
   private toNumber(value: any) {
     if (value === null || value === undefined) return 0;
@@ -47,7 +43,7 @@ export class AdminAnalyticsService {
     const yearStart = new Date(patientYear, 0, 1);
     const yearEnd = new Date(patientYear + 1, 0, 1);
 
-    const validBookingStatusWhere = {
+    const validBookingStatusWhere: any = {
       notIn: this.ignoredBookingStatuses,
     };
 
@@ -70,8 +66,10 @@ export class AdminAnalyticsService {
             lt: bookingEnd,
           },
           booking: {
-            status: validBookingStatusWhere,
-          },
+            is: {
+              status: validBookingStatusWhere,
+            },
+          } as any,
         },
         _sum: {
           amount: true,
@@ -87,8 +85,10 @@ export class AdminAnalyticsService {
             lt: bookingEnd,
           },
           booking: {
-            status: validBookingStatusWhere,
-          },
+            is: {
+              status: validBookingStatusWhere,
+            },
+          } as any,
         },
         _sum: {
           amount: true,
@@ -269,7 +269,7 @@ export class AdminAnalyticsService {
           },
           status: {
             notIn: this.ignoredBookingStatuses,
-          },
+          } as any,
         },
       });
 
@@ -298,7 +298,7 @@ export class AdminAnalyticsService {
           },
           status: {
             notIn: this.ignoredBookingStatuses,
-          },
+          } as any,
         },
         select: {
           id: true,

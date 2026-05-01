@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { BookingStatus, PaymentStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class AdminDashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly ignoredBookingStatuses: BookingStatus[] = [
-    BookingStatus.CANCELLED,
-    BookingStatus.REJECTED,
-  ];
+  private readonly ignoredBookingStatuses = ['CANCELLED', 'REJECTED'];
 
   private toNumber(value: any) {
     if (value === null || value === undefined) return 0;
@@ -29,11 +25,13 @@ export class AdminDashboardService {
     const startNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const startLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-    const validRevenuePaymentWhere = {
-      status: PaymentStatus.PAID,
+    const validRevenuePaymentWhere: any = {
+      status: 'PAID',
       booking: {
-        status: {
-          notIn: this.ignoredBookingStatuses,
+        is: {
+          status: {
+            notIn: this.ignoredBookingStatuses,
+          },
         },
       },
     };
@@ -79,8 +77,8 @@ export class AdminDashboardService {
             gt: now,
           },
           status: {
-            in: [BookingStatus.APPROVED, BookingStatus.FULLY_PAID],
-          },
+            in: ['APPROVED', 'FULLY_PAID'],
+          } as any,
         },
       }),
 
@@ -90,7 +88,7 @@ export class AdminDashboardService {
        */
       this.prisma.booking.count({
         where: {
-          status: BookingStatus.WAITING_APPROVAL,
+          status: 'WAITING_APPROVAL' as any,
         },
       }),
 
@@ -150,7 +148,7 @@ export class AdminDashboardService {
       this.prisma.booking.findMany({
         take: 3,
         where: {
-          status: BookingStatus.WAITING_APPROVAL,
+          status: 'WAITING_APPROVAL' as any,
         },
         orderBy: { updatedAt: 'asc' },
         include: {
@@ -251,28 +249,19 @@ export class AdminDashboardService {
   }
 
   private mapBookingStatus(status: string) {
-    if (
-      status === BookingStatus.PENDING_DP ||
-      status === BookingStatus.WAITING_APPROVAL
-    ) {
+    if (status === 'PENDING_DP' || status === 'WAITING_APPROVAL') {
       return 'pending';
     }
 
-    if (
-      status === BookingStatus.APPROVED ||
-      status === BookingStatus.FULLY_PAID
-    ) {
+    if (status === 'APPROVED' || status === 'FULLY_PAID') {
       return 'confirmed';
     }
 
-    if (status === BookingStatus.COMPLETED) {
+    if (status === 'COMPLETED') {
       return 'completed';
     }
 
-    if (
-      status === BookingStatus.CANCELLED ||
-      status === BookingStatus.REJECTED
-    ) {
+    if (status === 'CANCELLED' || status === 'REJECTED') {
       return 'cancelled';
     }
 
