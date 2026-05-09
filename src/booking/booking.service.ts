@@ -96,7 +96,7 @@ export class BookingService {
       });
 
       // Buat payment record untuk DP
-      const dpExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 jam
+      const dpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 menit
       await prisma.payment.create({
         data: {
           bookingId: newBooking.id,

@@ -8,7 +8,8 @@ import { EmailModule } from '../email/email.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolesGuard } from './guards/roles.guard';
 import { GoogleStrategy } from './strategies/google.strategy';
-
+import { APP_GUARD } from '@nestjs/core';     
+import { CustomThrottlerGuard } from './guards/custom-throttler.guard';
 @Module({
   imports: [
     PrismaModule,
@@ -20,7 +21,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RolesGuard, GoogleStrategy],
+  providers: [AuthService, JwtStrategy, RolesGuard, GoogleStrategy, { provide: APP_GUARD, useClass: CustomThrottlerGuard },],
   exports: [AuthService, RolesGuard],
 })
 export class AuthModule {}
