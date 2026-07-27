@@ -13,6 +13,17 @@ export class AdminService {
         private cloudinaryService: CloudinaryService,
     ){}
 
+    private formatDateString(dateVal?: string | Date): string {
+        if (!dateVal) return '';
+        if (typeof dateVal === 'string') {
+            return dateVal.split('T')[0];
+        }
+        if (dateVal instanceof Date) {
+            return dateVal.toISOString().split('T')[0];
+        }
+        return String(dateVal).split('T')[0];
+    }
+
     async createPsychologist(dto: CreatePsychologistDto, file?: Express.Multer.File){
         const avatarUrl = file ? file.path : undefined;
         const existingUser = await this.prisma.user.findUnique({
@@ -31,6 +42,7 @@ export class AdminService {
                 email: dto.email,
                 role: 'PSYCHOLOGIST',
                 isEmailVerified: true,
+                isProfileComplete: true,
                 isFirstLogin: true,
                 authProvider: {
                     create: {
@@ -58,12 +70,15 @@ export class AdminService {
                             create: dto.expertises.map(name => ({name})),
                         },
                         schedules: dto.schedules ? {
-                            create: dto.schedules.map(s => ({
-                                date: new Date(s.date + 'T17:00:00.000Z'),
-                                startTime: s.startTime,
-                                duration: s.duration,
-                                isAvailable: s.isAvailable ?? true,
-                            })),
+                            create: dto.schedules.map(s => {
+                                const dateStr = this.formatDateString(s.date);
+                                return {
+                                    date: new Date(dateStr + 'T17:00:00.000Z'),
+                                    startTime: s.startTime,
+                                    duration: s.duration,
+                                    isAvailable: s.isAvailable ?? true,
+                                };
+                            }),
                         } : undefined,
                     },
                 },
@@ -265,14 +280,14 @@ export class AdminService {
                 // Buat map key: "date_startTime" jadwal existing
                 const existingMap = new Map(
                     existingSchedules.map(s => [
-                        `${s.date.toISOString().split('T')[0]}_${s.startTime}`,
+                        `${this.formatDateString(s.date)}_${s.startTime}`,
                         s,
                     ])
                 );
 
                 // Key dari jadwal yang dikirim frontend
                 const incomingKeys = new Set(
-                    dto.schedules.map(s => `${s.date}_${s.startTime}`)
+                    dto.schedules.map(s => `${this.formatDateString(s.date)}_${s.startTime}`)
                 );
 
                 // Hapus jadwal yang tidak ada di frontend, tapi cek dulu booking aktifnya
@@ -280,7 +295,7 @@ export class AdminService {
                     if (!incomingKeys.has(key)) {
                         if (existing.bookings.length > 0) {
                             throw new BadRequestException(
-                                `Jadwal ${existing.startTime} pada ${existing.date.toISOString().split('T')[0]} tidak bisa dihapus karena masih ada booking aktif`
+                                `Jadwal ${existing.startTime} pada ${this.formatDateString(existing.date)} tidak bisa dihapus karena masih ada booking aktif`
                             );
                         }
                         await prisma.schedule.delete({ where: { id: existing.id } });
@@ -289,7 +304,10 @@ export class AdminService {
 
                 // Update atau buat jadwal
                 for (const s of dto.schedules) {
-                    const key = `${s.date}_${s.startTime}`;
+                    const dateStr = this.formatDateString(s.date);
+                    if (!dateStr) continue;
+
+                    const key = `${dateStr}_${s.startTime}`;
                     const existing = existingMap.get(key);
 
                     if (existing) {
@@ -307,7 +325,7 @@ export class AdminService {
                         await prisma.schedule.create({
                             data: {
                                 psychologistId,
-                                date: new Date(s.date! + 'T17:00:00.000Z'),
+                                date: new Date(dateStr + 'T17:00:00.000Z'),
                                 startTime: s.startTime ?? '',
                                 duration: s.duration ?? 60,
                                 isAvailable: true,

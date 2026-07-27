@@ -21,13 +21,25 @@ export class AdminController {
         private bookingService: BookingService,
     ){}
 
+    private parseDto<T>(rawData: any): T {
+        if (!rawData) return {} as T;
+        if (typeof rawData === 'string') {
+            try {
+                return JSON.parse(rawData) as T;
+            } catch {
+                return {} as T;
+            }
+        }
+        return rawData as T;
+    }
+
     @Post('psychologists')
     @UseInterceptors(FileInterceptor('avatar', multerConfig))
     createPsychologist(
-        @Body('data') rawData: string,
+        @Body('data') rawData: any,
         @UploadedFile() file?: Express.Multer.File,
     ) {
-        const dto = JSON.parse(rawData) as CreatePsychologistDto;
+        const dto = this.parseDto<CreatePsychologistDto>(rawData);
         return this.adminService.createPsychologist(dto, file);
     }
 
@@ -45,10 +57,10 @@ export class AdminController {
     @UseInterceptors(FileInterceptor('avatar', multerConfig))
     updatePsychologist(
         @Param('id') id: string,
-        @Body('data') rawData: string,
+        @Body('data') rawData: any,
         @UploadedFile() file?: Express.Multer.File,
     ) {
-        const dto = JSON.parse(rawData) as UpdatePsychologistDto;
+        const dto = this.parseDto<UpdatePsychologistDto>(rawData);
         return this.adminService.updatePsychologist(id, dto, file);
     }
 

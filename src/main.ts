@@ -48,6 +48,7 @@ async function bootstrap() {
   await app.listen(port, () => {
     logger.log(`Server jalan di: http://localhost:${port}`);
     logger.log(`DATABASE_URL terdeteksi: ${process.env.DATABASE_URL ? 'YA' : 'TIDAK'}`);
+    logger.log(`CORS_ORIGIN terdeteksi: ${process.env.CORS_ORIGIN || 'default'}`);
   });
 }
 

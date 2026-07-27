@@ -234,7 +234,7 @@ export class BookingService {
           select: { fullName: true },
         },
         payments: {
-          select: { type: true, amount: true, status: true },
+          select: { id: true, type: true, amount: true, status: true, method: true, paymentProofUrl: true, paidAt: true },
         },
       },
       orderBy: { createdAt: 'desc' },
