@@ -20,8 +20,20 @@ export type SessionNoteModel = runtime.Types.Result.DefaultSelection<Prisma.$Ses
 
 export type AggregateSessionNote = {
   _count: SessionNoteCountAggregateOutputType | null
+  _avg: SessionNoteAvgAggregateOutputType | null
+  _sum: SessionNoteSumAggregateOutputType | null
   _min: SessionNoteMinAggregateOutputType | null
   _max: SessionNoteMaxAggregateOutputType | null
+}
+
+export type SessionNoteAvgAggregateOutputType = {
+  bookingId: number | null
+  sessionNumber: number | null
+}
+
+export type SessionNoteSumAggregateOutputType = {
+  bookingId: number | null
+  sessionNumber: number | null
 }
 
 export type SessionNoteMinAggregateOutputType = {
@@ -29,11 +41,20 @@ export type SessionNoteMinAggregateOutputType = {
   psychologistProfileId: string | null
   userId: string | null
   scheduleId: string | null
+  bookingId: number | null
   subjective: string | null
   objective: string | null
   assessment: string | null
   plan: string | null
   riskLevel: $Enums.RiskLevel | null
+  sessionNumber: number | null
+  consultationDate: Date | null
+  consultationStatus: $Enums.ConsultationStatus | null
+  diagnosisSummary: string | null
+  treatmentApproach: string | null
+  recommendation: string | null
+  followUpPlan: $Enums.FollowUpPlan | null
+  additionalNotes: string | null
   followUpDate: Date | null
   nextSessionRecommendation: string | null
   createdAt: Date | null
@@ -46,11 +67,20 @@ export type SessionNoteMaxAggregateOutputType = {
   psychologistProfileId: string | null
   userId: string | null
   scheduleId: string | null
+  bookingId: number | null
   subjective: string | null
   objective: string | null
   assessment: string | null
   plan: string | null
   riskLevel: $Enums.RiskLevel | null
+  sessionNumber: number | null
+  consultationDate: Date | null
+  consultationStatus: $Enums.ConsultationStatus | null
+  diagnosisSummary: string | null
+  treatmentApproach: string | null
+  recommendation: string | null
+  followUpPlan: $Enums.FollowUpPlan | null
+  additionalNotes: string | null
   followUpDate: Date | null
   nextSessionRecommendation: string | null
   createdAt: Date | null
@@ -63,11 +93,20 @@ export type SessionNoteCountAggregateOutputType = {
   psychologistProfileId: number
   userId: number
   scheduleId: number
+  bookingId: number
   subjective: number
   objective: number
   assessment: number
   plan: number
   riskLevel: number
+  sessionNumber: number
+  consultationDate: number
+  consultationStatus: number
+  diagnosisSummary: number
+  treatmentApproach: number
+  recommendation: number
+  followUpPlan: number
+  additionalNotes: number
   followUpDate: number
   nextSessionRecommendation: number
   tags: number
@@ -78,16 +117,35 @@ export type SessionNoteCountAggregateOutputType = {
 }
 
 
+export type SessionNoteAvgAggregateInputType = {
+  bookingId?: true
+  sessionNumber?: true
+}
+
+export type SessionNoteSumAggregateInputType = {
+  bookingId?: true
+  sessionNumber?: true
+}
+
 export type SessionNoteMinAggregateInputType = {
   id?: true
   psychologistProfileId?: true
   userId?: true
   scheduleId?: true
+  bookingId?: true
   subjective?: true
   objective?: true
   assessment?: true
   plan?: true
   riskLevel?: true
+  sessionNumber?: true
+  consultationDate?: true
+  consultationStatus?: true
+  diagnosisSummary?: true
+  treatmentApproach?: true
+  recommendation?: true
+  followUpPlan?: true
+  additionalNotes?: true
   followUpDate?: true
   nextSessionRecommendation?: true
   createdAt?: true
@@ -100,11 +158,20 @@ export type SessionNoteMaxAggregateInputType = {
   psychologistProfileId?: true
   userId?: true
   scheduleId?: true
+  bookingId?: true
   subjective?: true
   objective?: true
   assessment?: true
   plan?: true
   riskLevel?: true
+  sessionNumber?: true
+  consultationDate?: true
+  consultationStatus?: true
+  diagnosisSummary?: true
+  treatmentApproach?: true
+  recommendation?: true
+  followUpPlan?: true
+  additionalNotes?: true
   followUpDate?: true
   nextSessionRecommendation?: true
   createdAt?: true
@@ -117,11 +184,20 @@ export type SessionNoteCountAggregateInputType = {
   psychologistProfileId?: true
   userId?: true
   scheduleId?: true
+  bookingId?: true
   subjective?: true
   objective?: true
   assessment?: true
   plan?: true
   riskLevel?: true
+  sessionNumber?: true
+  consultationDate?: true
+  consultationStatus?: true
+  diagnosisSummary?: true
+  treatmentApproach?: true
+  recommendation?: true
+  followUpPlan?: true
+  additionalNotes?: true
   followUpDate?: true
   nextSessionRecommendation?: true
   tags?: true
@@ -169,6 +245,18 @@ export type SessionNoteAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: SessionNoteAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: SessionNoteSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: SessionNoteMinAggregateInputType
@@ -199,6 +287,8 @@ export type SessionNoteGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: SessionNoteCountAggregateInputType | true
+  _avg?: SessionNoteAvgAggregateInputType
+  _sum?: SessionNoteSumAggregateInputType
   _min?: SessionNoteMinAggregateInputType
   _max?: SessionNoteMaxAggregateInputType
 }
@@ -208,11 +298,20 @@ export type SessionNoteGroupByOutputType = {
   psychologistProfileId: string
   userId: string
   scheduleId: string | null
+  bookingId: number | null
   subjective: string | null
   objective: string | null
   assessment: string | null
   plan: string | null
   riskLevel: $Enums.RiskLevel
+  sessionNumber: number | null
+  consultationDate: Date | null
+  consultationStatus: $Enums.ConsultationStatus
+  diagnosisSummary: string | null
+  treatmentApproach: string | null
+  recommendation: string | null
+  followUpPlan: $Enums.FollowUpPlan
+  additionalNotes: string | null
   followUpDate: Date | null
   nextSessionRecommendation: string | null
   tags: string[]
@@ -220,6 +319,8 @@ export type SessionNoteGroupByOutputType = {
   updatedAt: Date
   deletedAt: Date | null
   _count: SessionNoteCountAggregateOutputType | null
+  _avg: SessionNoteAvgAggregateOutputType | null
+  _sum: SessionNoteSumAggregateOutputType | null
   _min: SessionNoteMinAggregateOutputType | null
   _max: SessionNoteMaxAggregateOutputType | null
 }
@@ -247,11 +348,20 @@ export type SessionNoteWhereInput = {
   psychologistProfileId?: Prisma.StringFilter<"SessionNote"> | string
   userId?: Prisma.StringFilter<"SessionNote"> | string
   scheduleId?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  bookingId?: Prisma.IntNullableFilter<"SessionNote"> | number | null
   subjective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   objective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   assessment?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   plan?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   riskLevel?: Prisma.EnumRiskLevelFilter<"SessionNote"> | $Enums.RiskLevel
+  sessionNumber?: Prisma.IntNullableFilter<"SessionNote"> | number | null
+  consultationDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFilter<"SessionNote"> | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  treatmentApproach?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFilter<"SessionNote"> | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
   nextSessionRecommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   tags?: Prisma.StringNullableListFilter<"SessionNote">
@@ -261,6 +371,7 @@ export type SessionNoteWhereInput = {
   psychologistProfile?: Prisma.XOR<Prisma.PsychologistProfileScalarRelationFilter, Prisma.PsychologistProfileWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   schedule?: Prisma.XOR<Prisma.ScheduleNullableScalarRelationFilter, Prisma.ScheduleWhereInput> | null
+  booking?: Prisma.XOR<Prisma.BookingNullableScalarRelationFilter, Prisma.BookingWhereInput> | null
 }
 
 export type SessionNoteOrderByWithRelationInput = {
@@ -268,11 +379,20 @@ export type SessionNoteOrderByWithRelationInput = {
   psychologistProfileId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bookingId?: Prisma.SortOrderInput | Prisma.SortOrder
   subjective?: Prisma.SortOrderInput | Prisma.SortOrder
   objective?: Prisma.SortOrderInput | Prisma.SortOrder
   assessment?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrderInput | Prisma.SortOrder
   riskLevel?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  consultationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  consultationStatus?: Prisma.SortOrder
+  diagnosisSummary?: Prisma.SortOrderInput | Prisma.SortOrder
+  treatmentApproach?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
+  followUpPlan?: Prisma.SortOrder
+  additionalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   followUpDate?: Prisma.SortOrderInput | Prisma.SortOrder
   nextSessionRecommendation?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -282,10 +402,12 @@ export type SessionNoteOrderByWithRelationInput = {
   psychologistProfile?: Prisma.PsychologistProfileOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   schedule?: Prisma.ScheduleOrderByWithRelationInput
+  booking?: Prisma.BookingOrderByWithRelationInput
 }
 
 export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  bookingId?: number
   AND?: Prisma.SessionNoteWhereInput | Prisma.SessionNoteWhereInput[]
   OR?: Prisma.SessionNoteWhereInput[]
   NOT?: Prisma.SessionNoteWhereInput | Prisma.SessionNoteWhereInput[]
@@ -297,6 +419,14 @@ export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
   assessment?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   plan?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   riskLevel?: Prisma.EnumRiskLevelFilter<"SessionNote"> | $Enums.RiskLevel
+  sessionNumber?: Prisma.IntNullableFilter<"SessionNote"> | number | null
+  consultationDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFilter<"SessionNote"> | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  treatmentApproach?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFilter<"SessionNote"> | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
   nextSessionRecommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   tags?: Prisma.StringNullableListFilter<"SessionNote">
@@ -306,18 +436,28 @@ export type SessionNoteWhereUniqueInput = Prisma.AtLeast<{
   psychologistProfile?: Prisma.XOR<Prisma.PsychologistProfileScalarRelationFilter, Prisma.PsychologistProfileWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   schedule?: Prisma.XOR<Prisma.ScheduleNullableScalarRelationFilter, Prisma.ScheduleWhereInput> | null
-}, "id">
+  booking?: Prisma.XOR<Prisma.BookingNullableScalarRelationFilter, Prisma.BookingWhereInput> | null
+}, "id" | "bookingId">
 
 export type SessionNoteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   psychologistProfileId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bookingId?: Prisma.SortOrderInput | Prisma.SortOrder
   subjective?: Prisma.SortOrderInput | Prisma.SortOrder
   objective?: Prisma.SortOrderInput | Prisma.SortOrder
   assessment?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrderInput | Prisma.SortOrder
   riskLevel?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  consultationDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  consultationStatus?: Prisma.SortOrder
+  diagnosisSummary?: Prisma.SortOrderInput | Prisma.SortOrder
+  treatmentApproach?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
+  followUpPlan?: Prisma.SortOrder
+  additionalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   followUpDate?: Prisma.SortOrderInput | Prisma.SortOrder
   nextSessionRecommendation?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -325,8 +465,10 @@ export type SessionNoteOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SessionNoteCountOrderByAggregateInput
+  _avg?: Prisma.SessionNoteAvgOrderByAggregateInput
   _max?: Prisma.SessionNoteMaxOrderByAggregateInput
   _min?: Prisma.SessionNoteMinOrderByAggregateInput
+  _sum?: Prisma.SessionNoteSumOrderByAggregateInput
 }
 
 export type SessionNoteScalarWhereWithAggregatesInput = {
@@ -337,11 +479,20 @@ export type SessionNoteScalarWhereWithAggregatesInput = {
   psychologistProfileId?: Prisma.StringWithAggregatesFilter<"SessionNote"> | string
   userId?: Prisma.StringWithAggregatesFilter<"SessionNote"> | string
   scheduleId?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
+  bookingId?: Prisma.IntNullableWithAggregatesFilter<"SessionNote"> | number | null
   subjective?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   objective?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   assessment?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   plan?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   riskLevel?: Prisma.EnumRiskLevelWithAggregatesFilter<"SessionNote"> | $Enums.RiskLevel
+  sessionNumber?: Prisma.IntNullableWithAggregatesFilter<"SessionNote"> | number | null
+  consultationDate?: Prisma.DateTimeNullableWithAggregatesFilter<"SessionNote"> | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusWithAggregatesFilter<"SessionNote"> | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
+  treatmentApproach?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
+  recommendation?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanWithAggregatesFilter<"SessionNote"> | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   followUpDate?: Prisma.DateTimeNullableWithAggregatesFilter<"SessionNote"> | Date | string | null
   nextSessionRecommendation?: Prisma.StringNullableWithAggregatesFilter<"SessionNote"> | string | null
   tags?: Prisma.StringNullableListFilter<"SessionNote">
@@ -357,6 +508,14 @@ export type SessionNoteCreateInput = {
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -366,6 +525,7 @@ export type SessionNoteCreateInput = {
   psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
   user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
   schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
+  booking?: Prisma.BookingCreateNestedOneWithoutSessionNoteInput
 }
 
 export type SessionNoteUncheckedCreateInput = {
@@ -373,11 +533,20 @@ export type SessionNoteUncheckedCreateInput = {
   psychologistProfileId: string
   userId: string
   scheduleId?: string | null
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -393,6 +562,14 @@ export type SessionNoteUpdateInput = {
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -402,6 +579,7 @@ export type SessionNoteUpdateInput = {
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
   schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
+  booking?: Prisma.BookingUpdateOneWithoutSessionNoteNestedInput
 }
 
 export type SessionNoteUncheckedUpdateInput = {
@@ -409,11 +587,20 @@ export type SessionNoteUncheckedUpdateInput = {
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -427,11 +614,20 @@ export type SessionNoteCreateManyInput = {
   psychologistProfileId: string
   userId: string
   scheduleId?: string | null
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -447,6 +643,14 @@ export type SessionNoteUpdateManyMutationInput = {
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -460,11 +664,20 @@ export type SessionNoteUncheckedUpdateManyInput = {
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -488,11 +701,20 @@ export type SessionNoteCountOrderByAggregateInput = {
   psychologistProfileId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
+  bookingId?: Prisma.SortOrder
   subjective?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   assessment?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   riskLevel?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrder
+  consultationDate?: Prisma.SortOrder
+  consultationStatus?: Prisma.SortOrder
+  diagnosisSummary?: Prisma.SortOrder
+  treatmentApproach?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
+  followUpPlan?: Prisma.SortOrder
+  additionalNotes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
   nextSessionRecommendation?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -501,16 +723,30 @@ export type SessionNoteCountOrderByAggregateInput = {
   deletedAt?: Prisma.SortOrder
 }
 
+export type SessionNoteAvgOrderByAggregateInput = {
+  bookingId?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrder
+}
+
 export type SessionNoteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   psychologistProfileId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
+  bookingId?: Prisma.SortOrder
   subjective?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   assessment?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   riskLevel?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrder
+  consultationDate?: Prisma.SortOrder
+  consultationStatus?: Prisma.SortOrder
+  diagnosisSummary?: Prisma.SortOrder
+  treatmentApproach?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
+  followUpPlan?: Prisma.SortOrder
+  additionalNotes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
   nextSessionRecommendation?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -523,16 +759,35 @@ export type SessionNoteMinOrderByAggregateInput = {
   psychologistProfileId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
+  bookingId?: Prisma.SortOrder
   subjective?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   assessment?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   riskLevel?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrder
+  consultationDate?: Prisma.SortOrder
+  consultationStatus?: Prisma.SortOrder
+  diagnosisSummary?: Prisma.SortOrder
+  treatmentApproach?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
+  followUpPlan?: Prisma.SortOrder
+  additionalNotes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
   nextSessionRecommendation?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+}
+
+export type SessionNoteSumOrderByAggregateInput = {
+  bookingId?: Prisma.SortOrder
+  sessionNumber?: Prisma.SortOrder
+}
+
+export type SessionNoteNullableScalarRelationFilter = {
+  is?: Prisma.SessionNoteWhereInput | null
+  isNot?: Prisma.SessionNoteWhereInput | null
 }
 
 export type SessionNoteCreateNestedManyWithoutUserInput = {
@@ -669,9 +924,49 @@ export type EnumRiskLevelFieldUpdateOperationsInput = {
   set?: $Enums.RiskLevel
 }
 
+export type EnumConsultationStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ConsultationStatus
+}
+
+export type EnumFollowUpPlanFieldUpdateOperationsInput = {
+  set?: $Enums.FollowUpPlan
+}
+
 export type SessionNoteUpdatetagsInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type SessionNoteCreateNestedOneWithoutBookingInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutBookingInput
+  connect?: Prisma.SessionNoteWhereUniqueInput
+}
+
+export type SessionNoteUncheckedCreateNestedOneWithoutBookingInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutBookingInput
+  connect?: Prisma.SessionNoteWhereUniqueInput
+}
+
+export type SessionNoteUpdateOneWithoutBookingNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutBookingInput
+  upsert?: Prisma.SessionNoteUpsertWithoutBookingInput
+  disconnect?: Prisma.SessionNoteWhereInput | boolean
+  delete?: Prisma.SessionNoteWhereInput | boolean
+  connect?: Prisma.SessionNoteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionNoteUpdateToOneWithWhereWithoutBookingInput, Prisma.SessionNoteUpdateWithoutBookingInput>, Prisma.SessionNoteUncheckedUpdateWithoutBookingInput>
+}
+
+export type SessionNoteUncheckedUpdateOneWithoutBookingNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+  connectOrCreate?: Prisma.SessionNoteCreateOrConnectWithoutBookingInput
+  upsert?: Prisma.SessionNoteUpsertWithoutBookingInput
+  disconnect?: Prisma.SessionNoteWhereInput | boolean
+  delete?: Prisma.SessionNoteWhereInput | boolean
+  connect?: Prisma.SessionNoteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionNoteUpdateToOneWithWhereWithoutBookingInput, Prisma.SessionNoteUpdateWithoutBookingInput>, Prisma.SessionNoteUncheckedUpdateWithoutBookingInput>
 }
 
 export type SessionNoteCreateWithoutUserInput = {
@@ -681,6 +976,14 @@ export type SessionNoteCreateWithoutUserInput = {
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -689,17 +992,27 @@ export type SessionNoteCreateWithoutUserInput = {
   deletedAt?: Date | string | null
   psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
   schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
+  booking?: Prisma.BookingCreateNestedOneWithoutSessionNoteInput
 }
 
 export type SessionNoteUncheckedCreateWithoutUserInput = {
   id?: string
   psychologistProfileId: string
   scheduleId?: string | null
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -742,11 +1055,20 @@ export type SessionNoteScalarWhereInput = {
   psychologistProfileId?: Prisma.StringFilter<"SessionNote"> | string
   userId?: Prisma.StringFilter<"SessionNote"> | string
   scheduleId?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  bookingId?: Prisma.IntNullableFilter<"SessionNote"> | number | null
   subjective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   objective?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   assessment?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   plan?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   riskLevel?: Prisma.EnumRiskLevelFilter<"SessionNote"> | $Enums.RiskLevel
+  sessionNumber?: Prisma.IntNullableFilter<"SessionNote"> | number | null
+  consultationDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFilter<"SessionNote"> | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  treatmentApproach?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFilter<"SessionNote"> | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"SessionNote"> | Date | string | null
   nextSessionRecommendation?: Prisma.StringNullableFilter<"SessionNote"> | string | null
   tags?: Prisma.StringNullableListFilter<"SessionNote">
@@ -762,6 +1084,14 @@ export type SessionNoteCreateWithoutPsychologistProfileInput = {
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -770,17 +1100,27 @@ export type SessionNoteCreateWithoutPsychologistProfileInput = {
   deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
   schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
+  booking?: Prisma.BookingCreateNestedOneWithoutSessionNoteInput
 }
 
 export type SessionNoteUncheckedCreateWithoutPsychologistProfileInput = {
   id?: string
   userId: string
   scheduleId?: string | null
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -822,6 +1162,14 @@ export type SessionNoteCreateWithoutScheduleInput = {
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -830,17 +1178,27 @@ export type SessionNoteCreateWithoutScheduleInput = {
   deletedAt?: Date | string | null
   psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
   user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
+  booking?: Prisma.BookingCreateNestedOneWithoutSessionNoteInput
 }
 
 export type SessionNoteUncheckedCreateWithoutScheduleInput = {
   id?: string
   psychologistProfileId: string
   userId: string
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -875,15 +1233,144 @@ export type SessionNoteUpdateManyWithWhereWithoutScheduleInput = {
   data: Prisma.XOR<Prisma.SessionNoteUpdateManyMutationInput, Prisma.SessionNoteUncheckedUpdateManyWithoutScheduleInput>
 }
 
-export type SessionNoteCreateManyUserInput = {
+export type SessionNoteCreateWithoutBookingInput = {
+  id?: string
+  subjective?: string | null
+  objective?: string | null
+  assessment?: string | null
+  plan?: string | null
+  riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
+  followUpDate?: Date | string | null
+  nextSessionRecommendation?: string | null
+  tags?: Prisma.SessionNoteCreatetagsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  psychologistProfile: Prisma.PsychologistProfileCreateNestedOneWithoutSessionNotesInput
+  user: Prisma.UserCreateNestedOneWithoutSessionNotesInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutSessionNotesInput
+}
+
+export type SessionNoteUncheckedCreateWithoutBookingInput = {
   id?: string
   psychologistProfileId: string
+  userId: string
   scheduleId?: string | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
+  followUpDate?: Date | string | null
+  nextSessionRecommendation?: string | null
+  tags?: Prisma.SessionNoteCreatetagsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type SessionNoteCreateOrConnectWithoutBookingInput = {
+  where: Prisma.SessionNoteWhereUniqueInput
+  create: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+}
+
+export type SessionNoteUpsertWithoutBookingInput = {
+  update: Prisma.XOR<Prisma.SessionNoteUpdateWithoutBookingInput, Prisma.SessionNoteUncheckedUpdateWithoutBookingInput>
+  create: Prisma.XOR<Prisma.SessionNoteCreateWithoutBookingInput, Prisma.SessionNoteUncheckedCreateWithoutBookingInput>
+  where?: Prisma.SessionNoteWhereInput
+}
+
+export type SessionNoteUpdateToOneWithWhereWithoutBookingInput = {
+  where?: Prisma.SessionNoteWhereInput
+  data: Prisma.XOR<Prisma.SessionNoteUpdateWithoutBookingInput, Prisma.SessionNoteUncheckedUpdateWithoutBookingInput>
+}
+
+export type SessionNoteUpdateWithoutBookingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
+}
+
+export type SessionNoteUncheckedUpdateWithoutBookingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.SessionNoteUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type SessionNoteCreateManyUserInput = {
+  id?: string
+  psychologistProfileId: string
+  scheduleId?: string | null
+  bookingId?: number | null
+  subjective?: string | null
+  objective?: string | null
+  assessment?: string | null
+  plan?: string | null
+  riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -899,6 +1386,14 @@ export type SessionNoteUpdateWithoutUserInput = {
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -907,17 +1402,27 @@ export type SessionNoteUpdateWithoutUserInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
   schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
+  booking?: Prisma.BookingUpdateOneWithoutSessionNoteNestedInput
 }
 
 export type SessionNoteUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -930,11 +1435,20 @@ export type SessionNoteUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -947,11 +1461,20 @@ export type SessionNoteCreateManyPsychologistProfileInput = {
   id?: string
   userId: string
   scheduleId?: string | null
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -967,6 +1490,14 @@ export type SessionNoteUpdateWithoutPsychologistProfileInput = {
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -975,17 +1506,27 @@ export type SessionNoteUpdateWithoutPsychologistProfileInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
   schedule?: Prisma.ScheduleUpdateOneWithoutSessionNotesNestedInput
+  booking?: Prisma.BookingUpdateOneWithoutSessionNoteNestedInput
 }
 
 export type SessionNoteUncheckedUpdateWithoutPsychologistProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -998,11 +1539,20 @@ export type SessionNoteUncheckedUpdateManyWithoutPsychologistProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -1015,11 +1565,20 @@ export type SessionNoteCreateManyScheduleInput = {
   id?: string
   psychologistProfileId: string
   userId: string
+  bookingId?: number | null
   subjective?: string | null
   objective?: string | null
   assessment?: string | null
   plan?: string | null
   riskLevel?: $Enums.RiskLevel
+  sessionNumber?: number | null
+  consultationDate?: Date | string | null
+  consultationStatus?: $Enums.ConsultationStatus
+  diagnosisSummary?: string | null
+  treatmentApproach?: string | null
+  recommendation?: string | null
+  followUpPlan?: $Enums.FollowUpPlan
+  additionalNotes?: string | null
   followUpDate?: Date | string | null
   nextSessionRecommendation?: string | null
   tags?: Prisma.SessionNoteCreatetagsInput | string[]
@@ -1035,6 +1594,14 @@ export type SessionNoteUpdateWithoutScheduleInput = {
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -1043,17 +1610,27 @@ export type SessionNoteUpdateWithoutScheduleInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   psychologistProfile?: Prisma.PsychologistProfileUpdateOneRequiredWithoutSessionNotesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSessionNotesNestedInput
+  booking?: Prisma.BookingUpdateOneWithoutSessionNoteNestedInput
 }
 
 export type SessionNoteUncheckedUpdateWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -1066,11 +1643,20 @@ export type SessionNoteUncheckedUpdateManyWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   psychologistProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskLevel?: Prisma.EnumRiskLevelFieldUpdateOperationsInput | $Enums.RiskLevel
+  sessionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  consultationDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consultationStatus?: Prisma.EnumConsultationStatusFieldUpdateOperationsInput | $Enums.ConsultationStatus
+  diagnosisSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  treatmentApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpPlan?: Prisma.EnumFollowUpPlanFieldUpdateOperationsInput | $Enums.FollowUpPlan
+  additionalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextSessionRecommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.SessionNoteUpdatetagsInput | string[]
@@ -1086,11 +1672,20 @@ export type SessionNoteSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   psychologistProfileId?: boolean
   userId?: boolean
   scheduleId?: boolean
+  bookingId?: boolean
   subjective?: boolean
   objective?: boolean
   assessment?: boolean
   plan?: boolean
   riskLevel?: boolean
+  sessionNumber?: boolean
+  consultationDate?: boolean
+  consultationStatus?: boolean
+  diagnosisSummary?: boolean
+  treatmentApproach?: boolean
+  recommendation?: boolean
+  followUpPlan?: boolean
+  additionalNotes?: boolean
   followUpDate?: boolean
   nextSessionRecommendation?: boolean
   tags?: boolean
@@ -1100,6 +1695,7 @@ export type SessionNoteSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }, ExtArgs["result"]["sessionNote"]>
 
 export type SessionNoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1107,11 +1703,20 @@ export type SessionNoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   psychologistProfileId?: boolean
   userId?: boolean
   scheduleId?: boolean
+  bookingId?: boolean
   subjective?: boolean
   objective?: boolean
   assessment?: boolean
   plan?: boolean
   riskLevel?: boolean
+  sessionNumber?: boolean
+  consultationDate?: boolean
+  consultationStatus?: boolean
+  diagnosisSummary?: boolean
+  treatmentApproach?: boolean
+  recommendation?: boolean
+  followUpPlan?: boolean
+  additionalNotes?: boolean
   followUpDate?: boolean
   nextSessionRecommendation?: boolean
   tags?: boolean
@@ -1121,6 +1726,7 @@ export type SessionNoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }, ExtArgs["result"]["sessionNote"]>
 
 export type SessionNoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1128,11 +1734,20 @@ export type SessionNoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   psychologistProfileId?: boolean
   userId?: boolean
   scheduleId?: boolean
+  bookingId?: boolean
   subjective?: boolean
   objective?: boolean
   assessment?: boolean
   plan?: boolean
   riskLevel?: boolean
+  sessionNumber?: boolean
+  consultationDate?: boolean
+  consultationStatus?: boolean
+  diagnosisSummary?: boolean
+  treatmentApproach?: boolean
+  recommendation?: boolean
+  followUpPlan?: boolean
+  additionalNotes?: boolean
   followUpDate?: boolean
   nextSessionRecommendation?: boolean
   tags?: boolean
@@ -1142,6 +1757,7 @@ export type SessionNoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }, ExtArgs["result"]["sessionNote"]>
 
 export type SessionNoteSelectScalar = {
@@ -1149,11 +1765,20 @@ export type SessionNoteSelectScalar = {
   psychologistProfileId?: boolean
   userId?: boolean
   scheduleId?: boolean
+  bookingId?: boolean
   subjective?: boolean
   objective?: boolean
   assessment?: boolean
   plan?: boolean
   riskLevel?: boolean
+  sessionNumber?: boolean
+  consultationDate?: boolean
+  consultationStatus?: boolean
+  diagnosisSummary?: boolean
+  treatmentApproach?: boolean
+  recommendation?: boolean
+  followUpPlan?: boolean
+  additionalNotes?: boolean
   followUpDate?: boolean
   nextSessionRecommendation?: boolean
   tags?: boolean
@@ -1162,21 +1787,24 @@ export type SessionNoteSelectScalar = {
   deletedAt?: boolean
 }
 
-export type SessionNoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "psychologistProfileId" | "userId" | "scheduleId" | "subjective" | "objective" | "assessment" | "plan" | "riskLevel" | "followUpDate" | "nextSessionRecommendation" | "tags" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["sessionNote"]>
+export type SessionNoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "psychologistProfileId" | "userId" | "scheduleId" | "bookingId" | "subjective" | "objective" | "assessment" | "plan" | "riskLevel" | "sessionNumber" | "consultationDate" | "consultationStatus" | "diagnosisSummary" | "treatmentApproach" | "recommendation" | "followUpPlan" | "additionalNotes" | "followUpDate" | "nextSessionRecommendation" | "tags" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["sessionNote"]>
 export type SessionNoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }
 export type SessionNoteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }
 export type SessionNoteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   psychologistProfile?: boolean | Prisma.PsychologistProfileDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedule?: boolean | Prisma.SessionNote$scheduleArgs<ExtArgs>
+  booking?: boolean | Prisma.SessionNote$bookingArgs<ExtArgs>
 }
 
 export type $SessionNotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1185,17 +1813,27 @@ export type $SessionNotePayload<ExtArgs extends runtime.Types.Extensions.Interna
     psychologistProfile: Prisma.$PsychologistProfilePayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     schedule: Prisma.$SchedulePayload<ExtArgs> | null
+    booking: Prisma.$BookingPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     psychologistProfileId: string
     userId: string
     scheduleId: string | null
+    bookingId: number | null
     subjective: string | null
     objective: string | null
     assessment: string | null
     plan: string | null
     riskLevel: $Enums.RiskLevel
+    sessionNumber: number | null
+    consultationDate: Date | null
+    consultationStatus: $Enums.ConsultationStatus
+    diagnosisSummary: string | null
+    treatmentApproach: string | null
+    recommendation: string | null
+    followUpPlan: $Enums.FollowUpPlan
+    additionalNotes: string | null
     followUpDate: Date | null
     nextSessionRecommendation: string | null
     tags: string[]
@@ -1599,6 +2237,7 @@ export interface Prisma__SessionNoteClient<T, Null = never, ExtArgs extends runt
   psychologistProfile<T extends Prisma.PsychologistProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PsychologistProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__PsychologistProfileClient<runtime.Types.Result.GetResult<Prisma.$PsychologistProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   schedule<T extends Prisma.SessionNote$scheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SessionNote$scheduleArgs<ExtArgs>>): Prisma.Prisma__ScheduleClient<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  booking<T extends Prisma.SessionNote$bookingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SessionNote$bookingArgs<ExtArgs>>): Prisma.Prisma__BookingClient<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1632,11 +2271,20 @@ export interface SessionNoteFieldRefs {
   readonly psychologistProfileId: Prisma.FieldRef<"SessionNote", 'String'>
   readonly userId: Prisma.FieldRef<"SessionNote", 'String'>
   readonly scheduleId: Prisma.FieldRef<"SessionNote", 'String'>
+  readonly bookingId: Prisma.FieldRef<"SessionNote", 'Int'>
   readonly subjective: Prisma.FieldRef<"SessionNote", 'String'>
   readonly objective: Prisma.FieldRef<"SessionNote", 'String'>
   readonly assessment: Prisma.FieldRef<"SessionNote", 'String'>
   readonly plan: Prisma.FieldRef<"SessionNote", 'String'>
   readonly riskLevel: Prisma.FieldRef<"SessionNote", 'RiskLevel'>
+  readonly sessionNumber: Prisma.FieldRef<"SessionNote", 'Int'>
+  readonly consultationDate: Prisma.FieldRef<"SessionNote", 'DateTime'>
+  readonly consultationStatus: Prisma.FieldRef<"SessionNote", 'ConsultationStatus'>
+  readonly diagnosisSummary: Prisma.FieldRef<"SessionNote", 'String'>
+  readonly treatmentApproach: Prisma.FieldRef<"SessionNote", 'String'>
+  readonly recommendation: Prisma.FieldRef<"SessionNote", 'String'>
+  readonly followUpPlan: Prisma.FieldRef<"SessionNote", 'FollowUpPlan'>
+  readonly additionalNotes: Prisma.FieldRef<"SessionNote", 'String'>
   readonly followUpDate: Prisma.FieldRef<"SessionNote", 'DateTime'>
   readonly nextSessionRecommendation: Prisma.FieldRef<"SessionNote", 'String'>
   readonly tags: Prisma.FieldRef<"SessionNote", 'String[]'>
@@ -2060,6 +2708,25 @@ export type SessionNote$scheduleArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.ScheduleInclude<ExtArgs> | null
   where?: Prisma.ScheduleWhereInput
+}
+
+/**
+ * SessionNote.booking
+ */
+export type SessionNote$bookingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
 }
 
 /**

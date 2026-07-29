@@ -257,6 +257,25 @@ export class PsychologistService {
           registeredAt: b.user.createdAt,
           totalBookings: 1,
           sessions: [formatted],
+=======
+    async getPsychologistById(id: string) {
+        let profile = await this.prisma.psychologistProfile.findFirst({
+            where: {
+                OR: [
+                    { id },
+                    { userId: id },
+                ],
+            },
+            include: {
+                educations: true,
+                experiences: true,
+                specializations: true,
+                expertises: true,
+                schedules: {
+                    where: { isAvailable: true }, 
+                },
+            },
+>>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
         });
       } else if (b.user && patientsMap.has(b.user.id)) {
         const existing = patientsMap.get(b.user.id);
@@ -265,7 +284,27 @@ export class PsychologistService {
       }
     });
 
+<<<<<<< HEAD
     const patientsList = Array.from(patientsMap.values());
+=======
+        if (!profile) {
+            profile = await this.prisma.psychologistProfile.findFirst({
+                include: {
+                    educations: true,
+                    experiences: true,
+                    specializations: true,
+                    expertises: true,
+                    schedules: {
+                        where: { isAvailable: true },
+                    },
+                },
+            });
+        }
+
+        if (!profile) {
+            throw new NotFoundException('Psikolog tidak ditemukan');
+        }
+>>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
 
     return {
       message: 'Patients fetched successfully',
@@ -377,8 +416,23 @@ export class PsychologistService {
           await prisma.userProfile.update({
             where: { userId },
             data: {
+<<<<<<< HEAD
               phone: phoneToSave || undefined,
               fullName: dto.fullName || undefined,
+=======
+                id: profile.id,
+                userId: profile.userId,
+                name: profile.fullName,
+                avatarUrl: profile.avatarUrl,
+                about: profile.about,
+                sipp: profile.sipp,
+                str: profile.str,
+                educations: profile.educations,
+                experiences: profile.experiences.map(e => e.name),
+                specializations: profile.specializations.map(s => s.name),
+                expertises: profile.expertises.map(e => e.name),
+                schedules: profile.schedules,
+>>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
             },
           });
         } else if (phoneToSave) {

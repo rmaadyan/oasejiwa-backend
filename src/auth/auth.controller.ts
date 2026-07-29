@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Post,
   Query,
   Request,
@@ -24,36 +25,35 @@ import { Roles } from './decorators/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
-  @Throttle({ default: { ttl: 3600000, limit: 5 } })
   @Post('register')
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
-  @Throttle({ default: { ttl: 900000, limit: 10 } })
   @Post('login')
-  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res) {
-    return this.authService.login(dto).then((result) => {
-      res.cookie('token', result.accessToken, {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-      });
-
-      return result;
+  async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: any) {
+    const result = await this.authService.login(dto);
+    const isProd = process.env.NODE_ENV === 'production';
+    res.cookie('token', result.accessToken, {
+      httpOnly: true,
+      sameSite: isProd ? 'none' : 'lax',
+      secure: isProd,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     });
+
+    return result;
   }
 
   @SkipThrottle()
   @Post('logout')
   logout(@Res({ passthrough: true }) res) {
+      const isProd = process.env.NODE_ENV === 'production';
       res.cookie('token', '', {
           httpOnly: true,
-          sameSite: 'none',
-          secure: true,
+          sameSite: isProd ? 'none' : 'lax',
+          secure: isProd,
           maxAge: 0,
       });
       return { message: 'Logout berhasil' };

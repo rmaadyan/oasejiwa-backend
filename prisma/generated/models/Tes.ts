@@ -264,6 +264,7 @@ export type TesWhereInput = {
   likertOptions?: Prisma.LikertOptionListRelationFilter
   kategori?: Prisma.DiagnosisKategoriListRelationFilter
   sectionKategori?: Prisma.SectionKategoriListRelationFilter
+  results?: Prisma.TesResultListRelationFilter
 }
 
 export type TesOrderByWithRelationInput = {
@@ -281,6 +282,7 @@ export type TesOrderByWithRelationInput = {
   likertOptions?: Prisma.LikertOptionOrderByRelationAggregateInput
   kategori?: Prisma.DiagnosisKategoriOrderByRelationAggregateInput
   sectionKategori?: Prisma.SectionKategoriOrderByRelationAggregateInput
+  results?: Prisma.TesResultOrderByRelationAggregateInput
 }
 
 export type TesWhereUniqueInput = Prisma.AtLeast<{
@@ -301,6 +303,7 @@ export type TesWhereUniqueInput = Prisma.AtLeast<{
   likertOptions?: Prisma.LikertOptionListRelationFilter
   kategori?: Prisma.DiagnosisKategoriListRelationFilter
   sectionKategori?: Prisma.SectionKategoriListRelationFilter
+  results?: Prisma.TesResultListRelationFilter
 }, "id">
 
 export type TesOrderByWithAggregationInput = {
@@ -351,6 +354,7 @@ export type TesCreateInput = {
   likertOptions?: Prisma.LikertOptionCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultCreateNestedManyWithoutTesInput
 }
 
 export type TesUncheckedCreateInput = {
@@ -368,6 +372,7 @@ export type TesUncheckedCreateInput = {
   likertOptions?: Prisma.LikertOptionUncheckedCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriUncheckedCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriUncheckedCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultUncheckedCreateNestedManyWithoutTesInput
 }
 
 export type TesUpdateInput = {
@@ -384,6 +389,7 @@ export type TesUpdateInput = {
   likertOptions?: Prisma.LikertOptionUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUpdateManyWithoutTesNestedInput
 }
 
 export type TesUncheckedUpdateInput = {
@@ -401,6 +407,7 @@ export type TesUncheckedUpdateInput = {
   likertOptions?: Prisma.LikertOptionUncheckedUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUncheckedUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUncheckedUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUncheckedUpdateManyWithoutTesNestedInput
 }
 
 export type TesCreateManyInput = {
@@ -555,6 +562,20 @@ export type TesUpdateOneRequiredWithoutSectionKategoriNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TesUpdateToOneWithWhereWithoutSectionKategoriInput, Prisma.TesUpdateWithoutSectionKategoriInput>, Prisma.TesUncheckedUpdateWithoutSectionKategoriInput>
 }
 
+export type TesCreateNestedOneWithoutResultsInput = {
+  create?: Prisma.XOR<Prisma.TesCreateWithoutResultsInput, Prisma.TesUncheckedCreateWithoutResultsInput>
+  connectOrCreate?: Prisma.TesCreateOrConnectWithoutResultsInput
+  connect?: Prisma.TesWhereUniqueInput
+}
+
+export type TesUpdateOneRequiredWithoutResultsNestedInput = {
+  create?: Prisma.XOR<Prisma.TesCreateWithoutResultsInput, Prisma.TesUncheckedCreateWithoutResultsInput>
+  connectOrCreate?: Prisma.TesCreateOrConnectWithoutResultsInput
+  upsert?: Prisma.TesUpsertWithoutResultsInput
+  connect?: Prisma.TesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TesUpdateToOneWithWhereWithoutResultsInput, Prisma.TesUpdateWithoutResultsInput>, Prisma.TesUncheckedUpdateWithoutResultsInput>
+}
+
 export type TesCreateWithoutPertanyaanInput = {
   nama: string
   jumlah: number
@@ -568,6 +589,7 @@ export type TesCreateWithoutPertanyaanInput = {
   likertOptions?: Prisma.LikertOptionCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultCreateNestedManyWithoutTesInput
 }
 
 export type TesUncheckedCreateWithoutPertanyaanInput = {
@@ -584,6 +606,7 @@ export type TesUncheckedCreateWithoutPertanyaanInput = {
   likertOptions?: Prisma.LikertOptionUncheckedCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriUncheckedCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriUncheckedCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultUncheckedCreateNestedManyWithoutTesInput
 }
 
 export type TesCreateOrConnectWithoutPertanyaanInput = {
@@ -615,6 +638,7 @@ export type TesUpdateWithoutPertanyaanInput = {
   likertOptions?: Prisma.LikertOptionUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUpdateManyWithoutTesNestedInput
 }
 
 export type TesUncheckedUpdateWithoutPertanyaanInput = {
@@ -631,6 +655,7 @@ export type TesUncheckedUpdateWithoutPertanyaanInput = {
   likertOptions?: Prisma.LikertOptionUncheckedUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUncheckedUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUncheckedUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUncheckedUpdateManyWithoutTesNestedInput
 }
 
 export type TesCreateWithoutLikertOptionsInput = {
@@ -646,6 +671,7 @@ export type TesCreateWithoutLikertOptionsInput = {
   pertanyaan?: Prisma.PertanyaanCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultCreateNestedManyWithoutTesInput
 }
 
 export type TesUncheckedCreateWithoutLikertOptionsInput = {
@@ -662,6 +688,7 @@ export type TesUncheckedCreateWithoutLikertOptionsInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriUncheckedCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriUncheckedCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultUncheckedCreateNestedManyWithoutTesInput
 }
 
 export type TesCreateOrConnectWithoutLikertOptionsInput = {
@@ -693,6 +720,7 @@ export type TesUpdateWithoutLikertOptionsInput = {
   pertanyaan?: Prisma.PertanyaanUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUpdateManyWithoutTesNestedInput
 }
 
 export type TesUncheckedUpdateWithoutLikertOptionsInput = {
@@ -709,6 +737,7 @@ export type TesUncheckedUpdateWithoutLikertOptionsInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUncheckedUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUncheckedUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUncheckedUpdateManyWithoutTesNestedInput
 }
 
 export type TesCreateWithoutKategoriInput = {
@@ -724,6 +753,7 @@ export type TesCreateWithoutKategoriInput = {
   pertanyaan?: Prisma.PertanyaanCreateNestedManyWithoutTesInput
   likertOptions?: Prisma.LikertOptionCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultCreateNestedManyWithoutTesInput
 }
 
 export type TesUncheckedCreateWithoutKategoriInput = {
@@ -740,6 +770,7 @@ export type TesUncheckedCreateWithoutKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedCreateNestedManyWithoutTesInput
   likertOptions?: Prisma.LikertOptionUncheckedCreateNestedManyWithoutTesInput
   sectionKategori?: Prisma.SectionKategoriUncheckedCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultUncheckedCreateNestedManyWithoutTesInput
 }
 
 export type TesCreateOrConnectWithoutKategoriInput = {
@@ -771,6 +802,7 @@ export type TesUpdateWithoutKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUpdateManyWithoutTesNestedInput
   likertOptions?: Prisma.LikertOptionUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUpdateManyWithoutTesNestedInput
 }
 
 export type TesUncheckedUpdateWithoutKategoriInput = {
@@ -787,6 +819,7 @@ export type TesUncheckedUpdateWithoutKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedUpdateManyWithoutTesNestedInput
   likertOptions?: Prisma.LikertOptionUncheckedUpdateManyWithoutTesNestedInput
   sectionKategori?: Prisma.SectionKategoriUncheckedUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUncheckedUpdateManyWithoutTesNestedInput
 }
 
 export type TesCreateWithoutSectionKategoriInput = {
@@ -802,6 +835,7 @@ export type TesCreateWithoutSectionKategoriInput = {
   pertanyaan?: Prisma.PertanyaanCreateNestedManyWithoutTesInput
   likertOptions?: Prisma.LikertOptionCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultCreateNestedManyWithoutTesInput
 }
 
 export type TesUncheckedCreateWithoutSectionKategoriInput = {
@@ -818,6 +852,7 @@ export type TesUncheckedCreateWithoutSectionKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedCreateNestedManyWithoutTesInput
   likertOptions?: Prisma.LikertOptionUncheckedCreateNestedManyWithoutTesInput
   kategori?: Prisma.DiagnosisKategoriUncheckedCreateNestedManyWithoutTesInput
+  results?: Prisma.TesResultUncheckedCreateNestedManyWithoutTesInput
 }
 
 export type TesCreateOrConnectWithoutSectionKategoriInput = {
@@ -849,6 +884,7 @@ export type TesUpdateWithoutSectionKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUpdateManyWithoutTesNestedInput
   likertOptions?: Prisma.LikertOptionUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUpdateManyWithoutTesNestedInput
 }
 
 export type TesUncheckedUpdateWithoutSectionKategoriInput = {
@@ -865,6 +901,89 @@ export type TesUncheckedUpdateWithoutSectionKategoriInput = {
   pertanyaan?: Prisma.PertanyaanUncheckedUpdateManyWithoutTesNestedInput
   likertOptions?: Prisma.LikertOptionUncheckedUpdateManyWithoutTesNestedInput
   kategori?: Prisma.DiagnosisKategoriUncheckedUpdateManyWithoutTesNestedInput
+  results?: Prisma.TesResultUncheckedUpdateManyWithoutTesNestedInput
+}
+
+export type TesCreateWithoutResultsInput = {
+  nama: string
+  jumlah: number
+  status?: $Enums.TesStatus
+  deskripsi: string
+  penjelasanHasil: string
+  jenis?: string | null
+  coverUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pertanyaan?: Prisma.PertanyaanCreateNestedManyWithoutTesInput
+  likertOptions?: Prisma.LikertOptionCreateNestedManyWithoutTesInput
+  kategori?: Prisma.DiagnosisKategoriCreateNestedManyWithoutTesInput
+  sectionKategori?: Prisma.SectionKategoriCreateNestedManyWithoutTesInput
+}
+
+export type TesUncheckedCreateWithoutResultsInput = {
+  id?: number
+  nama: string
+  jumlah: number
+  status?: $Enums.TesStatus
+  deskripsi: string
+  penjelasanHasil: string
+  jenis?: string | null
+  coverUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pertanyaan?: Prisma.PertanyaanUncheckedCreateNestedManyWithoutTesInput
+  likertOptions?: Prisma.LikertOptionUncheckedCreateNestedManyWithoutTesInput
+  kategori?: Prisma.DiagnosisKategoriUncheckedCreateNestedManyWithoutTesInput
+  sectionKategori?: Prisma.SectionKategoriUncheckedCreateNestedManyWithoutTesInput
+}
+
+export type TesCreateOrConnectWithoutResultsInput = {
+  where: Prisma.TesWhereUniqueInput
+  create: Prisma.XOR<Prisma.TesCreateWithoutResultsInput, Prisma.TesUncheckedCreateWithoutResultsInput>
+}
+
+export type TesUpsertWithoutResultsInput = {
+  update: Prisma.XOR<Prisma.TesUpdateWithoutResultsInput, Prisma.TesUncheckedUpdateWithoutResultsInput>
+  create: Prisma.XOR<Prisma.TesCreateWithoutResultsInput, Prisma.TesUncheckedCreateWithoutResultsInput>
+  where?: Prisma.TesWhereInput
+}
+
+export type TesUpdateToOneWithWhereWithoutResultsInput = {
+  where?: Prisma.TesWhereInput
+  data: Prisma.XOR<Prisma.TesUpdateWithoutResultsInput, Prisma.TesUncheckedUpdateWithoutResultsInput>
+}
+
+export type TesUpdateWithoutResultsInput = {
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTesStatusFieldUpdateOperationsInput | $Enums.TesStatus
+  deskripsi?: Prisma.StringFieldUpdateOperationsInput | string
+  penjelasanHasil?: Prisma.StringFieldUpdateOperationsInput | string
+  jenis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pertanyaan?: Prisma.PertanyaanUpdateManyWithoutTesNestedInput
+  likertOptions?: Prisma.LikertOptionUpdateManyWithoutTesNestedInput
+  kategori?: Prisma.DiagnosisKategoriUpdateManyWithoutTesNestedInput
+  sectionKategori?: Prisma.SectionKategoriUpdateManyWithoutTesNestedInput
+}
+
+export type TesUncheckedUpdateWithoutResultsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumTesStatusFieldUpdateOperationsInput | $Enums.TesStatus
+  deskripsi?: Prisma.StringFieldUpdateOperationsInput | string
+  penjelasanHasil?: Prisma.StringFieldUpdateOperationsInput | string
+  jenis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pertanyaan?: Prisma.PertanyaanUncheckedUpdateManyWithoutTesNestedInput
+  likertOptions?: Prisma.LikertOptionUncheckedUpdateManyWithoutTesNestedInput
+  kategori?: Prisma.DiagnosisKategoriUncheckedUpdateManyWithoutTesNestedInput
+  sectionKategori?: Prisma.SectionKategoriUncheckedUpdateManyWithoutTesNestedInput
 }
 
 
@@ -877,6 +996,7 @@ export type TesCountOutputType = {
   likertOptions: number
   kategori: number
   sectionKategori: number
+  results: number
 }
 
 export type TesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -884,6 +1004,7 @@ export type TesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.In
   likertOptions?: boolean | TesCountOutputTypeCountLikertOptionsArgs
   kategori?: boolean | TesCountOutputTypeCountKategoriArgs
   sectionKategori?: boolean | TesCountOutputTypeCountSectionKategoriArgs
+  results?: boolean | TesCountOutputTypeCountResultsArgs
 }
 
 /**
@@ -924,6 +1045,13 @@ export type TesCountOutputTypeCountSectionKategoriArgs<ExtArgs extends runtime.T
   where?: Prisma.SectionKategoriWhereInput
 }
 
+/**
+ * TesCountOutputType without action
+ */
+export type TesCountOutputTypeCountResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TesResultWhereInput
+}
+
 
 export type TesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -940,6 +1068,7 @@ export type TesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   likertOptions?: boolean | Prisma.Tes$likertOptionsArgs<ExtArgs>
   kategori?: boolean | Prisma.Tes$kategoriArgs<ExtArgs>
   sectionKategori?: boolean | Prisma.Tes$sectionKategoriArgs<ExtArgs>
+  results?: boolean | Prisma.Tes$resultsArgs<ExtArgs>
   _count?: boolean | Prisma.TesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tes"]>
 
@@ -988,6 +1117,7 @@ export type TesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   likertOptions?: boolean | Prisma.Tes$likertOptionsArgs<ExtArgs>
   kategori?: boolean | Prisma.Tes$kategoriArgs<ExtArgs>
   sectionKategori?: boolean | Prisma.Tes$sectionKategoriArgs<ExtArgs>
+  results?: boolean | Prisma.Tes$resultsArgs<ExtArgs>
   _count?: boolean | Prisma.TesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1000,6 +1130,7 @@ export type $TesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     likertOptions: Prisma.$LikertOptionPayload<ExtArgs>[]
     kategori: Prisma.$DiagnosisKategoriPayload<ExtArgs>[]
     sectionKategori: Prisma.$SectionKategoriPayload<ExtArgs>[]
+    results: Prisma.$TesResultPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1410,6 +1541,7 @@ export interface Prisma__TesClient<T, Null = never, ExtArgs extends runtime.Type
   likertOptions<T extends Prisma.Tes$likertOptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tes$likertOptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikertOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   kategori<T extends Prisma.Tes$kategoriArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tes$kategoriArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DiagnosisKategoriPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sectionKategori<T extends Prisma.Tes$sectionKategoriArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tes$sectionKategoriArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionKategoriPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  results<T extends Prisma.Tes$resultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tes$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TesResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1935,6 +2067,30 @@ export type Tes$sectionKategoriArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.SectionKategoriScalarFieldEnum | Prisma.SectionKategoriScalarFieldEnum[]
+}
+
+/**
+ * Tes.results
+ */
+export type Tes$resultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TesResult
+   */
+  select?: Prisma.TesResultSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TesResult
+   */
+  omit?: Prisma.TesResultOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TesResultInclude<ExtArgs> | null
+  where?: Prisma.TesResultWhereInput
+  orderBy?: Prisma.TesResultOrderByWithRelationInput | Prisma.TesResultOrderByWithRelationInput[]
+  cursor?: Prisma.TesResultWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TesResultScalarFieldEnum | Prisma.TesResultScalarFieldEnum[]
 }
 
 /**

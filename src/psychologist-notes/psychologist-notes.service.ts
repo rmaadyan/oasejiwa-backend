@@ -13,17 +13,31 @@ import { QueryPsychologistNoteDto } from './dto/query-psychologist-note.dto';
 export class PsychologistNotesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly riskLevelMap = {
+  private readonly riskLevelMap: Record<string, string> = {
+    very_low: 'VERY_LOW',
     low: 'LOW',
     medium: 'MEDIUM',
     high: 'HIGH',
-  } as const;
+    very_high: 'VERY_HIGH',
+    sangat_rendah: 'VERY_LOW',
+    rendah: 'LOW',
+    sedang: 'MEDIUM',
+    tinggi: 'HIGH',
+    sangat_tinggi: 'VERY_HIGH',
+    VERY_LOW: 'VERY_LOW',
+    LOW: 'LOW',
+    MEDIUM: 'MEDIUM',
+    HIGH: 'HIGH',
+    VERY_HIGH: 'VERY_HIGH',
+  };
 
-  private readonly reverseRiskLevelMap = {
+  private readonly reverseRiskLevelMap: Record<string, string> = {
+    VERY_LOW: 'very_low',
     LOW: 'low',
     MEDIUM: 'medium',
     HIGH: 'high',
-  } as const;
+    VERY_HIGH: 'very_high',
+  };
 
   private async getPsychologistProfile(currentUser: any) {
     let profile = await this.prisma.psychologistProfile.findUnique({
@@ -132,6 +146,7 @@ export class PsychologistNotesService {
     return {
       id: note.id,
       scheduleId: note.scheduleId,
+      bookingId: note.bookingId,
       psychologistId: note.psychologistProfileId,
       patientId: note.user.id,
       patientName:
@@ -141,7 +156,7 @@ export class PsychologistNotesService {
       sessionTime,
       duration: this.calculateDuration(sessionTime, duration),
 
-      sessionNumber: 1,
+      sessionNumber: note.sessionNumber || 1,
       service: fallbackBooking?.service?.nama || 'Konseling Individu',
 
       subjective: note.subjective,
@@ -149,10 +164,18 @@ export class PsychologistNotesService {
       assessment: note.assessment,
       plan: note.plan,
 
+      // === Field Rekam Medis ===
+      consultationDate: this.toDateOnly(note.consultationDate || sessionDate),
+      consultationStatus: note.consultationStatus || 'ONGOING',
+      diagnosisSummary: note.diagnosisSummary || note.subjective || null,
+      treatmentApproach: note.treatmentApproach || note.plan || null,
+      recommendation: note.recommendation || note.nextSessionRecommendation || null,
+      followUpPlan: note.followUpPlan || 'CONTINUE_SESSION',
+      additionalNotes: note.additionalNotes || null,
+
       riskLevel:
-        this.reverseRiskLevelMap[
-          note.riskLevel as 'LOW' | 'MEDIUM' | 'HIGH'
-        ],
+        this.reverseRiskLevelMap[note.riskLevel] ||
+        String(note.riskLevel || 'medium').toLowerCase(),
 
       followUpDate: this.toDateOnly(note.followUpDate),
       nextSessionRecommendation: note.nextSessionRecommendation,
@@ -223,16 +246,37 @@ export class PsychologistNotesService {
       }
     }
 
+    // Auto calculate session number if not provided
+    let sessionNum = dto.sessionNumber;
+    if (!sessionNum) {
+      const count = await this.prisma.sessionNote.count({
+        where: {
+          userId: dto.userId,
+          deletedAt: null,
+        },
+      });
+      sessionNum = count + 1;
+    }
+
     const note = await this.prisma.sessionNote.create({
       data: {
         psychologistProfileId: psychologist.id,
         userId: dto.userId,
         scheduleId: dto.scheduleId,
+        bookingId: dto.bookingId,
         subjective: dto.subjective,
         objective: dto.objective,
         assessment: dto.assessment,
         plan: dto.plan,
-        riskLevel: dto.riskLevel ? this.riskLevelMap[dto.riskLevel] : 'LOW',
+        riskLevel: dto.riskLevel ? ((this.riskLevelMap[dto.riskLevel] || 'MEDIUM') as any) : 'MEDIUM',
+        sessionNumber: sessionNum,
+        consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
+        consultationStatus: dto.consultationStatus || 'ONGOING',
+        diagnosisSummary: dto.diagnosisSummary || dto.subjective,
+        treatmentApproach: dto.treatmentApproach || dto.plan,
+        recommendation: dto.recommendation || dto.nextSessionRecommendation,
+        followUpPlan: dto.followUpPlan || 'CONTINUE_SESSION',
+        additionalNotes: dto.additionalNotes,
         followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
         nextSessionRecommendation: dto.nextSessionRecommendation,
         tags: dto.tags ?? [],
@@ -442,7 +486,15 @@ export class PsychologistNotesService {
         objective: dto.objective,
         assessment: dto.assessment,
         plan: dto.plan,
-        riskLevel: dto.riskLevel ? this.riskLevelMap[dto.riskLevel] : undefined,
+        riskLevel: dto.riskLevel ? (this.riskLevelMap[dto.riskLevel] as any) : undefined,
+        sessionNumber: dto.sessionNumber,
+        consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
+        consultationStatus: dto.consultationStatus,
+        diagnosisSummary: dto.diagnosisSummary,
+        treatmentApproach: dto.treatmentApproach,
+        recommendation: dto.recommendation,
+        followUpPlan: dto.followUpPlan,
+        additionalNotes: dto.additionalNotes,
         followUpDate: dto.followUpDate
           ? new Date(dto.followUpDate)
           : dto.followUpDate === ''
