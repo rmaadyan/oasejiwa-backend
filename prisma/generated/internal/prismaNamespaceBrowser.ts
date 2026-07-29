@@ -75,7 +75,8 @@ export const ModelName = {
   Pertanyaan: 'Pertanyaan',
   LikertOption: 'LikertOption',
   DiagnosisKategori: 'DiagnosisKategori',
-  SectionKategori: 'SectionKategori'
+  SectionKategori: 'SectionKategori',
+  TesResult: 'TesResult'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -138,11 +139,19 @@ export const UserProfileScalarFieldEnum = {
   userId: 'userId',
   fullName: 'fullName',
   birthday: 'birthday',
+  placeOfBirth: 'placeOfBirth',
   gender: 'gender',
   country: 'country',
   city: 'city',
   fullAddress: 'fullAddress',
-  phone: 'phone'
+  originalAddress: 'originalAddress',
+  phone: 'phone',
+  occupation: 'occupation',
+  maritalStatus: 'maritalStatus',
+  siblingPosition: 'siblingPosition',
+  totalSiblings: 'totalSiblings',
+  isFirstVisit: 'isFirstVisit',
+  educationHistory: 'educationHistory'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -264,11 +273,20 @@ export const SessionNoteScalarFieldEnum = {
   psychologistProfileId: 'psychologistProfileId',
   userId: 'userId',
   scheduleId: 'scheduleId',
+  bookingId: 'bookingId',
   subjective: 'subjective',
   objective: 'objective',
   assessment: 'assessment',
   plan: 'plan',
   riskLevel: 'riskLevel',
+  sessionNumber: 'sessionNumber',
+  consultationDate: 'consultationDate',
+  consultationStatus: 'consultationStatus',
+  diagnosisSummary: 'diagnosisSummary',
+  treatmentApproach: 'treatmentApproach',
+  recommendation: 'recommendation',
+  followUpPlan: 'followUpPlan',
+  additionalNotes: 'additionalNotes',
   followUpDate: 'followUpDate',
   nextSessionRecommendation: 'nextSessionRecommendation',
   tags: 'tags',
@@ -464,12 +482,38 @@ export const SectionKategoriScalarFieldEnum = {
 export type SectionKategoriScalarFieldEnum = (typeof SectionKategoriScalarFieldEnum)[keyof typeof SectionKategoriScalarFieldEnum]
 
 
+export const TesResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tesId: 'tesId',
+  namaTes: 'namaTes',
+  totalScore: 'totalScore',
+  maxScore: 'maxScore',
+  percentage: 'percentage',
+  kategoriNama: 'kategoriNama',
+  status: 'status',
+  sectionScores: 'sectionScores',
+  answers: 'answers',
+  createdAt: 'createdAt'
+} as const
+
+export type TesResultScalarFieldEnum = (typeof TesResultScalarFieldEnum)[keyof typeof TesResultScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -486,4 +530,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

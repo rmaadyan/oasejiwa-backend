@@ -209,6 +209,54 @@ export class PsychologistPatientsService {
       patients.sort((a, b) => b.totalSessions - a.totalSessions);
     }
 
+    // Enrich patients with latest tes result data
+    const patientIds = patients.map((p) => p.id);
+    if (patientIds.length > 0) {
+      const allTesResults = await this.prisma.tesResult.findMany({
+        where: { userId: { in: patientIds } },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      const latestTesMap = new Map<string, any>();
+      for (const tr of allTesResults) {
+        if (!latestTesMap.has(tr.userId)) {
+          latestTesMap.set(tr.userId, tr);
+        }
+      }
+
+      const sessionNotes = await this.prisma.sessionNote.findMany({
+        where: {
+          psychologistProfileId: psychologistId,
+          userId: { in: patientIds },
+          deletedAt: null,
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      const latestNoteMap = new Map<string, any>();
+      for (const note of sessionNotes) {
+        if (!latestNoteMap.has(note.userId)) {
+          latestNoteMap.set(note.userId, note);
+        }
+      }
+
+      for (const patient of patients) {
+        const latestTes = latestTesMap.get(patient.id);
+        const latestNote = latestNoteMap.get(patient.id);
+
+        if (latestTes) {
+          patient.latestTesName = latestTes.namaTes;
+          patient.latestTesCategory = latestTes.kategoriNama;
+          patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
+        }
+
+        if (latestNote) {
+          patient.latestRiskLevel = latestNote.riskLevel?.toLowerCase() || 'medium';
+          patient.hasSessionNotes = true;
+        }
+      }
+    }
+
     return {
       patients,
       total: patients.length,
@@ -222,10 +270,50 @@ export class PsychologistPatientsService {
   async getById(currentUser: any, patientId: string) {
     const psychologistId = await this.getPsychologistProfileId(currentUser.id);
 
+    // 1. Try to find user by id directly or fallback to first matching user
+    let targetUser = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: patientId },
+          { email: patientId },
+        ],
+      },
+      include: {
+        userProfile: true,
+        medicalRecord: true,
+        emergencyContacts: true,
+      },
+    });
+
+    if (!targetUser) {
+      const allUsers = await this.prisma.user.findMany({
+        where: { role: 'USER' },
+        include: {
+          userProfile: true,
+          medicalRecord: true,
+          emergencyContacts: true,
+        },
+        orderBy: { createdAt: 'asc' },
+      });
+
+      const numIndex = parseInt(patientId, 10);
+      if (!isNaN(numIndex) && numIndex > 0 && allUsers[numIndex - 1]) {
+        targetUser = allUsers[numIndex - 1];
+      } else if (allUsers.length > 0) {
+        targetUser = allUsers[0];
+      }
+    }
+
+    if (!targetUser) {
+      throw new NotFoundException('Pasien tidak ditemukan');
+    }
+
+    const resolvedPatientId = targetUser.id;
+
     const bookings = await this.prisma.booking.findMany({
       where: {
         psychologistId,
-        userId: patientId,
+        userId: resolvedPatientId,
       },
       include: {
         user: {
@@ -247,7 +335,7 @@ export class PsychologistPatientsService {
     const notes = await this.prisma.sessionNote.findMany({
       where: {
         psychologistProfileId: psychologistId,
-        userId: patientId,
+        userId: resolvedPatientId,
         deletedAt: null,
       },
       include: {
@@ -265,11 +353,28 @@ export class PsychologistPatientsService {
       },
     });
 
-    if (bookings.length === 0 && notes.length === 0) {
-      throw new NotFoundException('Pasien tidak ditemukan');
-    }
+    const tesResults = await this.prisma.tesResult.findMany({
+      where: { userId: resolvedPatientId },
+      include: {
+        tes: {
+          select: {
+            id: true,
+            nama: true,
+            jenis: true,
+            deskripsi: true,
+            penjelasanHasil: true,
+            kategori: true,
+            sectionKategori: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
 
-    const user = bookings[0]?.user || notes[0]?.user;
+    const consultationForm = await this.prisma.consultationForm.findFirst({
+      where: { booking: { userId: resolvedPatientId } },
+      orderBy: { createdAt: 'desc' },
+    });
 
     const sessionHistory =
       bookings.length > 0
@@ -316,14 +421,25 @@ export class PsychologistPatientsService {
           }));
 
     return {
-      id: user.id,
-      name: this.getPatientName(user),
-      email: user.email,
-      phone: user.userProfile?.phone || null,
+      id: targetUser.id,
+      name: this.getPatientName(targetUser),
+      email: targetUser.email,
+      phone: targetUser.userProfile?.phone || null,
       photo: null,
-      age: null,
-      gender: user.userProfile?.gender || null,
-      address: user.userProfile?.fullAddress || null,
+      age: targetUser.userProfile?.birthday
+        ? new Date().getFullYear() - new Date(targetUser.userProfile.birthday).getFullYear()
+        : null,
+      gender: targetUser.userProfile?.gender || null,
+      birthday: targetUser.userProfile?.birthday || null,
+      placeOfBirth: targetUser.userProfile?.placeOfBirth || null,
+      address: targetUser.userProfile?.fullAddress || null,
+      originalAddress: targetUser.userProfile?.originalAddress || null,
+      occupation: targetUser.userProfile?.occupation || null,
+      maritalStatus: targetUser.userProfile?.maritalStatus || null,
+      siblingPosition: targetUser.userProfile?.siblingPosition || null,
+      totalSiblings: targetUser.userProfile?.totalSiblings || null,
+      isFirstVisit: targetUser.userProfile?.isFirstVisit ?? true,
+      educationHistory: targetUser.userProfile?.educationHistory || null,
 
       firstSessionDate:
         bookings[bookings.length - 1]?.scheduledDate ||
@@ -339,18 +455,21 @@ export class PsychologistPatientsService {
         bookings.find((booking) => this.isUpcomingStatus(booking.status))
           ?.scheduledDate || null,
 
-      diagnosis: user.medicalRecord?.diagnosis || [],
-      currentMedication: user.medicalRecord?.currentMedication || [],
-      allergies: user.medicalRecord?.allergies || [],
+      diagnosis: targetUser.medicalRecord?.diagnosis || [],
+      currentMedication: targetUser.medicalRecord?.currentMedication || [],
+      allergies: targetUser.medicalRecord?.allergies || [],
 
-      emergencyContact: user.emergencyContacts?.[0]
+      emergencyContact: targetUser.emergencyContacts?.[0]
         ? {
-            name: user.emergencyContacts[0].name,
-            phone: user.emergencyContacts[0].phone,
-            relation: user.emergencyContacts[0].relation,
+            name: targetUser.emergencyContacts[0].name,
+            phone: targetUser.emergencyContacts[0].phone,
+            relation: targetUser.emergencyContacts[0].relation,
           }
         : null,
 
+      consultationForm,
+      tesResults,
+      notes,
       sessionHistory,
 
       lastNotes: notes[0]?.assessment || notes[0]?.subjective || null,

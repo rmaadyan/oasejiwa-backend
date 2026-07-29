@@ -24,6 +24,10 @@ export class CreateBookingDto {
 
     @IsOptional()
     @IsString()
+    scheduleId?: string;
+
+    @IsOptional()
+    @IsString()
     notes?: string;
 
     @ValidateNested()
