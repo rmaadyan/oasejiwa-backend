@@ -1,101 +1,113 @@
-import { Body, Controller, Post, UseGuards, Get, Param, Patch, Delete, Req, ParseIntPipe, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreatePsychologistDto } from './dto/create-psychologist.dto';
+import { CreatePsychologistByAdminDto } from './dto/create-psychologist.dto';
 import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadedFile, UseInterceptors } from '@nestjs/common';
-import { multerConfig } from './config/upload.config';
 import { BookingService } from '../booking/booking.service';
-import { SkipThrottle } from '@nestjs/throttler';
 
-@SkipThrottle() 
 @Controller('admin')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('ADMIN')
 export class AdminController {
-    constructor(
-        private adminService: AdminService,
-        private bookingService: BookingService,
-    ){}
+  // 🟢 HANYA INJECT AdminService (Hapus PsychologistService dari sini)
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly bookingService: BookingService,
+  ) {}
 
-    @Post('psychologists')
-    @UseInterceptors(FileInterceptor('avatar', multerConfig))
-    createPsychologist(
-        @Body('data') rawData: string,
-        @UploadedFile() file?: Express.Multer.File,
-    ) {
-        const dto = JSON.parse(rawData) as CreatePsychologistDto;
-        return this.adminService.createPsychologist(dto, file);
-    }
+  // Endpoint Statistik Dashboard
+  @Get('dashboard/stats')
+  async getDashboardStats() {
+    return this.adminService.getDashboardStats();
+  }
 
-    @Get('psychologists')
-    getAllPsychologists() {
-        return this.adminService.getAllPsychologists();
-    }
+  // Endpoint Get Semua User (Pasien & Psikolog)
+  @Get('users')
+  async getAllUsers() {
+    return this.adminService.getAllUsers();
+  }
 
-    @Get('psychologists/:id')
-    getPsychologistById(@Param('id') id: string) {
-        return this.adminService.getPsychologistById(id);
-    }
+  // Endpoint Detail User berdasarkan ID
+  @Get('users/:id')
+  async getUserDetail(@Param('id') id: string) {
+    return this.adminService.getUserDetailByAdmin(id);
+  }
 
-    @Patch('psychologists/:id')
-    @UseInterceptors(FileInterceptor('avatar', multerConfig))
-    updatePsychologist(
-        @Param('id') id: string,
-        @Body('data') rawData: string,
-        @UploadedFile() file?: Express.Multer.File,
-    ) {
-        const dto = JSON.parse(rawData) as UpdatePsychologistDto;
-        return this.adminService.updatePsychologist(id, dto, file);
-    }
+  // 1. GET: Ambil Semua Daftar Psikolog dari Database
+  @Get('psychologist')
+  async getAllPsychologists() {
+    return this.adminService.getAllPsychologists();
+  }
 
-    @Delete('psychologists/:id')
-    deletePsychologist(@Param('id') id: string) {
-        return this.adminService.deletePsychologist(id);
-    }
+  // 2. POST: Tambah Psikolog Baru & Kirim Email Kredensial
+  @Post('psychologist')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async createPsychologist(@Body() dto: CreatePsychologistByAdminDto) {
+    return this.adminService.createPsychologist(dto);
+  }
 
-    @Get('users')
-    getAllUsers() {
-        return this.adminService.getAllUsers();
-    }
+  // 3. PATCH: Edit Data Psikolog Berdasarkan ID Profile
+  @Patch('psychologist/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async updatePsychologist(
+    @Param('id') id: string,
+    @Body() dto: UpdatePsychologistDto,
+  ) {
+    return this.adminService.updatePsychologist(id, dto);
+  }
 
-    @Get('users/:id')
-    getUserById(@Param('id') id: string) {
-        return this.adminService.getUserById(id);
-    }
+  // 4. DELETE: Hapus Akun Psikolog Berdasarkan ID Profile
+  @Delete('psychologist/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async deletePsychologist(@Param('id') id: string) {
+    return this.adminService.deletePsychologist(id);
+  }
 
-    @Delete('users/:id')
-    deleteUser(@Param('id') id: string) {
-        return this.adminService.deleteUser(id);
-    }
+  // 🟢 5. POST: Kirim Email Pengingat Update Profil Psikolog
+  @Post('psychologist/:id/send-reminder')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async sendReminderEmail(@Param('id') id: string) {
+    // Dipanggil langsung lewat adminService!
+    return this.adminService.sendPsychologistReminder(id);
+  }
 
-    // ─── Booking Management ──────────────────────────────────
+  // 6. ADMIN: Lihat semua booking
+  @Get('bookings')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async getAllBookings() {
+    return this.bookingService.getAllBookings();
+  }
 
-    @Get('bookings')
-    getAllBookings() {
-        return this.bookingService.getAllBookings();
-    }
+  // 7. ADMIN: Lihat detail booking
+  @Get('bookings/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async getBookingDetail(@Param('id', ParseIntPipe) id: number, @Req() req) {
+    return this.bookingService.getBookingById(id, req.user.id, req.user.role);
+  }
 
-    @Get('bookings/:id')
-    getBookingDetail(@Param('id', ParseIntPipe) id: number, @Req() req) {
-        return this.bookingService.getBookingById(id, req.user.id, req.user.role);
-    }
+  // 8. ADMIN: Approve booking
+  @Patch('bookings/:id/approve')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async approveBooking(@Param('id', ParseIntPipe) id: number, @Req() req) {
+    return this.bookingService.approveBooking(id, req.user.id);
+  }
 
-    @Patch('bookings/:id/approve')
-    approveBooking(@Param('id', ParseIntPipe) id: number, @Req() req) {
-        return this.bookingService.approveBooking(id, req.user.id);
-    }
-
-    @Patch('bookings/:id/reject')
-    rejectBooking(
-        @Param('id', ParseIntPipe) id: number,
-        @Req() req,
-        @Body('reason') reason?: string,
-    ) {
-        return this.bookingService.rejectBooking(id, req.user.id, reason);
-    }
+  // 9. ADMIN: Reject booking
+  @Patch('bookings/:id/reject')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async rejectBooking(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req,
+    @Body('reason') reason?: string,
+  ) {
+    return this.bookingService.rejectBooking(id, req.user.id, reason);
+  }
 }
-

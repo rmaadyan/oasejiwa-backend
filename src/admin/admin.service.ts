@@ -1,409 +1,300 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePsychologistDto } from './dto/create-psychologist.dto';
-import * as bcrypt from 'bcrypt';
-import * as crypto from 'crypto';
+import { EmailService } from '../email/email.service';
+import { CreatePsychologistByAdminDto } from './dto/create-psychologist.dto';
 import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
-import { CloudinaryService } from './cloudinary.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AdminService {
-    constructor(
-        private prisma: PrismaService,
-        private cloudinaryService: CloudinaryService,
-    ){}
+  constructor(
+    private prisma: PrismaService,
+    private emailService: EmailService,
+  ) {}
 
-    async createPsychologist(dto: CreatePsychologistDto, file?: Express.Multer.File){
-        const avatarUrl = file ? file.path : undefined;
-        const existingUser = await this.prisma.user.findUnique({
-            where: {email: dto.email},
-        });
+  // ==========================================
+  // 1. STATISTIK DASHBOARD ADMIN
+  // ==========================================
+  async getDashboardStats() {
+    const allUsers = await this.prisma.user.findMany({
+      select: { role: true },
+    });
 
-        if (existingUser){
-            throw new ConflictException('Email sudah terdaftar');
-        }
+    const totalUsers = allUsers.length;
 
-        const tempPassword = crypto.randomBytes(8).toString('hex');
-        const passwordHash = await bcrypt.hash(tempPassword, 10);
+    const totalPatients = allUsers.filter((u) => {
+      const r = String(u.role).toUpperCase();
+      return r === 'PATIENT' || r === 'PASIEN' || r === 'USER';
+    }).length;
 
-        const user = await this.prisma.user.create({
-            data:{
-                email: dto.email,
-                role: 'PSYCHOLOGIST',
-                isEmailVerified: true,
-                isFirstLogin: true,
-                authProvider: {
-                    create: {
-                        provider: 'local',
-                        passwordHash,
-                    },
-                },
-                psychologistProfile: {
-                    create: {
-                        fullName: dto.fullName,
-                        sipp: dto.sipp,
-                        str: dto.str,
-                        about: dto.about,
-                        avatarUrl,
-                        educations: {
-                            create: dto.educations,
-                        },
-                        experiences: {
-                            create: dto.experiences.map(name => ({name})),
-                        },
-                        specializations: {
-                            create: dto.specializations.map(name => ({name})),
-                        },
-                        expertises: {
-                            create: dto.expertises.map(name => ({name})),
-                        },
-                        schedules: dto.schedules ? {
-                            create: dto.schedules.map(s => ({
-                                date: new Date(s.date + 'T17:00:00.000Z'),
-                                startTime: s.startTime,
-                                duration: s.duration,
-                                isAvailable: s.isAvailable ?? true,
-                            })),
-                        } : undefined,
-                    },
-                },
-            },
-        });
+    const totalPsychologists = allUsers.filter((u) => {
+      const r = String(u.role).toUpperCase();
+      return r === 'PSYCHOLOGIST' || r === 'PSIKOLOG';
+    }).length;
 
-        return {
-            message: 'Akun psikolog berhasil dibuat',
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-                tempPassword,
-            },
-        };
+    return {
+      totalUsers,
+      totalPatients,
+      totalPsychologists,
+    };
+  }
+
+  // ==========================================
+  // 2. MANAJEMEN SEMUA USER
+  // ==========================================
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany({
+      include: {
+        userProfile: true,
+        psychologistProfile: {
+          include: {
+            specializations: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return users.map((u) => {
+      const roleUpper = String(u.role).toUpperCase();
+      const isPsychologist = roleUpper === 'PSYCHOLOGIST' || roleUpper === 'PSIKOLOG';
+
+      return {
+        id: u.id,
+        email: u.email,
+        role: isPsychologist ? 'psychologist' : 'patient',
+        name: isPsychologist
+          ? u.psychologistProfile?.fullName || u.userProfile?.fullName || 'Psikolog'
+          : u.userProfile?.fullName || 'Pasien',
+        phone: u.userProfile?.phone || '-',
+        status: u.isProfileComplete ? 'active' : 'inactive',
+        registeredAt: u.createdAt,
+        bookingCount: 0,
+        sipp: u.psychologistProfile?.sipp || '-',
+        str: u.psychologistProfile?.str || '-',
+        about: u.psychologistProfile?.about || 'Belum ada deskripsi bio.',
+        specializations: u.psychologistProfile?.specializations?.map((s: any) => s.name || s) || [],
+      };
+    });
+  }
+
+  // ==========================================
+  // 3. DETAIL PREVIEW USER BY ID
+  // ==========================================
+  async getUserDetailByAdmin(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        userProfile: true,
+        psychologistProfile: {
+          include: {
+            specializations: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User tidak ditemukan');
     }
 
-    async getAllPsychologists() {
-        const psychologists = await this.prisma.psychologistProfile.findMany({
-            select: {
-                id: true,
-                fullName: true,
-                avatarUrl: true,
-                sipp: true,
-                specializations: {
-                    select: {
-                        name: true,
-                    },
-                },
-            },
-        });
+    const roleUpper = String(user.role).toUpperCase();
+    const isPsychologist = roleUpper === 'PSYCHOLOGIST' || roleUpper === 'PSIKOLOG';
 
-        return {
-            data: psychologists.map(p => ({
-                id: p.id,
-                name: p.fullName,
-                avatarUrl: p.avatarUrl,
-                sipp: p.sipp,
-                specializations: p.specializations.map(s => s.name),
-            })),
-        };
+    if (isPsychologist) {
+      return {
+        id: user.id,
+        email: user.email,
+        role: 'PSYCHOLOGIST',
+        status: 'active',
+        fullName: user.psychologistProfile?.fullName || user.userProfile?.fullName || 'Psikolog',
+        phone: user.userProfile?.phone || '-',
+        sipp: user.psychologistProfile?.sipp || '-',
+        str: user.psychologistProfile?.str || '-',
+        about: user.psychologistProfile?.about || 'Belum ada deskripsi bio.',
+        specializations: user.psychologistProfile?.specializations?.map((s: any) => s.name || s) || [],
+      };
+    } else {
+      return {
+        id: user.id,
+        email: user.email,
+        role: 'PATIENT',
+        status: 'active',
+        fullName: user.userProfile?.fullName || 'Pasien',
+        phone: user.userProfile?.phone || '-',
+        joinedDate: user.createdAt,
+        stats: {
+          totalBooking: 0,
+          completedBooking: 0,
+          totalTransaction: 0,
+          lastBookingDate: '-',
+        },
+      };
+    }
+  }
+
+  // ==========================================
+  // 4. CRUD KHUSUS PSIKOLOG
+  // ==========================================
+  async getAllPsychologists() {
+    const data = await this.prisma.psychologistProfile.findMany({
+      include: {
+        user: {
+          select: {
+            email: true,
+            isProfileComplete: true,
+            userProfile: {
+              select: {
+                phone: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return data.map((item) => ({
+      ...item,
+      phoneNumber: item.user?.userProfile?.phone || '',
+    }));
+  }
+
+  async createPsychologist(dto: CreatePsychologistByAdminDto) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Email sudah terdaftar');
     }
 
-    async getPsychologistById(psychologistId: string) {
-        const profile = await this.prisma.psychologistProfile.findUnique({
-            where: { id: psychologistId },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        email: true,
-                        role: true,
-                        isEmailVerified: true,
-                        isProfileComplete: true,
-                        isFirstLogin: true,
-                    },
-                },
-                educations: true,
-                experiences: true,
-                specializations: true,
-                expertises: true,
-                schedules: true,
+    const passwordHash = await bcrypt.hash(dto.temporaryPassword, 10);
+
+    const result = await this.prisma.$transaction(async (prisma) => {
+      const user = await prisma.user.create({
+        data: {
+          email: dto.email,
+          role: 'PSYCHOLOGIST' as any,
+          isEmailVerified: true,
+          isFirstLogin: true,
+          isProfileComplete: false,
+          authProvider: {
+            create: {
+              provider: 'local',
+              providerId: dto.email,
+              passwordHash: passwordHash,
             },
-        });
+          },
+          userProfile: {
+            create: {
+              fullName: dto.fullName,
+              phone: dto.phoneNumber,
+            },
+          },
+          psychologistProfile: {
+            create: {
+              fullName: dto.fullName,
+              sipp: dto.sipp,
+              str: dto.str || undefined,
+              about: 'Psikolog Klinik Oase Jiwa',
+              avatarUrl: undefined,
+            },
+          },
+        },
+      });
 
-        if (!profile) {
-            throw new NotFoundException('Psikolog tidak ditemukan');
-        }
+      return user;
+    });
 
-        return { 
+    try {
+      await this.emailService.sendPsychologistCredentials(
+        dto.email,
+        dto.fullName,
+        dto.temporaryPassword,
+      );
+    } catch (emailErr) {
+      console.error('Gagal mengirim email kredensial:', emailErr);
+    }
+
+    return {
+      message: 'Akun Psikolog berhasil dibuat & email kredensial telah dikirim',
+      userId: result.id,
+    };
+  }
+
+  async updatePsychologist(id: string, dto: UpdatePsychologistDto) {
+    const profile = await this.prisma.psychologistProfile.findUnique({
+      where: { id },
+      include: { user: { include: { userProfile: true } } },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Data psikolog tidak ditemukan');
+    }
+
+    return this.prisma.$transaction(async (prisma) => {
+      if (dto.phoneNumber) {
+        if (profile.user.userProfile) {
+          await prisma.userProfile.update({
+            where: { userId: profile.userId },
+            data: { phone: dto.phoneNumber },
+          });
+        } else {
+          await prisma.userProfile.create({
             data: {
-                id: profile.id,
-                name: profile.fullName,
-                avatarUrl: profile.avatarUrl,
-                about: profile.about,
-                sipp: profile.sipp,
-                str: profile.str,
-                user: profile.user,
-                educations: profile.educations,
-                experiences: profile.experiences,
-                specializations: profile.specializations,
-                expertises: profile.expertises,
-                schedules: profile.schedules,
+              userId: profile.userId,
+              fullName: dto.fullName || profile.fullName,
+              phone: dto.phoneNumber,
             },
-        };
+          });
+        }
+      }
+
+      return prisma.psychologistProfile.update({
+        where: { id },
+        data: {
+          fullName: dto.fullName,
+          sipp: dto.sipp,
+          str: dto.str ?? undefined,
+        },
+      });
+    });
+  }
+
+  async deletePsychologist(id: string) {
+    const profile = await this.prisma.psychologistProfile.findUnique({
+      where: { id },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Data psikolog tidak ditemukan');
     }
 
-    async updatePsychologist(psychologistId: string, dto: UpdatePsychologistDto, file?: Express.Multer.File) {
-        console.log('FILE:', file);
-        const avatarUrl = file ? file.path : undefined;
-        const profile = await this.prisma.psychologistProfile.findUnique({
-            where: { id: psychologistId },
-            include: {user:true},
-        });
+    return this.prisma.user.delete({
+      where: { id: profile.userId },
+    });
+  }
 
-        if (!profile) {
-            throw new NotFoundException('Psikolog tidak ditemukan');
-        }
+  // ==========================================
+  // 5. FITUR KIRIM EMAIL PENGINGAT UPDATE PROFIL
+  // ==========================================
+  async sendPsychologistReminder(psychologistId: string) {
+    const profile = await this.prisma.psychologistProfile.findUnique({
+      where: { id: psychologistId },
+      include: { user: true },
+    });
 
-        if (file && profile.avatarUrl) {
-            await this.cloudinaryService.deleteImage(profile.avatarUrl);
-        }
-
-        let tempPassword: string | undefined;
-
-        await this.prisma.$transaction(async (prisma) => {
-            // Jika email berubah, update di tabel user + reset password
-            if (dto.email && dto.email !== profile.user.email) {
-                const existingUser = await prisma.user.findUnique({
-                    where: { email: dto.email },
-                });
-                if (existingUser) {
-                    throw new ConflictException('Email sudah digunakan');
-                }
-
-                tempPassword = crypto.randomBytes(8).toString('hex');
-                const passwordHash = await bcrypt.hash(tempPassword, 10);
-
-                await prisma.user.update({
-                    where: { id: profile.userId },
-                    data: { email: dto.email },
-                });
-
-                await prisma.authProvider.update({
-                    where: { userId: profile.userId },
-                    data: {
-                        passwordHash,
-                    },
-                });
-
-                // Reset isFirstLogin agar psikolog wajib ganti password baru
-                await prisma.user.update({
-                    where: { id: profile.userId },
-                    data: {
-                        email: dto.email,
-                        isFirstLogin: true,
-                    },
-                });
-            }
-            await prisma.psychologistProfile.update({
-                where: { id: psychologistId },
-                data: {
-                    ...(dto.fullName && { fullName: dto.fullName }),
-                    ...(dto.sipp && { sipp: dto.sipp }),
-                    ...(dto.str && { str: dto.str }),
-                    ...(dto.about && { about: dto.about }),
-                    ...(avatarUrl !== undefined && { avatarUrl }),
-                },
-            });
-
-            if (dto.educations) {
-                await prisma.education.deleteMany({ where: { psychologistId } });
-                    await prisma.education.createMany({
-                    data: dto.educations.map(e => ({
-                        psychologistId,
-                        degree: e.degree ?? '',
-                        institution: e.institution ?? '',
-                        city: e.city ?? '',
-                        startYear: e.startYear ?? new Date().getFullYear(),
-                        endYear: e.endYear ?? new Date().getFullYear(),
-                    })),
-                });
-            }
-
-            if (dto.experiences) {
-                await prisma.experience.deleteMany({ where: { psychologistId } });
-                    await prisma.experience.createMany({
-                    data: dto.experiences.map(name => ({ psychologistId, name })),
-                });
-            }
-
-            if (dto.specializations) {
-                await prisma.specialization.deleteMany({ where: { psychologistId } });
-                    await prisma.specialization.createMany({
-                    data: dto.specializations.map(name => ({ psychologistId, name })),
-                });
-            }
-
-            if (dto.expertises) {
-                await prisma.expertise.deleteMany({ where: { psychologistId } });
-                    await prisma.expertise.createMany({
-                    data: dto.expertises.map(name => ({ psychologistId, name })),
-                });
-            }
-
-            if (dto.schedules) {
-                // Ambil jadwal existing beserta booking aktifnya
-                const existingSchedules = await prisma.schedule.findMany({
-                    where: { psychologistId },
-                    include: {
-                        bookings: {
-                            where: {
-                                status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
-                            },
-                        },
-                    },
-                });
-
-                // Buat map key: "date_startTime" jadwal existing
-                const existingMap = new Map(
-                    existingSchedules.map(s => [
-                        `${s.date.toISOString().split('T')[0]}_${s.startTime}`,
-                        s,
-                    ])
-                );
-
-                // Key dari jadwal yang dikirim frontend
-                const incomingKeys = new Set(
-                    dto.schedules.map(s => `${s.date}_${s.startTime}`)
-                );
-
-                // Hapus jadwal yang tidak ada di frontend, tapi cek dulu booking aktifnya
-                for (const [key, existing] of existingMap) {
-                    if (!incomingKeys.has(key)) {
-                        if (existing.bookings.length > 0) {
-                            throw new BadRequestException(
-                                `Jadwal ${existing.startTime} pada ${existing.date.toISOString().split('T')[0]} tidak bisa dihapus karena masih ada booking aktif`
-                            );
-                        }
-                        await prisma.schedule.delete({ where: { id: existing.id } });
-                    }
-                }
-
-                // Update atau buat jadwal
-                for (const s of dto.schedules) {
-                    const key = `${s.date}_${s.startTime}`;
-                    const existing = existingMap.get(key);
-
-                    if (existing) {
-                        // jika jadwal sudah ada maka pertahankan isAvailable jika sedang dibooking
-                        const isBooked = existing.bookings.length > 0;
-                        await prisma.schedule.update({
-                            where: { id: existing.id },
-                            data: {
-                                duration: s.duration ?? existing.duration,
-                                isAvailable: isBooked ? existing.isAvailable : true,
-                            },
-                        });
-                    } else {
-                        //Jadwal baru, buat dengan isAvailable true
-                        await prisma.schedule.create({
-                            data: {
-                                psychologistId,
-                                date: new Date(s.date! + 'T17:00:00.000Z'),
-                                startTime: s.startTime ?? '',
-                                duration: s.duration ?? 60,
-                                isAvailable: true,
-                            },
-                        });
-                    }
-                }
-            }
-        });
-
-        return { message: 'Data psikolog berhasil diupdate',
-            ...(tempPassword && {
-                emailChanged: true,
-                tempPassword,
-            }),
-        };
+    if (!profile || !profile.user) {
+      throw new NotFoundException('Data psikolog tidak ditemukan');
     }
 
-    async deletePsychologist(psychologistId: string) {
-        const profile = await this.prisma.psychologistProfile.findUnique({
-            where: { id: psychologistId },
-        });
+    const email = profile.user.email;
+    const name = profile.fullName;
 
-        if (!profile) {
-            throw new NotFoundException('Psikolog tidak ditemukan');
-        }
+    // Kirim email pengingat via EmailService
+    await this.emailService.sendPsychologistReminderEmail(email, name);
 
-        if (profile.avatarUrl) {
-            await this.cloudinaryService.deleteImage(profile.avatarUrl);
-        }
-
-        await this.prisma.user.delete({
-            where: { id: profile.userId },
-        });
-
-        return { message: 'Data psikolog berhasil dihapus' };
-    }
-
-    async getAllUsers() {
-        const users = await this.prisma.user.findMany({
-            where: { role: 'USER' },
-            select: {
-                id: true,
-                email: true,
-                role: true,
-                isEmailVerified: true,
-                isProfileComplete: true,
-                createdAt: true,
-                userProfile: {
-                    select: {
-                        fullName: true,
-                        phone: true,
-                        city: true,
-                        country: true,
-                    },
-                },
-            },
-        });
-
-        return { data: users };
-    }
-
-    async getUserById(userId: string) {
-        const user = await this.prisma.user.findUnique({
-            where: { id: userId, role: 'USER' },
-            select: {
-                id: true,
-                email: true,
-                role: true,
-                isEmailVerified: true,
-                isProfileComplete: true,
-                createdAt: true,
-                userProfile: true,
-            },
-        });
-
-        if (!user) {
-            throw new NotFoundException('User tidak ditemukan');
-        }
-
-        return { data: user };
-    }
-
-    async deleteUser(userId: string) {
-        const user = await this.prisma.user.findUnique({
-            where: { id: userId, role: 'USER' },
-        });
-
-        if (!user) {
-            throw new NotFoundException('User tidak ditemukan');
-        }
-
-        await this.prisma.user.delete({
-            where: { id: userId },
-        });
-
-        return { message: 'User berhasil dihapus' };
-    }
+    return { message: 'Email pengingat berhasil dikirim!' };
+  }
 }

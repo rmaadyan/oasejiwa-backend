@@ -165,9 +165,10 @@ model PsychologistProfile {
   userId    String   @unique
   fullName  String
   sipp      String
-  str       String
-  about     String
+  str       String?
+  about     String?
   avatarUrl String?
+  status    String   @default("WAITING_PROFILE")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

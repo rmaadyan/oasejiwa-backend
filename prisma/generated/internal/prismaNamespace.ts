@@ -2405,6 +2405,7 @@ export const PsychologistProfileScalarFieldEnum = {
   str: 'str',
   about: 'about',
   avatarUrl: 'avatarUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

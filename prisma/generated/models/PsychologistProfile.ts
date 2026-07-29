@@ -32,6 +32,7 @@ export type PsychologistProfileMinAggregateOutputType = {
   str: string | null
   about: string | null
   avatarUrl: string | null
+  status: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +45,7 @@ export type PsychologistProfileMaxAggregateOutputType = {
   str: string | null
   about: string | null
   avatarUrl: string | null
+  status: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +58,7 @@ export type PsychologistProfileCountAggregateOutputType = {
   str: number
   about: number
   avatarUrl: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +73,7 @@ export type PsychologistProfileMinAggregateInputType = {
   str?: true
   about?: true
   avatarUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +86,7 @@ export type PsychologistProfileMaxAggregateInputType = {
   str?: true
   about?: true
   avatarUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +99,7 @@ export type PsychologistProfileCountAggregateInputType = {
   str?: true
   about?: true
   avatarUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -176,9 +182,10 @@ export type PsychologistProfileGroupByOutputType = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str: string | null
+  about: string | null
   avatarUrl: string | null
+  status: string
   createdAt: Date
   updatedAt: Date
   _count: PsychologistProfileCountAggregateOutputType | null
@@ -209,9 +216,10 @@ export type PsychologistProfileWhereInput = {
   userId?: Prisma.StringFilter<"PsychologistProfile"> | string
   fullName?: Prisma.StringFilter<"PsychologistProfile"> | string
   sipp?: Prisma.StringFilter<"PsychologistProfile"> | string
-  str?: Prisma.StringFilter<"PsychologistProfile"> | string
-  about?: Prisma.StringFilter<"PsychologistProfile"> | string
+  str?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
+  about?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
+  status?: Prisma.StringFilter<"PsychologistProfile"> | string
   createdAt?: Prisma.DateTimeFilter<"PsychologistProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PsychologistProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -230,9 +238,10 @@ export type PsychologistProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   sipp?: Prisma.SortOrder
-  str?: Prisma.SortOrder
-  about?: Prisma.SortOrder
+  str?: Prisma.SortOrderInput | Prisma.SortOrder
+  about?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -254,9 +263,10 @@ export type PsychologistProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PsychologistProfileWhereInput | Prisma.PsychologistProfileWhereInput[]
   fullName?: Prisma.StringFilter<"PsychologistProfile"> | string
   sipp?: Prisma.StringFilter<"PsychologistProfile"> | string
-  str?: Prisma.StringFilter<"PsychologistProfile"> | string
-  about?: Prisma.StringFilter<"PsychologistProfile"> | string
+  str?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
+  about?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"PsychologistProfile"> | string | null
+  status?: Prisma.StringFilter<"PsychologistProfile"> | string
   createdAt?: Prisma.DateTimeFilter<"PsychologistProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PsychologistProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -275,9 +285,10 @@ export type PsychologistProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   sipp?: Prisma.SortOrder
-  str?: Prisma.SortOrder
-  about?: Prisma.SortOrder
+  str?: Prisma.SortOrderInput | Prisma.SortOrder
+  about?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PsychologistProfileCountOrderByAggregateInput
@@ -293,9 +304,10 @@ export type PsychologistProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
   fullName?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
   sipp?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
-  str?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
-  about?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
+  str?: Prisma.StringNullableWithAggregatesFilter<"PsychologistProfile"> | string | null
+  about?: Prisma.StringNullableWithAggregatesFilter<"PsychologistProfile"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"PsychologistProfile"> | string | null
+  status?: Prisma.StringWithAggregatesFilter<"PsychologistProfile"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PsychologistProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PsychologistProfile"> | Date | string
 }
@@ -304,9 +316,10 @@ export type PsychologistProfileCreateInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -325,9 +338,10 @@ export type PsychologistProfileUncheckedCreateInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -344,9 +358,10 @@ export type PsychologistProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -365,9 +380,10 @@ export type PsychologistProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -385,9 +401,10 @@ export type PsychologistProfileCreateManyInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -396,9 +413,10 @@ export type PsychologistProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -408,9 +426,10 @@ export type PsychologistProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -428,6 +447,7 @@ export type PsychologistProfileCountOrderByAggregateInput = {
   str?: Prisma.SortOrder
   about?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -440,6 +460,7 @@ export type PsychologistProfileMaxOrderByAggregateInput = {
   str?: Prisma.SortOrder
   about?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -452,6 +473,7 @@ export type PsychologistProfileMinOrderByAggregateInput = {
   str?: Prisma.SortOrder
   about?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -609,9 +631,10 @@ export type PsychologistProfileCreateWithoutUserInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationCreateNestedManyWithoutPsychologistInput
@@ -628,9 +651,10 @@ export type PsychologistProfileUncheckedCreateWithoutUserInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -663,9 +687,10 @@ export type PsychologistProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUpdateManyWithoutPsychologistNestedInput
@@ -682,9 +707,10 @@ export type PsychologistProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -701,9 +727,10 @@ export type PsychologistProfileCreateWithoutEducationsInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -721,9 +748,10 @@ export type PsychologistProfileUncheckedCreateWithoutEducationsInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   experiences?: Prisma.ExperienceUncheckedCreateNestedManyWithoutPsychologistInput
@@ -755,9 +783,10 @@ export type PsychologistProfileUpdateWithoutEducationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -775,9 +804,10 @@ export type PsychologistProfileUncheckedUpdateWithoutEducationsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   experiences?: Prisma.ExperienceUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -793,9 +823,10 @@ export type PsychologistProfileCreateWithoutExperiencesInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -813,9 +844,10 @@ export type PsychologistProfileUncheckedCreateWithoutExperiencesInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -847,9 +879,10 @@ export type PsychologistProfileUpdateWithoutExperiencesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -867,9 +900,10 @@ export type PsychologistProfileUncheckedUpdateWithoutExperiencesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -885,9 +919,10 @@ export type PsychologistProfileCreateWithoutSpecializationsInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -905,9 +940,10 @@ export type PsychologistProfileUncheckedCreateWithoutSpecializationsInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -939,9 +975,10 @@ export type PsychologistProfileUpdateWithoutSpecializationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -959,9 +996,10 @@ export type PsychologistProfileUncheckedUpdateWithoutSpecializationsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -977,9 +1015,10 @@ export type PsychologistProfileCreateWithoutExpertisesInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -997,9 +1036,10 @@ export type PsychologistProfileUncheckedCreateWithoutExpertisesInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -1031,9 +1071,10 @@ export type PsychologistProfileUpdateWithoutExpertisesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -1051,9 +1092,10 @@ export type PsychologistProfileUncheckedUpdateWithoutExpertisesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -1069,9 +1111,10 @@ export type PsychologistProfileCreateWithoutSchedulesInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -1089,9 +1132,10 @@ export type PsychologistProfileUncheckedCreateWithoutSchedulesInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -1123,9 +1167,10 @@ export type PsychologistProfileUpdateWithoutSchedulesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -1143,9 +1188,10 @@ export type PsychologistProfileUncheckedUpdateWithoutSchedulesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -1161,9 +1207,10 @@ export type PsychologistProfileCreateWithoutSessionNotesInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -1181,9 +1228,10 @@ export type PsychologistProfileUncheckedCreateWithoutSessionNotesInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -1215,9 +1263,10 @@ export type PsychologistProfileUpdateWithoutSessionNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -1235,9 +1284,10 @@ export type PsychologistProfileUncheckedUpdateWithoutSessionNotesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -1253,9 +1303,10 @@ export type PsychologistProfileCreateWithoutBookingsInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -1273,9 +1324,10 @@ export type PsychologistProfileUncheckedCreateWithoutBookingsInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -1307,9 +1359,10 @@ export type PsychologistProfileUpdateWithoutBookingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -1327,9 +1380,10 @@ export type PsychologistProfileUncheckedUpdateWithoutBookingsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -1345,9 +1399,10 @@ export type PsychologistProfileCreateWithoutReviewsInput = {
   id?: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPsychologistProfileInput
@@ -1365,9 +1420,10 @@ export type PsychologistProfileUncheckedCreateWithoutReviewsInput = {
   userId: string
   fullName: string
   sipp: string
-  str: string
-  about: string
+  str?: string | null
+  about?: string | null
   avatarUrl?: string | null
+  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   educations?: Prisma.EducationUncheckedCreateNestedManyWithoutPsychologistInput
@@ -1399,9 +1455,10 @@ export type PsychologistProfileUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPsychologistProfileNestedInput
@@ -1419,9 +1476,10 @@ export type PsychologistProfileUncheckedUpdateWithoutReviewsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   sipp?: Prisma.StringFieldUpdateOperationsInput | string
-  str?: Prisma.StringFieldUpdateOperationsInput | string
-  about?: Prisma.StringFieldUpdateOperationsInput | string
+  str?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  about?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   educations?: Prisma.EducationUncheckedUpdateManyWithoutPsychologistNestedInput
@@ -1535,6 +1593,7 @@ export type PsychologistProfileSelect<ExtArgs extends runtime.Types.Extensions.I
   str?: boolean
   about?: boolean
   avatarUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1557,6 +1616,7 @@ export type PsychologistProfileSelectCreateManyAndReturn<ExtArgs extends runtime
   str?: boolean
   about?: boolean
   avatarUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1570,6 +1630,7 @@ export type PsychologistProfileSelectUpdateManyAndReturn<ExtArgs extends runtime
   str?: boolean
   about?: boolean
   avatarUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1583,11 +1644,12 @@ export type PsychologistProfileSelectScalar = {
   str?: boolean
   about?: boolean
   avatarUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PsychologistProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "fullName" | "sipp" | "str" | "about" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["psychologistProfile"]>
+export type PsychologistProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "fullName" | "sipp" | "str" | "about" | "avatarUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["psychologistProfile"]>
 export type PsychologistProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   educations?: boolean | Prisma.PsychologistProfile$educationsArgs<ExtArgs>
@@ -1625,9 +1687,10 @@ export type $PsychologistProfilePayload<ExtArgs extends runtime.Types.Extensions
     userId: string
     fullName: string
     sipp: string
-    str: string
-    about: string
+    str: string | null
+    about: string | null
     avatarUrl: string | null
+    status: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["psychologistProfile"]>
@@ -2069,6 +2132,7 @@ export interface PsychologistProfileFieldRefs {
   readonly str: Prisma.FieldRef<"PsychologistProfile", 'String'>
   readonly about: Prisma.FieldRef<"PsychologistProfile", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"PsychologistProfile", 'String'>
+  readonly status: Prisma.FieldRef<"PsychologistProfile", 'String'>
   readonly createdAt: Prisma.FieldRef<"PsychologistProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PsychologistProfile", 'DateTime'>
 }

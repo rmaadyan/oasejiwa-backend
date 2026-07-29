@@ -31,122 +31,163 @@ export class BookingService {
    * - Buat record Booking + Payment(DOWN_PAYMENT)
    */
   async createBooking(userId: string, dto: CreateBookingDto) {
-    // 1. Validasi layanan
-    const layanan = await this.prisma.layanan.findUnique({
-      where: { id: dto.serviceId },
-    });
-    if (!layanan) {
-      throw new NotFoundException('Layanan tidak ditemukan');
-    }
+  // 1. Validasi layanan
+  const layanan = await this.prisma.layanan.findUnique({
+    where: { id: dto.serviceId },
+  });
 
-    // 2. Validasi psikolog
-    const psychologist = await this.prisma.psychologistProfile.findUnique({
-      where: { id: dto.psychologistId },
-    });
-    if (!psychologist) {
-      throw new NotFoundException('Psikolog tidak ditemukan');
-    }
+  if (!layanan) {
+    throw new NotFoundException('Layanan tidak ditemukan');
+  }
 
-    // 3. Validasi jadwal tersedia
-    const scheduledDate = new Date(dto.scheduledDate + 'T17:00:00.000Z');
-    const schedule = await this.prisma.schedule.findFirst({
+  // 2. Validasi psikolog
+  const psychologist = await this.prisma.psychologistProfile.findUnique({
+    where: { id: dto.psychologistId },
+  });
+
+  if (!psychologist) {
+    throw new NotFoundException('Psikolog tidak ditemukan');
+  }
+
+  // 3. Cari jadwal psikolog
+  let schedule;
+
+  if (dto.scheduleId) {
+    schedule = await this.prisma.schedule.findFirst({
       where: {
+        id: dto.scheduleId,
         psychologistId: dto.psychologistId,
-        date: scheduledDate,
         startTime: dto.scheduledTime,
-        isAvailable: true,
       },
     });
-    if (!schedule) {
-      throw new BadRequestException('Jadwal yang dipilih tidak tersedia');
-    }
+  } else {
+    const scheduledDateStart = new Date(`${dto.scheduledDate}T00:00:00.000Z`);
+    const scheduledDateEnd = new Date(scheduledDateStart);
+    scheduledDateEnd.setUTCDate(scheduledDateEnd.getUTCDate() + 1);
 
-    // 4. Hitung harga
-    const totalPrice = layanan.harga;
-    const dpAmount = Math.ceil(totalPrice * 0.5); // DP 50%
-    const remainingAmount = totalPrice - dpAmount;
-
-    // 5. Generate booking code
-    const bookingCode = this.generateBookingCode();
-
-    // 6. Atomic transaction: buat booking + lock jadwal + buat payment
-    const booking = await this.prisma.$transaction(async (prisma) => {
-      // Lock jadwal
-      await prisma.schedule.update({
-        where: { id: schedule.id },
-        data: { isAvailable: false },
-      });
-
-      // Buat booking
-      const newBooking = await prisma.booking.create({
-        data: {
-          bookingCode,
-          userId,
-          psychologistId: dto.psychologistId,
-          serviceId: dto.serviceId,
-          scheduleId: schedule.id,
-          scheduledDate,
-          scheduledTime: dto.scheduledTime,
-          totalPrice,
-          dpAmount,
-          remainingAmount,
-          status: 'PENDING_DP',
-          notes: dto.notes,
+    schedule = await this.prisma.schedule.findFirst({
+      where: {
+        psychologistId: dto.psychologistId,
+        startTime: dto.scheduledTime,
+        isAvailable: true,
+        date: {
+          gte: scheduledDateStart,
+          lt: scheduledDateEnd,
         },
-      });
-
-      // Buat payment record untuk DP
-      const dpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 menit
-      await prisma.payment.create({
-        data: {
-          bookingId: newBooking.id,
-          type: 'DOWN_PAYMENT',
-          amount: dpAmount,
-          method: 'PENDING',
-          orderId: `DP-${bookingCode}`,
-          status: 'PENDING',
-          expiredAt: dpExpiry,
-        },
-      });
-
-      // Buat ConsultationForm
-      await prisma.consultationForm.create({
-        data: {
-          bookingId: newBooking.id,
-          ...dto.consultationForm,
-        },
-      });
-
-      // Buat ConsentForm
-      await prisma.consentForm.create({
-        data: {
-          bookingId: newBooking.id,
-          consentDate: new Date(dto.consentForm.consentDate),
-          clientNameConfirmation: dto.consentForm.clientNameConfirmation,
-          signatureData: dto.consentForm.signatureData,
-          signatureType: dto.consentForm.signatureType,
-          agreedToTerms: dto.consentForm.agreedToTerms,
-          ipAddress: dto.consentForm.ipAddress,
-        },
-      });
-
-      return newBooking;
+      },
     });
+  }
 
-    return {
-      message: 'Booking berhasil dibuat. Silakan lakukan pembayaran DP.',
+  if (!schedule) {
+    throw new BadRequestException('Jadwal tidak ditemukan.');
+  }
+
+  const scheduledDate = new Date(dto.scheduledDate);
+
+  // ===========================
+  // UBAH
+  // Cek apakah slot sudah dibooking
+  // ===========================
+
+  const existingBooking = await this.prisma.booking.findFirst({
+    where: {
+      psychologistId: dto.psychologistId,
+      scheduledDate,
+      scheduledTime: dto.scheduledTime,
+      status: {
+        notIn: ['CANCELLED', 'REJECTED'],
+      },
+    },
+  });
+
+  if (existingBooking) {
+    throw new BadRequestException(
+      'Jadwal pada tanggal dan jam tersebut sudah dibooking.',
+    );
+  }
+
+  // ===========================
+
+  const totalPrice = layanan.harga;
+  const dpAmount = Math.ceil(totalPrice * 0.5);
+  const remainingAmount = totalPrice - dpAmount;
+
+  const bookingCode = this.generateBookingCode();
+
+  const booking = await this.prisma.$transaction(async (prisma) => {
+    // ===========================
+    // UBAH
+    // HAPUS schedule.update()
+    // ===========================
+
+    const newBooking = await prisma.booking.create({
       data: {
-        id: booking.id,
-        bookingCode: booking.bookingCode,
-        status: booking.status,
+        bookingCode,
+        userId,
+        psychologistId: dto.psychologistId,
+        serviceId: dto.serviceId,
+        scheduleId: schedule.id,
+        scheduledDate,
+        scheduledTime: dto.scheduledTime,
         totalPrice,
         dpAmount,
         remainingAmount,
-        scheduledDate: dto.scheduledDate,
-        scheduledTime: dto.scheduledTime,
+        status: 'PENDING_DP',
+        notes: dto.notes,
       },
-    };
-  }
+    });
+
+    const dpExpiry = new Date(Date.now() + 60 * 60 * 1000);
+
+    await prisma.payment.create({
+      data: {
+        bookingId: newBooking.id,
+        type: 'DOWN_PAYMENT',
+        amount: dpAmount,
+        method: 'PENDING',
+        orderId: `DP-${bookingCode}`,
+        status: 'PENDING',
+        expiredAt: dpExpiry,
+      },
+    });
+
+    await prisma.consultationForm.create({
+      data: {
+        bookingId: newBooking.id,
+        ...dto.consultationForm,
+      },
+    });
+
+    await prisma.consentForm.create({
+      data: {
+        bookingId: newBooking.id,
+        consentDate: new Date(dto.consentForm.consentDate),
+        clientNameConfirmation:
+          dto.consentForm.clientNameConfirmation,
+        signatureData: dto.consentForm.signatureData,
+        signatureType: dto.consentForm.signatureType,
+        agreedToTerms: dto.consentForm.agreedToTerms,
+        ipAddress: dto.consentForm.ipAddress,
+      },
+    });
+
+    return newBooking;
+  });
+
+  return {
+    message: 'Booking berhasil dibuat. Silakan lakukan pembayaran DP.',
+    data: {
+      id: booking.id,
+      bookingCode: booking.bookingCode,
+      status: booking.status,
+      totalPrice,
+      dpAmount,
+      remainingAmount,
+      scheduledDate: dto.scheduledDate,
+      scheduledTime: dto.scheduledTime,
+    },
+  };
+}
 
   /**
    * USER: Lihat semua booking miliknya

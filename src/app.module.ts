@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ConfigModule, ConfigService } from '@nestjs/config'; // 👈 Tambahkan ConfigModule & ConfigService
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,7 +15,6 @@ import { UserModule } from './user/user.module';
 import { BookingModule } from './booking/booking.module';
 import { PaymentModule } from './payment/payment.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { ConfigService } from './config/config.service';
 import { TesModule } from './tes/tes.module';
 import { UploadModule } from './upload/upload.module';
 import { EmailModule } from './email/email.module';
@@ -29,6 +29,11 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
 
 @Module({
   imports: [
+    // 1. Tambahkan ConfigModule global agar .env dijamin terbaca sempurna
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
     PrismaModule,
     AuthModule,
     EmailModule,
@@ -52,19 +57,24 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
     AdminDashboardModule,
     AdminAnalyticsModule,
 
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
+    // 2. Gunakan forRootAsync agar aman dari undefined
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        transport: {
+          host: config.get('MAIL_HOST') || 'smtp.gmail.com',
+          port: Number(config.get('MAIL_PORT')) || 465,
+          secure: Number(config.get('MAIL_PORT')) === 465, // true untuk port 465
+          auth: {
+            user: config.get('MAIL_USER') || process.env.EMAIL_USER,
+            pass: config.get('MAIL_PASS') || process.env.EMAIL_PASS,
+          },
         },
-      },
-      defaults: {
-        from: `"Oase Jiwa" <${process.env.EMAIL_USER}>`,
-      },
+        defaults: {
+          from: config.get('MAIL_FROM') || `"Oase Jiwa" <${config.get('MAIL_USER')}>`,
+        },
+      }),
+      inject: [ConfigService],
     }),
 
     ThrottlerModule.forRoot({
@@ -79,7 +89,6 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
   controllers: [AppController],
   providers: [
     AppService,
-    ConfigService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
