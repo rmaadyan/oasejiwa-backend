@@ -50,6 +50,7 @@ export class AuthService {
                     },
                 },
             },
+            include: { userProfile: true }, // Include profile
         });
 
         const token = crypto.randomBytes(32).toString('hex');
@@ -70,6 +71,7 @@ export class AuthService {
             user: {
                 id: user.id,
                 email: user.email,
+                fullName: user.userProfile?.fullName,
                 role: user.role,
             },
         };
@@ -107,56 +109,74 @@ export class AuthService {
     }
 
     async login(dto: LoginDto) {
-        const user = await this.prisma.user.findUnique({
-            where: { email: dto.email },
-            include: { authProvider: true },
-        });
+  // 1. Validasi awal agar dto.email tidak undefined/null
+  if (!dto?.email) {
+    throw new BadRequestException("Email wajib diisi");
+  }
 
-        if (!user) {
-            throw new UnauthorizedException("Email atau password salah");
-        }
+  // 2. Query ke database
+  const user = await this.prisma.user.findUnique({
+    where: { 
+      email: dto.email.toLowerCase().trim() // Trim & lowercase untuk keamanan
+    },
+    include: { 
+      authProvider: true,
+      userProfile: true,          // Profile untuk Pasien / User biasa
+      psychologistProfile: true,  // Profile untuk Psikolog (jika ada)
+    },
+  });
 
-        if (user.authProvider?.provider === 'google') {
-            throw new UnauthorizedException('Akun ini menggunakan Google Sign In, silakan login dengan Google');
-        }
+  if (!user) {
+    throw new UnauthorizedException("Email atau password salah");
+  }
 
-        const isPasswordValid = await bcrypt.compare(
-            dto.password,
-            user.authProvider?.passwordHash ?? '',
-        );
+  if (user.authProvider?.provider === 'google') {
+    throw new UnauthorizedException('Akun ini menggunakan Google Sign In, silakan login dengan Google');
+  }
 
-        if (!isPasswordValid) {
-            throw new UnauthorizedException('Email atau password salah');
-        }
+  const isPasswordValid = await bcrypt.compare(
+    dto.password || '',
+    user.authProvider?.passwordHash ?? '',
+  );
 
-        if (!user.isEmailVerified) {
-            throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
-        }
+  if (!isPasswordValid) {
+    throw new UnauthorizedException('Email atau password salah');
+  }
 
-        const payload = {
-            sub: user.id,
-            email: user.email,
-            role: user.role,
-        };
+  if (!user.isEmailVerified) {
+    throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
+  }
 
-        const accessToken = await this.jwtService.signAsync(payload, {
-          expiresIn:'1d',
-        });
+  const payload = {
+    sub: user.id,
+    email: user.email,
+    role: user.role,
+  };
 
-        return {
-            message: 'Login berhasil',
-            accessToken,
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-                isProfileComplete: user.isProfileComplete,
-                isEmailVerified: user.isEmailVerified,
-                isFirstLogin: user.isFirstLogin,
-            },
-        };
+  const accessToken = await this.jwtService.signAsync(payload, {
+    expiresIn: '1d',
+  });
 
-    }
+  // Ambil nama lengkap dari userProfile ATAU psychologistProfile
+  const fullName = 
+    user.userProfile?.fullName || 
+    user.psychologistProfile?.fullName || 
+    '';
+
+  return {
+    message: 'Login berhasil',
+    accessToken,
+    user: {
+      id: user.id,
+      email: user.email,
+      fullName: fullName,
+      role: user.role,
+      isProfileComplete: user.isProfileComplete,
+      isEmailVerified: user.isEmailVerified,
+      isFirstLogin: user.isFirstLogin,
+    },
+  };
+}
 
     async emailInput(email: string) {
 
@@ -243,7 +263,10 @@ export class AuthService {
     }) {
         let user = await this.prisma.user.findUnique({
             where: { email: data.email },
-            include: { authProvider: true },
+            include: { 
+                authProvider: true,
+                userProfile: true, // <-- DIUBAH: Include userProfile
+            },
         });
 
         if (user && user.authProvider?.provider == 'local') {
@@ -255,7 +278,7 @@ export class AuthService {
                 data: {
                     email: data.email,
                     isEmailVerified: true,
-                    isFirstLogin:true,
+                    isFirstLogin: true,
                     authProvider: {
                         create: {
                             provider: 'google',
@@ -268,7 +291,10 @@ export class AuthService {
                         },
                     },
                 },
-                include: { authProvider: true },
+                include: { 
+                    authProvider: true,
+                    userProfile: true, // <-- DIUBAH: Include userProfile
+                },
             });
         }
 
@@ -289,6 +315,7 @@ export class AuthService {
                 id: user.id,
                 sub: user.id,
                 email: user.email,
+                fullName: user.userProfile?.fullName || data.fullName, // <-- DIUBAH: Kirim fullName ke frontend
                 role: user.role,
                 isProfileComplete: user.isProfileComplete,
                 isEmailVerified: user.isEmailVerified,

@@ -26,18 +26,41 @@ export class PsychologistNotesService {
   } as const;
 
   private async getPsychologistProfile(currentUser: any) {
-    const profile = await this.prisma.psychologistProfile.findUnique({
+    let profile = await this.prisma.psychologistProfile.findUnique({
       where: { userId: currentUser.id },
       select: {
         id: true,
         fullName: true,
       },
     });
-
+ 
     if (!profile) {
-      throw new ForbiddenException('Akun ini bukan psikolog');
+      const user = await this.prisma.user.findUnique({
+        where: { id: currentUser.id },
+        include: {
+          userProfile: true,
+        },
+      });
+ 
+      if (!user) {
+        throw new NotFoundException('User tidak ditemukan');
+      }
+ 
+      profile = await this.prisma.psychologistProfile.create({
+        data: {
+          userId: user.id,
+          fullName: user.userProfile?.fullName || 'Psikolog Oase Jiwa',
+          about: 'Psikolog Klinik Oase Jiwa',
+          sipp: '-',
+          str: '-',
+        },
+        select: {
+          id: true,
+          fullName: true,
+        },
+      });
     }
-
+ 
     return profile;
   }
 

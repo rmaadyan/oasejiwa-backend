@@ -58,6 +58,13 @@ export class PaymentService {
             );
         }
 
+        const paymentProofUrl =
+            file.path && file.path.startsWith('/')
+                ? file.path
+                : file.filename
+                ? `/uploads/${file.filename}`
+                : file.path;
+
         await this.prisma.$transaction(async (prisma) => {
             // Update payment DP → PAID
             await prisma.payment.update({
@@ -65,7 +72,7 @@ export class PaymentService {
                 data: {
                     status: 'PAID',
                     method: dto.method,
-                    paymentProofUrl: file.path,
+                    paymentProofUrl,
                     paidAt: new Date(),
                 },
             });
@@ -132,6 +139,13 @@ export class PaymentService {
             throw new BadRequestException('Waktu pembayaran pelunasan sudah expired.');
         }
 
+        const paymentProofUrl =
+            file.path && file.path.startsWith('/')
+                ? file.path
+                : file.filename
+                ? `/uploads/${file.filename}`
+                : file.path;
+
         await this.prisma.$transaction(async (prisma) => {
             // Update payment pelunasan → PAID
             await prisma.payment.update({
@@ -139,7 +153,7 @@ export class PaymentService {
                 data: {
                     status: 'PAID',
                     method: dto.method,
-                    paymentProofUrl: file.path,
+                    paymentProofUrl,
                     paidAt: new Date(),
                 },
             });

@@ -63,6 +63,10 @@ export class UpdatePsychologistDto {
 
     @IsOptional()
     @IsString()
+    phoneNumber?: string;
+
+    @IsOptional()
+    @IsString()
     sipp?: string;
 
     @IsOptional()

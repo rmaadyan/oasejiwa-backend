@@ -1,36 +1,31 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PassportStrategy } from '@nestjs/passport';
+import { Injectable } from '@nestjs/common';
+import { Request } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private prisma: PrismaService) {
-    const secret = process.env.JWT_SECRET;
-
-    if (!secret) {
-      throw new Error('JWT_SECRET tidak ditemukan di .env');
-    }
-
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req) => req?.cookies?.token,
+        // 1. Ekstrak dari Bearer Token
         ExtractJwt.fromAuthHeaderAsBearerToken(),
+        // 2. Ekstrak dari Cookie 'token'
+        (req: Request) => {
+          return req?.cookies?.token || null;
+        },
       ]),
       ignoreExpiration: false,
-      secretOrKey: secret,
+      secretOrKey: process.env.JWT_SECRET || 'secretKeyOaseJiwa',
     });
   }
 
-  async validate(payload: { sub: string; email: string; role: string }) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: payload.sub },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('Token tidak valid');
-    }
-
-    return user;
+  async validate(payload: any) {
+    // 🟢 Pastikan mengembalikan id user dari payload JWT
+    return { 
+      id: payload.sub || payload.id || payload.userId, 
+      email: payload.email, 
+      role: payload.role 
+    };
   }
 }

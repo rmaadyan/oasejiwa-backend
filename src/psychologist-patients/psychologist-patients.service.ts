@@ -24,6 +24,12 @@ export class PsychologistPatientsService {
     return user?.userProfile?.fullName || user?.email || 'Pasien';
   }
 
+  private readonly validPatientBookingStatuses = [
+    'APPROVED',
+    'FULLY_PAID',
+    'COMPLETED',
+  ] as const;
+
   private isUpcomingStatus(status: string) {
     return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(
       status,
@@ -31,7 +37,7 @@ export class PsychologistPatientsService {
   }
 
   private isPatientBookingStatus(status: string) {
-    return status !== 'CANCELLED' && status !== 'REJECTED';
+    return this.validPatientBookingStatuses.includes(status as any);
   }
 
   private normalizeStatus(status: string) {
@@ -51,6 +57,9 @@ export class PsychologistPatientsService {
     const bookings = await this.prisma.booking.findMany({
       where: {
         psychologistId,
+        status: {
+          in: this.validPatientBookingStatuses as any,
+        },
       },
       include: {
         user: {
@@ -73,10 +82,10 @@ export class PsychologistPatientsService {
 
     if (validPatientBookings.length > 0) {
       const patientMap = new Map<string, any>();
-
+ 
       for (const booking of validPatientBookings) {
         const existing = patientMap.get(booking.userId);
-
+ 
         if (!existing) {
           patientMap.set(booking.userId, {
             id: booking.userId,
@@ -94,15 +103,15 @@ export class PsychologistPatientsService {
           });
         } else {
           existing.totalSessions += 1;
-
+ 
           if (booking.scheduledDate < existing.firstSessionDate) {
             existing.firstSessionDate = booking.scheduledDate;
           }
-
+ 
           if (booking.scheduledDate > existing.lastSessionDate) {
             existing.lastSessionDate = booking.scheduledDate;
           }
-
+ 
           if (
             this.isUpcomingStatus(booking.status) &&
             (!existing.upcomingSessionDate ||
@@ -110,15 +119,15 @@ export class PsychologistPatientsService {
           ) {
             existing.upcomingSessionDate = booking.scheduledDate;
           }
-
+ 
           if (!existing.notes && booking.notes) {
             existing.notes = booking.notes;
           }
         }
       }
-
+ 
       patients = Array.from(patientMap.values());
-    } else if (bookings.length === 0) {
+    } else {
       const notes = await this.prisma.sessionNote.findMany({
         where: {
           psychologistProfileId: psychologistId,
@@ -135,12 +144,12 @@ export class PsychologistPatientsService {
           createdAt: 'desc',
         },
       });
-
+ 
       const patientMap = new Map<string, any>();
-
+ 
       for (const note of notes) {
         const existing = patientMap.get(note.userId);
-
+ 
         if (!existing) {
           patientMap.set(note.userId, {
             id: note.userId,
@@ -156,21 +165,21 @@ export class PsychologistPatientsService {
           });
         } else {
           existing.totalSessions += 1;
-
+ 
           if (note.createdAt < existing.firstSessionDate) {
             existing.firstSessionDate = note.createdAt;
           }
-
+ 
           if (note.createdAt > existing.lastSessionDate) {
             existing.lastSessionDate = note.createdAt;
           }
-
+ 
           if (!existing.notes && (note.assessment || note.subjective)) {
             existing.notes = note.assessment || note.subjective;
           }
         }
       }
-
+ 
       patients = Array.from(patientMap.values());
     }
 

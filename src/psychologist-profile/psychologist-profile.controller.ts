@@ -4,7 +4,10 @@ import {
   Get,
   Put,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PsychologistProfileService } from './psychologist-profile.service';
 import { UpdatePsychologistProfileDto } from './dto/update-psychologist-profile.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -26,10 +29,12 @@ export class PsychologistProfileController {
   }
 
   @Put('profile')
+  @UseInterceptors(FileInterceptor('photo')) // 👈 Tambahkan ini untuk menangkap file 'photo'
   updateMe(
     @CurrentUser() user: any,
     @Body() dto: UpdatePsychologistProfileDto,
+    @UploadedFile() file?: Express.Multer.File, // 👈 Tambahkan ini
   ) {
-    return this.psychologistProfileService.updateMe(user, dto);
+    return this.psychologistProfileService.updateMe(user, dto, file);
   }
 }
