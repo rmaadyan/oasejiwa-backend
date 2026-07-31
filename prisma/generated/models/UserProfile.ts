@@ -20,8 +20,20 @@ export type UserProfileModel = runtime.Types.Result.DefaultSelection<Prisma.$Use
 
 export type AggregateUserProfile = {
   _count: UserProfileCountAggregateOutputType | null
+  _avg: UserProfileAvgAggregateOutputType | null
+  _sum: UserProfileSumAggregateOutputType | null
   _min: UserProfileMinAggregateOutputType | null
   _max: UserProfileMaxAggregateOutputType | null
+}
+
+export type UserProfileAvgAggregateOutputType = {
+  siblingPosition: number | null
+  totalSiblings: number | null
+}
+
+export type UserProfileSumAggregateOutputType = {
+  siblingPosition: number | null
+  totalSiblings: number | null
 }
 
 export type UserProfileMinAggregateOutputType = {
@@ -29,11 +41,18 @@ export type UserProfileMinAggregateOutputType = {
   userId: string | null
   fullName: string | null
   birthday: Date | null
+  placeOfBirth: string | null
   gender: $Enums.Gender | null
   country: string | null
   city: string | null
   fullAddress: string | null
+  originalAddress: string | null
   phone: string | null
+  occupation: string | null
+  maritalStatus: string | null
+  siblingPosition: number | null
+  totalSiblings: number | null
+  isFirstVisit: boolean | null
 }
 
 export type UserProfileMaxAggregateOutputType = {
@@ -41,11 +60,18 @@ export type UserProfileMaxAggregateOutputType = {
   userId: string | null
   fullName: string | null
   birthday: Date | null
+  placeOfBirth: string | null
   gender: $Enums.Gender | null
   country: string | null
   city: string | null
   fullAddress: string | null
+  originalAddress: string | null
   phone: string | null
+  occupation: string | null
+  maritalStatus: string | null
+  siblingPosition: number | null
+  totalSiblings: number | null
+  isFirstVisit: boolean | null
 }
 
 export type UserProfileCountAggregateOutputType = {
@@ -53,25 +79,50 @@ export type UserProfileCountAggregateOutputType = {
   userId: number
   fullName: number
   birthday: number
+  placeOfBirth: number
   gender: number
   country: number
   city: number
   fullAddress: number
+  originalAddress: number
   phone: number
+  occupation: number
+  maritalStatus: number
+  siblingPosition: number
+  totalSiblings: number
+  isFirstVisit: number
+  educationHistory: number
   _all: number
 }
 
+
+export type UserProfileAvgAggregateInputType = {
+  siblingPosition?: true
+  totalSiblings?: true
+}
+
+export type UserProfileSumAggregateInputType = {
+  siblingPosition?: true
+  totalSiblings?: true
+}
 
 export type UserProfileMinAggregateInputType = {
   id?: true
   userId?: true
   fullName?: true
   birthday?: true
+  placeOfBirth?: true
   gender?: true
   country?: true
   city?: true
   fullAddress?: true
+  originalAddress?: true
   phone?: true
+  occupation?: true
+  maritalStatus?: true
+  siblingPosition?: true
+  totalSiblings?: true
+  isFirstVisit?: true
 }
 
 export type UserProfileMaxAggregateInputType = {
@@ -79,11 +130,18 @@ export type UserProfileMaxAggregateInputType = {
   userId?: true
   fullName?: true
   birthday?: true
+  placeOfBirth?: true
   gender?: true
   country?: true
   city?: true
   fullAddress?: true
+  originalAddress?: true
   phone?: true
+  occupation?: true
+  maritalStatus?: true
+  siblingPosition?: true
+  totalSiblings?: true
+  isFirstVisit?: true
 }
 
 export type UserProfileCountAggregateInputType = {
@@ -91,11 +149,19 @@ export type UserProfileCountAggregateInputType = {
   userId?: true
   fullName?: true
   birthday?: true
+  placeOfBirth?: true
   gender?: true
   country?: true
   city?: true
   fullAddress?: true
+  originalAddress?: true
   phone?: true
+  occupation?: true
+  maritalStatus?: true
+  siblingPosition?: true
+  totalSiblings?: true
+  isFirstVisit?: true
+  educationHistory?: true
   _all?: true
 }
 
@@ -137,6 +203,18 @@ export type UserProfileAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserProfileAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserProfileSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserProfileMinAggregateInputType
@@ -167,6 +245,8 @@ export type UserProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: UserProfileCountAggregateInputType | true
+  _avg?: UserProfileAvgAggregateInputType
+  _sum?: UserProfileSumAggregateInputType
   _min?: UserProfileMinAggregateInputType
   _max?: UserProfileMaxAggregateInputType
 }
@@ -176,12 +256,22 @@ export type UserProfileGroupByOutputType = {
   userId: string
   fullName: string | null
   birthday: Date | null
+  placeOfBirth: string | null
   gender: $Enums.Gender | null
   country: string | null
   city: string | null
   fullAddress: string | null
+  originalAddress: string | null
   phone: string | null
+  occupation: string | null
+  maritalStatus: string | null
+  siblingPosition: number | null
+  totalSiblings: number | null
+  isFirstVisit: boolean | null
+  educationHistory: runtime.JsonValue | null
   _count: UserProfileCountAggregateOutputType | null
+  _avg: UserProfileAvgAggregateOutputType | null
+  _sum: UserProfileSumAggregateOutputType | null
   _min: UserProfileMinAggregateOutputType | null
   _max: UserProfileMaxAggregateOutputType | null
 }
@@ -209,11 +299,19 @@ export type UserProfileWhereInput = {
   userId?: Prisma.StringFilter<"UserProfile"> | string
   fullName?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   birthday?: Prisma.DateTimeNullableFilter<"UserProfile"> | Date | string | null
+  placeOfBirth?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
   country?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   city?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   fullAddress?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  originalAddress?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  occupation?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  maritalStatus?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  siblingPosition?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  totalSiblings?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  isFirstVisit?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
+  educationHistory?: Prisma.JsonNullableFilter<"UserProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -222,11 +320,19 @@ export type UserProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   birthday?: Prisma.SortOrderInput | Prisma.SortOrder
+  placeOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   fullAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  occupation?: Prisma.SortOrderInput | Prisma.SortOrder
+  maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  siblingPosition?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFirstVisit?: Prisma.SortOrderInput | Prisma.SortOrder
+  educationHistory?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -238,11 +344,19 @@ export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   fullName?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   birthday?: Prisma.DateTimeNullableFilter<"UserProfile"> | Date | string | null
+  placeOfBirth?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
   country?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   city?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   fullAddress?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  originalAddress?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  occupation?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  maritalStatus?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  siblingPosition?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  totalSiblings?: Prisma.IntNullableFilter<"UserProfile"> | number | null
+  isFirstVisit?: Prisma.BoolNullableFilter<"UserProfile"> | boolean | null
+  educationHistory?: Prisma.JsonNullableFilter<"UserProfile">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
@@ -251,14 +365,24 @@ export type UserProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   birthday?: Prisma.SortOrderInput | Prisma.SortOrder
+  placeOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   fullAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  originalAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  occupation?: Prisma.SortOrderInput | Prisma.SortOrder
+  maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  siblingPosition?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFirstVisit?: Prisma.SortOrderInput | Prisma.SortOrder
+  educationHistory?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
+  _avg?: Prisma.UserProfileAvgOrderByAggregateInput
   _max?: Prisma.UserProfileMaxOrderByAggregateInput
   _min?: Prisma.UserProfileMinOrderByAggregateInput
+  _sum?: Prisma.UserProfileSumOrderByAggregateInput
 }
 
 export type UserProfileScalarWhereWithAggregatesInput = {
@@ -269,22 +393,38 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   fullName?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   birthday?: Prisma.DateTimeNullableWithAggregatesFilter<"UserProfile"> | Date | string | null
+  placeOfBirth?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"UserProfile"> | $Enums.Gender | null
   country?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   fullAddress?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  originalAddress?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  occupation?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  maritalStatus?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  siblingPosition?: Prisma.IntNullableWithAggregatesFilter<"UserProfile"> | number | null
+  totalSiblings?: Prisma.IntNullableWithAggregatesFilter<"UserProfile"> | number | null
+  isFirstVisit?: Prisma.BoolNullableWithAggregatesFilter<"UserProfile"> | boolean | null
+  educationHistory?: Prisma.JsonNullableWithAggregatesFilter<"UserProfile">
 }
 
 export type UserProfileCreateInput = {
   id?: string
   fullName?: string | null
   birthday?: Date | string | null
+  placeOfBirth?: string | null
   gender?: $Enums.Gender | null
   country?: string | null
   city?: string | null
   fullAddress?: string | null
+  originalAddress?: string | null
   phone?: string | null
+  occupation?: string | null
+  maritalStatus?: string | null
+  siblingPosition?: number | null
+  totalSiblings?: number | null
+  isFirstVisit?: boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user: Prisma.UserCreateNestedOneWithoutUserProfileInput
 }
 
@@ -293,22 +433,38 @@ export type UserProfileUncheckedCreateInput = {
   userId: string
   fullName?: string | null
   birthday?: Date | string | null
+  placeOfBirth?: string | null
   gender?: $Enums.Gender | null
   country?: string | null
   city?: string | null
   fullAddress?: string | null
+  originalAddress?: string | null
   phone?: string | null
+  occupation?: string | null
+  maritalStatus?: string | null
+  siblingPosition?: number | null
+  totalSiblings?: number | null
+  isFirstVisit?: boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   user?: Prisma.UserUpdateOneRequiredWithoutUserProfileNestedInput
 }
 
@@ -317,11 +473,19 @@ export type UserProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileCreateManyInput = {
@@ -329,22 +493,38 @@ export type UserProfileCreateManyInput = {
   userId: string
   fullName?: string | null
   birthday?: Date | string | null
+  placeOfBirth?: string | null
   gender?: $Enums.Gender | null
   country?: string | null
   city?: string | null
   fullAddress?: string | null
+  originalAddress?: string | null
   phone?: string | null
+  occupation?: string | null
+  maritalStatus?: string | null
+  siblingPosition?: number | null
+  totalSiblings?: number | null
+  isFirstVisit?: boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileUncheckedUpdateManyInput = {
@@ -352,11 +532,19 @@ export type UserProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileNullableScalarRelationFilter = {
@@ -369,11 +557,24 @@ export type UserProfileCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
+  placeOfBirth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   country?: Prisma.SortOrder
   city?: Prisma.SortOrder
   fullAddress?: Prisma.SortOrder
+  originalAddress?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  maritalStatus?: Prisma.SortOrder
+  siblingPosition?: Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrder
+  isFirstVisit?: Prisma.SortOrder
+  educationHistory?: Prisma.SortOrder
+}
+
+export type UserProfileAvgOrderByAggregateInput = {
+  siblingPosition?: Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrder
 }
 
 export type UserProfileMaxOrderByAggregateInput = {
@@ -381,11 +582,18 @@ export type UserProfileMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
+  placeOfBirth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   country?: Prisma.SortOrder
   city?: Prisma.SortOrder
   fullAddress?: Prisma.SortOrder
+  originalAddress?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  maritalStatus?: Prisma.SortOrder
+  siblingPosition?: Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrder
+  isFirstVisit?: Prisma.SortOrder
 }
 
 export type UserProfileMinOrderByAggregateInput = {
@@ -393,11 +601,23 @@ export type UserProfileMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
+  placeOfBirth?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   country?: Prisma.SortOrder
   city?: Prisma.SortOrder
   fullAddress?: Prisma.SortOrder
+  originalAddress?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  occupation?: Prisma.SortOrder
+  maritalStatus?: Prisma.SortOrder
+  siblingPosition?: Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrder
+  isFirstVisit?: Prisma.SortOrder
+}
+
+export type UserProfileSumOrderByAggregateInput = {
+  siblingPosition?: Prisma.SortOrder
+  totalSiblings?: Prisma.SortOrder
 }
 
 export type UserProfileCreateNestedOneWithoutUserInput = {
@@ -436,26 +656,54 @@ export type NullableEnumGenderFieldUpdateOperationsInput = {
   set?: $Enums.Gender | null
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
 export type UserProfileCreateWithoutUserInput = {
   id?: string
   fullName?: string | null
   birthday?: Date | string | null
+  placeOfBirth?: string | null
   gender?: $Enums.Gender | null
   country?: string | null
   city?: string | null
   fullAddress?: string | null
+  originalAddress?: string | null
   phone?: string | null
+  occupation?: string | null
+  maritalStatus?: string | null
+  siblingPosition?: number | null
+  totalSiblings?: number | null
+  isFirstVisit?: boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileUncheckedCreateWithoutUserInput = {
   id?: string
   fullName?: string | null
   birthday?: Date | string | null
+  placeOfBirth?: string | null
   gender?: $Enums.Gender | null
   country?: string | null
   city?: string | null
   fullAddress?: string | null
+  originalAddress?: string | null
   phone?: string | null
+  occupation?: string | null
+  maritalStatus?: string | null
+  siblingPosition?: number | null
+  totalSiblings?: number | null
+  isFirstVisit?: boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileCreateOrConnectWithoutUserInput = {
@@ -478,22 +726,38 @@ export type UserProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  placeOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  originalAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occupation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  siblingPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalSiblings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isFirstVisit?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  educationHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -503,11 +767,19 @@ export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   fullName?: boolean
   birthday?: boolean
+  placeOfBirth?: boolean
   gender?: boolean
   country?: boolean
   city?: boolean
   fullAddress?: boolean
+  originalAddress?: boolean
   phone?: boolean
+  occupation?: boolean
+  maritalStatus?: boolean
+  siblingPosition?: boolean
+  totalSiblings?: boolean
+  isFirstVisit?: boolean
+  educationHistory?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -516,11 +788,19 @@ export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   fullName?: boolean
   birthday?: boolean
+  placeOfBirth?: boolean
   gender?: boolean
   country?: boolean
   city?: boolean
   fullAddress?: boolean
+  originalAddress?: boolean
   phone?: boolean
+  occupation?: boolean
+  maritalStatus?: boolean
+  siblingPosition?: boolean
+  totalSiblings?: boolean
+  isFirstVisit?: boolean
+  educationHistory?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -529,11 +809,19 @@ export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   fullName?: boolean
   birthday?: boolean
+  placeOfBirth?: boolean
   gender?: boolean
   country?: boolean
   city?: boolean
   fullAddress?: boolean
+  originalAddress?: boolean
   phone?: boolean
+  occupation?: boolean
+  maritalStatus?: boolean
+  siblingPosition?: boolean
+  totalSiblings?: boolean
+  isFirstVisit?: boolean
+  educationHistory?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
@@ -542,14 +830,22 @@ export type UserProfileSelectScalar = {
   userId?: boolean
   fullName?: boolean
   birthday?: boolean
+  placeOfBirth?: boolean
   gender?: boolean
   country?: boolean
   city?: boolean
   fullAddress?: boolean
+  originalAddress?: boolean
   phone?: boolean
+  occupation?: boolean
+  maritalStatus?: boolean
+  siblingPosition?: boolean
+  totalSiblings?: boolean
+  isFirstVisit?: boolean
+  educationHistory?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "fullName" | "birthday" | "gender" | "country" | "city" | "fullAddress" | "phone", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "fullName" | "birthday" | "placeOfBirth" | "gender" | "country" | "city" | "fullAddress" | "originalAddress" | "phone" | "occupation" | "maritalStatus" | "siblingPosition" | "totalSiblings" | "isFirstVisit" | "educationHistory", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -570,11 +866,19 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     fullName: string | null
     birthday: Date | null
+    placeOfBirth: string | null
     gender: $Enums.Gender | null
     country: string | null
     city: string | null
     fullAddress: string | null
+    originalAddress: string | null
     phone: string | null
+    occupation: string | null
+    maritalStatus: string | null
+    siblingPosition: number | null
+    totalSiblings: number | null
+    isFirstVisit: boolean | null
+    educationHistory: runtime.JsonValue | null
   }, ExtArgs["result"]["userProfile"]>
   composites: {}
 }
@@ -1003,11 +1307,19 @@ export interface UserProfileFieldRefs {
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
   readonly fullName: Prisma.FieldRef<"UserProfile", 'String'>
   readonly birthday: Prisma.FieldRef<"UserProfile", 'DateTime'>
+  readonly placeOfBirth: Prisma.FieldRef<"UserProfile", 'String'>
   readonly gender: Prisma.FieldRef<"UserProfile", 'Gender'>
   readonly country: Prisma.FieldRef<"UserProfile", 'String'>
   readonly city: Prisma.FieldRef<"UserProfile", 'String'>
   readonly fullAddress: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly originalAddress: Prisma.FieldRef<"UserProfile", 'String'>
   readonly phone: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly occupation: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly maritalStatus: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly siblingPosition: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly totalSiblings: Prisma.FieldRef<"UserProfile", 'Int'>
+  readonly isFirstVisit: Prisma.FieldRef<"UserProfile", 'Boolean'>
+  readonly educationHistory: Prisma.FieldRef<"UserProfile", 'Json'>
 }
     
 

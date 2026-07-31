@@ -164,3 +164,8 @@ export type DiagnosisKategori = Prisma.DiagnosisKategoriModel
  * 
  */
 export type SectionKategori = Prisma.SectionKategoriModel
+/**
+ * Model TesResult
+ * 
+ */
+export type TesResult = Prisma.TesResultModel

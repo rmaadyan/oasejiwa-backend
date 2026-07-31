@@ -70,3 +70,18 @@ export class UpdateTesDto {
   @IsOptional() @IsArray() @ValidateNested({ each: true }) @Type(() => SectionKategoriDto)
   sectionKategori?: SectionKategoriDto[];
 }
+
+export class SubmitTesDto {
+  @IsString() namaTes!: string;
+  @IsOptional() @IsString() jenisTes?: string;
+  @IsInt() totalScore!: number;
+  @IsInt() maxScore!: number;
+  @IsNumber() percentage!: number;
+  @IsString() kategoriNama!: string;
+  @IsOptional() @IsString() diagnosis?: string;
+  @IsOptional() @IsString() detailDiagnosis?: string;
+  @IsOptional() @IsString() interpretasi?: string;
+  @IsOptional() @IsArray() @IsString({ each: true }) rekomendasi?: string[];
+  @IsOptional() sectionScores?: any;
+  @IsOptional() answers?: any;
+}

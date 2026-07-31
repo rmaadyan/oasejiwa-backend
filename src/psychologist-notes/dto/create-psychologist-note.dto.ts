@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsIn,
+  IsInt,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -9,6 +10,10 @@ export class CreatePsychologistNoteDto {
   @IsOptional()
   @IsString()
   scheduleId?: string;
+
+  @IsOptional()
+  @IsInt()
+  bookingId?: number;
 
   @IsString()
   userId!: string;
@@ -26,8 +31,40 @@ export class CreatePsychologistNoteDto {
   plan!: string;
 
   @IsOptional()
-  @IsIn(['low', 'medium', 'high'])
-  riskLevel?: 'low' | 'medium' | 'high';
+  @IsString()
+  riskLevel?: string;
+
+  @IsOptional()
+  @IsInt()
+  sessionNumber?: number;
+
+  @IsOptional()
+  @IsString()
+  consultationDate?: string;
+
+  @IsOptional()
+  @IsIn(['ONGOING', 'COMPLETED', 'REFERRED'])
+  consultationStatus?: 'ONGOING' | 'COMPLETED' | 'REFERRED';
+
+  @IsOptional()
+  @IsString()
+  diagnosisSummary?: string;
+
+  @IsOptional()
+  @IsString()
+  treatmentApproach?: string;
+
+  @IsOptional()
+  @IsString()
+  recommendation?: string;
+
+  @IsOptional()
+  @IsIn(['CONTINUE_SESSION', 'REFER_TO_OTHER', 'COMPLETED'])
+  followUpPlan?: 'CONTINUE_SESSION' | 'REFER_TO_OTHER' | 'COMPLETED';
+
+  @IsOptional()
+  @IsString()
+  additionalNotes?: string;
 
   @IsOptional()
   @IsString()
@@ -41,4 +78,21 @@ export class CreatePsychologistNoteDto {
   @IsArray()
   @IsString({ each: true })
   tags?: string[];
+
+  @IsOptional()
+  @IsString()
+  riskReason?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  riskRecommendations?: string[];
+
+  @IsOptional()
+  @IsString()
+  assessingPsychologistName?: string;
+
+  @IsOptional()
+  @IsString()
+  assessmentDate?: string;
 }
