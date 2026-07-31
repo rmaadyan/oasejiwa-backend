@@ -14,6 +14,8 @@ import {
 import { PsychologistService } from './psychologist.service';
 import { SkipThrottle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @SkipThrottle()
 @Controller(['psychologist', 'psychologists'])
@@ -91,14 +93,15 @@ export class PsychologistController {
   }
 
   @Patch('sessions/:id/status')
-  @UseGuards(JwtAuthGuard)
-  updateSessionStatus(
-    @Req() req: any,
-    @Param('id') id: string,
-    @Body() body: { status: string; reason?: string },
-  ) {
-    return this.psychologistService.updateSessionStatus(req.user.id, id, body);
-  }
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('PSYCHOLOGIST', 'ADMIN') // 🟢 Pastikan mengizinkan role Psikolog & Admin
+updateSessionStatus(
+  @Req() req: any,
+  @Param('id') id: string,
+  @Body() body: { status: string; reason?: string },
+) {
+  return this.psychologistService.updateSessionStatus(req.user.id, id, body);
+}
 
   @Get(':id')
   getPsychologistById(@Param('id') id: string) {
@@ -115,4 +118,5 @@ export class PsychologistController {
   getNoteById(@Req() req: any, @Param('id') id: string) {
     return this.psychologistService.getNoteById(req.user.id, id);
   }
+  
 }
