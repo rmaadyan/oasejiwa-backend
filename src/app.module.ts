@@ -29,6 +29,7 @@ import { AdminUsersModule } from './admin-users/admin-users.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
 import { AdminMedicalRecordsModule } from './admin-medical-records/admin-medical-records.module';
+import { OfficialMedicalRecordModule } from './official-medical-record/official-medical-record.module';
 import { GoogleReviewsModule } from './google-reviews/google-reviews.module';
 import { StatisticsModule } from './statistics/statistics.module';
 
@@ -65,6 +66,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     PsychologistPatientsModule,
     PsychologistScheduleModule,
     PsychologistDashboardModule,
+    OfficialMedicalRecordModule,
 
     AdminUsersModule,
     AdminDashboardModule,

@@ -108,4 +108,16 @@ export class UpdatePsychologistProfileDto {
   @IsArray()
   @IsString({ each: true })
   expertises?: string[];
+
+  @IsOptional()
+  @IsString()
+  signatureUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  signatureMethod?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  clearSignature?: boolean;
 }

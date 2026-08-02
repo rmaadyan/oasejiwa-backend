@@ -95,4 +95,16 @@ export class CreatePsychologistNoteDto {
   @IsOptional()
   @IsString()
   assessmentDate?: string;
+
+  @IsOptional()
+  @IsString()
+  diagnosis?: string;
+
+  @IsOptional()
+  @IsString()
+  medication?: string;
+
+  @IsOptional()
+  @IsString()
+  allergies?: string;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { GoogleReviewsService } from './google-reviews.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -8,17 +8,27 @@ export class GoogleReviewsController {
 
   @Get()
   async getPublicReviews() {
-    return this.googleReviewsService.getReviews();
+    return this.googleReviewsService.getReviews(false);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('admin')
   async getAdminReviews() {
-    const data = await this.googleReviewsService.getReviews();
+    const data = await this.googleReviewsService.getReviews(false);
     return {
       ...data,
       accessMode: 'READ_ONLY',
-      note: 'Admin dapat memantau data ulasan Google secara real-time (Read-Only).',
+      note: 'Admin dapat memantau data ulasan Google secara real-time.',
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('sync')
+  async syncAdminReviews() {
+    const data = await this.googleReviewsService.getReviews(true);
+    return {
+      ...data,
+      message: 'Berhasil melakukan sinkronisasi dengan Google Business Profile!',
     };
   }
 }

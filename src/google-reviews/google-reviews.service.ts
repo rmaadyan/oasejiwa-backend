@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 
 export interface GoogleReviewItem {
   id: string;
@@ -21,7 +21,7 @@ export interface GoogleReviewsResponse {
   status: string;
 }
 
-// Fallback reviews strictly use undefined photoUrl so that frontend renders authentic initials avatars (DCA, GMF, HB)
+// Fallback authentic reviews from Google Maps Oase Jiwa profile
 const FALLBACK_REVIEWS: GoogleReviewItem[] = [
   {
     id: 'rev-1',
@@ -80,20 +80,36 @@ const FALLBACK_REVIEWS: GoogleReviewItem[] = [
 ];
 
 @Injectable()
-export class GoogleReviewsService {
+export class GoogleReviewsService implements OnModuleInit {
   private readonly logger = new Logger(GoogleReviewsService.name);
   private cache: {
     data: GoogleReviewsResponse | null;
     lastFetchedAt: Date | null;
   } = { data: null, lastFetchedAt: null };
 
-  private readonly CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 jam
+  private readonly CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 Hours Auto Sync
 
-  async getReviews(): Promise<GoogleReviewsResponse> {
+  onModuleInit() {
+    // Initial fetch on module start
+    this.getReviews().catch((err) =>
+      this.logger.warn('Failed initial Google Reviews fetch:', err)
+    );
+
+    // Background Auto Sync Interval (every 6 hours)
+    setInterval(() => {
+      this.logger.log('Running automatic 6-hour Google Reviews background sync...');
+      this.getReviews(true).catch((err) =>
+        this.logger.warn('Failed background auto-sync:', err)
+      );
+    }, this.CACHE_TTL_MS);
+  }
+
+  async getReviews(forceSync = false): Promise<GoogleReviewsResponse> {
     const now = new Date();
 
-    // Check in-memory cache validity
+    // Check in-memory cache validity (if not forced)
     if (
+      !forceSync &&
       this.cache.data &&
       this.cache.lastFetchedAt &&
       now.getTime() - this.cache.lastFetchedAt.getTime() < this.CACHE_TTL_MS
@@ -121,44 +137,50 @@ export class GoogleReviewsService {
                 author: r.author_name || 'Pengguna Google',
                 rating: r.rating || 5,
                 text: r.text || '',
-                // Strictly use official profile_photo_url from Google Places API
                 photoUrl: r.profile_photo_url || r.author_photo_url || undefined,
                 relativeTime: r.relative_time_description || 'Baru saja',
                 createdAt: r.time ? new Date(r.time * 1000).toISOString() : new Date().toISOString(),
               }),
             );
 
+            // Official Google user_ratings_total (e.g. 35, 36, 41, 50 Reviews)
             const responseData: GoogleReviewsResponse = {
               businessName: result.name || 'Biro Psikologi Oase Jiwa',
-              rating: result.rating || 4.9,
-              totalReviews: result.user_ratings_total || 157,
+              rating: typeof result.rating === 'number' ? result.rating : 5.0,
+              totalReviews:
+                typeof result.user_ratings_total === 'number'
+                  ? result.user_ratings_total
+                  : 35,
               googleMapsUrl: result.url || 'https://maps.google.com/?q=Biro+Psikologi+Oase+Jiwa',
               reviews: mappedReviews.length > 0 ? mappedReviews : FALLBACK_REVIEWS,
               lastSyncedAt: now.toISOString(),
               isFromCache: false,
-              status: 'Data terhubung langsung dengan Google Business Profile.',
+              status: 'Terhubung langsung dengan Google Business Profile.',
             };
 
             this.cache = { data: responseData, lastFetchedAt: now };
-            this.logger.log('Berhasil mengambil data Google Reviews dari Google Places API');
+            this.logger.log(`Berhasil sinkronisasi data Google Business Profile: ${responseData.totalReviews} Ulasan, Rating ${responseData.rating}`);
             return responseData;
           }
         }
       } catch (err) {
-        this.logger.warn('Gagal fetch dari Google Places API, menggunakan data fallback cache:', err);
+        this.logger.warn('Gagal fetch dari Google Places API, menggunakan data cache:', err);
       }
     }
 
-    // Fallback response
+    // Dynamic Fallback response matching Google Maps official total user_ratings_total (35 Ulasan)
+    const fallbackCount = typeof this.cache.data?.totalReviews === 'number' ? this.cache.data.totalReviews : 35;
+    const fallbackRating = typeof this.cache.data?.rating === 'number' ? this.cache.data.rating : 5.0;
+
     const fallbackResponse: GoogleReviewsResponse = {
       businessName: 'Biro Psikologi Oase Jiwa',
-      rating: 4.9,
-      totalReviews: 157,
+      rating: fallbackRating,
+      totalReviews: fallbackCount,
       googleMapsUrl: 'https://maps.google.com/?q=Biro+Psikologi+Oase+Jiwa',
-      reviews: FALLBACK_REVIEWS,
-      lastSyncedAt: now.toISOString(),
+      reviews: this.cache.data?.reviews || FALLBACK_REVIEWS,
+      lastSyncedAt: this.cache.lastFetchedAt ? this.cache.lastFetchedAt.toISOString() : now.toISOString(),
       isFromCache: true,
-      status: 'Data review disinkronkan (Cache / Fallback).',
+      status: 'Data ulasan menggunakan Cache / Fallback.',
     };
 
     this.cache = { data: fallbackResponse, lastFetchedAt: now };

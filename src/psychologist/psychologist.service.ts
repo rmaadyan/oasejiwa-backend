@@ -285,55 +285,88 @@ export class PsychologistService {
           phone: b.user.userProfile?.phone || '-',
           registeredAt: b.user.createdAt,
           totalBookings: 1,
+          totalSessions: 1,
+          firstSessionDate: b.scheduledDate || null,
+          lastSessionDate: b.scheduledDate || null,
+          hasSessionNotes: false,
           sessions: [formatted],
-=======
-    async getPsychologistById(id: string) {
-        let profile = await this.prisma.psychologistProfile.findFirst({
-            where: {
-                OR: [
-                    { id },
-                    { userId: id },
-                ],
-            },
-            include: {
-                educations: true,
-                experiences: true,
-                specializations: true,
-                expertises: true,
-                schedules: {
-                    where: { isAvailable: true }, 
-                },
-            },
->>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
         });
       } else if (b.user && patientsMap.has(b.user.id)) {
         const existing = patientsMap.get(b.user.id);
         existing.totalBookings += 1;
+        existing.totalSessions += 1;
         existing.sessions.push(formatted);
       }
     });
 
-<<<<<<< HEAD
-    const patientsList = Array.from(patientsMap.values());
-=======
-        if (!profile) {
-            profile = await this.prisma.psychologistProfile.findFirst({
-                include: {
-                    educations: true,
-                    experiences: true,
-                    specializations: true,
-                    expertises: true,
-                    schedules: {
-                        where: { isAvailable: true },
-                    },
-                },
-            });
-        }
+    // Also fetch session notes for this psychologist
+    const notes = await this.prisma.sessionNote.findMany({
+      where: { psychologistProfileId: profile.id, deletedAt: null },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            createdAt: true,
+            userProfile: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
 
-        if (!profile) {
-            throw new NotFoundException('Psikolog tidak ditemukan');
+    for (const note of notes) {
+      if (note.user && !patientsMap.has(note.user.id)) {
+        patientsMap.set(note.user.id, {
+          id: note.user.id,
+          name: note.user.userProfile?.fullName || 'Pasien Oase Jiwa',
+          email: note.user.email,
+          phone: note.user.userProfile?.phone || '-',
+          registeredAt: note.user.createdAt,
+          totalBookings: 0,
+          totalSessions: 1,
+          firstSessionDate: note.createdAt,
+          lastSessionDate: note.createdAt,
+          hasSessionNotes: true,
+          latestRiskLevel: note.riskLevel?.toLowerCase() || 'medium',
+          sessions: [],
+        });
+      } else if (note.user && patientsMap.has(note.user.id)) {
+        const existing = patientsMap.get(note.user.id);
+        existing.hasSessionNotes = true;
+        if (!existing.latestRiskLevel) {
+          existing.latestRiskLevel = note.riskLevel?.toLowerCase() || 'medium';
         }
->>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
+      }
+    }
+
+    // Include all users with role 'USER' so new patients appear with 0 sessions
+    const allUsers = await this.prisma.user.findMany({
+      where: { role: 'USER' },
+      include: { userProfile: true },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    for (const u of allUsers) {
+      if (!patientsMap.has(u.id)) {
+        patientsMap.set(u.id, {
+          id: u.id,
+          name: u.userProfile?.fullName || u.email || 'Pasien Baru',
+          email: u.email,
+          phone: u.userProfile?.phone || '-',
+          registeredAt: u.createdAt,
+          totalBookings: 0,
+          totalSessions: 0,
+          firstSessionDate: null,
+          lastSessionDate: null,
+          latestRiskLevel: null,
+          hasSessionNotes: false,
+          sessions: [],
+        });
+      }
+    }
+
+    const patientsList = Array.from(patientsMap.values());
 
     return {
       message: 'Patients fetched successfully',
@@ -342,6 +375,8 @@ export class PsychologistService {
       total: patientsList.length,
     };
   }
+
+
 
   // ==========================================
   // 4. GET PROFIL PSIKOLOG
@@ -378,6 +413,42 @@ export class PsychologistService {
 
     const userPhone = profile.user?.userProfile?.phone || '';
 
+    const bookingPatientIds = await this.prisma.booking.findMany({
+      where: { psychologistId: profile.id },
+      select: { userId: true },
+      distinct: ['userId'],
+    });
+
+    const notePatientIds = await this.prisma.sessionNote.findMany({
+      where: { psychologistProfileId: profile.id, deletedAt: null },
+      select: { userId: true },
+      distinct: ['userId'],
+    });
+
+    const officialPatientIds = await this.prisma.officialMedicalRecord.findMany({
+      where: { psychologistProfileId: profile.id },
+      select: { userId: true },
+      distinct: ['userId'],
+    });
+
+    const uniquePatientSet = new Set([
+      ...bookingPatientIds.map((b) => b.userId),
+      ...notePatientIds.map((n) => n.userId),
+      ...officialPatientIds.map((o) => o.userId),
+    ]);
+
+    const totalPatients = uniquePatientSet.size;
+
+    const sessionNotesCount = await this.prisma.sessionNote.count({
+      where: { psychologistProfileId: profile.id, deletedAt: null },
+    });
+
+    const bookingsCount = await this.prisma.booking.count({
+      where: { psychologistId: profile.id },
+    });
+
+    const totalSessions = Math.max(sessionNotesCount, bookingsCount);
+
     // Array pembanding untuk mendeteksi nama hari dari Date
     const DAYS_MAP = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
@@ -394,11 +465,17 @@ export class PsychologistService {
         about: profile.about || 'Psikolog Klinik Oase Jiwa',
         sipp: profile.sipp || '-',
         str: profile.str || '-',
+        status: profile.status || 'Aktif',
+        totalSessions,
+        totalPatients,
         joinedDate: profile.createdAt || profile.user?.createdAt || new Date(),
         educations: profile.educations || [],
         experiences: (profile.experiences || []).map((e: any) => e.name || e),
         specializations: (profile.specializations || []).map((s: any) => s.name || s),
         expertises: (profile.expertises || []).map((e: any) => e.name || e),
+        signatureUrl: profile.signatureUrl || null,
+        signatureUpdatedAt: profile.signatureUpdatedAt || null,
+        signatureMethod: profile.signatureMethod || 'UPLOAD',
 
         // 🟢 PERBAIKAN DI SINI: Menyertakan properti 'day' dan 'hari' agar form dashboard tidak reset ke "Senin"
         schedules: (profile.schedules || []).map((s: any) => {
@@ -445,23 +522,8 @@ export class PsychologistService {
           await prisma.userProfile.update({
             where: { userId },
             data: {
-<<<<<<< HEAD
               phone: phoneToSave || undefined,
               fullName: dto.fullName || undefined,
-=======
-                id: profile.id,
-                userId: profile.userId,
-                name: profile.fullName,
-                avatarUrl: profile.avatarUrl,
-                about: profile.about,
-                sipp: profile.sipp,
-                str: profile.str,
-                educations: profile.educations,
-                experiences: profile.experiences.map(e => e.name),
-                specializations: profile.specializations.map(s => s.name),
-                expertises: profile.expertises.map(e => e.name),
-                schedules: profile.schedules,
->>>>>>> 6696ab9 (feat: implement dynamic statistics, medical records, and Google Reviews integration)
             },
           });
         } else if (phoneToSave) {
@@ -481,6 +543,18 @@ export class PsychologistService {
       if (dto.sipp) updateData.sipp = dto.sipp;
       if (dto.str) updateData.str = dto.str;
       if (dto.avatarUrl || dto.photo) updateData.avatarUrl = dto.avatarUrl || dto.photo;
+
+      if (dto.clearSignature) {
+        updateData.signatureUrl = null;
+        updateData.signatureUpdatedAt = null;
+        updateData.signatureMethod = 'UPLOAD';
+      } else if (dto.signatureUrl !== undefined || dto.signature !== undefined || dto.signatureImage !== undefined) {
+        updateData.signatureUrl = dto.signatureUrl || dto.signature || dto.signatureImage;
+        updateData.signatureUpdatedAt = new Date();
+        if (dto.signatureMethod) {
+          updateData.signatureMethod = dto.signatureMethod;
+        }
+      }
 
       if (Object.keys(updateData).length > 0) {
         await prisma.psychologistProfile.update({

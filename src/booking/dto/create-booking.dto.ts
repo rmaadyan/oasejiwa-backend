@@ -23,9 +23,7 @@ export class CreateBookingDto {
     @IsNotEmpty({ message: 'Jam jadwal tidak boleh kosong' })
     scheduledTime!: string;
 
-    @IsOptional()
-    @IsString()
-    scheduleId?: string;
+
 
     @IsOptional()
     @IsString()
