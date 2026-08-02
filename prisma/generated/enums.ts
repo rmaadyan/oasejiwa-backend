@@ -27,9 +27,11 @@ export type Gender = (typeof Gender)[keyof typeof Gender]
 
 
 export const RiskLevel = {
+  VERY_LOW: 'VERY_LOW',
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH'
+  HIGH: 'HIGH',
+  VERY_HIGH: 'VERY_HIGH'
 } as const
 
 export type RiskLevel = (typeof RiskLevel)[keyof typeof RiskLevel]
@@ -99,6 +101,33 @@ export const ArahItem = {
 } as const
 
 export type ArahItem = (typeof ArahItem)[keyof typeof ArahItem]
+
+
+export const ConsultationStatus = {
+  ONGOING: 'ONGOING',
+  COMPLETED: 'COMPLETED',
+  REFERRED: 'REFERRED'
+} as const
+
+export type ConsultationStatus = (typeof ConsultationStatus)[keyof typeof ConsultationStatus]
+
+
+export const FollowUpPlan = {
+  CONTINUE_SESSION: 'CONTINUE_SESSION',
+  REFER_TO_OTHER: 'REFER_TO_OTHER',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type FollowUpPlan = (typeof FollowUpPlan)[keyof typeof FollowUpPlan]
+
+
+export const TestResultStatus = {
+  COMPLETED: 'COMPLETED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  DRAFT: 'DRAFT'
+} as const
+
+export type TestResultStatus = (typeof TestResultStatus)[keyof typeof TestResultStatus]
 
 
 export const ProblemDuration = {

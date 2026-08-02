@@ -109,74 +109,71 @@ export class AuthService {
     }
 
     async login(dto: LoginDto) {
-  // 1. Validasi awal agar dto.email tidak undefined/null
-  if (!dto?.email) {
-    throw new BadRequestException("Email wajib diisi");
-  }
+        if (!dto || !dto.email) {
+            throw new BadRequestException("Email dan password wajib diisi");
+        }
 
-  // 2. Query ke database
-  const user = await this.prisma.user.findUnique({
-    where: { 
-      email: dto.email.toLowerCase().trim() // Trim & lowercase untuk keamanan
-    },
-    include: { 
-      authProvider: true,
-      userProfile: true,          // Profile untuk Pasien / User biasa
-      psychologistProfile: true,  // Profile untuk Psikolog (jika ada)
-    },
-  });
+        const emailClean = String(dto.email).trim().toLowerCase();
 
-  if (!user) {
-    throw new UnauthorizedException("Email atau password salah");
-  }
+        const user = await this.prisma.user.findFirst({
+            where: { email: emailClean },
+            include: {
+                authProvider: true,
+                userProfile: true,
+                psychologistProfile: true,
+            },
+        });
 
-  if (user.authProvider?.provider === 'google') {
-    throw new UnauthorizedException('Akun ini menggunakan Google Sign In, silakan login dengan Google');
-  }
+        if (!user) {
+            throw new UnauthorizedException("Email atau password salah");
+        }
 
-  const isPasswordValid = await bcrypt.compare(
-    dto.password || '',
-    user.authProvider?.passwordHash ?? '',
-  );
+        if (user.authProvider?.provider === 'google') {
+            throw new UnauthorizedException('Akun ini menggunakan Google Sign In, silakan login dengan Google');
+        }
 
-  if (!isPasswordValid) {
-    throw new UnauthorizedException('Email atau password salah');
-  }
+        const isPasswordValid = await bcrypt.compare(
+            dto.password || '',
+            user.authProvider?.passwordHash ?? '',
+        );
 
-  if (!user.isEmailVerified) {
-    throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
-  }
+        if (!isPasswordValid) {
+            throw new UnauthorizedException('Email atau password salah');
+        }
 
-  const payload = {
-    sub: user.id,
-    email: user.email,
-    role: user.role,
-  };
+        if (!user.isEmailVerified) {
+            throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
+        }
 
-  const accessToken = await this.jwtService.signAsync(payload, {
-    expiresIn: '1d',
-  });
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role,
+        };
 
-  // Ambil nama lengkap dari userProfile ATAU psychologistProfile
-  const fullName = 
-    user.userProfile?.fullName || 
-    user.psychologistProfile?.fullName || 
-    '';
+        const accessToken = await this.jwtService.signAsync(payload, {
+            expiresIn: '1d',
+        });
 
-  return {
-    message: 'Login berhasil',
-    accessToken,
-    user: {
-      id: user.id,
-      email: user.email,
-      fullName: fullName,
-      role: user.role,
-      isProfileComplete: user.isProfileComplete,
-      isEmailVerified: user.isEmailVerified,
-      isFirstLogin: user.isFirstLogin,
-    },
-  };
-}
+        const fullName =
+            user.userProfile?.fullName ||
+            user.psychologistProfile?.fullName ||
+            '';
+
+        return {
+            message: 'Login berhasil',
+            accessToken,
+            user: {
+                id: user.id,
+                email: user.email,
+                fullName: fullName,
+                role: user.role,
+                isProfileComplete: user.isProfileComplete,
+                isEmailVerified: user.isEmailVerified,
+                isFirstLogin: user.isFirstLogin,
+            },
+        };
+    }
 
     async emailInput(email: string) {
 

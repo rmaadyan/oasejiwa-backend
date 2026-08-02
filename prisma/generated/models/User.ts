@@ -217,6 +217,7 @@ export type UserWhereInput = {
   sessionNotes?: Prisma.SessionNoteListRelationFilter
   medicalRecord?: Prisma.XOR<Prisma.PatientMedicalRecordNullableScalarRelationFilter, Prisma.PatientMedicalRecordWhereInput> | null
   emergencyContacts?: Prisma.EmergencyContactListRelationFilter
+  tesResults?: Prisma.TesResultListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type UserOrderByWithRelationInput = {
   sessionNotes?: Prisma.SessionNoteOrderByRelationAggregateInput
   medicalRecord?: Prisma.PatientMedicalRecordOrderByWithRelationInput
   emergencyContacts?: Prisma.EmergencyContactOrderByRelationAggregateInput
+  tesResults?: Prisma.TesResultOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -264,6 +266,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sessionNotes?: Prisma.SessionNoteListRelationFilter
   medicalRecord?: Prisma.XOR<Prisma.PatientMedicalRecordNullableScalarRelationFilter, Prisma.PatientMedicalRecordWhereInput> | null
   emergencyContacts?: Prisma.EmergencyContactListRelationFilter
+  tesResults?: Prisma.TesResultListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type UserCreateInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -336,6 +340,7 @@ export type UserUncheckedCreateInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -358,6 +363,7 @@ export type UserUpdateInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -380,6 +386,7 @@ export type UserUncheckedUpdateInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -630,6 +637,20 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutTesResultsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTesResultsInput, Prisma.UserUncheckedCreateWithoutTesResultsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTesResultsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTesResultsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTesResultsInput, Prisma.UserUncheckedCreateWithoutTesResultsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTesResultsInput
+  upsert?: Prisma.UserUpsertWithoutTesResultsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTesResultsInput, Prisma.UserUpdateWithoutTesResultsInput>, Prisma.UserUncheckedUpdateWithoutTesResultsInput>
+}
+
 export type UserCreateWithoutAuthProviderInput = {
   id?: string
   email: string
@@ -649,6 +670,7 @@ export type UserCreateWithoutAuthProviderInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuthProviderInput = {
@@ -670,6 +692,7 @@ export type UserUncheckedCreateWithoutAuthProviderInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuthProviderInput = {
@@ -707,6 +730,7 @@ export type UserUpdateWithoutAuthProviderInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthProviderInput = {
@@ -728,6 +752,7 @@ export type UserUncheckedUpdateWithoutAuthProviderInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetsInput = {
@@ -749,6 +774,7 @@ export type UserCreateWithoutPasswordResetsInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetsInput = {
@@ -770,6 +796,7 @@ export type UserUncheckedCreateWithoutPasswordResetsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetsInput = {
@@ -807,6 +834,7 @@ export type UserUpdateWithoutPasswordResetsInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetsInput = {
@@ -828,6 +856,7 @@ export type UserUncheckedUpdateWithoutPasswordResetsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserProfileInput = {
@@ -849,6 +878,7 @@ export type UserCreateWithoutUserProfileInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserProfileInput = {
@@ -870,6 +900,7 @@ export type UserUncheckedCreateWithoutUserProfileInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserProfileInput = {
@@ -907,6 +938,7 @@ export type UserUpdateWithoutUserProfileInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserProfileInput = {
@@ -928,6 +960,7 @@ export type UserUncheckedUpdateWithoutUserProfileInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMedicalRecordInput = {
@@ -949,6 +982,7 @@ export type UserCreateWithoutMedicalRecordInput = {
   reviews?: Prisma.BookingReviewCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMedicalRecordInput = {
@@ -970,6 +1004,7 @@ export type UserUncheckedCreateWithoutMedicalRecordInput = {
   reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMedicalRecordInput = {
@@ -1007,6 +1042,7 @@ export type UserUpdateWithoutMedicalRecordInput = {
   reviews?: Prisma.BookingReviewUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMedicalRecordInput = {
@@ -1028,6 +1064,7 @@ export type UserUncheckedUpdateWithoutMedicalRecordInput = {
   reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmergencyContactsInput = {
@@ -1049,6 +1086,7 @@ export type UserCreateWithoutEmergencyContactsInput = {
   reviews?: Prisma.BookingReviewCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmergencyContactsInput = {
@@ -1070,6 +1108,7 @@ export type UserUncheckedCreateWithoutEmergencyContactsInput = {
   reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutUserInput
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmergencyContactsInput = {
@@ -1107,6 +1146,7 @@ export type UserUpdateWithoutEmergencyContactsInput = {
   reviews?: Prisma.BookingReviewUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmergencyContactsInput = {
@@ -1128,6 +1168,7 @@ export type UserUncheckedUpdateWithoutEmergencyContactsInput = {
   reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutUserNestedInput
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPsychologistProfileInput = {
@@ -1149,6 +1190,7 @@ export type UserCreateWithoutPsychologistProfileInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPsychologistProfileInput = {
@@ -1170,6 +1212,7 @@ export type UserUncheckedCreateWithoutPsychologistProfileInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPsychologistProfileInput = {
@@ -1207,6 +1250,7 @@ export type UserUpdateWithoutPsychologistProfileInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPsychologistProfileInput = {
@@ -1228,6 +1272,7 @@ export type UserUncheckedUpdateWithoutPsychologistProfileInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -1249,6 +1294,7 @@ export type UserCreateWithoutEmailVerificationsInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -1270,6 +1316,7 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -1307,6 +1354,7 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -1328,6 +1376,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionNotesInput = {
@@ -1349,6 +1398,7 @@ export type UserCreateWithoutSessionNotesInput = {
   reviews?: Prisma.BookingReviewCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionNotesInput = {
@@ -1370,6 +1420,7 @@ export type UserUncheckedCreateWithoutSessionNotesInput = {
   reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionNotesInput = {
@@ -1407,6 +1458,7 @@ export type UserUpdateWithoutSessionNotesInput = {
   reviews?: Prisma.BookingReviewUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionNotesInput = {
@@ -1428,6 +1480,7 @@ export type UserUncheckedUpdateWithoutSessionNotesInput = {
   reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBookingsInput = {
@@ -1449,6 +1502,7 @@ export type UserCreateWithoutBookingsInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookingsInput = {
@@ -1470,6 +1524,7 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookingsInput = {
@@ -1496,6 +1551,7 @@ export type UserCreateWithoutAdminApprovalsInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAdminApprovalsInput = {
@@ -1517,6 +1573,7 @@ export type UserUncheckedCreateWithoutAdminApprovalsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAdminApprovalsInput = {
@@ -1554,6 +1611,7 @@ export type UserUpdateWithoutBookingsInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -1575,6 +1633,7 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutAdminApprovalsInput = {
@@ -1607,6 +1666,7 @@ export type UserUpdateWithoutAdminApprovalsInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminApprovalsInput = {
@@ -1628,6 +1688,7 @@ export type UserUncheckedUpdateWithoutAdminApprovalsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -1649,6 +1710,7 @@ export type UserCreateWithoutReviewsInput = {
   sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1670,6 +1732,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+  tesResults?: Prisma.TesResultUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1707,6 +1770,7 @@ export type UserUpdateWithoutReviewsInput = {
   sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -1728,6 +1792,111 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
   medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
   emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
+  tesResults?: Prisma.TesResultUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTesResultsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingCreateNestedManyWithoutApprovedByAdminInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteCreateNestedManyWithoutUserInput
+  medicalRecord?: Prisma.PatientMedicalRecordCreateNestedOneWithoutUserInput
+  emergencyContacts?: Prisma.EmergencyContactCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTesResultsInput = {
+  id?: string
+  email: string
+  role?: $Enums.Role
+  isEmailVerified?: boolean
+  isProfileComplete?: boolean
+  isFirstLogin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authProvider?: Prisma.AuthProviderUncheckedCreateNestedOneWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  userProfile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedCreateNestedOneWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  adminApprovals?: Prisma.BookingUncheckedCreateNestedManyWithoutApprovedByAdminInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutUserInput
+  sessionNotes?: Prisma.SessionNoteUncheckedCreateNestedManyWithoutUserInput
+  medicalRecord?: Prisma.PatientMedicalRecordUncheckedCreateNestedOneWithoutUserInput
+  emergencyContacts?: Prisma.EmergencyContactUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTesResultsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTesResultsInput, Prisma.UserUncheckedCreateWithoutTesResultsInput>
+}
+
+export type UserUpsertWithoutTesResultsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTesResultsInput, Prisma.UserUncheckedUpdateWithoutTesResultsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTesResultsInput, Prisma.UserUncheckedCreateWithoutTesResultsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTesResultsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTesResultsInput, Prisma.UserUncheckedUpdateWithoutTesResultsInput>
+}
+
+export type UserUpdateWithoutTesResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUpdateManyWithoutApprovedByAdminNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUpdateManyWithoutUserNestedInput
+  medicalRecord?: Prisma.PatientMedicalRecordUpdateOneWithoutUserNestedInput
+  emergencyContacts?: Prisma.EmergencyContactUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTesResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isProfileComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFirstLogin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authProvider?: Prisma.AuthProviderUncheckedUpdateOneWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  userProfile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  psychologistProfile?: Prisma.PsychologistProfileUncheckedUpdateOneWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  adminApprovals?: Prisma.BookingUncheckedUpdateManyWithoutApprovedByAdminNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutUserNestedInput
+  sessionNotes?: Prisma.SessionNoteUncheckedUpdateManyWithoutUserNestedInput
+  medicalRecord?: Prisma.PatientMedicalRecordUncheckedUpdateOneWithoutUserNestedInput
+  emergencyContacts?: Prisma.EmergencyContactUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1743,6 +1912,7 @@ export type UserCountOutputType = {
   reviews: number
   sessionNotes: number
   emergencyContacts: number
+  tesResults: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1753,6 +1923,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   sessionNotes?: boolean | UserCountOutputTypeCountSessionNotesArgs
   emergencyContacts?: boolean | UserCountOutputTypeCountEmergencyContactsArgs
+  tesResults?: boolean | UserCountOutputTypeCountTesResultsArgs
 }
 
 /**
@@ -1814,6 +1985,13 @@ export type UserCountOutputTypeCountEmergencyContactsArgs<ExtArgs extends runtim
   where?: Prisma.EmergencyContactWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTesResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TesResultWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1835,6 +2013,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sessionNotes?: boolean | Prisma.User$sessionNotesArgs<ExtArgs>
   medicalRecord?: boolean | Prisma.User$medicalRecordArgs<ExtArgs>
   emergencyContacts?: boolean | Prisma.User$emergencyContactsArgs<ExtArgs>
+  tesResults?: boolean | Prisma.User$tesResultsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1884,6 +2063,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sessionNotes?: boolean | Prisma.User$sessionNotesArgs<ExtArgs>
   medicalRecord?: boolean | Prisma.User$medicalRecordArgs<ExtArgs>
   emergencyContacts?: boolean | Prisma.User$emergencyContactsArgs<ExtArgs>
+  tesResults?: boolean | Prisma.User$tesResultsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1903,6 +2083,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sessionNotes: Prisma.$SessionNotePayload<ExtArgs>[]
     medicalRecord: Prisma.$PatientMedicalRecordPayload<ExtArgs> | null
     emergencyContacts: Prisma.$EmergencyContactPayload<ExtArgs>[]
+    tesResults: Prisma.$TesResultPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2318,6 +2499,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   sessionNotes<T extends Prisma.User$sessionNotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionNotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   medicalRecord<T extends Prisma.User$medicalRecordArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$medicalRecordArgs<ExtArgs>>): Prisma.Prisma__PatientMedicalRecordClient<runtime.Types.Result.GetResult<Prisma.$PatientMedicalRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   emergencyContacts<T extends Prisma.User$emergencyContactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emergencyContactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmergencyContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tesResults<T extends Prisma.User$tesResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tesResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TesResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2989,6 +3171,30 @@ export type User$emergencyContactsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.EmergencyContactScalarFieldEnum | Prisma.EmergencyContactScalarFieldEnum[]
+}
+
+/**
+ * User.tesResults
+ */
+export type User$tesResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TesResult
+   */
+  select?: Prisma.TesResultSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TesResult
+   */
+  omit?: Prisma.TesResultOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TesResultInclude<ExtArgs> | null
+  where?: Prisma.TesResultWhereInput
+  orderBy?: Prisma.TesResultOrderByWithRelationInput | Prisma.TesResultOrderByWithRelationInput[]
+  cursor?: Prisma.TesResultWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TesResultScalarFieldEnum | Prisma.TesResultScalarFieldEnum[]
 }
 
 /**

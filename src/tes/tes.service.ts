@@ -152,4 +152,118 @@ export class TesService {
   async remove(id: number) {
     return this.prisma.tes.delete({ where: { id } });
   }
-}
+
+  async submitTes(userId: string, tesId: number, dto: any) {
+    return this.prisma.tesResult.create({
+      data: {
+        userId,
+        tesId,
+        namaTes: dto.namaTes,
+        jenisTes: dto.jenisTes ?? null,
+        totalScore: dto.totalScore,
+        maxScore: dto.maxScore,
+        percentage: dto.percentage,
+        kategoriNama: dto.kategoriNama,
+        diagnosis: dto.diagnosis ?? dto.kategoriNama ?? null,
+        detailDiagnosis: dto.detailDiagnosis ?? null,
+        interpretasi: dto.interpretasi ?? null,
+        rekomendasi: dto.rekomendasi ?? [],
+        sectionScores: dto.sectionScores ?? null,
+        answers: dto.answers ?? null,
+      },
+    });
+  }
+
+  async findUserTesResults(userId: string) {
+    return this.prisma.tesResult.findMany({
+      where: { userId },
+      include: {
+        tes: {
+          select: {
+            id: true,
+            nama: true,
+            jenis: true,
+            deskripsi: true,
+            penjelasanHasil: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            email: true,
+            userProfile: {
+              select: {
+                fullName: true,
+                phone: true,
+                gender: true,
+                birthday: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async findTesResultById(id: string) {
+    const result = await this.prisma.tesResult.findUnique({
+      where: { id },
+      include: {
+        tes: {
+          select: {
+            id: true,
+            nama: true,
+            jenis: true,
+            deskripsi: true,
+            penjelasanHasil: true,
+            kategori: true,
+            sectionKategori: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            email: true,
+            userProfile: {
+              select: {
+                fullName: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!result) {
+      return null;
+    }
+
+    return result;
+  }
+
+  async findAllTesResults() {
+    return this.prisma.tesResult.findMany({
+      include: {
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
+        tes: {
+          select: {
+            id: true,
+            nama: true,
+            jenis: true,
+            deskripsi: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async removeTesResult(id: string) {
+    return this.prisma.tesResult.delete({ where: { id } });
+  }
+}

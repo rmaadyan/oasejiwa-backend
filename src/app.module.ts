@@ -28,6 +28,9 @@ import { PsychologistDashboardModule } from './psychologist-dashboard/psychologi
 import { AdminUsersModule } from './admin-users/admin-users.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
+import { AdminMedicalRecordsModule } from './admin-medical-records/admin-medical-records.module';
+import { GoogleReviewsModule } from './google-reviews/google-reviews.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -45,6 +48,8 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
     PrismaModule,
     AuthModule,
     EmailModule,
+    GoogleReviewsModule,
+    StatisticsModule,
 
     AdminModule,
     UserModule,
@@ -64,6 +69,7 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
     AdminUsersModule,
     AdminDashboardModule,
     AdminAnalyticsModule,
+    AdminMedicalRecordsModule,
 
     // 3. Gunakan forRootAsync agar aman dari undefined
     MailerModule.forRootAsync({
