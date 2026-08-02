@@ -133,54 +133,83 @@ export class PsychologistService {
   // 1. DASBOR PSIKOLOG
   // ==========================================
   async getDashboard(userId: string) {
-    const profile = await this.getOrCreateProfile(userId);
+    const psychologist = await this.prisma.psychologistProfile.findUnique({
+      where: { userId },
+    });
 
-    const rawBookings = await (this.prisma as any).booking.findMany({
-      where: { psychologistId: profile.id },
+    if (!psychologist) {
+      throw new NotFoundException('Profile psikolog tidak ditemukan');
+    }
+
+    const psychologistId = psychologist.id;
+
+    // Ambil seluruh booking milik psikolog ini
+    const allBookings = await this.prisma.booking.findMany({
+      where: { psychologistId },
       include: {
-        user: { select: { id: true, email: true, userProfile: true } },
-        service: true,
-        payments: true,
+        user: {
+          select: {
+            userProfile: { select: { fullName: true } },
+          },
+        },
+        service: { select: { nama: true } },
       },
-      orderBy: { scheduledDate: 'asc' },
+      orderBy: { scheduledTime: 'asc' },
     });
 
-    const bookings = this.filterOnlyApprovedBookings(rawBookings);
+    const todayStr = new Date().toISOString().split('T')[0];
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // 🟢 1. Hitung Sesi Hari Ini (Bukan CANCELLED / REJECTED)
+    const sesiHariIni = allBookings.filter((b) => {
+      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      const st = String(b.status).toUpperCase();
+      return bookingDateStr === todayStr && st !== 'CANCELLED' && st !== 'REJECTED';
+    }).length;
 
-    // Sesi Hari Ini
-    const todaySessions = bookings.filter((b: any) => {
-      if (!b.scheduledDate) return false;
-      const d = new Date(b.scheduledDate);
-      d.setHours(0, 0, 0, 0);
-      return d.getTime() === today.getTime();
+    // 🟢 2. Hitung Sesi Minggu Ini (Bukan CANCELLED / REJECTED)
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const sesiMingguIni = allBookings.filter((b) => {
+      const bDate = new Date(b.scheduledDate);
+      const st = String(b.status).toUpperCase();
+      return bDate >= startOfWeek && st !== 'CANCELLED' && st !== 'REJECTED';
+    }).length;
+
+    // 🟢 3. Hitung Total Pasien Unik: HANYA YANG BERSTATUS 'COMPLETED' (SELESAI)
+    const completedBookings = allBookings.filter((b) => {
+      const st = String(b.status).toUpperCase();
+      return st === 'COMPLETED';
+    });
+    const uniqueUsers = new Set(completedBookings.map((b) => b.userId));
+    const totalPasien = uniqueUsers.size;
+
+    // 🟢 4. Daftar Sesi Hari Ini
+    const jadwalHariIni = allBookings.filter((b) => {
+      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      return bookingDateStr === todayStr;
     });
 
-    // Sesi Mendatang (Jadwal terkonfirmasi dengan status 'upcoming' dan tanggal >= hari ini)
-    const upcomingSessions = bookings.filter((b: any) => {
-      if (!b.scheduledDate) return false;
-      const d = new Date(b.scheduledDate);
-      d.setHours(0, 0, 0, 0);
-      const st = String(b.status || '').toLowerCase();
-      const isUpcomingStatus = ['upcoming', 'approved', 'paid', 'success', 'confirmed'].includes(st);
-      return d.getTime() >= today.getTime() && isUpcomingStatus;
+    // 🟢 5. Daftar Sesi Mendatang
+    const jadwalMendatang = allBookings.filter((b) => {
+      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      const st = String(b.status).toUpperCase();
+      return bookingDateStr > todayStr && st !== 'CANCELLED' && st !== 'REJECTED';
     });
-
-    const uniquePatientIds = new Set(bookings.map((b: any) => b.userId));
-
-    const formattedToday = todaySessions.map((b) => this.formatSessionItem(b));
-    const formattedUpcoming = upcomingSessions.map((b) => this.formatSessionItem(b));
 
     return {
+      message: 'Data dashboard berhasil diambil',
       data: {
-        psychologistName: profile.fullName || 'Psikolog',
-        todaySessionsCount: formattedToday.length,
-        weeklySessionsCount: bookings.length,
-        totalPatients: uniquePatientIds.size,
-        todaySessions: formattedToday,
-        upcomingSessions: formattedUpcoming,
+        psychologistName: psychologist.fullName,
+        stats: {
+          sesiHariIni,
+          sesiMingguIni,
+          totalPasien,
+        },
+        jadwalHariIni,
+        jadwalMendatang,
       },
     };
   }

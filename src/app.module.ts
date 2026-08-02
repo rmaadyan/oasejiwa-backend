@@ -3,7 +3,9 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigModule, ConfigService } from '@nestjs/config'; // 👈 Tambahkan ConfigModule & ConfigService
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static'; // 👈 1. Import ServeStaticModule
+import { join } from 'path'; // 👈 2. Import helper path 'join'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -37,6 +39,12 @@ import { StatisticsModule } from './statistics/statistics.module';
       isGlobal: true,
     }),
 
+    // 2. 🚀 Konfigurasi penyajian file statis (Uploads)
+    ServeStaticModule.forRoot({
+  rootPath: join(process.cwd(), 'uploads'), // Pastikan lokasi folder upload-mu pas di sini
+  serveRoot: '/uploads',
+}),
+
     PrismaModule,
     AuthModule,
     EmailModule,
@@ -63,14 +71,14 @@ import { StatisticsModule } from './statistics/statistics.module';
     AdminAnalyticsModule,
     AdminMedicalRecordsModule,
 
-    // 2. Gunakan forRootAsync agar aman dari undefined
+    // 3. Gunakan forRootAsync agar aman dari undefined
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
         transport: {
           host: config.get('MAIL_HOST') || 'smtp.gmail.com',
           port: Number(config.get('MAIL_PORT')) || 465,
-          secure: Number(config.get('MAIL_PORT')) === 465, // true untuk port 465
+          secure: Number(config.get('MAIL_PORT')) === 465,
           auth: {
             user: config.get('MAIL_USER') || process.env.EMAIL_USER,
             pass: config.get('MAIL_PASS') || process.env.EMAIL_PASS,
