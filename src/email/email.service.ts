@@ -126,7 +126,7 @@ export class EmailService {
 
   /** Tombol WhatsApp Admin Khusus */
   private getWhatsAppButton(bookingCode: string): string {
-    const waNumber = process.env.ADMIN_WA_NUMBER || '6281234567890';
+    const waNumber = process.env.ADMIN_WA_NUMBER || '6281313888830';
     const message = encodeURIComponent(
       `Halo Admin Oase Jiwa, saya ingin bertanya mengenai booking #${bookingCode}`,
     );
