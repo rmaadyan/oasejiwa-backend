@@ -44,6 +44,9 @@ export class AdminMedicalRecordsService {
           emergencyContacts: true,
           sessionNotes: {
             where: { deletedAt: null },
+            include: {
+              psychologistProfile: true,
+            },
             orderBy: { createdAt: 'desc' },
           },
           tesResults: {
@@ -51,6 +54,10 @@ export class AdminMedicalRecordsService {
             take: 1,
           },
           bookings: {
+            include: {
+              psychologist: true,
+              service: true,
+            },
             orderBy: { scheduledDate: 'desc' },
             take: 1,
           },
@@ -65,12 +72,12 @@ export class AdminMedicalRecordsService {
       const latestBooking = user.bookings[0];
 
       const psychologistName =
-        (latestNote as any)?.psychologistProfile?.fullName ||
-        (latestBooking as any)?.psychologist?.fullName ||
-        'Dr. Ani Wijaya, M.Psi., Psikolog';
+        latestNote?.psychologistProfile?.fullName ||
+        latestBooking?.psychologist?.fullName ||
+        '';
 
       const serviceName =
-        (latestBooking as any)?.service?.nama || (latestNote as any)?.service || 'Konseling Individu';
+        latestBooking?.service?.nama || (latestNote as any)?.service || 'Konseling Individu';
 
       const rawStatus =
         latestNote?.consultationStatus ||
@@ -83,18 +90,18 @@ export class AdminMedicalRecordsService {
       const diagnosisList =
         user.medicalRecord?.diagnosis && user.medicalRecord.diagnosis.length > 0
           ? user.medicalRecord.diagnosis
-          : ['Gangguan Kecemasan Umum'];
+          : [];
 
       const problemSummary =
         latestNote?.subjective ||
         latestNote?.diagnosisSummary ||
         (user.medicalRecord as any)?.lastNotes ||
-        'Pasien mengeluhkan rasa cemas berlebih dan gangguan tidur terkait tekanan aktivitas harian.';
+        '';
 
       const followUpPlan =
         latestNote?.plan ||
         latestNote?.followUpPlan ||
-        'Lanjutan sesi konseling 2 minggu sekali';
+        '';
 
       return {
         userId: user.id,
@@ -104,12 +111,12 @@ export class AdminMedicalRecordsService {
         gender: user.userProfile?.gender || null,
         psychologistName,
         serviceName,
-        sessionNumber: latestNote?.sessionNumber || Math.max(user.sessionNotes.length, 1),
+        sessionNumber: latestNote?.sessionNumber || (user.sessionNotes.length > 0 ? user.sessionNotes.length : 1),
         consultationDate: latestBooking?.scheduledDate || latestNote?.createdAt || user.createdAt,
         consultationStatus: rawStatus,
-        totalSessions: Math.max(user.sessionNotes.length, 1),
+        totalSessions: user.sessionNotes.length,
         latestSessionDate: latestBooking?.scheduledDate || latestNote?.createdAt || null,
-        latestRiskLevel: latestNote?.riskLevel || 'MEDIUM',
+        latestRiskLevel: latestNote?.riskLevel || 'LOW',
         diagnosis: diagnosisList.join(', '),
         diagnosisList,
         problemSummary,
@@ -184,112 +191,122 @@ export class AdminMedicalRecordsService {
 
     const sessionHistory = user.sessionNotes.map((note) => ({
       id: note.id,
-      bookingId: note.scheduleId ? Number(note.scheduleId) : 101,
-      scheduleId: note.scheduleId || 'sch-1',
+      bookingId: note.scheduleId ? Number(note.scheduleId) : null,
+      scheduleId: note.scheduleId || null,
       noteId: note.id,
-      date: note.consultationDate || (note.createdAt ? new Date(note.createdAt).toISOString().split('T')[0] : '2026-07-29'),
-      time: '09.00',
+      date: note.consultationDate || (note.createdAt ? new Date(note.createdAt).toISOString().split('T')[0] : null),
+      time: note.schedule?.startTime || '',
       duration: (note as any).duration || 60,
       service: (note as any).service || 'Konseling Individu',
-      status: note.consultationStatus?.toLowerCase() === 'selesai' ? 'completed' : 'upcoming',
+      status: note.consultationStatus?.toLowerCase() === 'completed' || note.consultationStatus?.toLowerCase() === 'selesai' ? 'completed' : 'upcoming',
       hasNotes: true,
-      psychologistName: note.psychologistProfile?.fullName || 'Dr. Ani Wijaya, M.Psi., Psikolog',
-      diagnosisSummary: note.diagnosisSummary || note.subjective,
-      treatmentApproach: note.treatmentApproach || note.plan,
-      riskLevel: note.riskLevel || 'MEDIUM',
+      psychologistName: note.psychologistProfile?.fullName || '',
+      diagnosisSummary: note.diagnosisSummary || note.subjective || '',
+      treatmentApproach: note.treatmentApproach || note.plan || '',
+      riskLevel: note.riskLevel || 'LOW',
     }));
+
+    const activePsychologist = user.sessionNotes[0]?.psychologistProfile || null;
 
     return {
       id: user.id,
       name: this.getPatientName(user),
       email: user.email,
-      phone: user.userProfile?.phone || '0812-3456-7890',
+      phone: user.userProfile?.phone || null,
       photo: null,
       age: user.userProfile?.birthday
         ? new Date().getFullYear() - new Date(user.userProfile.birthday).getFullYear()
-        : 28,
-      birthday: user.userProfile?.birthday || '1998-05-14',
-      placeOfBirth: user.userProfile?.placeOfBirth || 'Jakarta',
-      gender: user.userProfile?.gender || 'male',
-      address: user.userProfile?.fullAddress || 'Jl. Sudirman No. 45, Jakarta Selatan',
-      originalAddress: user.userProfile?.originalAddress || 'Jl. Sudirman No. 45, Jakarta Selatan',
-      occupation: user.userProfile?.occupation || 'Software Engineer',
-      maritalStatus: user.userProfile?.maritalStatus || 'Menikah',
-      siblingPosition: user.userProfile?.siblingPosition || 1,
-      totalSiblings: user.userProfile?.totalSiblings || 2,
+        : null,
+      birthday: user.userProfile?.birthday || null,
+      placeOfBirth: user.userProfile?.placeOfBirth || null,
+      gender: user.userProfile?.gender || null,
+      address: user.userProfile?.fullAddress || null,
+      originalAddress: user.userProfile?.originalAddress || null,
+      occupation: user.userProfile?.occupation || null,
+      maritalStatus: user.userProfile?.maritalStatus || null,
+      siblingPosition: user.userProfile?.siblingPosition || null,
+      totalSiblings: user.userProfile?.totalSiblings || null,
       isFirstVisit: user.userProfile?.isFirstVisit ?? true,
       educationHistory: user.userProfile?.educationHistory || null,
 
-      emergencyContact: user.emergencyContacts[0] || {
-        name: 'Siti Santoso',
-        phone: '0822-9876-5432',
-        relation: 'Istri',
-      },
+      emergencyContact: user.emergencyContacts[0]
+        ? {
+            name: user.emergencyContacts[0].name,
+            phone: user.emergencyContacts[0].phone,
+            relation: user.emergencyContacts[0].relation,
+          }
+        : null,
 
-      diagnosis: user.medicalRecord?.diagnosis?.length
-        ? user.medicalRecord.diagnosis
-        : ['Gangguan Kecemasan Umum'],
-      currentMedication: user.medicalRecord?.currentMedication?.length
-        ? user.medicalRecord.currentMedication
-        : ['Sertraline 50 mg (1x sehari setelah makan pagi)'],
-      allergies: user.medicalRecord?.allergies?.length
-        ? user.medicalRecord.allergies
-        : ['Tidak ada alergi yang diketahui'],
+      diagnosis: user.medicalRecord?.diagnosis || [],
+      currentMedication: user.medicalRecord?.currentMedication || [],
+      allergies: user.medicalRecord?.allergies || [],
 
       consultationForm,
       consentForm,
       tesResults: user.tesResults,
-      sessionHistory: sessionHistory.length > 0 ? sessionHistory : [
-        {
-          id: 'sesi-1',
-          bookingId: 101,
-          scheduleId: 'sch-1',
-          noteId: 'note-1',
-          date: '2026-07-29',
-          time: '09.00',
-          duration: 60,
-          service: 'Konseling Individu',
-          status: 'completed',
-          hasNotes: true,
-          psychologistName: 'Dr. Ani Wijaya, M.Psi., Psikolog',
-          diagnosisSummary: 'Gangguan Kecemasan Umum dengan gejala emosional sedang.',
-          treatmentApproach: 'CBT dan latihan relaksasi diafragma.',
-          riskLevel: 'MEDIUM',
-        }
-      ],
+      sessionHistory,
       sessionNotesList: user.sessionNotes.map((note) => ({
         id: note.id,
-        psychologistName: note.psychologistProfile?.fullName || 'Dr. Ani Wijaya, M.Psi., Psikolog',
-        psychologistSipp: note.psychologistProfile?.sipp || 'SIPP: 20221034-2024-2272',
+        psychologistName: note.psychologistProfile?.fullName || '',
+        psychologistSipp: note.psychologistProfile?.sipp || '',
+        psychologistStr: note.psychologistProfile?.str || '',
+        signatureUrl: note.psychologistProfile?.signatureUrl || null,
+        signatureUpdatedAt: note.psychologistProfile?.signatureUpdatedAt || null,
+        signatureMethod: note.psychologistProfile?.signatureMethod || 'UPLOAD',
+        psychologistProfile: note.psychologistProfile || null,
+        psychologist: note.psychologistProfile
+          ? {
+              id: note.psychologistProfile.id,
+              fullName: note.psychologistProfile.fullName,
+              name: note.psychologistProfile.fullName,
+              sipp: note.psychologistProfile.sipp,
+              str: note.psychologistProfile.str,
+              signatureUrl: note.psychologistProfile.signatureUrl,
+              signatureUpdatedAt: note.psychologistProfile.signatureUpdatedAt,
+              signatureMethod: note.psychologistProfile.signatureMethod || 'UPLOAD',
+            }
+          : null,
         sessionNumber: note.sessionNumber || 1,
-        consultationDate: note.consultationDate || '2026-07-29',
-        consultationStatus: note.consultationStatus || 'SEDANG_BERJALAN',
-        diagnosisSummary: note.diagnosisSummary || note.subjective || 'Gangguan Kecemasan Umum',
-        treatmentApproach: note.treatmentApproach || note.plan || 'Psychoeducation dan CBT dasar',
-        recommendation: note.recommendation || note.nextSessionRecommendation || 'Lanjutan sesi 2 minggu sekali',
+        consultationDate: note.consultationDate || null,
+        consultationStatus: note.consultationStatus || 'ONGOING',
+        diagnosisSummary: note.diagnosisSummary || note.subjective || '',
+        treatmentApproach: note.treatmentApproach || note.plan || '',
+        recommendation: note.recommendation || note.nextSessionRecommendation || '',
         followUpPlan: note.followUpPlan || 'CONTINUE_SESSION',
-        additionalNotes: note.additionalNotes || 'Pasien kooperatif dan disiplin',
-        subjective: note.subjective || 'Pasien mengeluhkan rasa cemas berlebih',
-        objective: note.objective || 'Kontak mata baik, komunikasi teratur',
-        assessment: note.assessment || 'Kondisi emosional pasien stabil',
-        plan: note.plan || 'Latihan relaksasi harian',
-        riskLevel: note.riskLevel || 'MEDIUM',
-        followUpDate: note.followUpDate || '2026-08-12',
-        nextSessionRecommendation: note.nextSessionRecommendation || 'Lanjutan sesi 2 minggu sekali',
-        tags: note.tags || ['Anxiety', 'CBT'],
+        additionalNotes: note.additionalNotes || '',
+        subjective: note.subjective || '',
+        objective: note.objective || '',
+        assessment: note.assessment || '',
+        plan: note.plan || '',
+        riskLevel: note.riskLevel || 'LOW',
+        followUpDate: note.followUpDate || null,
+        nextSessionRecommendation: note.nextSessionRecommendation || '',
+        tags: note.tags || [],
         createdAt: note.createdAt,
       })),
       sessionNotes: user.sessionNotes,
       bookings: user.bookings,
-      riskLevel: user.sessionNotes[0]?.riskLevel || (user.medicalRecord as any)?.riskLevel || 'MEDIUM',
-      riskReason: (user.sessionNotes[0] as any)?.riskReason || 'Pasien mengalami gejala kecemasan sedang yang mempengaruhi pola tidur.',
-      riskRecommendations: (user.sessionNotes[0] as any)?.riskRecommendations || [
-        'Konseling 2 minggu sekali.',
-        'CBT.',
-        'Latihan relaksasi diafragma.'
-      ],
-      assessmentDate: '27 Juli 2026',
-      assessingPsychologistName: 'Dr. Ani Wijaya, M.Psi., Psikolog',
+      psychologistProfile: activePsychologist,
+      psychologist: activePsychologist
+        ? {
+            id: activePsychologist.id,
+            fullName: activePsychologist.fullName,
+            name: activePsychologist.fullName,
+            sipp: activePsychologist.sipp,
+            str: activePsychologist.str,
+            signatureUrl: activePsychologist.signatureUrl,
+            signatureUpdatedAt: activePsychologist.signatureUpdatedAt,
+            signatureMethod: activePsychologist.signatureMethod || 'UPLOAD',
+          }
+        : null,
+      signatureUrl: activePsychologist?.signatureUrl || null,
+      signatureUpdatedAt: activePsychologist?.signatureUpdatedAt || null,
+      signatureMethod: activePsychologist?.signatureMethod || 'UPLOAD',
+      riskLevel: user.sessionNotes[0]?.riskLevel || (user.medicalRecord as any)?.riskLevel || 'LOW',
+      riskReason: (user.sessionNotes[0] as any)?.riskReason || '',
+      riskRecommendations: (user.sessionNotes[0] as any)?.riskRecommendations || [],
+      assessmentDate: user.sessionNotes[0]?.createdAt || null,
+      assessingPsychologistName: activePsychologist?.fullName || '',
     };
   }
 }

@@ -108,8 +108,9 @@ model User {
   adminApprovals Booking[]       @relation("AdminApprovals")
   reviews        BookingReview[] @relation("UserReviews")
 
-  sessionNotes      SessionNote[]
-  medicalRecord     PatientMedicalRecord?
+  sessionNotes           SessionNote[]
+  officialMedicalRecords OfficialMedicalRecord[]
+  medicalRecord          PatientMedicalRecord?
   emergencyContacts EmergencyContact[]
   tesResults        TesResult[]
 }
@@ -194,9 +195,12 @@ model PsychologistProfile {
   sipp      String
   str       String?
   about     String?
-  avatarUrl String?
-  status    String   @default("WAITING_PROFILE")
-  createdAt DateTime @default(now())
+  avatarUrl          String?
+  signatureUrl       String?
+  signatureUpdatedAt DateTime?
+  signatureMethod    String?   @default("UPLOAD")
+  status             String    @default("WAITING_PROFILE")
+  createdAt          DateTime  @default(now())
   updatedAt DateTime @updatedAt
 
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -205,7 +209,8 @@ model PsychologistProfile {
   specializations Specialization[]
   expertises      Expertise[]
   schedules       Schedule[]
-  sessionNotes    SessionNote[]
+  sessionNotes           SessionNote[]
+  officialMedicalRecords OfficialMedicalRecord[]
   bookings        Booking[]        @relation("PsychologistBookings")
   reviews         BookingReview[]  @relation("PsychologistReviews")
 }
@@ -304,6 +309,9 @@ model SessionNote {
 
   followUpDate              DateTime?
   nextSessionRecommendation String?   @db.Text
+  riskReason                String?   @db.Text
+  currentMedication         String?   @db.Text
+  allergies                 String?   @db.Text
   tags                      String[]  @default([])
 
   createdAt DateTime  @default(now())
@@ -315,12 +323,54 @@ model SessionNote {
   schedule            Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
   booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
 
+  officialMedicalRecords OfficialMedicalRecord[]
+
   @@index([psychologistProfileId, createdAt])
   @@index([userId])
   @@index([riskLevel])
   @@index([scheduleId])
   @@index([consultationStatus])
   @@index([bookingId])
+}
+
+model OfficialMedicalRecord {
+  id                    String   @id @default(uuid())
+  userId                String
+  psychologistProfileId String
+  bookingId             Int?
+  sessionNoteId         String?
+
+  sessionNumber         Int      @default(1)
+  consultationDate      DateTime @default(now())
+
+  diagnosis             String   @db.Text
+  currentMedication     String?  @db.Text
+  allergies             String?  @db.Text
+
+  problemSummary        String   @db.Text
+  therapyApproach       String   @db.Text
+  followUpPlan          String   @default("CONTINUE_SESSION")
+  nextSessionDate       DateTime?
+  additionalNotes       String?  @db.Text
+
+  riskLevel             RiskLevel @default(LOW)
+  riskReason            String?  @db.Text
+  followUpDate          DateTime?
+  nextSessionRecommendation String? @db.Text
+
+  pdfUrl                String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  sessionNote         SessionNote?        @relation(fields: [sessionNoteId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([psychologistProfileId])
+  @@index([bookingId])
+  @@index([sessionNoteId])
 }
 
 model Layanan {
@@ -486,6 +536,7 @@ model Booking {
   consultationForm ConsultationForm?
   consentForm      ConsentForm?
   sessionNote      SessionNote?
+  officialMedicalRecords OfficialMedicalRecord[]
   payments Payment[]
   review   BookingReview?
 

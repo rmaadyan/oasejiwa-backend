@@ -179,6 +179,9 @@ export class PsychologistNotesService {
 
       followUpDate: this.toDateOnly(note.followUpDate),
       nextSessionRecommendation: note.nextSessionRecommendation,
+      riskReason: note.riskReason || null,
+      currentMedication: note.currentMedication || null,
+      allergies: note.allergies || null,
       tags: note.tags ?? [],
 
       createdAt: note.createdAt,
@@ -216,33 +219,82 @@ export class PsychologistNotesService {
       throw new BadRequestException('Target note harus user/pasien');
     }
 
-    if (dto.scheduleId) {
-      const schedule = await this.prisma.schedule.findFirst({
+    let validScheduleId = dto.scheduleId;
+
+    if (validScheduleId) {
+      let schedule = await this.prisma.schedule.findFirst({
         where: {
-          id: dto.scheduleId,
+          id: validScheduleId,
           psychologistId: psychologist.id,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      if (!schedule) {
-        throw new ForbiddenException(
-          'Jadwal tidak ditemukan atau bukan milik Anda',
-        );
-      }
-
-      const existingNote = await this.prisma.sessionNote.findFirst({
-        where: {
-          scheduleId: dto.scheduleId,
-          deletedAt: null,
         },
         select: { id: true },
       });
 
-      if (existingNote) {
-        throw new BadRequestException('Catatan untuk jadwal ini sudah ada');
+      if (!schedule) {
+        schedule = await this.prisma.schedule.findUnique({
+          where: { id: validScheduleId },
+          select: { id: true },
+        });
+
+        if (!schedule) {
+          const booking = await this.prisma.booking.findFirst({
+            where: {
+              OR: [
+                { id: Number(validScheduleId) || -1 },
+                { userId: dto.userId, psychologistId: psychologist.id },
+              ],
+            },
+            select: { id: true, scheduleId: true },
+          });
+
+          if (booking && booking.scheduleId) {
+            validScheduleId = booking.scheduleId;
+          } else {
+            const existingSchedule = await this.prisma.schedule.findFirst({
+              where: { psychologistId: psychologist.id },
+              select: { id: true },
+            });
+
+            if (existingSchedule) {
+              validScheduleId = existingSchedule.id;
+            } else {
+              const newSchedule = await this.prisma.schedule.create({
+                data: {
+                  psychologistId: psychologist.id,
+                  date: new Date(),
+                  startTime: '09:00',
+                  duration: 60,
+                  isAvailable: false,
+                },
+                select: { id: true },
+              });
+              validScheduleId = newSchedule.id;
+            }
+          }
+        } else {
+          validScheduleId = schedule.id;
+        }
+      }
+    } else {
+      const existingSchedule = await this.prisma.schedule.findFirst({
+        where: { psychologistId: psychologist.id },
+        select: { id: true },
+      });
+
+      if (existingSchedule) {
+        validScheduleId = existingSchedule.id;
+      } else {
+        const newSchedule = await this.prisma.schedule.create({
+          data: {
+            psychologistId: psychologist.id,
+            date: new Date(),
+            startTime: '09:00',
+            duration: 60,
+            isAvailable: false,
+          },
+          select: { id: true },
+        });
+        validScheduleId = newSchedule.id;
       }
     }
 
@@ -258,40 +310,99 @@ export class PsychologistNotesService {
       sessionNum = count + 1;
     }
 
-    const note = await this.prisma.sessionNote.create({
-      data: {
-        psychologistProfileId: psychologist.id,
-        userId: dto.userId,
-        scheduleId: dto.scheduleId,
-        bookingId: dto.bookingId,
-        subjective: dto.subjective,
-        objective: dto.objective,
-        assessment: dto.assessment,
-        plan: dto.plan,
-        riskLevel: dto.riskLevel ? ((this.riskLevelMap[dto.riskLevel] || 'MEDIUM') as any) : 'MEDIUM',
-        sessionNumber: sessionNum,
-        consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
-        consultationStatus: dto.consultationStatus || 'ONGOING',
-        diagnosisSummary: dto.diagnosisSummary || dto.subjective,
-        treatmentApproach: dto.treatmentApproach || dto.plan,
-        recommendation: dto.recommendation || dto.nextSessionRecommendation,
-        followUpPlan: dto.followUpPlan || 'CONTINUE_SESSION',
-        additionalNotes: dto.additionalNotes,
-        followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
-        nextSessionRecommendation: dto.nextSessionRecommendation,
-        tags: dto.tags ?? [],
-      },
-      include: {
-        user: {
-          include: {
-            userProfile: true,
-          },
+    const noteResult = await this.prisma.$transaction(async (tx) => {
+      const note = await tx.sessionNote.create({
+        data: {
+          psychologistProfileId: psychologist.id,
+          userId: dto.userId,
+          scheduleId: validScheduleId,
+          bookingId: dto.bookingId,
+          subjective: dto.subjective,
+          objective: dto.objective,
+          assessment: dto.assessment,
+          plan: dto.plan,
+          riskLevel: dto.riskLevel ? ((this.riskLevelMap[dto.riskLevel] || 'MEDIUM') as any) : 'MEDIUM',
+          sessionNumber: sessionNum,
+          consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : new Date(),
+          consultationStatus: dto.consultationStatus || 'ONGOING',
+          diagnosisSummary: dto.diagnosisSummary || dto.diagnosis || dto.subjective,
+          treatmentApproach: dto.treatmentApproach || dto.plan,
+          recommendation: dto.recommendation || dto.nextSessionRecommendation,
+          followUpPlan: dto.followUpPlan || 'CONTINUE_SESSION',
+          additionalNotes: dto.additionalNotes,
+          followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
+          nextSessionRecommendation: dto.nextSessionRecommendation,
+          riskReason: dto.riskReason,
+          currentMedication: dto.medication,
+          allergies: dto.allergies,
+          tags: dto.tags ?? [],
         },
-        schedule: true,
-      },
+        include: {
+          user: {
+            include: {
+              userProfile: true,
+            },
+          },
+          schedule: true,
+        },
+      });
+
+      await tx.officialMedicalRecord.create({
+        data: {
+          userId: dto.userId,
+          psychologistProfileId: psychologist.id,
+          sessionNoteId: note.id,
+          bookingId: note.bookingId || undefined,
+          sessionNumber: sessionNum,
+          consultationDate: note.consultationDate || new Date(),
+          diagnosis: dto.diagnosisSummary || dto.diagnosis || dto.subjective || 'Dalam Evaluasi',
+          currentMedication: dto.medication || note.currentMedication || null,
+          allergies: dto.allergies || note.allergies || null,
+          problemSummary: dto.subjective || 'Catatan Sesi Konseling',
+          therapyApproach: dto.plan || 'Intervensi Psikologis',
+          followUpPlan: dto.followUpPlan || 'CONTINUE_SESSION',
+          additionalNotes: dto.additionalNotes || null,
+          riskLevel: note.riskLevel,
+          riskReason: dto.riskReason || null,
+          followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
+          nextSessionRecommendation: dto.nextSessionRecommendation || null,
+        },
+      });
+
+      if (dto.diagnosis || dto.medication || dto.allergies) {
+        const diagArray = dto.diagnosis ? [dto.diagnosis] : [];
+        const medArray = dto.medication ? [dto.medication] : [];
+        const algArray = dto.allergies ? [dto.allergies] : [];
+
+        const existingMed = await tx.patientMedicalRecord.findUnique({
+          where: { userId: dto.userId },
+        });
+
+        if (existingMed) {
+          await tx.patientMedicalRecord.update({
+            where: { userId: dto.userId },
+            data: {
+              diagnosis: diagArray.length > 0 ? diagArray : undefined,
+              currentMedication: medArray.length > 0 ? medArray : undefined,
+              allergies: algArray.length > 0 ? algArray : undefined,
+            },
+          });
+        } else {
+          await tx.patientMedicalRecord.create({
+            data: {
+              userId: dto.userId,
+              diagnosis: diagArray,
+              currentMedication: medArray,
+              allergies: algArray,
+            },
+          });
+        }
+      }
+
+      return note;
     });
 
-    return this.mapNoteResponseWithFallback(note);
+    return this.mapNoteResponseWithFallback(noteResult);
   }
 
   async findAll(currentUser: any, query: QueryPsychologistNoteDto) {
@@ -479,41 +590,98 @@ export class PsychologistNotesService {
       throw new BadRequestException('userId tidak boleh diubah');
     }
 
-    const updated = await this.prisma.sessionNote.update({
-      where: { id },
-      data: {
-        subjective: dto.subjective,
-        objective: dto.objective,
-        assessment: dto.assessment,
-        plan: dto.plan,
-        riskLevel: dto.riskLevel ? (this.riskLevelMap[dto.riskLevel] as any) : undefined,
-        sessionNumber: dto.sessionNumber,
-        consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
-        consultationStatus: dto.consultationStatus,
-        diagnosisSummary: dto.diagnosisSummary,
-        treatmentApproach: dto.treatmentApproach,
-        recommendation: dto.recommendation,
-        followUpPlan: dto.followUpPlan,
-        additionalNotes: dto.additionalNotes,
-        followUpDate: dto.followUpDate
-          ? new Date(dto.followUpDate)
-          : dto.followUpDate === ''
-            ? null
-            : undefined,
-        nextSessionRecommendation:
-          dto.nextSessionRecommendation !== undefined
-            ? dto.nextSessionRecommendation
-            : undefined,
-        tags: dto.tags ?? undefined,
-      },
-      include: {
-        user: {
-          include: {
-            userProfile: true,
-          },
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const note = await tx.sessionNote.update({
+        where: { id },
+        data: {
+          subjective: dto.subjective,
+          objective: dto.objective,
+          assessment: dto.assessment,
+          plan: dto.plan,
+          riskLevel: dto.riskLevel ? (this.riskLevelMap[dto.riskLevel] as any) : undefined,
+          sessionNumber: dto.sessionNumber,
+          consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
+          consultationStatus: dto.consultationStatus,
+          diagnosisSummary: dto.diagnosisSummary,
+          treatmentApproach: dto.treatmentApproach,
+          recommendation: dto.recommendation,
+          followUpPlan: dto.followUpPlan,
+          additionalNotes: dto.additionalNotes,
+          followUpDate: dto.followUpDate
+            ? new Date(dto.followUpDate)
+            : dto.followUpDate === ''
+              ? null
+              : undefined,
+          nextSessionRecommendation:
+            dto.nextSessionRecommendation !== undefined
+              ? dto.nextSessionRecommendation
+              : undefined,
+          tags: dto.tags ?? undefined,
         },
-        schedule: true,
-      },
+        include: {
+          user: {
+            include: {
+              userProfile: true,
+            },
+          },
+          schedule: true,
+        },
+      });
+
+      // Sync OfficialMedicalRecord for Admin & PDF Reports
+      const updatedDiagnosis = dto.diagnosisSummary || dto.subjective || note.diagnosisSummary || note.subjective || 'Dalam Evaluasi';
+      const updatedMedication = dto.medication || note.currentMedication || null;
+      const updatedAllergies = dto.allergies || note.allergies || null;
+
+      await tx.officialMedicalRecord.updateMany({
+        where: {
+          sessionNoteId: id,
+        },
+        data: {
+          diagnosis: updatedDiagnosis,
+          currentMedication: updatedMedication,
+          allergies: updatedAllergies,
+          problemSummary: note.subjective || 'Catatan Sesi Konseling',
+          therapyApproach: note.plan || 'Intervensi Psikologis',
+          followUpPlan: (note.followUpPlan as any) || 'CONTINUE_SESSION',
+          additionalNotes: note.additionalNotes || null,
+          riskLevel: note.riskLevel,
+          riskReason: note.riskReason || null,
+          followUpDate: note.followUpDate ? new Date(note.followUpDate) : undefined,
+          nextSessionRecommendation: note.nextSessionRecommendation || null,
+        },
+      });
+
+      // Sync PatientMedicalRecord
+      const diagArray = updatedDiagnosis ? [updatedDiagnosis] : [];
+      const medArray = updatedMedication ? [updatedMedication] : [];
+      const algArray = updatedAllergies ? [updatedAllergies] : [];
+
+      const existingMed = await tx.patientMedicalRecord.findUnique({
+        where: { userId: note.userId },
+      });
+
+      if (existingMed) {
+        await tx.patientMedicalRecord.update({
+          where: { userId: note.userId },
+          data: {
+            diagnosis: diagArray.length > 0 ? diagArray : undefined,
+            currentMedication: medArray.length > 0 ? medArray : undefined,
+            allergies: algArray.length > 0 ? algArray : undefined,
+          },
+        });
+      } else {
+        await tx.patientMedicalRecord.create({
+          data: {
+            userId: note.userId,
+            diagnosis: diagArray,
+            currentMedication: medArray,
+            allergies: algArray,
+          },
+        });
+      }
+
+      return note;
     });
 
     return this.mapNoteResponseWithFallback(updated);

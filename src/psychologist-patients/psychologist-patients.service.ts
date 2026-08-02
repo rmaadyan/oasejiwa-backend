@@ -54,6 +54,9 @@ export class PsychologistPatientsService {
     const psychologistId = await this.getPsychologistProfileId(currentUser.id);
     const { search, sortBy = 'name' } = query;
 
+    const patientMap = new Map<string, any>();
+
+    // 1. Fetch bookings
     const bookings = await this.prisma.booking.findMany({
       where: {
         psychologistId,
@@ -74,114 +77,153 @@ export class PsychologistPatientsService {
       },
     });
 
-    let patients: any[] = [];
-
-    const validPatientBookings = bookings.filter((booking) =>
-      this.isPatientBookingStatus(booking.status),
-    );
-
-    if (validPatientBookings.length > 0) {
-      const patientMap = new Map<string, any>();
- 
-      for (const booking of validPatientBookings) {
-        const existing = patientMap.get(booking.userId);
- 
-        if (!existing) {
-          patientMap.set(booking.userId, {
-            id: booking.userId,
-            name: this.getPatientName(booking.user),
-            email: booking.user?.email || '',
-            phone: booking.user?.userProfile?.phone || null,
-            photo: null,
-            firstSessionDate: booking.scheduledDate,
-            lastSessionDate: booking.scheduledDate,
-            totalSessions: 1,
-            upcomingSessionDate: this.isUpcomingStatus(booking.status)
-              ? booking.scheduledDate
-              : null,
-            notes: booking.notes || null,
-          });
-        } else {
-          existing.totalSessions += 1;
- 
-          if (booking.scheduledDate < existing.firstSessionDate) {
-            existing.firstSessionDate = booking.scheduledDate;
-          }
- 
-          if (booking.scheduledDate > existing.lastSessionDate) {
-            existing.lastSessionDate = booking.scheduledDate;
-          }
- 
-          if (
-            this.isUpcomingStatus(booking.status) &&
-            (!existing.upcomingSessionDate ||
-              booking.scheduledDate < existing.upcomingSessionDate)
-          ) {
-            existing.upcomingSessionDate = booking.scheduledDate;
-          }
- 
-          if (!existing.notes && booking.notes) {
-            existing.notes = booking.notes;
-          }
+    for (const booking of bookings) {
+      const existing = patientMap.get(booking.userId);
+      if (!existing) {
+        patientMap.set(booking.userId, {
+          id: booking.userId,
+          name: this.getPatientName(booking.user),
+          email: booking.user?.email || '',
+          phone: booking.user?.userProfile?.phone || null,
+          photo: null,
+          firstSessionDate: booking.scheduledDate,
+          lastSessionDate: booking.scheduledDate,
+          totalSessions: 1,
+          upcomingSessionDate: this.isUpcomingStatus(booking.status)
+            ? booking.scheduledDate
+            : null,
+          notes: booking.notes || null,
+        });
+      } else {
+        existing.totalSessions += 1;
+        if (booking.scheduledDate < existing.firstSessionDate) {
+          existing.firstSessionDate = booking.scheduledDate;
+        }
+        if (booking.scheduledDate > existing.lastSessionDate) {
+          existing.lastSessionDate = booking.scheduledDate;
+        }
+        if (
+          this.isUpcomingStatus(booking.status) &&
+          (!existing.upcomingSessionDate ||
+            booking.scheduledDate < existing.upcomingSessionDate)
+        ) {
+          existing.upcomingSessionDate = booking.scheduledDate;
         }
       }
- 
-      patients = Array.from(patientMap.values());
-    } else {
-      const notes = await this.prisma.sessionNote.findMany({
-        where: {
-          psychologistProfileId: psychologistId,
-          deletedAt: null,
-        },
-        include: {
-          user: {
-            include: {
-              userProfile: true,
-            },
+    }
+
+    // 2. Fetch session notes
+    const notes = await this.prisma.sessionNote.findMany({
+      where: {
+        psychologistProfileId: psychologistId,
+        deletedAt: null,
+      },
+      include: {
+        user: {
+          include: {
+            userProfile: true,
           },
         },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      });
- 
-      const patientMap = new Map<string, any>();
- 
-      for (const note of notes) {
-        const existing = patientMap.get(note.userId);
- 
-        if (!existing) {
-          patientMap.set(note.userId, {
-            id: note.userId,
-            name: this.getPatientName(note.user),
-            email: note.user?.email || '',
-            phone: note.user?.userProfile?.phone || null,
-            photo: null,
-            firstSessionDate: note.createdAt,
-            lastSessionDate: note.createdAt,
-            totalSessions: 1,
-            upcomingSessionDate: null,
-            notes: note.assessment || note.subjective || null,
-          });
-        } else {
-          existing.totalSessions += 1;
- 
-          if (note.createdAt < existing.firstSessionDate) {
-            existing.firstSessionDate = note.createdAt;
-          }
- 
-          if (note.createdAt > existing.lastSessionDate) {
-            existing.lastSessionDate = note.createdAt;
-          }
- 
-          if (!existing.notes && (note.assessment || note.subjective)) {
-            existing.notes = note.assessment || note.subjective;
-          }
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    for (const note of notes) {
+      const existing = patientMap.get(note.userId);
+      if (!existing) {
+        patientMap.set(note.userId, {
+          id: note.userId,
+          name: this.getPatientName(note.user),
+          email: note.user?.email || '',
+          phone: note.user?.userProfile?.phone || null,
+          photo: null,
+          firstSessionDate: note.createdAt,
+          lastSessionDate: note.createdAt,
+          totalSessions: 1,
+          upcomingSessionDate: null,
+          notes: note.assessment || note.subjective || null,
+        });
+      } else {
+        existing.totalSessions += 1;
+        if (note.createdAt < existing.firstSessionDate) {
+          existing.firstSessionDate = note.createdAt;
+        }
+        if (note.createdAt > existing.lastSessionDate) {
+          existing.lastSessionDate = note.createdAt;
         }
       }
- 
-      patients = Array.from(patientMap.values());
     }
+
+    // 3. Fetch official medical records
+    const officialRecords = await this.prisma.officialMedicalRecord.findMany({
+      where: {
+        psychologistProfileId: psychologistId,
+      },
+      include: {
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    for (const rec of officialRecords) {
+      const existing = patientMap.get(rec.userId);
+      if (!existing) {
+        patientMap.set(rec.userId, {
+          id: rec.userId,
+          name: this.getPatientName(rec.user),
+          email: rec.user?.email || '',
+          phone: rec.user?.userProfile?.phone || null,
+          photo: null,
+          firstSessionDate: rec.createdAt,
+          lastSessionDate: rec.createdAt,
+          totalSessions: 1,
+          upcomingSessionDate: null,
+          notes: rec.problemSummary || null,
+        });
+      }
+    }
+
+    // 4. Fetch all users with role 'USER' to ensure new patients appear with 0 sessions
+    const allUsers = await this.prisma.user.findMany({
+      where: {
+        role: 'USER',
+      },
+      include: {
+        userProfile: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    for (const u of allUsers) {
+      if (!patientMap.has(u.id)) {
+        patientMap.set(u.id, {
+          id: u.id,
+          name: this.getPatientName(u),
+          email: u.email || '',
+          phone: u.userProfile?.phone || null,
+          photo: null,
+          firstSessionDate: null,
+          lastSessionDate: null,
+          totalSessions: 0,
+          upcomingSessionDate: null,
+          latestRiskLevel: null,
+          hasSessionNotes: false,
+          notes: null,
+        });
+      }
+    }
+
+    let patients = Array.from(patientMap.values());
 
     if (search) {
       const keyword = String(search).toLowerCase();
@@ -347,6 +389,7 @@ export class PsychologistPatientsService {
           },
         },
         schedule: true,
+        psychologistProfile: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -543,8 +586,160 @@ export class PsychologistPatientsService {
     });
 
     return {
-      message: 'Kontak darurat pasien berhasil diperbarui',
+      message: 'Kontak darurat berhasil diperbarui',
       data: emergencyContact,
     };
+  }
+
+  async createPatient(currentUser: any, dto: any) {
+    const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+    const email = (dto.email || `pasien-${Date.now()}@oasejiwa.com`).trim().toLowerCase();
+
+    let user = await this.prisma.user.findUnique({
+      where: { email },
+      include: { userProfile: true },
+    });
+
+    if (!user) {
+      const bcrypt = require('bcrypt');
+      const hashedPassword = await bcrypt.hash('user123456', 10);
+      user = await this.prisma.user.create({
+        data: {
+          email,
+          role: 'USER',
+          isEmailVerified: true,
+          authProvider: {
+            create: {
+              provider: 'EMAIL',
+              passwordHash: hashedPassword,
+            },
+          },
+          userProfile: {
+            create: {
+              fullName: dto.name || 'Pasien Baru',
+              phone: dto.phone || null,
+              gender: dto.gender === 'male' ? 'MALE' : 'FEMALE',
+              fullAddress: dto.address || null,
+              birthday: dto.birthday ? new Date(dto.birthday) : null,
+              maritalStatus: dto.maritalStatus || null,
+              occupation: dto.occupation || null,
+            },
+          },
+        },
+        include: { userProfile: true },
+      });
+    } else if (user.userProfile) {
+      await this.prisma.userProfile.update({
+        where: { userId: user.id },
+        data: {
+          fullName: dto.name || user.userProfile.fullName,
+          phone: dto.phone || user.userProfile.phone,
+          gender: dto.gender ? (dto.gender === 'male' ? 'MALE' : 'FEMALE') : user.userProfile.gender,
+          fullAddress: dto.address || user.userProfile.fullAddress,
+          birthday: dto.birthday ? new Date(dto.birthday) : user.userProfile.birthday,
+          maritalStatus: dto.maritalStatus || user.userProfile.maritalStatus,
+          occupation: dto.occupation || user.userProfile.occupation,
+        },
+      });
+    }
+
+    if (!user) {
+      throw new Error('Gagal membuat user pasien');
+    }
+
+    const userId = user.id;
+    const userEmail = user.email;
+
+    if (dto.emergencyContactName) {
+      const existingEmergency = await this.prisma.emergencyContact.findFirst({
+        where: { userId },
+      });
+      if (existingEmergency) {
+        await this.prisma.emergencyContact.update({
+          where: { id: existingEmergency.id },
+          data: {
+            name: dto.emergencyContactName,
+            phone: dto.emergencyContactPhone || '-',
+            relation: dto.emergencyContactRelation || '-',
+          },
+        });
+      } else {
+        await this.prisma.emergencyContact.create({
+          data: {
+            userId,
+            name: dto.emergencyContactName,
+            phone: dto.emergencyContactPhone || '-',
+            relation: dto.emergencyContactRelation || '-',
+          },
+        });
+      }
+    }
+
+    // PatientMedicalRecord - initialize empty arrays or leave empty
+    const existingMedRecord = await this.prisma.patientMedicalRecord.findUnique({
+      where: { userId },
+    });
+    if (!existingMedRecord) {
+      await this.prisma.patientMedicalRecord.create({
+        data: {
+          userId,
+          diagnosis: [],
+          currentMedication: [],
+          allergies: [],
+        },
+      });
+    }
+
+    return {
+      id: userId,
+      name: dto.name,
+      email: userEmail,
+      phone: dto.phone || null,
+      gender: dto.gender || 'female',
+      age: dto.age ? Number(dto.age) : 0,
+      address: dto.address || null,
+      birthday: dto.birthday || null,
+      maritalStatus: dto.maritalStatus || null,
+      occupation: dto.occupation || null,
+      emergencyContact: {
+        name: dto.emergencyContactName || null,
+        phone: dto.emergencyContactPhone || null,
+        relation: dto.emergencyContactRelation || null,
+      },
+      diagnosis: [],
+      currentMedication: [],
+      allergies: [],
+      riskLevel: null,
+      latestRiskLevel: null,
+      riskReason: null,
+      totalSessions: 0,
+      firstSessionDate: null,
+      lastSessionDate: null,
+      hasSessionNotes: false,
+    };
+  }
+
+  async deletePatient(currentUser: any, patientId: string) {
+    const targetUser = await this.prisma.user.findUnique({
+      where: { id: patientId },
+    });
+
+    if (!targetUser) {
+      throw new NotFoundException('Pasien tidak ditemukan');
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.officialMedicalRecord.deleteMany({ where: { userId: patientId } });
+      await tx.sessionNote.deleteMany({ where: { userId: patientId } });
+      await tx.patientMedicalRecord.deleteMany({ where: { userId: patientId } });
+      await tx.emergencyContact.deleteMany({ where: { userId: patientId } });
+      await tx.consultationForm.deleteMany({ where: { booking: { userId: patientId } } });
+      await tx.payment.deleteMany({ where: { booking: { userId: patientId } } });
+      await tx.booking.deleteMany({ where: { userId: patientId } });
+      await tx.userProfile.deleteMany({ where: { userId: patientId } });
+      await tx.user.delete({ where: { id: patientId } });
+    });
+
+    return { message: 'Pasien berhasil dihapus secara permanen dari rekam medis' };
   }
 }

@@ -76,6 +76,9 @@ export class PsychologistProfileService {
       expertises: profile.expertises.map((e: any) => e.name),
       expertise: profile.expertises.map((e: any) => e.name),
       schedules: profile.schedules,
+      signatureUrl: profile.signatureUrl || null,
+      signatureUpdatedAt: profile.signatureUpdatedAt || null,
+      signatureMethod: profile.signatureMethod || 'UPLOAD',
       status: 'active',
       joinedDate: profile.createdAt,
       createdAt: profile.createdAt,
@@ -101,8 +104,35 @@ export class PsychologistProfileService {
       avatarUrl = `/uploads/${file.filename}`;
     }
 
+    console.log('=== UPDATE ME RECEIVED DTO ===', JSON.stringify(dto, null, 2));
+
     await this.prisma.$transaction(async (tx) => {
       // 1. Update Profile Utama
+      const signatureData: any = {};
+      const incomingSignatureUrl =
+        dto.signatureUrl !== undefined && dto.signatureUrl !== null
+          ? dto.signatureUrl
+          : (dto as any).signature !== undefined && (dto as any).signature !== null
+          ? (dto as any).signature
+          : (dto as any).signatureImage !== undefined && (dto as any).signatureImage !== null
+          ? (dto as any).signatureImage
+          : undefined;
+
+      const incomingSignatureMethod =
+        dto.signatureMethod || (dto as any).signatureMethod || 'UPLOAD';
+
+      if (dto.clearSignature || (dto as any).clearSignature) {
+        signatureData.signatureUrl = null;
+        signatureData.signatureUpdatedAt = null;
+        signatureData.signatureMethod = 'UPLOAD';
+      } else if (incomingSignatureUrl !== undefined) {
+        signatureData.signatureUrl = incomingSignatureUrl;
+        signatureData.signatureUpdatedAt = new Date();
+        signatureData.signatureMethod = incomingSignatureMethod;
+      }
+
+      console.log('=== SIGNATURE DATA TO SAVE IN DB ===', signatureData);
+
       await tx.psychologistProfile.update({
         where: { id: psychologistId },
         data: {
@@ -113,6 +143,7 @@ export class PsychologistProfileService {
           ...(dto.str !== undefined && { str: dto.str }),
           ...(dto.about !== undefined && { about: dto.about }),
           ...(avatarUrl !== undefined && { avatarUrl }),
+          ...signatureData,
           status: 'ACTIVE',
         },
       });
