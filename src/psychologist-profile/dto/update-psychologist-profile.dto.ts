@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsInt,
   IsOptional,
   IsString,
@@ -7,7 +8,8 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class EducationDto {
+// 1. DTO Pendidikan
+export class EducationDto {
   @IsOptional()
   @IsString()
   degree?: string;
@@ -21,15 +23,16 @@ class EducationDto {
   city?: string;
 
   @IsOptional()
-  @IsInt()
-  startYear?: number;
+  @IsString()
+  startYear?: string;
 
   @IsOptional()
-  @IsInt()
-  endYear?: number;
+  @IsString()
+  endYear?: string;
 }
 
-class ScheduleDto {
+// 2. DTO Jadwal Praktik
+export class ScheduleDto {
   @IsOptional()
   @IsString()
   date?: string;
@@ -43,13 +46,23 @@ class ScheduleDto {
   duration?: number;
 
   @IsOptional()
+  @IsBoolean()
   isAvailable?: boolean;
 }
 
+// 3. DTO Utama Profil Psikolog
 export class UpdatePsychologistProfileDto {
   @IsOptional()
   @IsString()
   fullName?: string;
+
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string;
 
   @IsOptional()
   @IsString()
@@ -67,11 +80,24 @@ export class UpdatePsychologistProfileDto {
   @IsString()
   avatarUrl?: string;
 
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  specializations?: string[];
+
+  // 🟢 Disesuaikan agar `schedules` terdaftar dan tidak melempar error TypeScript
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ScheduleDto)
+  schedules?: ScheduleDto[];
+
+  // 🟢 `education` tanpa huruf 's'
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => EducationDto)
-  educations?: EducationDto[];
+  education?: EducationDto[];
 
   @IsOptional()
   @IsArray()
@@ -81,16 +107,17 @@ export class UpdatePsychologistProfileDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  specializations?: string[];
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
   expertises?: string[];
 
   @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ScheduleDto)
-  schedules?: ScheduleDto[];
+  @IsString()
+  signatureUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  signatureMethod?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  clearSignature?: boolean;
 }

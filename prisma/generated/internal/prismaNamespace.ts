@@ -408,7 +408,8 @@ export const ModelName = {
   Pertanyaan: 'Pertanyaan',
   LikertOption: 'LikertOption',
   DiagnosisKategori: 'DiagnosisKategori',
-  SectionKategori: 'SectionKategori'
+  SectionKategori: 'SectionKategori',
+  TesResult: 'TesResult'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -424,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "authProvider" | "passwordReset" | "userProfile" | "patientMedicalRecord" | "emergencyContact" | "psychologistProfile" | "education" | "experience" | "specialization" | "expertise" | "schedule" | "emailVerification" | "sessionNote" | "layanan" | "consultationForm" | "consentForm" | "booking" | "payment" | "bookingReview" | "tes" | "pertanyaan" | "likertOption" | "diagnosisKategori" | "sectionKategori"
+    modelProps: "user" | "authProvider" | "passwordReset" | "userProfile" | "patientMedicalRecord" | "emergencyContact" | "psychologistProfile" | "education" | "experience" | "specialization" | "expertise" | "schedule" | "emailVerification" | "sessionNote" | "layanan" | "consultationForm" | "consentForm" | "booking" | "payment" | "bookingReview" | "tes" | "pertanyaan" | "likertOption" | "diagnosisKategori" | "sectionKategori" | "tesResult"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2278,6 +2279,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TesResult: {
+      payload: Prisma.$TesResultPayload<ExtArgs>
+      fields: Prisma.TesResultFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TesResultFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TesResultFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        findFirst: {
+          args: Prisma.TesResultFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TesResultFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        findMany: {
+          args: Prisma.TesResultFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>[]
+        }
+        create: {
+          args: Prisma.TesResultCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        createMany: {
+          args: Prisma.TesResultCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TesResultCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>[]
+        }
+        delete: {
+          args: Prisma.TesResultDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        update: {
+          args: Prisma.TesResultUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        deleteMany: {
+          args: Prisma.TesResultDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TesResultUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TesResultUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>[]
+        }
+        upsert: {
+          args: Prisma.TesResultUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TesResultPayload>
+        }
+        aggregate: {
+          args: Prisma.TesResultAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTesResult>
+        }
+        groupBy: {
+          args: Prisma.TesResultGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TesResultGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TesResultCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TesResultCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2361,11 +2436,19 @@ export const UserProfileScalarFieldEnum = {
   userId: 'userId',
   fullName: 'fullName',
   birthday: 'birthday',
+  placeOfBirth: 'placeOfBirth',
   gender: 'gender',
   country: 'country',
   city: 'city',
   fullAddress: 'fullAddress',
-  phone: 'phone'
+  originalAddress: 'originalAddress',
+  phone: 'phone',
+  occupation: 'occupation',
+  maritalStatus: 'maritalStatus',
+  siblingPosition: 'siblingPosition',
+  totalSiblings: 'totalSiblings',
+  isFirstVisit: 'isFirstVisit',
+  educationHistory: 'educationHistory'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -2405,6 +2488,7 @@ export const PsychologistProfileScalarFieldEnum = {
   str: 'str',
   about: 'about',
   avatarUrl: 'avatarUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2486,11 +2570,20 @@ export const SessionNoteScalarFieldEnum = {
   psychologistProfileId: 'psychologistProfileId',
   userId: 'userId',
   scheduleId: 'scheduleId',
+  bookingId: 'bookingId',
   subjective: 'subjective',
   objective: 'objective',
   assessment: 'assessment',
   plan: 'plan',
   riskLevel: 'riskLevel',
+  sessionNumber: 'sessionNumber',
+  consultationDate: 'consultationDate',
+  consultationStatus: 'consultationStatus',
+  diagnosisSummary: 'diagnosisSummary',
+  treatmentApproach: 'treatmentApproach',
+  recommendation: 'recommendation',
+  followUpPlan: 'followUpPlan',
+  additionalNotes: 'additionalNotes',
   followUpDate: 'followUpDate',
   nextSessionRecommendation: 'nextSessionRecommendation',
   tags: 'tags',
@@ -2686,12 +2779,38 @@ export const SectionKategoriScalarFieldEnum = {
 export type SectionKategoriScalarFieldEnum = (typeof SectionKategoriScalarFieldEnum)[keyof typeof SectionKategoriScalarFieldEnum]
 
 
+export const TesResultScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tesId: 'tesId',
+  namaTes: 'namaTes',
+  totalScore: 'totalScore',
+  maxScore: 'maxScore',
+  percentage: 'percentage',
+  kategoriNama: 'kategoriNama',
+  status: 'status',
+  sectionScores: 'sectionScores',
+  answers: 'answers',
+  createdAt: 'createdAt'
+} as const
+
+export type TesResultScalarFieldEnum = (typeof TesResultScalarFieldEnum)[keyof typeof TesResultScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2708,6 +2827,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -2794,6 +2922,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'RiskLevel'
  */
 export type EnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel'>
@@ -2804,6 +2946,34 @@ export type EnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'RiskLevel[]'
  */
 export type ListEnumRiskLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RiskLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ConsultationStatus'
+ */
+export type EnumConsultationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ConsultationStatus[]'
+ */
+export type ListEnumConsultationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultationStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FollowUpPlan'
+ */
+export type EnumFollowUpPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FollowUpPlan'>
+    
+
+
+/**
+ * Reference to a field of type 'FollowUpPlan[]'
+ */
+export type ListEnumFollowUpPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FollowUpPlan[]'>
     
 
 
@@ -3058,6 +3228,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
+
+/**
+ * Reference to a field of type 'TestResultStatus'
+ */
+export type EnumTestResultStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestResultStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'TestResultStatus[]'
+ */
+export type ListEnumTestResultStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestResultStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -3178,6 +3362,7 @@ export type GlobalOmitConfig = {
   likertOption?: Prisma.LikertOptionOmit
   diagnosisKategori?: Prisma.DiagnosisKategoriOmit
   sectionKategori?: Prisma.SectionKategoriOmit
+  tesResult?: Prisma.TesResultOmit
 }
 
 /* Types for Logging */

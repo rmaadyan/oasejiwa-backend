@@ -1,43 +1,44 @@
-import { IsString, IsOptional, IsDateString, IsEnum, Matches } from "class-validator";
-import { IsEmail } from "class-validator";
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
-export enum GenderDto{
-    MALE = 'MALE',
-    FEMALE = 'FEMALE',
+export class UpdateProfileDto {
+  @IsString()
+  @IsOptional()
+  fullName?: string;
+
+  @IsEmail({}, { message: 'Format email tidak valid' })
+  @IsOptional()
+  email?: string;
+
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @IsString()
+  @IsOptional()
+  birthday?: string;
+
+  @IsString({ message: 'Pilihan gender harus berupa teks' })
+  @IsOptional()
+  gender?: string;
+
+  @IsString()
+  @IsOptional()
+  country?: string;
+
+  @IsString()
+  @IsOptional()
+  city?: string;
+
+  @IsString()
+  @IsOptional()
+  fullAddress?: string;
+
+  @IsString()
+  @IsOptional()
+  bio?: string;
+
+  // ✅ TAMBAHKAN DUA BARIS INI DI BACKEND:
+  @IsString()
+  @IsOptional()
+  avatarUrl?: string;
 }
-
-export class UpdateProfileDto{
-    @IsOptional()
-    @IsString()
-    fullName?: string;
-
-    @IsOptional()
-    @IsEmail({}, { message: 'Format email tidak valid' })
-    email?: string;
-
-    @IsOptional()
-    @IsDateString({}, { message: 'Format tanggal tidak valid (YYYY-MM-DD)'})
-    birthday?: string;
-
-    @IsOptional()
-    @IsEnum(GenderDto, {message: 'Gender harus MALE atau FEMALE'})
-    gender?:GenderDto;
-
-    @IsOptional()
-    @IsString()
-    country?: string;
-
-    @IsOptional()
-    @IsString()
-    city?: string;
-
-    @IsOptional()
-    @IsString()
-    fullAddress?: string;
-
-    @IsOptional()
-    @IsString()
-    @Matches(/^[+]?[\d\s\-()]{7,15}$/, {message:'Format nomor telepon tidak valid'})
-    phone?: string;
-}
-

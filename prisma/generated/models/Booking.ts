@@ -343,6 +343,7 @@ export type BookingWhereInput = {
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   consultationForm?: Prisma.XOR<Prisma.ConsultationFormNullableScalarRelationFilter, Prisma.ConsultationFormWhereInput> | null
   consentForm?: Prisma.XOR<Prisma.ConsentFormNullableScalarRelationFilter, Prisma.ConsentFormWhereInput> | null
+  sessionNote?: Prisma.XOR<Prisma.SessionNoteNullableScalarRelationFilter, Prisma.SessionNoteWhereInput> | null
   payments?: Prisma.PaymentListRelationFilter
   review?: Prisma.XOR<Prisma.BookingReviewNullableScalarRelationFilter, Prisma.BookingReviewWhereInput> | null
 }
@@ -373,6 +374,7 @@ export type BookingOrderByWithRelationInput = {
   approvedByAdmin?: Prisma.UserOrderByWithRelationInput
   consultationForm?: Prisma.ConsultationFormOrderByWithRelationInput
   consentForm?: Prisma.ConsentFormOrderByWithRelationInput
+  sessionNote?: Prisma.SessionNoteOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   review?: Prisma.BookingReviewOrderByWithRelationInput
 }
@@ -406,6 +408,7 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   approvedByAdmin?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   consultationForm?: Prisma.XOR<Prisma.ConsultationFormNullableScalarRelationFilter, Prisma.ConsultationFormWhereInput> | null
   consentForm?: Prisma.XOR<Prisma.ConsentFormNullableScalarRelationFilter, Prisma.ConsentFormWhereInput> | null
+  sessionNote?: Prisma.XOR<Prisma.SessionNoteNullableScalarRelationFilter, Prisma.SessionNoteWhereInput> | null
   payments?: Prisma.PaymentListRelationFilter
   review?: Prisma.XOR<Prisma.BookingReviewNullableScalarRelationFilter, Prisma.BookingReviewWhereInput> | null
 }, "id" | "bookingCode">
@@ -480,6 +483,7 @@ export type BookingCreateInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -505,6 +509,7 @@ export type BookingUncheckedCreateInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -529,6 +534,7 @@ export type BookingUpdateInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -554,6 +560,7 @@ export type BookingUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -623,6 +630,11 @@ export type BookingListRelationFilter = {
 
 export type BookingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type BookingNullableScalarRelationFilter = {
+  is?: Prisma.BookingWhereInput | null
+  isNot?: Prisma.BookingWhereInput | null
 }
 
 export type BookingScalarRelationFilter = {
@@ -877,6 +889,22 @@ export type BookingUncheckedUpdateManyWithoutScheduleNestedInput = {
   deleteMany?: Prisma.BookingScalarWhereInput | Prisma.BookingScalarWhereInput[]
 }
 
+export type BookingCreateNestedOneWithoutSessionNoteInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutSessionNoteInput, Prisma.BookingUncheckedCreateWithoutSessionNoteInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutSessionNoteInput
+  connect?: Prisma.BookingWhereUniqueInput
+}
+
+export type BookingUpdateOneWithoutSessionNoteNestedInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutSessionNoteInput, Prisma.BookingUncheckedCreateWithoutSessionNoteInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutSessionNoteInput
+  upsert?: Prisma.BookingUpsertWithoutSessionNoteInput
+  disconnect?: Prisma.BookingWhereInput | boolean
+  delete?: Prisma.BookingWhereInput | boolean
+  connect?: Prisma.BookingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutSessionNoteInput, Prisma.BookingUpdateWithoutSessionNoteInput>, Prisma.BookingUncheckedUpdateWithoutSessionNoteInput>
+}
+
 export type BookingCreateNestedManyWithoutServiceInput = {
   create?: Prisma.XOR<Prisma.BookingCreateWithoutServiceInput, Prisma.BookingUncheckedCreateWithoutServiceInput> | Prisma.BookingCreateWithoutServiceInput[] | Prisma.BookingUncheckedCreateWithoutServiceInput[]
   connectOrCreate?: Prisma.BookingCreateOrConnectWithoutServiceInput | Prisma.BookingCreateOrConnectWithoutServiceInput[]
@@ -998,6 +1026,7 @@ export type BookingCreateWithoutUserInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1022,6 +1051,7 @@ export type BookingUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1055,6 +1085,7 @@ export type BookingCreateWithoutApprovedByAdminInput = {
   schedule?: Prisma.ScheduleCreateNestedOneWithoutBookingsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1079,6 +1110,7 @@ export type BookingUncheckedCreateWithoutApprovedByAdminInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1168,6 +1200,7 @@ export type BookingCreateWithoutPsychologistInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1192,6 +1225,7 @@ export type BookingUncheckedCreateWithoutPsychologistInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1241,6 +1275,7 @@ export type BookingCreateWithoutScheduleInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1265,6 +1300,7 @@ export type BookingUncheckedCreateWithoutScheduleInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1295,6 +1331,120 @@ export type BookingUpdateManyWithWhereWithoutScheduleInput = {
   data: Prisma.XOR<Prisma.BookingUpdateManyMutationInput, Prisma.BookingUncheckedUpdateManyWithoutScheduleInput>
 }
 
+export type BookingCreateWithoutSessionNoteInput = {
+  bookingCode: string
+  scheduledDate: Date | string
+  scheduledTime: string
+  totalPrice: number
+  dpAmount: number
+  remainingAmount: number
+  status?: $Enums.BookingStatus
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutBookingsInput
+  psychologist: Prisma.PsychologistProfileCreateNestedOneWithoutBookingsInput
+  service: Prisma.LayananCreateNestedOneWithoutBookingsInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutBookingsInput
+  approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
+  consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
+  consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
+  review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
+}
+
+export type BookingUncheckedCreateWithoutSessionNoteInput = {
+  id?: number
+  bookingCode: string
+  userId: string
+  psychologistId: string
+  serviceId: number
+  scheduleId?: string | null
+  scheduledDate: Date | string
+  scheduledTime: string
+  totalPrice: number
+  dpAmount: number
+  remainingAmount: number
+  status?: $Enums.BookingStatus
+  adminApprovedBy?: string | null
+  approvedAt?: Date | string | null
+  rejectionReason?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
+  consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
+  review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
+}
+
+export type BookingCreateOrConnectWithoutSessionNoteInput = {
+  where: Prisma.BookingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookingCreateWithoutSessionNoteInput, Prisma.BookingUncheckedCreateWithoutSessionNoteInput>
+}
+
+export type BookingUpsertWithoutSessionNoteInput = {
+  update: Prisma.XOR<Prisma.BookingUpdateWithoutSessionNoteInput, Prisma.BookingUncheckedUpdateWithoutSessionNoteInput>
+  create: Prisma.XOR<Prisma.BookingCreateWithoutSessionNoteInput, Prisma.BookingUncheckedCreateWithoutSessionNoteInput>
+  where?: Prisma.BookingWhereInput
+}
+
+export type BookingUpdateToOneWithWhereWithoutSessionNoteInput = {
+  where?: Prisma.BookingWhereInput
+  data: Prisma.XOR<Prisma.BookingUpdateWithoutSessionNoteInput, Prisma.BookingUncheckedUpdateWithoutSessionNoteInput>
+}
+
+export type BookingUpdateWithoutSessionNoteInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
+  scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scheduledTime?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  dpAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  remainingAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
+  psychologist?: Prisma.PsychologistProfileUpdateOneRequiredWithoutBookingsNestedInput
+  service?: Prisma.LayananUpdateOneRequiredWithoutBookingsNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutBookingsNestedInput
+  approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
+  consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
+  consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
+  review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
+}
+
+export type BookingUncheckedUpdateWithoutSessionNoteInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  psychologistId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceId?: Prisma.IntFieldUpdateOperationsInput | number
+  scheduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scheduledTime?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  dpAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  remainingAmount?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  adminApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
+  consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
+  review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
+}
+
 export type BookingCreateWithoutServiceInput = {
   bookingCode: string
   scheduledDate: Date | string
@@ -1314,6 +1464,7 @@ export type BookingCreateWithoutServiceInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1338,6 +1489,7 @@ export type BookingUncheckedCreateWithoutServiceInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1387,6 +1539,7 @@ export type BookingCreateWithoutConsultationFormInput = {
   schedule?: Prisma.ScheduleCreateNestedOneWithoutBookingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1411,6 +1564,7 @@ export type BookingUncheckedCreateWithoutConsultationFormInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1450,6 +1604,7 @@ export type BookingUpdateWithoutConsultationFormInput = {
   schedule?: Prisma.ScheduleUpdateOneWithoutBookingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -1474,6 +1629,7 @@ export type BookingUncheckedUpdateWithoutConsultationFormInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -1497,6 +1653,7 @@ export type BookingCreateWithoutConsentFormInput = {
   schedule?: Prisma.ScheduleCreateNestedOneWithoutBookingsInput
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
@@ -1521,6 +1678,7 @@ export type BookingUncheckedCreateWithoutConsentFormInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
@@ -1560,6 +1718,7 @@ export type BookingUpdateWithoutConsentFormInput = {
   schedule?: Prisma.ScheduleUpdateOneWithoutBookingsNestedInput
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -1584,6 +1743,7 @@ export type BookingUncheckedUpdateWithoutConsentFormInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -1608,6 +1768,7 @@ export type BookingCreateWithoutPaymentsInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   review?: Prisma.BookingReviewCreateNestedOneWithoutBookingInput
 }
 
@@ -1632,6 +1793,7 @@ export type BookingUncheckedCreateWithoutPaymentsInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   review?: Prisma.BookingReviewUncheckedCreateNestedOneWithoutBookingInput
 }
 
@@ -1671,6 +1833,7 @@ export type BookingUpdateWithoutPaymentsInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
 
@@ -1695,6 +1858,7 @@ export type BookingUncheckedUpdateWithoutPaymentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
 
@@ -1718,6 +1882,7 @@ export type BookingCreateWithoutReviewInput = {
   approvedByAdmin?: Prisma.UserCreateNestedOneWithoutAdminApprovalsInput
   consultationForm?: Prisma.ConsultationFormCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentCreateNestedManyWithoutBookingInput
 }
 
@@ -1742,6 +1907,7 @@ export type BookingUncheckedCreateWithoutReviewInput = {
   updatedAt?: Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedCreateNestedOneWithoutBookingInput
   consentForm?: Prisma.ConsentFormUncheckedCreateNestedOneWithoutBookingInput
+  sessionNote?: Prisma.SessionNoteUncheckedCreateNestedOneWithoutBookingInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutBookingInput
 }
 
@@ -1781,6 +1947,7 @@ export type BookingUpdateWithoutReviewInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
 }
 
@@ -1805,6 +1972,7 @@ export type BookingUncheckedUpdateWithoutReviewInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
 }
 
@@ -1867,6 +2035,7 @@ export type BookingUpdateWithoutUserInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -1891,6 +2060,7 @@ export type BookingUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -1934,6 +2104,7 @@ export type BookingUpdateWithoutApprovedByAdminInput = {
   schedule?: Prisma.ScheduleUpdateOneWithoutBookingsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -1958,6 +2129,7 @@ export type BookingUncheckedUpdateWithoutApprovedByAdminInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -2021,6 +2193,7 @@ export type BookingUpdateWithoutPsychologistInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -2045,6 +2218,7 @@ export type BookingUncheckedUpdateWithoutPsychologistInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -2108,6 +2282,7 @@ export type BookingUpdateWithoutScheduleInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -2132,6 +2307,7 @@ export type BookingUncheckedUpdateWithoutScheduleInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -2195,6 +2371,7 @@ export type BookingUpdateWithoutServiceInput = {
   approvedByAdmin?: Prisma.UserUpdateOneWithoutAdminApprovalsNestedInput
   consultationForm?: Prisma.ConsultationFormUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUpdateOneWithoutBookingNestedInput
 }
@@ -2219,6 +2396,7 @@ export type BookingUncheckedUpdateWithoutServiceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   consultationForm?: Prisma.ConsultationFormUncheckedUpdateOneWithoutBookingNestedInput
   consentForm?: Prisma.ConsentFormUncheckedUpdateOneWithoutBookingNestedInput
+  sessionNote?: Prisma.SessionNoteUncheckedUpdateOneWithoutBookingNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutBookingNestedInput
   review?: Prisma.BookingReviewUncheckedUpdateOneWithoutBookingNestedInput
 }
@@ -2300,6 +2478,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   approvedByAdmin?: boolean | Prisma.Booking$approvedByAdminArgs<ExtArgs>
   consultationForm?: boolean | Prisma.Booking$consultationFormArgs<ExtArgs>
   consentForm?: boolean | Prisma.Booking$consentFormArgs<ExtArgs>
+  sessionNote?: boolean | Prisma.Booking$sessionNoteArgs<ExtArgs>
   payments?: boolean | Prisma.Booking$paymentsArgs<ExtArgs>
   review?: boolean | Prisma.Booking$reviewArgs<ExtArgs>
   _count?: boolean | Prisma.BookingCountOutputTypeDefaultArgs<ExtArgs>
@@ -2387,6 +2566,7 @@ export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   approvedByAdmin?: boolean | Prisma.Booking$approvedByAdminArgs<ExtArgs>
   consultationForm?: boolean | Prisma.Booking$consultationFormArgs<ExtArgs>
   consentForm?: boolean | Prisma.Booking$consentFormArgs<ExtArgs>
+  sessionNote?: boolean | Prisma.Booking$sessionNoteArgs<ExtArgs>
   payments?: boolean | Prisma.Booking$paymentsArgs<ExtArgs>
   review?: boolean | Prisma.Booking$reviewArgs<ExtArgs>
   _count?: boolean | Prisma.BookingCountOutputTypeDefaultArgs<ExtArgs>
@@ -2416,6 +2596,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     approvedByAdmin: Prisma.$UserPayload<ExtArgs> | null
     consultationForm: Prisma.$ConsultationFormPayload<ExtArgs> | null
     consentForm: Prisma.$ConsentFormPayload<ExtArgs> | null
+    sessionNote: Prisma.$SessionNotePayload<ExtArgs> | null
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     review: Prisma.$BookingReviewPayload<ExtArgs> | null
   }
@@ -2839,6 +3020,7 @@ export interface Prisma__BookingClient<T, Null = never, ExtArgs extends runtime.
   approvedByAdmin<T extends Prisma.Booking$approvedByAdminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$approvedByAdminArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   consultationForm<T extends Prisma.Booking$consultationFormArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$consultationFormArgs<ExtArgs>>): Prisma.Prisma__ConsultationFormClient<runtime.Types.Result.GetResult<Prisma.$ConsultationFormPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   consentForm<T extends Prisma.Booking$consentFormArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$consentFormArgs<ExtArgs>>): Prisma.Prisma__ConsentFormClient<runtime.Types.Result.GetResult<Prisma.$ConsentFormPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sessionNote<T extends Prisma.Booking$sessionNoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$sessionNoteArgs<ExtArgs>>): Prisma.Prisma__SessionNoteClient<runtime.Types.Result.GetResult<Prisma.$SessionNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   payments<T extends Prisma.Booking$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   review<T extends Prisma.Booking$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$reviewArgs<ExtArgs>>): Prisma.Prisma__BookingReviewClient<runtime.Types.Result.GetResult<Prisma.$BookingReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -3362,6 +3544,25 @@ export type Booking$consentFormArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.ConsentFormInclude<ExtArgs> | null
   where?: Prisma.ConsentFormWhereInput
+}
+
+/**
+ * Booking.sessionNote
+ */
+export type Booking$sessionNoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SessionNote
+   */
+  select?: Prisma.SessionNoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SessionNote
+   */
+  omit?: Prisma.SessionNoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionNoteInclude<ExtArgs> | null
+  where?: Prisma.SessionNoteWhereInput
 }
 
 /**

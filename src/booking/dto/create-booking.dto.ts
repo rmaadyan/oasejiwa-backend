@@ -11,12 +11,19 @@ export class CreateBookingDto {
     @IsInt()
     serviceId!: number;
 
-    @IsDateString({}, { message: 'Format tanggal tidak valid (gunakan YYYY-MM-DD)' })
+    @IsOptional()
+    @IsString()
+    scheduleId?: string;
+
+    @IsNotEmpty()
+  @IsDateString({}, { message: 'scheduledDate harus berupa format tanggal ISO yang valid (contoh: YYYY-MM-DD)' })
     scheduledDate!: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Jam jadwal tidak boleh kosong' })
     scheduledTime!: string;
+
+
 
     @IsOptional()
     @IsString()

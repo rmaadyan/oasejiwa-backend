@@ -1,7 +1,5 @@
 generator client {
-  provider     = "prisma-client"
-  output       = "./generated"
-  moduleFormat = "cjs"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -20,9 +18,11 @@ enum Gender {
 }
 
 enum RiskLevel {
+  VERY_LOW
   LOW
   MEDIUM
   HIGH
+  VERY_HIGH
 }
 
 enum JenisLayanan {
@@ -71,6 +71,24 @@ enum ArahItem {
   negatif
 }
 
+enum ConsultationStatus {
+  ONGOING
+  COMPLETED
+  REFERRED
+}
+
+enum FollowUpPlan {
+  CONTINUE_SESSION
+  REFER_TO_OTHER
+  COMPLETED
+}
+
+enum TestResultStatus {
+  COMPLETED
+  IN_PROGRESS
+  DRAFT
+}
+
 model User {
   id                String   @id @default(uuid())
   email             String   @unique
@@ -91,9 +109,11 @@ model User {
   adminApprovals Booking[]       @relation("AdminApprovals")
   reviews        BookingReview[] @relation("UserReviews")
 
-  sessionNotes      SessionNote[]
-  medicalRecord     PatientMedicalRecord?
+  sessionNotes           SessionNote[]
+  officialMedicalRecords OfficialMedicalRecord[]
+  medicalRecord          PatientMedicalRecord?
   emergencyContacts EmergencyContact[]
+  tesResults        TesResult[]
 }
 
 model AuthProvider {
@@ -122,15 +142,23 @@ model PasswordReset {
 }
 
 model UserProfile {
-  id          String    @id @default(uuid())
-  userId      String    @unique
-  fullName    String?
-  birthday    DateTime?
-  gender      Gender?
-  country     String?
-  city        String?
-  fullAddress String?
-  phone       String?
+  id               String    @id @default(uuid())
+  userId           String    @unique
+  fullName         String?
+  birthday         DateTime?
+  placeOfBirth     String?
+  gender           Gender?
+  country          String?
+  city             String?
+  fullAddress      String?
+  originalAddress  String?
+  phone            String?
+  occupation       String?
+  maritalStatus    String?
+  siblingPosition  Int?
+  totalSiblings    Int?
+  isFirstVisit     Boolean?
+  educationHistory Json?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -166,10 +194,14 @@ model PsychologistProfile {
   userId    String   @unique
   fullName  String
   sipp      String
-  str       String
-  about     String
-  avatarUrl String?
-  createdAt DateTime @default(now())
+  str       String?
+  about     String?
+  avatarUrl          String?
+  signatureUrl       String?
+  signatureUpdatedAt DateTime?
+  signatureMethod    String?   @default("UPLOAD")
+  status             String    @default("WAITING_PROFILE")
+  createdAt          DateTime  @default(now())
   updatedAt DateTime @updatedAt
 
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -178,7 +210,8 @@ model PsychologistProfile {
   specializations Specialization[]
   expertises      Expertise[]
   schedules       Schedule[]
-  sessionNotes    SessionNote[]
+  sessionNotes           SessionNote[]
+  officialMedicalRecords OfficialMedicalRecord[]
   bookings        Booking[]        @relation("PsychologistBookings")
   reviews         BookingReview[]  @relation("PsychologistReviews")
 }
@@ -256,6 +289,7 @@ model SessionNote {
   psychologistProfileId String
   userId                String
   scheduleId            String?
+  bookingId             Int?    @unique
 
   subjective String? @db.Text
   objective  String? @db.Text
@@ -264,8 +298,21 @@ model SessionNote {
 
   riskLevel RiskLevel @default(LOW)
 
+  // === Field Rekam Medis sesuai Formulir Psikolog ===
+  sessionNumber      Int?
+  consultationDate   DateTime?
+  consultationStatus ConsultationStatus @default(ONGOING)
+  diagnosisSummary   String?            @db.Text
+  treatmentApproach  String?            @db.Text
+  recommendation     String?            @db.Text
+  followUpPlan       FollowUpPlan       @default(CONTINUE_SESSION)
+  additionalNotes    String?            @db.Text
+
   followUpDate              DateTime?
   nextSessionRecommendation String?   @db.Text
+  riskReason                String?   @db.Text
+  currentMedication         String?   @db.Text
+  allergies                 String?   @db.Text
   tags                      String[]  @default([])
 
   createdAt DateTime  @default(now())
@@ -275,11 +322,56 @@ model SessionNote {
   psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
   user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   schedule            Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  officialMedicalRecords OfficialMedicalRecord[]
 
   @@index([psychologistProfileId, createdAt])
   @@index([userId])
   @@index([riskLevel])
   @@index([scheduleId])
+  @@index([consultationStatus])
+  @@index([bookingId])
+}
+
+model OfficialMedicalRecord {
+  id                    String   @id @default(uuid())
+  userId                String
+  psychologistProfileId String
+  bookingId             Int?
+  sessionNoteId         String?
+
+  sessionNumber         Int      @default(1)
+  consultationDate      DateTime @default(now())
+
+  diagnosis             String   @db.Text
+  currentMedication     String?  @db.Text
+  allergies             String?  @db.Text
+
+  problemSummary        String   @db.Text
+  therapyApproach       String   @db.Text
+  followUpPlan          String   @default("CONTINUE_SESSION")
+  nextSessionDate       DateTime?
+  additionalNotes       String?  @db.Text
+
+  riskLevel             RiskLevel @default(LOW)
+  riskReason            String?  @db.Text
+  followUpDate          DateTime?
+  nextSessionRecommendation String? @db.Text
+
+  pdfUrl                String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  sessionNote         SessionNote?        @relation(fields: [sessionNoteId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([psychologistProfileId])
+  @@index([bookingId])
+  @@index([sessionNoteId])
 }
 
 model Layanan {
@@ -444,6 +536,8 @@ model Booking {
 
   consultationForm ConsultationForm?
   consentForm      ConsentForm?
+  sessionNote      SessionNote?
+  officialMedicalRecords OfficialMedicalRecord[]
   payments Payment[]
   review   BookingReview?
 
@@ -509,6 +603,7 @@ model Tes {
   likertOptions   LikertOption[]
   kategori        DiagnosisKategori[]
   sectionKategori SectionKategori[]
+  results         TesResult[]
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
 }
@@ -552,3 +647,33 @@ model SectionKategori {
   tesId       Int
   tes         Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }
+
+model TesResult {
+  id              String           @id @default(uuid())
+  userId          String
+  tesId           Int
+  namaTes         String
+  jenisTes        String?
+  totalScore      Int
+  maxScore        Int
+  percentage      Float
+  kategoriNama    String
+  diagnosis       String?
+  detailDiagnosis String?          @db.Text
+  interpretasi    String?          @db.Text
+  rekomendasi     String[]         @default([])
+  status          TestResultStatus @default(COMPLETED)
+  sectionScores   Json?
+  answers         Json?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @default(now()) @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tes  Tes  @relation(fields: [tesId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tesId])
+  @@index([status])
+  @@index([createdAt])
+}
+

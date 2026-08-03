@@ -66,8 +66,8 @@ export class PsychologistProfileService {
         degree: e.degree,
         institution: e.institution,
         city: e.city,
-        startYear: e.startYear,
-        endYear: e.endYear,
+        startYear: String(e.startYear),
+        endYear: String(e.endYear),
       })),
       experiences: profile.experiences,
       experienceList: profile.experiences.map((e: any) => e.name),
@@ -76,6 +76,9 @@ export class PsychologistProfileService {
       expertises: profile.expertises.map((e: any) => e.name),
       expertise: profile.expertises.map((e: any) => e.name),
       schedules: profile.schedules,
+      signatureUrl: profile.signatureUrl || null,
+      signatureUpdatedAt: profile.signatureUpdatedAt || null,
+      signatureMethod: profile.signatureMethod || 'UPLOAD',
       status: 'active',
       joinedDate: profile.createdAt,
       createdAt: profile.createdAt,
@@ -88,39 +91,92 @@ export class PsychologistProfileService {
     return this.mapProfile(profile);
   }
 
-  async updateMe(currentUser: any, dto: UpdatePsychologistProfileDto) {
+  async updateMe(
+    currentUser: any,
+    dto: UpdatePsychologistProfileDto,
+    file?: Express.Multer.File,
+  ) {
     const profile = await this.getProfileByUserId(currentUser.id);
     const psychologistId = profile.id;
 
+    let avatarUrl = dto.avatarUrl;
+    if (file) {
+      avatarUrl = `/uploads/${file.filename}`;
+    }
+
+    console.log('=== UPDATE ME RECEIVED DTO ===', JSON.stringify(dto, null, 2));
+
     await this.prisma.$transaction(async (tx) => {
+      // 1. Update Profile Utama
+      const signatureData: any = {};
+      const incomingSignatureUrl =
+        dto.signatureUrl !== undefined && dto.signatureUrl !== null
+          ? dto.signatureUrl
+          : (dto as any).signature !== undefined && (dto as any).signature !== null
+          ? (dto as any).signature
+          : (dto as any).signatureImage !== undefined && (dto as any).signatureImage !== null
+          ? (dto as any).signatureImage
+          : undefined;
+
+      const incomingSignatureMethod =
+        dto.signatureMethod || (dto as any).signatureMethod || 'UPLOAD';
+
+      if (dto.clearSignature || (dto as any).clearSignature) {
+        signatureData.signatureUrl = null;
+        signatureData.signatureUpdatedAt = null;
+        signatureData.signatureMethod = 'UPLOAD';
+      } else if (incomingSignatureUrl !== undefined) {
+        signatureData.signatureUrl = incomingSignatureUrl;
+        signatureData.signatureUpdatedAt = new Date();
+        signatureData.signatureMethod = incomingSignatureMethod;
+      }
+
+      console.log('=== SIGNATURE DATA TO SAVE IN DB ===', signatureData);
+
       await tx.psychologistProfile.update({
         where: { id: psychologistId },
         data: {
-          ...(dto.fullName !== undefined && { fullName: dto.fullName }),
+          ...((dto.fullName !== undefined || dto.name !== undefined) && {
+            fullName: dto.fullName || dto.name,
+          }),
           ...(dto.sipp !== undefined && { sipp: dto.sipp }),
           ...(dto.str !== undefined && { str: dto.str }),
           ...(dto.about !== undefined && { about: dto.about }),
-          ...(dto.avatarUrl !== undefined && { avatarUrl: dto.avatarUrl }),
+          ...(avatarUrl !== undefined && { avatarUrl }),
+          ...signatureData,
+          status: 'ACTIVE',
         },
       });
 
-      if (dto.educations) {
+      // 2. Update Status User
+      await tx.user.update({
+        where: { id: currentUser.id },
+        data: {
+          isProfileComplete: true,
+          isFirstLogin: false,
+        },
+      });
+
+      // 3. Update Pendidikan
+      if (dto.education) {
         await tx.education.deleteMany({ where: { psychologistId } });
 
-        if (dto.educations.length > 0) {
+        if (dto.education.length > 0) {
           await tx.education.createMany({
-            data: dto.educations.map((education) => ({
+            data: dto.education.map((edu) => ({
               psychologistId,
-              degree: education.degree ?? '',
-              institution: education.institution ?? '',
-              city: education.city ?? '',
-              startYear: education.startYear ?? new Date().getFullYear(),
-              endYear: education.endYear ?? new Date().getFullYear(),
+              degree: edu.degree ?? '',
+              institution: edu.institution ?? '',
+              city: edu.city ?? '',
+              // 🟢 Konversi aman: Mengakomodasi skema DB baik bertipe Int maupun String/Number
+              startYear: edu.startYear ? Number(edu.startYear) : new Date().getFullYear(),
+              endYear: edu.endYear ? Number(edu.endYear) : new Date().getFullYear(),
             })),
           });
         }
       }
 
+      // 4. Update Pengalaman
       if (dto.experiences) {
         await tx.experience.deleteMany({ where: { psychologistId } });
 
@@ -134,8 +190,11 @@ export class PsychologistProfileService {
         }
       }
 
+      // 5. Update Spesialisasi
       if (dto.specializations) {
-        await tx.specialization.deleteMany({ where: { psychologistId } });
+        await tx.specialization.deleteMany({
+          where: { psychologistId },
+        });
 
         if (dto.specializations.length > 0) {
           await tx.specialization.createMany({
@@ -147,6 +206,7 @@ export class PsychologistProfileService {
         }
       }
 
+      // 6. Update Keahlian (Expertises)
       if (dto.expertises) {
         await tx.expertise.deleteMany({ where: { psychologistId } });
 
@@ -160,6 +220,7 @@ export class PsychologistProfileService {
         }
       }
 
+      // 7. Update Jadwal Praktik (Schedules)
       if (dto.schedules) {
         await tx.schedule.deleteMany({ where: { psychologistId } });
 
@@ -169,7 +230,7 @@ export class PsychologistProfileService {
               psychologistId,
               date: schedule.date ? new Date(schedule.date) : new Date(),
               startTime: schedule.startTime ?? '',
-              duration: schedule.duration ?? 60,
+              duration: schedule.duration ? Number(schedule.duration) : 60,
               isAvailable: schedule.isAvailable ?? true,
             })),
           });

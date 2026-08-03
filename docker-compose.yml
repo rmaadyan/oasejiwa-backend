@@ -22,6 +22,11 @@ services:
       - postgres
     volumes:
       - ./uploads:/app/uploads
+
+    # Tambahkan ini
+    env_file:
+      - .env
+
     environment:
       DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db
 

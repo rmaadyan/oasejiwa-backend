@@ -50,6 +50,7 @@ export class AuthService {
                     },
                 },
             },
+            include: { userProfile: true }, // Include profile
         });
 
         const token = crypto.randomBytes(32).toString('hex');
@@ -70,6 +71,7 @@ export class AuthService {
             user: {
                 id: user.id,
                 email: user.email,
+                fullName: user.userProfile?.fullName,
                 role: user.role,
             },
         };
@@ -107,9 +109,19 @@ export class AuthService {
     }
 
     async login(dto: LoginDto) {
-        const user = await this.prisma.user.findUnique({
-            where: { email: dto.email },
-            include: { authProvider: true },
+        if (!dto || !dto.email) {
+            throw new BadRequestException("Email dan password wajib diisi");
+        }
+
+        const emailClean = String(dto.email).trim().toLowerCase();
+
+        const user = await this.prisma.user.findFirst({
+            where: { email: emailClean },
+            include: {
+                authProvider: true,
+                userProfile: true,
+                psychologistProfile: true,
+            },
         });
 
         if (!user) {
@@ -121,7 +133,7 @@ export class AuthService {
         }
 
         const isPasswordValid = await bcrypt.compare(
-            dto.password,
+            dto.password || '',
             user.authProvider?.passwordHash ?? '',
         );
 
@@ -140,8 +152,13 @@ export class AuthService {
         };
 
         const accessToken = await this.jwtService.signAsync(payload, {
-          expiresIn:'1d',
+            expiresIn: '1d',
         });
+
+        const fullName =
+            user.userProfile?.fullName ||
+            user.psychologistProfile?.fullName ||
+            '';
 
         return {
             message: 'Login berhasil',
@@ -149,13 +166,13 @@ export class AuthService {
             user: {
                 id: user.id,
                 email: user.email,
+                fullName: fullName,
                 role: user.role,
                 isProfileComplete: user.isProfileComplete,
                 isEmailVerified: user.isEmailVerified,
                 isFirstLogin: user.isFirstLogin,
             },
         };
-
     }
 
     async emailInput(email: string) {
@@ -243,7 +260,10 @@ export class AuthService {
     }) {
         let user = await this.prisma.user.findUnique({
             where: { email: data.email },
-            include: { authProvider: true },
+            include: { 
+                authProvider: true,
+                userProfile: true, // <-- DIUBAH: Include userProfile
+            },
         });
 
         if (user && user.authProvider?.provider == 'local') {
@@ -255,7 +275,7 @@ export class AuthService {
                 data: {
                     email: data.email,
                     isEmailVerified: true,
-                    isFirstLogin:true,
+                    isFirstLogin: true,
                     authProvider: {
                         create: {
                             provider: 'google',
@@ -268,7 +288,10 @@ export class AuthService {
                         },
                     },
                 },
-                include: { authProvider: true },
+                include: { 
+                    authProvider: true,
+                    userProfile: true, // <-- DIUBAH: Include userProfile
+                },
             });
         }
 
@@ -289,6 +312,7 @@ export class AuthService {
                 id: user.id,
                 sub: user.id,
                 email: user.email,
+                fullName: user.userProfile?.fullName || data.fullName, // <-- DIUBAH: Kirim fullName ke frontend
                 role: user.role,
                 isProfileComplete: user.isProfileComplete,
                 isEmailVerified: user.isEmailVerified,

@@ -3,6 +3,9 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static'; // 👈 1. Import ServeStaticModule
+import { join } from 'path'; // 👈 2. Import helper path 'join'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,7 +17,6 @@ import { UserModule } from './user/user.module';
 import { BookingModule } from './booking/booking.module';
 import { PaymentModule } from './payment/payment.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { ConfigService } from './config/config.service';
 import { TesModule } from './tes/tes.module';
 import { UploadModule } from './upload/upload.module';
 import { EmailModule } from './email/email.module';
@@ -26,12 +28,29 @@ import { PsychologistDashboardModule } from './psychologist-dashboard/psychologi
 import { AdminUsersModule } from './admin-users/admin-users.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
+import { AdminMedicalRecordsModule } from './admin-medical-records/admin-medical-records.module';
+import { OfficialMedicalRecordModule } from './official-medical-record/official-medical-record.module';
+import { GoogleReviewsModule } from './google-reviews/google-reviews.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
+    // 1. Tambahkan ConfigModule global agar .env dijamin terbaca sempurna
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
+    // 2. 🚀 Konfigurasi penyajian file statis (Uploads)
+    ServeStaticModule.forRoot({
+  rootPath: join(process.cwd(), 'uploads'), // Pastikan lokasi folder upload-mu pas di sini
+  serveRoot: '/uploads',
+}),
+
     PrismaModule,
     AuthModule,
     EmailModule,
+    GoogleReviewsModule,
+    StatisticsModule,
 
     AdminModule,
     UserModule,
@@ -47,24 +66,31 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
     PsychologistPatientsModule,
     PsychologistScheduleModule,
     PsychologistDashboardModule,
+    OfficialMedicalRecordModule,
 
     AdminUsersModule,
     AdminDashboardModule,
     AdminAnalyticsModule,
+    AdminMedicalRecordsModule,
 
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
+    // 3. Gunakan forRootAsync agar aman dari undefined
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        transport: {
+          host: config.get('MAIL_HOST') || 'smtp.gmail.com',
+          port: Number(config.get('MAIL_PORT')) || 465,
+          secure: Number(config.get('MAIL_PORT')) === 465,
+          auth: {
+            user: config.get('MAIL_USER') || process.env.EMAIL_USER,
+            pass: config.get('MAIL_PASS') || process.env.EMAIL_PASS,
+          },
         },
-      },
-      defaults: {
-        from: `"Oase Jiwa" <${process.env.EMAIL_USER}>`,
-      },
+        defaults: {
+          from: config.get('MAIL_FROM') || `"Oase Jiwa" <${config.get('MAIL_USER')}>`,
+        },
+      }),
+      inject: [ConfigService],
     }),
 
     ThrottlerModule.forRoot({
@@ -79,7 +105,6 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
   controllers: [AppController],
   providers: [
     AppService,
-    ConfigService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
