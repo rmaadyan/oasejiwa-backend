@@ -4,10 +4,18 @@ import { diskStorage } from 'multer';
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
+// 🛡️ Guard: nilai "dummy_cloud", "dummy_key", dll. dianggap TIDAK valid
+const isValidCloudinaryEnv = (val?: string) =>
+    Boolean(val) &&
+    !val!.toLowerCase().includes('dummy') &&
+    val !== 'your_cloud_name' &&
+    val !== 'your_cloudinary_api_key' &&
+    val !== 'your_cloudinary_api_secret';
+
 const useCloudinary =
-    Boolean(process.env.CLOUDINARY_CLOUD_NAME) &&
-    Boolean(process.env.CLOUDINARY_API_KEY) &&
-    Boolean(process.env.CLOUDINARY_API_SECRET);
+    isValidCloudinaryEnv(process.env.CLOUDINARY_CLOUD_NAME) &&
+    isValidCloudinaryEnv(process.env.CLOUDINARY_API_KEY) &&
+    isValidCloudinaryEnv(process.env.CLOUDINARY_API_SECRET);
 
 const localUploadDir = join(process.cwd(), 'uploads');
 
