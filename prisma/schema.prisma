@@ -27,6 +27,7 @@ enum RiskLevel {
 
 enum JenisLayanan {
   Konseling
+  KonselingPasangan
   Seminar
   Tes
   Training
