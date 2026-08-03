@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
 import { existsSync, mkdirSync } from 'fs';
 import { writeFile } from 'node:fs/promises';
@@ -25,6 +25,11 @@ if (!existsSync(uploadsDir)) {
 @Injectable()
 export class UploadService {
   async uploadImage(file: Express.Multer.File): Promise<string> {
+    // 🛡️ Null guard — mencegah crash saat Multer tidak menerima file yang valid
+    if (!file || !file.buffer) {
+      throw new BadRequestException('No file uploaded.');
+    }
+
     if (useCloudinary) {
       return new Promise((resolve, reject) => {
         cloudinary.uploader
