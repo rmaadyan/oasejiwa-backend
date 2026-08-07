@@ -196,7 +196,7 @@ export class AdminService {
             create: {
               fullName: dto.fullName,
               sipp: dto.sipp,
-              str: dto.str || undefined,
+              str: dto.str || "",
               about: 'Psikolog Klinik Oase Jiwa',
               avatarUrl: undefined,
             },

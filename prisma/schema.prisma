@@ -6,6 +6,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// ─── ENUM DEFINITIONS ────────────────────────────────────────────────────────
+
 enum Role {
   USER
   ADMIN
@@ -27,11 +29,11 @@ enum RiskLevel {
 
 enum JenisLayanan {
   Konseling
-  KonselingPasangan
   Seminar
   Tes
   Training
   Lainnya
+  KonselingPasangan
 }
 
 enum Kategori {
@@ -89,6 +91,8 @@ enum TestResultStatus {
   DRAFT
 }
 
+// ─── USER & AUTH MODELS ──────────────────────────────────────────────────────
+
 model User {
   id                String   @id @default(uuid())
   email             String   @unique
@@ -99,21 +103,19 @@ model User {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  authProvider        AuthProvider?
-  passwordResets      PasswordReset[]
-  userProfile         UserProfile?
-  psychologistProfile PsychologistProfile?
-  emailVerifications  EmailVerification[]
-
-  bookings       Booking[]       @relation("UserBookings")
-  adminApprovals Booking[]       @relation("AdminApprovals")
-  reviews        BookingReview[] @relation("UserReviews")
-
+  authProvider           AuthProvider?
+  passwordResets         PasswordReset[]
+  userProfile            UserProfile?
+  psychologistProfile    PsychologistProfile?
+  emailVerifications     EmailVerification[]
+  bookings               Booking[]               @relation("UserBookings")
+  adminApprovals         Booking[]               @relation("AdminApprovals")
+  reviews                BookingReview[]         @relation("UserReviews")
   sessionNotes           SessionNote[]
-  officialMedicalRecords OfficialMedicalRecord[]
   medicalRecord          PatientMedicalRecord?
-  emergencyContacts EmergencyContact[]
-  tesResults        TesResult[]
+  emergencyContacts      EmergencyContact[]
+  tesResults             TesResult[]
+  officialMedicalRecords OfficialMedicalRecord[]
 }
 
 model AuthProvider {
@@ -141,79 +143,67 @@ model PasswordReset {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model UserProfile {
-  id               String    @id @default(uuid())
-  userId           String    @unique
-  fullName         String?
-  birthday         DateTime?
-  placeOfBirth     String?
-  gender           Gender?
-  country          String?
-  city             String?
-  fullAddress      String?
-  originalAddress  String?
-  phone            String?
-  occupation       String?
-  maritalStatus    String?
-  siblingPosition  Int?
-  totalSiblings    Int?
-  isFirstVisit     Boolean?
-  educationHistory Json?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model PatientMedicalRecord {
-  id                String   @id @default(uuid())
-  userId            String   @unique
-  diagnosis         String[] @default([])
-  currentMedication String[] @default([])
-  allergies         String[] @default([])
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model EmergencyContact {
-  id        String   @id @default(uuid())
+model EmailVerification {
+  id        String    @id @default(uuid())
   userId    String
-  name      String
-  phone     String
-  relation  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@index([userId])
+// ─── PROFILE MODELS ──────────────────────────────────────────────────────────
+
+model UserProfile {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  fullName        String?
+  birthday        DateTime?
+  placeOfBirth    String?
+  gender          Gender?
+  country         String?
+  city            String?
+  fullAddress     String?
+  originalAddress String?
+  phone           String?
+  occupation      String?
+  maritalStatus   String?
+  siblingPosition Int?
+  totalSiblings   Int?
+  isFirstVisit    Boolean?
+  educationHistory Json?
+  avatarUrl       String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PsychologistProfile {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  fullName  String
-  sipp      String
-  str       String?
-  about     String?
+  id                 String    @id @default(uuid())
+  userId             String    @unique
+  fullName           String
+  sipp               String
+  str                String
+  about              String
   avatarUrl          String?
   signatureUrl       String?
   signatureUpdatedAt DateTime?
-  signatureMethod    String?   @default("UPLOAD")
-  status             String    @default("WAITING_PROFILE")
+  signatureMethod    String?
+  status             String?
   createdAt          DateTime  @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt          DateTime  @updatedAt
 
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  educations      Education[]
-  experiences     Experience[]
-  specializations Specialization[]
-  expertises      Expertise[]
-  schedules       Schedule[]
+  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  educations             Education[]
+  experiences            Experience[]
+  specializations        Specialization[]
+  expertises             Expertise[]
+  schedules              Schedule[]
   sessionNotes           SessionNote[]
+  bookings               Booking[]               @relation("PsychologistBookings")
+  reviews                BookingReview[]         @relation("PsychologistReviews")
   officialMedicalRecords OfficialMedicalRecord[]
-  bookings        Booking[]        @relation("PsychologistBookings")
-  reviews         BookingReview[]  @relation("PsychologistReviews")
 }
 
 model Education {
@@ -256,123 +246,33 @@ model Expertise {
   psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
 }
 
-model Schedule {
-  id             String   @id @default(uuid())
-  psychologistId String
-  date           DateTime
-  startTime      String
-  duration       Int
-  isAvailable    Boolean  @default(true)
-  createdAt      DateTime @default(now())
-
-  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
-  sessionNotes  SessionNote[]
-  bookings      Booking[] @relation("ScheduleBookings")
-
-  @@index([psychologistId])
-  @@index([date])
-}
-
-model EmailVerification {
-  id        String    @id @default(uuid())
-  userId    String
-  token     String    @unique
-  expiresAt DateTime
-  usedAt    DateTime?
-  createdAt DateTime  @default(now())
+model PatientMedicalRecord {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  diagnosis         String[] @default([])
+  currentMedication String[] @default([])
+  allergies         String[] @default([])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model SessionNote {
-  id                    String  @id @default(uuid())
-  psychologistProfileId String
-  userId                String
-  scheduleId            String?
-  bookingId             Int?    @unique
+model EmergencyContact {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  phone     String
+  relation  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  subjective String? @db.Text
-  objective  String? @db.Text
-  assessment String? @db.Text
-  plan       String? @db.Text
-
-  riskLevel RiskLevel @default(LOW)
-
-  // === Field Rekam Medis sesuai Formulir Psikolog ===
-  sessionNumber      Int?
-  consultationDate   DateTime?
-  consultationStatus ConsultationStatus @default(ONGOING)
-  diagnosisSummary   String?            @db.Text
-  treatmentApproach  String?            @db.Text
-  recommendation     String?            @db.Text
-  followUpPlan       FollowUpPlan       @default(CONTINUE_SESSION)
-  additionalNotes    String?            @db.Text
-
-  followUpDate              DateTime?
-  nextSessionRecommendation String?   @db.Text
-  riskReason                String?   @db.Text
-  currentMedication         String?   @db.Text
-  allergies                 String?   @db.Text
-  tags                      String[]  @default([])
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
-  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  schedule            Schedule?           @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
-  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
-
-  officialMedicalRecords OfficialMedicalRecord[]
-
-  @@index([psychologistProfileId, createdAt])
-  @@index([userId])
-  @@index([riskLevel])
-  @@index([scheduleId])
-  @@index([consultationStatus])
-  @@index([bookingId])
-}
-
-model OfficialMedicalRecord {
-  id                    String   @id @default(uuid())
-  userId                String
-  psychologistProfileId String
-  bookingId             Int?
-  sessionNoteId         String?
-
-  sessionNumber         Int      @default(1)
-  consultationDate      DateTime @default(now())
-
-  diagnosis             String   @db.Text
-  currentMedication     String?  @db.Text
-  allergies             String?  @db.Text
-
-  problemSummary        String   @db.Text
-  therapyApproach       String   @db.Text
-  followUpPlan          String   @default("CONTINUE_SESSION")
-  nextSessionDate       DateTime?
-  additionalNotes       String?  @db.Text
-
-  riskLevel             RiskLevel @default(LOW)
-  riskReason            String?  @db.Text
-  followUpDate          DateTime?
-  nextSessionRecommendation String? @db.Text
-
-  pdfUrl                String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
-  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
-  sessionNote         SessionNote?        @relation(fields: [sessionNoteId], references: [id], onDelete: SetNull)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([psychologistProfileId])
-  @@index([bookingId])
-  @@index([sessionNoteId])
 }
+
+// ─── BOOKING & SCHEDULE MODELS ───────────────────────────────────────────────
 
 model Layanan {
   id          Int          @id @default(autoincrement())
@@ -386,13 +286,198 @@ model Layanan {
   status      String       @default("Aktif")
   gambar      String?
 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[] @relation("LayananBookings")
+}
+
+model Schedule {
+  id             String   @id @default(uuid())
+  psychologistId String
+  date           DateTime
+  startTime      String
+  duration       Int
+  isAvailable    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  psychologist PsychologistProfile @relation(fields: [psychologistId], references: [id], onDelete: Cascade)
+  sessionNotes SessionNote[]
+  bookings     Booking[]           @relation("ScheduleBookings")
+
+  @@index([psychologistId])
+  @@index([date])
+}
+
+model Booking {
+  id              Int           @id @default(autoincrement())
+  bookingCode     String        @unique
+  userId          String
+  psychologistId String
+  serviceId       Int
+  scheduleId      String?
+  scheduledDate   DateTime      @db.Date
+  scheduledTime   String
+  totalPrice      Int
+  dpAmount        Int
+  remainingAmount Int
+  status          BookingStatus @default(PENDING_DP)
+  adminApprovedBy String?
+  approvedAt      DateTime?
+  rejectionReason String?
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user                   User                    @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist           PsychologistProfile     @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
+  service                Layanan                 @relation("LayananBookings", fields: [serviceId], references: [id])
+  schedule               Schedule?               @relation("ScheduleBookings", fields: [scheduleId], references: [id], onDelete: SetNull)
+  approvedByAdmin        User?                   @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
+  consultationForm       ConsultationForm?
+  consentForm            ConsentForm?
+  sessionNote            SessionNote?
+  payments               Payment[]
+  review                 BookingReview?
+  officialMedicalRecords OfficialMedicalRecord[]
+
+  @@index([userId])
+  @@index([psychologistId])
+  @@index([serviceId])
+  @@index([scheduleId])
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+model Payment {
+  id              Int           @id @default(autoincrement())
+  bookingId       Int
+  type            PaymentType
+  amount          Int
+  method          String
+  orderId         String        @unique
+  virtualAccount  String?
+  paymentProofUrl String?
+  status          PaymentStatus @default(PENDING)
+  paidAt          DateTime?
+  expiredAt       DateTime
+  createdAt       DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model BookingReview {
+  id             Int      @id @default(autoincrement())
+  bookingId      Int      @unique
+  userId         String
+  psychologistId String
+  rating         Int
+  comment        String?
+  isAnonymous    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  booking      Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user         User                @relation("UserReviews", fields: [userId], references: [id], onDelete: Cascade)
+  psychologist PsychologistProfile @relation("PsychologistReviews", fields: [psychologistId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([psychologistId])
+  @@index([rating])
+}
+
+// ─── MEDICAL RECORDS & SESSION NOTES ─────────────────────────────────────────
+
+model SessionNote {
+  id                    String   @id @default(uuid())
+  psychologistProfileId String
+  userId                String
+  scheduleId            String?
+  bookingId             Int?     @unique
+
+  subjective String? @db.Text
+  objective  String? @db.Text
+  assessment String? @db.Text
+  plan       String? @db.Text
+
+  riskLevel RiskLevel @default(LOW)
+
+  sessionNumber             Int?
+  consultationDate          DateTime?
+  consultationStatus        ConsultationStatus @default(ONGOING)
+  diagnosisSummary          String?            @db.Text
+  treatmentApproach         String?            @db.Text
+  recommendation            String?            @db.Text
+  followUpPlan              FollowUpPlan       @default(CONTINUE_SESSION)
+  additionalNotes           String?            @db.Text
+  riskReason                String?
+  currentMedication         String?
+  allergies                 String?
+
+  followUpDate              DateTime?
+  nextSessionRecommendation String?            @db.Text
+  tags                      String[]           @default([])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  psychologistProfile   PsychologistProfile    @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedule              Schedule?              @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  booking               Booking?               @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  officialMedicalRecord OfficialMedicalRecord?
+
+  @@index([psychologistProfileId, createdAt])
+  @@index([userId])
+  @@index([riskLevel])
+  @@index([scheduleId])
+  @@index([consultationStatus])
+  @@index([bookingId])
+}
+
+model OfficialMedicalRecord {
+  id                    String    @id @default(uuid())
+  userId                String
+  psychologistProfileId String
+  bookingId             Int?
+  sessionNoteId         String?   @unique
+
+  sessionNumber         Int?
+  consultationDate      DateTime?
+
+  diagnosis             String
+  currentMedication     String?
+  allergies             String?
+
+  problemSummary        String
+  therapyApproach      String
+  followUpPlan          String
+  nextSessionDate       DateTime?
+  additionalNotes       String?
+
+  riskLevel                 RiskLevel @default(LOW)
+  riskReason                String?
+  followUpDate              DateTime?
+  nextSessionRecommendation String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  bookings Booking[] @relation("LayananBookings")
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  psychologistProfile PsychologistProfile @relation(fields: [psychologistProfileId], references: [id], onDelete: Cascade)
+  booking             Booking?            @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  sessionNote         SessionNote?        @relation(fields: [sessionNoteId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([psychologistProfileId])
+  @@index([bookingId])
 }
 
-// ─── ConsultationForm ────────────────────────────────────────────────────────
+// ─── FORM ENUMS & MODELS ─────────────────────────────────────────────────────
 
 enum ProblemDuration {
   LESS_THAN_1_MONTH
@@ -485,8 +570,6 @@ model ConsultationForm {
   booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 }
 
-// ─── ConsentForm ─────────────────────────────────────────────────────────────
-
 enum SignatureType {
   TEXT
   DRAWING
@@ -506,89 +589,7 @@ model ConsentForm {
   booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 }
 
-// ─── BookingReview ────────────────────────────────────────────────────────────
-
-model Booking {
-  id              Int           @id @default(autoincrement())
-  bookingCode     String        @unique
-  userId          String
-  psychologistId  String
-  serviceId       Int
-  scheduleId      String?
-  scheduledDate   DateTime      @db.Date
-  scheduledTime   String
-  totalPrice      Int
-  dpAmount        Int
-  remainingAmount Int
-  status          BookingStatus @default(PENDING_DP)
-  adminApprovedBy String?
-  approvedAt      DateTime?
-  rejectionReason String?
-  notes           String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-
-  user            User                @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
-  psychologist    PsychologistProfile @relation("PsychologistBookings", fields: [psychologistId], references: [id], onDelete: Cascade)
-  service         Layanan             @relation("LayananBookings", fields: [serviceId], references: [id])
-  schedule        Schedule?           @relation("ScheduleBookings", fields: [scheduleId], references: [id], onDelete: SetNull)
-  approvedByAdmin User?               @relation("AdminApprovals", fields: [adminApprovedBy], references: [id])
-
-  consultationForm ConsultationForm?
-  consentForm      ConsentForm?
-  sessionNote      SessionNote?
-  officialMedicalRecords OfficialMedicalRecord[]
-  payments Payment[]
-  review   BookingReview?
-
-  @@index([userId])
-  @@index([psychologistId])
-  @@index([serviceId])
-  @@index([scheduleId])
-  @@index([scheduledDate])
-  @@index([status])
-}
-
-model Payment {
-  id              Int           @id @default(autoincrement())
-  bookingId       Int
-  type            PaymentType
-  amount          Int
-  method          String
-  orderId         String        @unique
-  virtualAccount  String?
-  paymentProofUrl String?
-  status          PaymentStatus @default(PENDING)
-  paidAt          DateTime?
-  expiredAt       DateTime
-  createdAt       DateTime      @default(now())
-
-  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-
-  @@index([bookingId])
-  @@index([status])
-  @@index([type])
-  @@index([createdAt])
-}
-
-model BookingReview {
-  id             Int      @id @default(autoincrement())
-  bookingId      Int      @unique
-  userId         String
-  psychologistId String
-  rating         Int
-  comment        String?
-  isAnonymous    Boolean  @default(false)
-  createdAt      DateTime @default(now())
-
-  booking      Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  user         User                @relation("UserReviews", fields: [userId], references: [id], onDelete: Cascade)
-  psychologist PsychologistProfile @relation("PsychologistReviews", fields: [psychologistId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([psychologistId])
-  @@index([rating])
-}
+// ─── TES / PSYCHOLOGICAL TEST MODELS ─────────────────────────────────────────
 
 model Tes {
   id              Int                 @id @default(autoincrement())
@@ -645,7 +646,7 @@ model SectionKategori {
   maxSkor     Int
   deskripsi   String?
   tesId       Int
-  tes         Tes    @relation(fields: [tesId], references: [id], onDelete: Cascade)
+  tes         Tes     @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }
 
 model TesResult {
@@ -676,4 +677,3 @@ model TesResult {
   @@index([status])
   @@index([createdAt])
 }
-
