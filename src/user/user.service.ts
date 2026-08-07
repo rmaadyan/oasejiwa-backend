@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException, // 🟢 1. Ditambahkan ke sini
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-
+import { ChangePasswordDto } from './dto/change-password.dto'; // 🟢 2. Pastikan DTO di-import
 
 @Injectable()
 export class UserService {
@@ -19,8 +25,8 @@ export class UserService {
 
     // 1. Jika role PSYCHOLOGIST
     if (user.role === 'PSYCHOLOGIST') {
-      const profile = await this.prisma.psychologistProfile.findUnique({
-        where: { userId },
+      const profile = await this.prisma.psychologistProfile.findFirst({
+        where: { userId: user.id },
         include: {
           educations: true,
           experiences: true,
@@ -53,11 +59,8 @@ export class UserService {
 
     // 2. Jika role USER (User Biasa)
     if (user.role === 'USER') {
-      const profile = await this.prisma.userProfile.findUnique({
-        where: { userId },
-      });
-
-      const fullName = profile?.fullName || user.userProfile?.fullName || '';
+      const profile = user.userProfile;
+      const fullName = profile?.fullName || '';
 
       return {
         ...user,
@@ -72,6 +75,7 @@ export class UserService {
               city: profile.city,
               fullAddress: profile.fullAddress,
               phone: profile.phone,
+              avatarUrl: profile.avatarUrl,
             }
           : null,
       };
@@ -111,21 +115,23 @@ export class UserService {
         update: {
           ...(dto.fullName && { fullName: dto.fullName }),
           ...(dto.birthday && { birthday: new Date(dto.birthday) }),
-          ...(dto.gender && { gender: dto.gender as any }), // 👈 Explicit type cast ke Gender
+          ...(dto.gender && { gender: dto.gender as any }),
           ...(dto.country && { country: dto.country }),
           ...(dto.city && { city: dto.city }),
           ...(dto.fullAddress && { fullAddress: dto.fullAddress }),
           ...(dto.phone && { phone: dto.phone }),
+          ...(dto.avatarUrl && { avatarUrl: dto.avatarUrl }),
         },
         create: {
           userId,
           fullName: dto.fullName ?? null,
           birthday: dto.birthday ? new Date(dto.birthday) : null,
-          gender: (dto.gender as any) ?? null, // 👈 Explicit type cast ke Gender
+          gender: (dto.gender as any) ?? null,
           country: dto.country ?? null,
           city: dto.city ?? null,
           fullAddress: dto.fullAddress ?? null,
           phone: dto.phone ?? null,
+          avatarUrl: dto.avatarUrl ?? null,
         },
       });
 
@@ -154,5 +160,46 @@ export class UserService {
       message: 'Profile berhasil diupdate',
       ...result,
     };
+  }
+
+  // 🟢 3. Ubah userId menjadi 'string' agar sesuai dengan ID Prisma kamu
+ async changePassword(userId: string, dto: ChangePasswordDto) {
+    // 1. Cari user beserta relasi authProvider
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { authProvider: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Pengguna tidak ditemukan');
+    }
+
+    // 2. Cek apakah user memiliki AuthProvider dan passwordHash (bukan pendaftaran via Google/OAuth)
+    if (!user.authProvider || !user.authProvider.passwordHash) {
+      throw new BadRequestException(
+        'Akun ini terdaftar tanpa kata sandi (menggunakan akun Google/OAuth).',
+      );
+    }
+
+    // 3. Verifikasi kata sandi saat ini dengan passwordHash di AuthProvider
+    const isPasswordValid = await bcrypt.compare(
+      dto.currentPassword,
+      user.authProvider.passwordHash,
+    );
+
+    if (!isPasswordValid) {
+      throw new BadRequestException('Kata sandi saat ini salah');
+    }
+
+    // 4. Hash kata sandi baru
+    const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+
+    // 5. Update passwordHash pada tabel AuthProvider
+    await this.prisma.authProvider.update({
+      where: { userId },
+      data: { passwordHash: hashedPassword },
+    });
+
+    return { message: 'Kata sandi berhasil diubah' };
   }
 }
