@@ -4,8 +4,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ServeStaticModule } from '@nestjs/serve-static'; // 👈 1. Import ServeStaticModule
-import { join } from 'path'; // 👈 2. Import helper path 'join'
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -35,16 +35,15 @@ import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
-    // 1. Tambahkan ConfigModule global agar .env dijamin terbaca sempurna
     ConfigModule.forRoot({
       isGlobal: true,
     }),
 
-    // 2. 🚀 Konfigurasi penyajian file statis (Uploads)
+    // Penyajikan File Statis (Uploads)
     ServeStaticModule.forRoot({
-  rootPath: join(process.cwd(), 'uploads'), // Pastikan lokasi folder upload-mu pas di sini
-  serveRoot: '/uploads',
-}),
+      rootPath: join(process.cwd(), 'uploads'),
+      serveRoot: '/uploads',
+    }),
 
     PrismaModule,
     AuthModule,
@@ -73,7 +72,6 @@ import { StatisticsModule } from './statistics/statistics.module';
     AdminAnalyticsModule,
     AdminMedicalRecordsModule,
 
-    // 3. Gunakan forRootAsync agar aman dari undefined
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
@@ -93,6 +91,7 @@ import { StatisticsModule } from './statistics/statistics.module';
       inject: [ConfigService],
     }),
 
+    // Rate Limiter Guard (Max 60 request / 60 detik per IP)
     ThrottlerModule.forRoot({
       throttlers: [
         {

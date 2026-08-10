@@ -3,7 +3,7 @@ import { Logger, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
-import { join } from 'path';
+import helmet from 'helmet'; // 👈 1. Import Helmet
 
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
@@ -12,8 +12,14 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  app.use(cookieParser());
+  // 👈 2. Aktifkan Helmet untuk Proteksi HTTP Header
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' }, // Agar file upload (gambar) tetap bisa diakses frontend
+    }),
+  );
 
+  app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.useGlobalPipes(
@@ -31,29 +37,34 @@ async function bootstrap() {
     }),
   );
 
+  // 👈 3. Perbaiki Logika CORS yang Bocor
   app.enableCors({
     origin: (origin, callback) => {
+      // Izinkan request tanpa origin (misal dari Server-to-Server / Postman)
       if (!origin) return callback(null, true);
+
       const allowed =
         origin.startsWith('http://localhost') ||
         origin.startsWith('http://127.0.0.1') ||
         origin.startsWith('http://172.') ||
         origin.includes('oasejiwa.id');
+
       if (allowed) {
         callback(null, true);
       } else {
-        callback(null, true);
+        // PERBAIKAN: Tolak origin yang tidak terdaftar
+        callback(null, false);
       }
     },
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS'],
     credentials: true,
   });
 
-  app.useStaticAssets(join(process.cwd(), 'uploads'), {
-    prefix: '/uploads/',
-  });
+  // Catatan: app.useStaticAssets dihapus dari sini karena sudah ditangani oleh ServeStaticModule di app.module.ts
 
   const port = Number(process.env.PORT) || 3000;
+
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
 
   await app.listen(port, () => {
     logger.log(`Server jalan di: http://localhost:${port}`);
