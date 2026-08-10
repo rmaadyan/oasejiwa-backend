@@ -1,4 +1,4 @@
-name: Deploy Backend to VPS (Docker)
+name: Deploy Backend to VPS (SSH)
 
 on:
   push:
@@ -25,7 +25,14 @@ jobs:
           push: true
           tags: oasejiwa/oasejiwa-backend:latest
 
-      # Trigger Webhook Portainer untuk Auto Deploy
-      - name: Deploy via Portainer Webhook
-        run: |
-          curl -X POST "${{ secrets.PORTAINER_WEBHOOK_BACKEND }}"
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            docker pull oasejiwa/oasejiwa-backend:latest
+            docker stop oasejiwa-backend || true
+            docker rm oasejiwa-backend || true
+            docker run -d --name oasejiwa-backend --restart always -p 5000:5000 oasejiwa/oasejiwa-backend:latest
