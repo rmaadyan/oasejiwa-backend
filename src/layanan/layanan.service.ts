@@ -28,9 +28,15 @@ export class LayananService {
     return this.prisma.layanan.update({ where: { id }, data: dto as any});
   }
 
-  async remove(id: number) {
-    await this.findOne(id);
-    await this.prisma.layanan.delete({ where: { id } });
-    return { message: 'Layanan berhasil dihapus' };
-  }
+ async remove(id: number) {
+  await this.findOne(id);
+
+  // Mengubah status menjadi Draft (Soft Delete konsisten dengan UI)
+  return this.prisma.layanan.update({
+    where: { id },
+    data: {
+      status: 'Draft',
+    },
+  });
+}
 }
