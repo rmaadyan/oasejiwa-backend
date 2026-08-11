@@ -1,5 +1,6 @@
 import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
-import { JenisLayanan, Kategori } from '../../../prisma/generated/enums';
+import { JenisLayanan, Kategori } from '@prisma/client';
+
 export class CreateLayananDto {
   @IsString()
   nama!: string;
