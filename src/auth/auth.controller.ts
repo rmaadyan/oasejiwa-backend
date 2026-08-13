@@ -102,7 +102,7 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   googleCallback(@Request() req, @Res() res) {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://oasejiwa.id';
 
     if (!req.user) {
       const msg = encodeURIComponent(
