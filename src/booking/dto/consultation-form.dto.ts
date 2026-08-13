@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsBoolean, IsOptional, IsEnum, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsBoolean,
+  IsOptional,
+  IsEnum,
+  IsArray,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export enum ProblemDuration {
   LESS_THAN_1_MONTH = 'LESS_THAN_1_MONTH',
@@ -67,6 +75,7 @@ export class ConsultationFormDto {
   mainReason!: string;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   takingPsychiatricMeds!: boolean;
 
   @IsEnum(ProblemDuration)
@@ -79,6 +88,7 @@ export class ConsultationFormDto {
   dailyImpact!: DailyImpact;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   hasSimilarHistory!: boolean;
 
   @IsOptional()
@@ -86,6 +96,7 @@ export class ConsultationFormDto {
   similarHistoryDetail?: string;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   hasFamilyHistory!: boolean;
 
   @IsOptional()
@@ -93,6 +104,7 @@ export class ConsultationFormDto {
   familyHistoryDetail?: string;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   hasMedicalTreatment!: boolean;
 
   @IsOptional()
@@ -100,6 +112,7 @@ export class ConsultationFormDto {
   medicalTreatmentDetail?: string;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   hasTraumaticEvent!: boolean;
 
   @IsOptional()
@@ -109,29 +122,41 @@ export class ConsultationFormDto {
   @IsEnum(SleepQuality)
   sleepQuality!: SleepQuality;
 
+  // 🟢 Properti tambahan untuk Konseling Pasangan
+  @IsOptional()
+  @IsEnum(SleepQuality)
+  partnerSleepQuality?: SleepQuality;
+
+  @IsOptional()
   @IsEnum(SelfHarmThoughts)
-  selfHarmThoughts!: SelfHarmThoughts;
+  selfHarmThoughts?: SelfHarmThoughts;
 
   @IsBoolean()
+  @Transform(({ value }) => value === true || value === 'true' || value === 'yes' || value === 'Ya')
   usesAddictiveSubstances!: boolean;
 
   @IsOptional()
   @IsString()
   addictiveSubstancesDetail?: string;
 
+  @IsOptional()
   @IsEnum(EatingPattern)
-  eatingPattern!: EatingPattern;
+  eatingPattern?: EatingPattern;
 
+  @IsOptional()
   @IsEnum(ExerciseFrequency)
-  exerciseFrequency!: ExerciseFrequency;
+  exerciseFrequency?: ExerciseFrequency;
 
+  @IsOptional()
   @IsEnum(StressLevel)
-  stressLevel!: StressLevel;
+  stressLevel?: StressLevel;
 
+  @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  consultationGoals!: string[];
+  consultationGoals?: string[];
 
+  @IsOptional()
   @IsEnum(TherapyPreference)
-  therapyPreference!: TherapyPreference;
+  therapyPreference?: TherapyPreference;
 }

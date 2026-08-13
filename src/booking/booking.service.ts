@@ -9,6 +9,7 @@ import { EmailService } from '../email/email.service'; // Adjust path sesuai str
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { RescheduleBookingDto } from './dto/reschedule-booking.dto';
 import * as crypto from 'crypto';
+import { AnyARecord } from 'dns';
 
 @Injectable()
 export class BookingService {
@@ -158,7 +159,7 @@ export class BookingService {
         await prisma.consultationForm.create({
           data: {
             bookingId: newBooking.id,
-            ...dto.consultationForm,
+            ...(dto.consultationForm as any),
           },
         });
       }
@@ -173,7 +174,7 @@ export class BookingService {
             signatureType: dto.consentForm.signatureType,
             agreedToTerms: dto.consentForm.agreedToTerms,
             ipAddress: dto.consentForm.ipAddress,
-          },
+          } as any,
         });
       }
 
