@@ -3,6 +3,7 @@ import { Logger, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
+import { json, urlencoded } from 'express'; // 🟢 Import parser express
 import { join } from 'path';
 
 import { AppModule } from './app.module';
@@ -12,7 +13,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // 🟢 Hilangkan garis merah dengan casting 'as any'
+  // 🟢 Naikkan batas body request ke 50MB (untuk gambar base64 & signature canvas)
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
+
+  // 🟢 Cookie parser
   app.use((cookieParser as any)());
 
   app.useGlobalFilters(new AllExceptionsFilter());
