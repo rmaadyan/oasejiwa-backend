@@ -175,6 +175,25 @@ async function main() {
     console.log('ℹ️ Initial Layanan already exists:', existingLayanan.nama);
   }
 
+  // 5. Initial Tes (Skala Kecemasan DASS-21)
+  const existingTes = await prisma.tes.findUnique({
+    where: { id: 2 },
+  });
+
+  if (existingTes) {
+    await prisma.tes.update({
+      where: { id: 2 },
+      data: {
+        nama: 'Skala Kecemasan (DASS-21)',
+        jenis: 'Kecemasan',
+        status: 'Aktif',
+        jumlah: 21,
+        deskripsi: 'Depression Anxiety Stress Scale — subskala kecemasan. Mengukur tingkat kecemasan dalam 2 minggu terakhir.',
+      },
+    });
+    console.log('✅ Updated Tes id 2 to Skala Kecemasan (DASS-21)');
+  }
+
   console.log('\n🎉 Initial Seeding Finished! Database is ready for UI testing.');
 }
 
