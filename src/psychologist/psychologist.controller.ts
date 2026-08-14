@@ -17,7 +17,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
-// 🟢 Daftarkan seluruh alias route admin & publik
 @SkipThrottle()
 @Controller([
   'psychologist',
@@ -57,12 +56,18 @@ export class PsychologistController {
   }
 
   // =========================================================
-  // 🟢 ROUTE CRUD & EMAIL KHUSUS ADMIN
+  // 🟢 ROUTE CRUD & REORDER KHUSUS ADMIN
   // =========================================================
 
   @Post()
   createPsychologist(@Body() dto: any) {
     return this.psychologistService.createPsychologist(dto);
+  }
+
+  // 🟢 Letakkan @Patch('reorder') DI ATAS @Patch(':id') tanpa prefix ganda
+  @Patch('reorder')
+  reorderPsychologists(@Body('orderedIds') orderedIds: string[]) {
+    return this.psychologistService.reorderPsychologists(orderedIds);
   }
 
   @Post(':id/send-reminder')
@@ -156,9 +161,4 @@ export class PsychologistController {
   getPsychologistById(@Param('id') id: string) {
     return this.psychologistService.getPsychologistById(id);
   }
-
-  @Patch('admin/psychologists/reorder')
-async reorderPsychologists(@Body('orderedIds') orderedIds: string[]) {
-  return this.psychologistService.reorderPsychologists(orderedIds);
-}
 }
