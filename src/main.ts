@@ -63,7 +63,7 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
-  const port = Number(process.env.PORT) || 3000;
+  const port = Number(process.env.PORT) || 3001;
 
   await app.listen(port, () => {
     logger.log(`Server jalan di: http://localhost:${port}`);
