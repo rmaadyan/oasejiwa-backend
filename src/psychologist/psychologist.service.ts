@@ -738,71 +738,72 @@ export class PsychologistService {
   // 🟢 7. GET DAFTAR PSIKOLOG (HANYA USER ROLE PSYCHOLOGIST)
   // ==========================================
   async getAllPsychologists() {
-    const psychologists = await this.prisma.psychologistProfile.findMany({
-      where: {
-        user: {
-          role: 'PSYCHOLOGIST', // 👈 Memastikan akun Admin tidak masuk ke daftar
+  const psychologists = await this.prisma.psychologistProfile.findMany({
+    where: {
+      user: {
+        role: 'PSYCHOLOGIST',
+      },
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          isProfileComplete: true,
+          userProfile: { select: { phone: true } },
         },
       },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-            isProfileComplete: true,
-            userProfile: { select: { phone: true } },
-          },
-        },
-        specializations: { select: { name: true } },
-        educations: { select: { degree: true, institution: true } },
-        experiences: { select: { name: true } },
-        expertises: { select: { name: true } },
-        schedules: true,
-      },
-     orderBy: [
-  { displayOrder: 'asc' }, // 👈 Urutkan berdasarkan displayOrder terkecil
-  { createdAt: 'desc' },
-]
-    });
+      specializations: { select: { name: true } },
+      educations: { select: { degree: true, institution: true } },
+      experiences: { select: { name: true } },
+      expertises: { select: { name: true } },
+      schedules: true,
+    },
+    orderBy: [
+      { displayOrder: 'asc' }, // 👈 Urutkan displayOrder terkecil ke terbesar
+      { createdAt: 'desc' },
+    ],
+  });
 
-    const cleanPsychologists = psychologists.filter(
-      (p) => p.fullName && p.fullName.trim() !== '',
-    );
+  const cleanPsychologists = psychologists.filter(
+    (p) => p.fullName && p.fullName.trim() !== '',
+  );
 
-    return {
-      data: cleanPsychologists.map((p: any) => ({
-        id: p.id,
-        userId: p.userId,
-        name: p.fullName,
-        fullName: p.fullName,
-        email: p.user?.email || '-',
-        phoneNumber: p.user?.userProfile?.phone || '-',
-        phone: p.user?.userProfile?.phone || '-',
-        avatarUrl: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
-        photo: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
-        sipp: p.sipp || '-',
-        str: p.str || '-',
-        about: p.about || 'Psikolog Klinik Oase Jiwa',
-        status: p.status || 'Aktif',
-        isProfileComplete:
-          p.user?.isProfileComplete ?? (p.sipp && p.sipp !== '-'),
-        specializations: (p.specializations || []).map((s: any) => s.name || s),
-        expertises: (p.expertises || []).map((e: any) => e.name || e),
-        experiences: (p.experiences || []).map((e: any) => e.name || e),
-        latestEducation:
-          p.educations && p.educations.length > 0
-            ? `${p.educations[p.educations.length - 1].degree} - ${p.educations[p.educations.length - 1].institution}`
-            : 'Psikolog Klinis',
-        schedules: (p.schedules || []).map((s: any) => ({
-          id: s.id,
-          day: s.day || s.hari || 'Senin',
-          startTime: s.startTime || s.time || '09:00',
-          duration: s.duration || 60,
-          isAvailable: s.isAvailable ?? true,
-        })),
+  return {
+    data: cleanPsychologists.map((p: any) => ({
+      id: p.id,
+      userId: p.userId,
+      displayOrder: p.displayOrder, // 👈 Kirimkan displayOrder ke response
+      name: p.fullName,
+      fullName: p.fullName,
+      email: p.user?.email || '-',
+      phoneNumber: p.user?.userProfile?.phone || '-',
+      phone: p.user?.userProfile?.phone || '-',
+      avatarUrl: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
+      photo: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
+      sipp: p.sipp || '-',
+      str: p.str || '-',
+      about: p.about || 'Psikolog Klinik Oase Jiwa',
+      status: p.status || 'Aktif',
+      isProfileComplete:
+        p.user?.isProfileComplete ?? (p.sipp && p.sipp !== '-'),
+      specializations: (p.specializations || []).map((s: any) => s.name || s),
+      expertises: (p.expertises || []).map((e: any) => e.name || e),
+      experiences: (p.experiences || []).map((e: any) => e.name || e),
+      latestEducation:
+        p.educations && p.educations.length > 0
+          ? `${p.educations[p.educations.length - 1].degree} - ${p.educations[p.educations.length - 1].institution}`
+          : 'Psikolog Klinis',
+      schedules: (p.schedules || []).map((s: any) => ({
+        id: s.id,
+        day: s.day || s.hari || 'Senin',
+        startTime: s.startTime || s.time || '09:00',
+        duration: s.duration || 60,
+        isAvailable: s.isAvailable ?? true,
       })),
-    };
-  }
+    })),
+  };
+}
 
   // ==========================================
   // 🟢 8. CRUD KHUSUS ADMIN
@@ -1171,15 +1172,24 @@ export class PsychologistService {
 
   // 🟢 Method untuk update urutan banyak psikolog sekaligus
 async reorderPsychologists(orderedIds: string[]) {
-  const updates = orderedIds.map((id, index) =>
-    this.prisma.psychologistProfile.update({
-      where: { id },
-      data: { displayOrder: index + 1 }, // 👈 Menggunakan displayOrder
-    }),
-  );
+  if (!orderedIds || !Array.isArray(orderedIds) || orderedIds.length === 0) {
+    return { message: 'Tidak ada data urutan' };
+  }
 
-  await this.prisma.$transaction(updates);
-  return { message: 'Urutan psikolog berhasil diperbarui' };
+  // Update urutan secara berurutan (1, 2, 3, dst.)
+  const updatePromises = orderedIds.map((id, index) => {
+    return this.prisma.psychologistProfile.updateMany({
+      where: {
+        OR: [{ id: id }, { userId: id }],
+      },
+      data: {
+        displayOrder: index + 1, // 1, 2, 3, 4 ...
+      },
+    });
+  });
+
+  await this.prisma.$transaction(updatePromises);
+  return { message: 'Urutan psikolog berhasil diperbarui', success: true };
 }
 
   async getNoteById(userId: string, noteId: string) {
