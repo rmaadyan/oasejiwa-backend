@@ -755,17 +755,15 @@ export class PsychologistService {
     // Format nama hari konsisten (misal: "Kamis")
     const formattedDay = dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase();
 
-    const newSchedule = await (this.prisma.schedule as any).create({
-      data: {
-        psychologistId: profile.id,
-        day: formattedDay, // 🟢 Menyimpan "Kamis"
-        date: parsedDate,
-        startTime: inputTime,
-        endTime: dto.endTime || null,
-        duration: dto.duration || 60,
-        isAvailable: true,
-      },
-    });
+  const newSchedule = await (this.prisma.schedule as any).create({
+    data: {
+      psychologistId: profile.id,
+      date: parsedDate,
+      startTime: inputTime,
+      duration: dto.duration || 60,
+      isAvailable: true,
+    },
+  });
 
     return {
       message: 'Jadwal berhasil ditambahkan',
@@ -793,7 +791,6 @@ export class PsychologistService {
   async getAllPsychologists() {
     const psychologists = await this.prisma.psychologistProfile.findMany({
       where: {
-        // 🟢 HANYA AMBIL PSIKOLOG YANG SUDAH ISI NAMA & SIPP (MENCEGAH CARD DRAF/KOSONG)
         fullName: {
           not: '',
         },

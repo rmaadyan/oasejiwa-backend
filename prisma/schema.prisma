@@ -293,6 +293,7 @@ model Layanan {
 
 model Schedule {
   id             String   @id @default(uuid())
+  day            String?
   psychologistId String
   date           DateTime
   startTime      String
