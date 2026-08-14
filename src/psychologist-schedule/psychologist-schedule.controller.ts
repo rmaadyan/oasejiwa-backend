@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -41,5 +42,10 @@ export class PsychologistScheduleController {
     @Body() body: { reason?: string },
   ) {
     return this.service.cancelSession(user, id, body);
+  }
+
+  @Delete('weekly-schedules/:id')
+  deleteWeeklySchedule(@CurrentUser() user: any, @Param('id') id: string) {
+    return this.service.deleteWeeklySchedule(user, id);
   }
 }

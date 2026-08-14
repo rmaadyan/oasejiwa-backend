@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 type UiSessionStatus = 'upcoming' | 'completed' | 'cancelled';
@@ -268,4 +268,41 @@ export class PsychologistScheduleService {
 
     return this.mapBookingToSession(updatedBooking);
   }
+
+  async deleteWeeklySchedule(currentUser: any, scheduleId: string) {
+  const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+
+  // Verifikasi jadwal milik psikolog ini
+  const schedule = await this.prisma.schedule.findFirst({
+    where: {
+      id: scheduleId,
+      psychologistId,
+    },
+    include: {
+      bookings: {
+        where: {
+          status: {
+            notIn: ['CANCELLED', 'REJECTED'],
+          },
+        },
+      },
+    },
+  });
+
+  if (!schedule) {
+    throw new NotFoundException('Jadwal tidak ditemukan');
+  }
+
+  if (schedule.bookings.length > 0) {
+    throw new BadRequestException(
+      'Jadwal tidak dapat dihapus karena masih ada sesi aktif',
+    );
+  }
+
+  await this.prisma.schedule.delete({
+    where: { id: scheduleId },
+  });
+
+  return { message: 'Jadwal berhasil dihapus', id: scheduleId };
+}
 }
