@@ -421,27 +421,24 @@ export class PsychologistPatientsService {
       },
     });
 
-    // Verify relationship: Only psychologists with valid bookings/notes can access test results
-    const hasRelationship = bookings.length > 0 || notes.length > 0;
-    const tesResults = hasRelationship
-      ? await this.prisma.tesResult.findMany({
-          where: { userId: resolvedPatientId },
-          include: {
-            tes: {
-              select: {
-                id: true,
-                nama: true,
-                jenis: true,
-                deskripsi: true,
-                penjelasanHasil: true,
-                kategori: true,
-                sectionKategori: true,
-              },
-            },
+    // Retrieve all test results for target patient user
+    const tesResults = await this.prisma.tesResult.findMany({
+      where: { userId: resolvedPatientId },
+      include: {
+        tes: {
+          select: {
+            id: true,
+            nama: true,
+            jenis: true,
+            deskripsi: true,
+            penjelasanHasil: true,
+            kategori: true,
+            sectionKategori: true,
           },
-          orderBy: { createdAt: 'desc' },
-        })
-      : [];
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
 
     const consultationForm = await this.prisma.consultationForm.findFirst({
       where: { booking: { userId: resolvedPatientId } },
