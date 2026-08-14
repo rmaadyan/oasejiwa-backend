@@ -17,8 +17,9 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
+// 🟢 Daftarkan juga 'admin/psychologists' agar kompatibel dengan semua request
 @SkipThrottle()
-@Controller(['psychologist', 'psychologists'])
+@Controller(['psychologist', 'psychologists', 'admin/psychologists'])
 export class PsychologistController {
   constructor(private readonly psychologistService: PsychologistService) {}
 
@@ -44,6 +45,30 @@ export class PsychologistController {
   @Get()
   getAllPsychologists() {
     return this.psychologistService.getAllPsychologists();
+  }
+
+  // 🟢 ROUTE CREATE PSIKOLOG (UNTUK ADMIN)
+  @Post()
+  createPsychologist(@Body() dto: any) {
+    return (this.psychologistService as any).createPsychologist
+      ? (this.psychologistService as any).createPsychologist(dto)
+      : (this.psychologistService as any).create(dto);
+  }
+
+  // 🟢 ROUTE UPDATE PSIKOLOG (UNTUK ADMIN)
+  @Patch(':id')
+  updatePsychologistByAdmin(@Param('id') id: string, @Body() dto: any) {
+    return (this.psychologistService as any).updatePsychologist
+      ? (this.psychologistService as any).updatePsychologist(id, dto)
+      : (this.psychologistService as any).update(id, dto);
+  }
+
+  // 🟢 ROUTE DELETE PSIKOLOG (UNTUK ADMIN)
+  @Delete(':id')
+  deletePsychologistByAdmin(@Param('id') id: string) {
+    return (this.psychologistService as any).deletePsychologist
+      ? (this.psychologistService as any).deletePsychologist(id)
+      : (this.psychologistService as any).delete(id);
   }
 
   // =========================================================
@@ -82,7 +107,10 @@ export class PsychologistController {
 
   @Post('schedule')
   @UseGuards(JwtAuthGuard)
-  addSchedule(@Req() req: any, @Body() dto: { date?: string; day?: string; time: string }) {
+  addSchedule(
+    @Req() req: any,
+    @Body() dto: { date?: string; day?: string; time: string },
+  ) {
     return this.psychologistService.addSchedule(req.user.id, dto);
   }
 
@@ -93,20 +121,16 @@ export class PsychologistController {
   }
 
   @Patch('sessions/:id/status')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('PSYCHOLOGIST', 'ADMIN') // 🟢 Pastikan mengizinkan role Psikolog & Admin
-updateSessionStatus(
-  @Req() req: any,
-  @Param('id') id: string,
-  @Body() body: { status: string; reason?: string },
-) {
-  return this.psychologistService.updateSessionStatus(req.user.id, id, body);
-}
-
-  @Get(':id')
-  getPsychologistById(@Param('id') id: string) {
-    return this.psychologistService.getPsychologistById(id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('PSYCHOLOGIST', 'ADMIN')
+  updateSessionStatus(
+    @Req() req: any,
+    @Param('id') id: string,
+    @Body() body: { status: string; reason?: string },
+  ) {
+    return this.psychologistService.updateSessionStatus(req.user.id, id, body);
   }
+
   @Get('notes')
   @UseGuards(JwtAuthGuard)
   getAllNotes(@Req() req: any, @Query() query: any) {
@@ -118,5 +142,9 @@ updateSessionStatus(
   getNoteById(@Req() req: any, @Param('id') id: string) {
     return this.psychologistService.getNoteById(req.user.id, id);
   }
-  
+
+  @Get(':id')
+  getPsychologistById(@Param('id') id: string) {
+    return this.psychologistService.getPsychologistById(id);
+  }
 }
