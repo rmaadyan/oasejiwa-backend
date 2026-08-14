@@ -759,7 +759,10 @@ export class PsychologistService {
         expertises: { select: { name: true } },
         schedules: true,
       },
-      orderBy: { createdAt: 'desc' },
+     orderBy: [
+  { displayOrder: 'asc' }, // 👈 Urutkan berdasarkan displayOrder terkecil
+  { createdAt: 'desc' },
+]
     });
 
     const cleanPsychologists = psychologists.filter(
@@ -1165,6 +1168,19 @@ export class PsychologistService {
       highRiskCount: formattedNotes.filter((n) => n.riskLevel === 'high').length,
     };
   }
+
+  // 🟢 Method untuk update urutan banyak psikolog sekaligus
+async reorderPsychologists(orderedIds: string[]) {
+  const updates = orderedIds.map((id, index) =>
+    this.prisma.psychologistProfile.update({
+      where: { id },
+      data: { displayOrder: index + 1 }, // 👈 Menggunakan displayOrder
+    }),
+  );
+
+  await this.prisma.$transaction(updates);
+  return { message: 'Urutan psikolog berhasil diperbarui' };
+}
 
   async getNoteById(userId: string, noteId: string) {
     const profile = await this.getOrCreateProfile(userId);

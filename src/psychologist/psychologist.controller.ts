@@ -156,4 +156,9 @@ export class PsychologistController {
   getPsychologistById(@Param('id') id: string) {
     return this.psychologistService.getPsychologistById(id);
   }
+
+  @Patch('admin/psychologists/reorder')
+async reorderPsychologists(@Body('orderedIds') orderedIds: string[]) {
+  return this.psychologistService.reorderPsychologists(orderedIds);
+}
 }
