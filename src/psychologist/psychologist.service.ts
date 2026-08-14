@@ -883,15 +883,22 @@ export class PsychologistService {
       throw new NotFoundException('Psikolog tidak ditemukan');
     }
 
+    // 🟢 Update email di tabel User & nama/hp di tabel UserProfile menggunakan upsert
     if (dto.email || dto.phoneNumber || dto.fullName) {
       await this.prisma.user.update({
-        where: { id: profile.userId },
+        where: { id: profile.userId }, // 👈 Gunakan profile.userId
         data: {
-          email: dto.email || undefined,
-          userProfile: {
-            update: {
-              phone: dto.phoneNumber || undefined,
-              fullName: dto.fullName || undefined,
+          ...(dto.email && { email: dto.email }),
+          userProfile: { // 👈 Gunakan userProfile
+            upsert: {
+              create: {
+                fullName: dto.fullName || profile.fullName,
+                phone: dto.phoneNumber || '',
+              },
+              update: {
+                ...(dto.fullName && { fullName: dto.fullName }),
+                ...(dto.phoneNumber && { phone: dto.phoneNumber }),
+              },
             },
           },
         },
