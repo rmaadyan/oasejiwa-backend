@@ -35,7 +35,7 @@ export class LayananService {
 
   async update(id: number, dto: UpdateLayananDto) {
     await this.findOne(id);
-    return this.prisma.layanan.update({ where: { id }, data: dto as any });
+    return this.prisma.layanan.update({ where: { id }, data: dto });
   }
 
   async remove(id: number) {
