@@ -110,12 +110,12 @@ export class EmailService {
   /** Tombol CTA utama, selalu dengan gaya & spacing yang sama */
   private getButton(label: string, url: string): string {
     return `
-      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:4px 0 22px;">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:8px 0 16px;">
         <tr>
           <td align="center">
             <a href="${url}" target="_blank"
               style="background-color:${THEME.navy};color:#ffffff;text-decoration:none;font-size:13px;
-              font-weight:600;padding:12px 28px;border-radius:8px;display:inline-block;
+              font-weight:600;padding:11px 26px;border-radius:8px;display:inline-block;
               letter-spacing:0.2px;">
               ${label}
             </a>
@@ -133,12 +133,12 @@ export class EmailService {
     const waUrl = `https://wa.me/${waNumber}?text=${message}`;
 
     return `
-      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:14px 0 6px;">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:12px 0 4px;">
         <tr>
           <td align="center">
             <a href="${waUrl}" target="_blank"
               style="background-color:#25d366;color:#ffffff;text-decoration:none;font-size:12px;
-              font-weight:700;padding:10px 22px;border-radius:8px;display:inline-block;
+              font-weight:700;padding:9px 20px;border-radius:8px;display:inline-block;
               letter-spacing:0.2px;">
               💬 Hubungi WhatsApp Admin
             </a>
@@ -248,7 +248,7 @@ export class EmailService {
   }
 
   /**
-   * Template Utama HTML Email Oase Jiwa (Ukuran Logo Diperkecil ke width 85)
+   * Template Utama HTML Email Oase Jiwa
    */
   private getBaseEmailTemplate(
     title: string,
@@ -483,48 +483,52 @@ export class EmailService {
   }
 
   // =========================================================================
-  // 5. NOTIFIKASI BOOKING BARU (USER & PSIKOLOG)
+  // 5. NOTIFIKASI PENGAJUAN BOOKING BARU (USER & PSIKOLOG - STATUS PENDING)
   // =========================================================================
   async sendNewBookingEmails(data: BookingEmailData) {
     const formattedPrice = `Rp ${data.totalPrice.toLocaleString('id-ID')}`;
+    const frontendUrl = process.env.FRONTEND_URL || 'https://oasejiwa.id';
+    const profileBookingsUrl = `${frontendUrl}/userprofile`;
 
-    // --- A. Email ke PASIEN (Disesuaikan: Pengingat Jadwal & Pelunasan + Hadir 10 Menit Sebelum Sesi) ---
+    // --- A. Email ke PASIEN (Status PENDING: Menunggu Validasi Bukti Pembayaran Admin) ---
     const userBody = `
-      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Booking Konsultasi Berhasil Dibuat! 📑</h2>
+      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Pengajuan Booking Berhasil Dibuat! ⏳</h2>
       <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 16px;">
-        Halo <strong>${data.userName}</strong>, terima kasih telah mempercayakan konseling Anda di Biro Psikologi Oase Jiwa. Berikut rincian jadwal booking Anda:
+        Halo <strong>${data.userName}</strong>, terima kasih telah mengajukan jadwal konseling di Biro Psikologi Oase Jiwa. Pengajuan booking Anda telah kami terima dan saat ini <strong>sedang menunggu verifikasi pembayaran oleh tim Admin</strong>.
       </p>
 
       ${this.getInfoCard([
         ['Kode Booking', `<span style="color:${THEME.navy};">${data.bookingCode}</span>`],
         ['Layanan', data.serviceName],
         ['Psikolog', data.psychologistName],
-        ['Jadwal Konsultasi', `<span style="color:#16a34a;font-weight:bold;">${data.scheduledDate} (${data.scheduledTime} WIB)</span>`],
+        ['Jadwal yang Diajukan', `<span style="color:#0284c7;font-weight:bold;">${data.scheduledDate} (${data.scheduledTime} WIB)</span>`],
         ['Total Biaya', formattedPrice],
       ])}
 
       ${this.getInfoBox(
-        'info',
-        `<strong>📍 Petunjuk Pelaksanaan Sesi:</strong><br/>
-        1. Mohon untuk <strong>hadir 10 menit sebelum sesi dimulai</strong> agar proses konsultasi dapat berjalan tepat waktu.<br/>
-        2. Mohon menyelesaikan sisa pelunasan biaya konsultasi sebelum sesi berlangsung.<br/>
-        3. Jika ada hal yang ingin ditanyakan, silakan hubungi WhatsApp Admin kami.`,
+        'warning',
+        `<strong>📌 Langkah Selanjutnya:</strong><br/>
+        1. Tim Admin kami akan memvalidasi bukti pembayaran Anda dalam waktu <strong>1x24 jam</strong>.<br/>
+        2. Setelah pembayaran divalidasi, Anda akan menerima <strong>email konfirmasi resmi beserta struk pembayaran</strong>.<br/>
+        3. Anda dapat memantau status pesanan secara berkala melalui menu <strong>Riwayat Booking</strong> di profil akun Anda.`,
       )}
+
+      ${this.getButton('Cek Riwayat Booking di Web', profileBookingsUrl)}
 
       <!-- KOTAK BANTUAN WA ADMIN -->
       <div style="background-color:${THEME.bgSubtle};border:1px solid ${THEME.border};border-radius:10px;padding:14px;text-align:center;margin-top:16px;">
         <p style="color:${THEME.muted};font-size:11px;margin:0 0 4px;">
-          Untuk informasi lebih lanjut atau bantuan mengenai sesi Anda, silakan hubungi WhatsApp Admin Oase Jiwa:
+          Butuh konfirmasi lebih cepat atau ingin bertanya kepada Admin? Silakan hubungi:
         </p>
         ${this.getWhatsAppButton(data.bookingCode)}
       </div>
     `;
 
-    // --- B. Email ke PSIKOLOG ---
+    // --- B. Email ke PSIKOLOG (Pemberitahuan Ada Pengajuan Booking Masuk) ---
     const psychBody = `
-      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Jadwal Konsultasi Baru 🗓️</h2>
+      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Pengajuan Jadwal Konsultasi Baru 🗓️</h2>
       <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 16px;">
-        Halo <strong>${data.psychologistName}</strong>, Anda mendapatkan pengajuan jadwal konsultasi baru dari pasien:
+        Halo <strong>${data.psychologistName}</strong>, terdapat pengajuan jadwal konsultasi baru dari pasien yang sedang menunggu proses verifikasi pembayaran:
       </p>
 
       ${this.getInfoCard(
@@ -532,7 +536,7 @@ export class EmailService {
           ['Nama Pasien', data.userName],
           ['Kode Booking', data.bookingCode],
           ['Layanan', data.serviceName],
-          ['Jadwal Konsultasi', `<span style="color:#16a34a;font-weight:bold;">${data.scheduledDate} (${data.scheduledTime} WIB)</span>`],
+          ['Jadwal yang Diajukan', `<span style="color:#0284c7;font-weight:bold;">${data.scheduledDate} (${data.scheduledTime} WIB)</span>`],
           ...(data.notes ? ([['Catatan Pasien', data.notes]] as Array<[string, string]>) : []),
         ],
         '#0284c7',
@@ -540,7 +544,7 @@ export class EmailService {
 
       ${this.getInfoBox(
         'info',
-        'Mohon untuk bersiap dan hadir tepat waktu sesuai dengan jadwal di atas.',
+        'Jadwal ini akan resmi dikonfirmasi setelah bukti pembayaran divalidasi oleh Administrator.',
       )}
     `;
 
@@ -548,25 +552,25 @@ export class EmailService {
       await Promise.all([
         this.mailerService.sendMail({
           to: data.userEmail,
-          subject: `[Oase Jiwa] Pengingat Jadwal Konsultasi #${data.bookingCode}`,
-          html: this.getBaseEmailTemplate('Pengingat Jadwal Konsultasi', userBody, 'Booking Dikonfirmasi'),
+          subject: `[Oase Jiwa] Pengajuan Booking #${data.bookingCode} - Menunggu Validasi Pembayaran`,
+          html: this.getBaseEmailTemplate('Pengajuan Booking Konsultasi', userBody, 'Menunggu Validasi'),
           attachments: this.getLogoAttachment(),
         }),
         this.mailerService.sendMail({
           to: data.psychologistEmail,
           subject: `[Oase Jiwa] Pengajuan Booking Baru #${data.bookingCode}`,
-          html: this.getBaseEmailTemplate('Jadwal Konsultasi Baru', psychBody, 'Booking Masuk'),
+          html: this.getBaseEmailTemplate('Pengajuan Booking Baru', psychBody, 'Booking Masuk'),
           attachments: this.getLogoAttachment(),
         }),
       ]);
-      this.logger.log(`New booking emails sent for #${data.bookingCode}`);
+      this.logger.log(`Pending booking notification emails sent for #${data.bookingCode}`);
     } catch (error: any) {
-      this.logger.error(`Failed to send new booking emails for #${data.bookingCode}`, error.stack);
+      this.logger.error(`Failed to send pending booking emails for #${data.bookingCode}`, error.stack);
     }
   }
 
   // =========================================================================
-  // 6. NOTIFIKASI BOOKING DI-APPROVE ADMIN (NOTA / STRUK DIGITAL)
+  // 6. NOTIFIKASI BOOKING DI-APPROVE ADMIN (NOTA / STRUK DIGITAL & JADWAL FIX)
   // =========================================================================
   async sendBookingApprovalEmail(data: BookingEmailData) {
     const adminFee = data.adminFee ?? 0;
@@ -693,7 +697,7 @@ export class EmailService {
     const psychBody = `
       <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Konfirmasi Jadwal Konsultasi Baru 🗓️</h2>
       <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 16px;">
-        Halo <strong>${data.psychologistName}</strong>, pembayaran DP pasien telah divalidasi oleh Admin. Jadwal konsultasi berikut telah **resmi dikonfirmasi**:
+        Halo <strong>${data.psychologistName}</strong>, pembayaran DP pasien telah divalidasi oleh Admin. Jadwal konsultasi berikut telah <strong>resmi dikonfirmasi</strong>:
       </p>
 
       ${this.getInfoCard(
@@ -715,7 +719,7 @@ export class EmailService {
         this.mailerService.sendMail({
           to: data.userEmail,
           subject: `Terima kasih atas pembayaran Anda - Oase Jiwa #${data.bookingCode}`,
-          html: this.getBaseEmailTemplate('Nota Pembayaran Oase Jiwa', userBody),
+          html: this.getBaseEmailTemplate('Nota Pembayaran Oase Jiwa', userBody, 'Booking Dikonfirmasi'),
           attachments: this.getLogoAttachment(),
         }),
         this.mailerService.sendMail({
@@ -782,7 +786,7 @@ export class EmailService {
         '#2563eb',
       )}
 
-      ${this.getInfoBox('info', '⏰ **Imbauan:** Mohon untuk **hadir 10 menit sebelum sesi dimulai**.')}
+      ${this.getInfoBox('info', '⏰ <strong>Imbauan:</strong> Mohon untuk <strong>hadir 10 menit sebelum sesi dimulai</strong>.')}
 
       <div style="background-color:${THEME.bgSubtle};border:1px solid ${THEME.border};border-radius:10px;padding:14px;text-align:center;margin-top:14px;">
         <p style="color:${THEME.muted};font-size:11px;margin:0 0 4px;">
