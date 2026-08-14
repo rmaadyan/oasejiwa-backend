@@ -191,6 +191,7 @@ model PsychologistProfile {
   signatureUpdatedAt DateTime?
   signatureMethod    String?
   status             String?
+  displayOrder       Int       @default(0) // 🟢 TAMBAHKAN INI UNTUK URUTAN
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 

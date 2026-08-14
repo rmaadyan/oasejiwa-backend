@@ -17,14 +17,19 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
-// 🟢 Daftarkan juga 'admin/psychologists' agar kompatibel dengan semua request
+// 🟢 Daftarkan seluruh alias route admin & publik
 @SkipThrottle()
-@Controller(['psychologist', 'psychologists', 'admin/psychologists'])
+@Controller([
+  'psychologist',
+  'psychologists',
+  'admin/psychologists',
+  'admin/psychologist',
+])
 export class PsychologistController {
   constructor(private readonly psychologistService: PsychologistService) {}
 
   // =========================================================
-  // 🟢 ROUTE PUBLIC (DITARUH DI ATAS AGAR TIDAK BENTROK PATTERN)
+  // 🟢 ROUTE PUBLIC
   // =========================================================
 
   @Get('public/all')
@@ -42,37 +47,41 @@ export class PsychologistController {
     return this.psychologistService.getPsychologistById(id);
   }
 
+  // =========================================================
+  // 🟢 ROUTE GET ALL (ADMIN & UMUM)
+  // =========================================================
+
   @Get()
   getAllPsychologists() {
     return this.psychologistService.getAllPsychologists();
   }
 
-  // 🟢 ROUTE CREATE PSIKOLOG (UNTUK ADMIN)
+  // =========================================================
+  // 🟢 ROUTE CRUD & EMAIL KHUSUS ADMIN
+  // =========================================================
+
   @Post()
   createPsychologist(@Body() dto: any) {
-    return (this.psychologistService as any).createPsychologist
-      ? (this.psychologistService as any).createPsychologist(dto)
-      : (this.psychologistService as any).create(dto);
+    return this.psychologistService.createPsychologist(dto);
   }
 
-  // 🟢 ROUTE UPDATE PSIKOLOG (UNTUK ADMIN)
+  @Post(':id/send-reminder')
+  sendReminder(@Param('id') id: string) {
+    return this.psychologistService.sendReminderEmail(id);
+  }
+
   @Patch(':id')
   updatePsychologistByAdmin(@Param('id') id: string, @Body() dto: any) {
-    return (this.psychologistService as any).updatePsychologist
-      ? (this.psychologistService as any).updatePsychologist(id, dto)
-      : (this.psychologistService as any).update(id, dto);
+    return this.psychologistService.updatePsychologist(id, dto);
   }
 
-  // 🟢 ROUTE DELETE PSIKOLOG (UNTUK ADMIN)
   @Delete(':id')
   deletePsychologistByAdmin(@Param('id') id: string) {
-    return (this.psychologistService as any).deletePsychologist
-      ? (this.psychologistService as any).deletePsychologist(id)
-      : (this.psychologistService as any).delete(id);
+    return this.psychologistService.deletePsychologist(id);
   }
 
   // =========================================================
-  // 🟢 ROUTE PRIVATE (MENGGUNAKAN JWT AUTH GUARD)
+  // 🟢 ROUTE PRIVATE PSIKOLOG (JWT AUTH)
   // =========================================================
 
   @Get('dashboard')

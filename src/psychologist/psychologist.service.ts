@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException, BadRequestException} from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../email/email.service';
-
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PsychologistService {
@@ -11,12 +15,11 @@ export class PsychologistService {
   ) {}
 
   private async getOrCreateProfile(userIdOrProfileId: string) {
-    // 1. Cari berdasarkan userId ATAU id Profil
     let profile = await this.prisma.psychologistProfile.findFirst({
       where: {
         OR: [
           { userId: userIdOrProfileId },
-          { id: userIdOrProfileId }
+          { id: userIdOrProfileId },
         ],
       },
       include: {
@@ -35,14 +38,13 @@ export class PsychologistService {
       },
     });
 
-    // 2. Jika belum ada profilnya, cari User-nya untuk dibuatkan profil baru
     if (!profile) {
       const user = await this.prisma.user.findFirst({
         where: {
           OR: [
             { id: userIdOrProfileId },
-            { psychologistProfile: { id: userIdOrProfileId } }
-          ]
+            { psychologistProfile: { id: userIdOrProfileId } },
+          ],
         },
         include: { userProfile: true },
       });
@@ -79,13 +81,16 @@ export class PsychologistService {
     return profile;
   }
 
-  // Helper untuk memfilter booking lunas / disetujui admin
   private filterOnlyApprovedBookings(bookings: any[]) {
     return bookings.filter((b: any) => {
       const bStatus = String(b.status || '').toUpperCase();
       const hasApprovedPayment = b.payments?.some((p: any) => {
         const pStatus = String(p.status || '').toUpperCase();
-        return pStatus === 'APPROVED' || pStatus === 'SUCCESS' || pStatus === 'PAID';
+        return (
+          pStatus === 'APPROVED' ||
+          pStatus === 'SUCCESS' ||
+          pStatus === 'PAID'
+        );
       });
 
       return (
@@ -99,7 +104,6 @@ export class PsychologistService {
     });
   }
 
-  // Format baku untuk setiap item sesi agar cocok 100% dengan frontend Next.js
   private formatSessionItem(b: any) {
     const rawStatus = String(b.status || 'UPCOMING').toLowerCase();
     let normalizedStatus = rawStatus;
@@ -108,7 +112,7 @@ export class PsychologistService {
       normalizedStatus = 'upcoming';
     }
 
-    const serviceTitle = b.service?.name || 'Konseling Psikologi';
+    const serviceTitle = b.service?.nama || b.service?.name || 'Konseling Psikologi';
 
     return {
       id: b.id,
@@ -117,15 +121,19 @@ export class PsychologistService {
       patientPhone: b.user?.userProfile?.phone || '-',
       service: serviceTitle,
       serviceName: serviceTitle,
-      date: b.scheduledDate ? new Date(b.scheduledDate).toISOString().split('T')[0] : '',
-      scheduledDate: b.scheduledDate ? new Date(b.scheduledDate).toISOString().split('T')[0] : '',
+      date: b.scheduledDate
+        ? new Date(b.scheduledDate).toISOString().split('T')[0]
+        : '',
+      scheduledDate: b.scheduledDate
+        ? new Date(b.scheduledDate).toISOString().split('T')[0]
+        : '',
       time: b.scheduledTime || '09:00',
       scheduledTime: b.scheduledTime || '09:00',
       duration: 60,
       sessionNumber: 1,
       paymentStatus: 'paid',
       notes: b.notes || '-',
-      status: normalizedStatus, // 'upcoming' atau 'completed'
+      status: normalizedStatus,
     };
   }
 
@@ -143,7 +151,6 @@ export class PsychologistService {
 
     const psychologistId = psychologist.id;
 
-    // Ambil seluruh booking milik psikolog ini
     const allBookings = await this.prisma.booking.findMany({
       where: { psychologistId },
       include: {
@@ -159,14 +166,18 @@ export class PsychologistService {
 
     const todayStr = new Date().toISOString().split('T')[0];
 
-    // 🟢 1. Hitung Sesi Hari Ini (Bukan CANCELLED / REJECTED)
     const sesiHariIni = allBookings.filter((b) => {
-      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      const bookingDateStr = new Date(b.scheduledDate)
+        .toISOString()
+        .split('T')[0];
       const st = String(b.status).toUpperCase();
-      return bookingDateStr === todayStr && st !== 'CANCELLED' && st !== 'REJECTED';
+      return (
+        bookingDateStr === todayStr &&
+        st !== 'CANCELLED' &&
+        st !== 'REJECTED'
+      );
     }).length;
 
-    // 🟢 2. Hitung Sesi Minggu Ini (Bukan CANCELLED / REJECTED)
     const now = new Date();
     const startOfWeek = new Date(now);
     startOfWeek.setDate(now.getDate() - now.getDay());
@@ -178,7 +189,6 @@ export class PsychologistService {
       return bDate >= startOfWeek && st !== 'CANCELLED' && st !== 'REJECTED';
     }).length;
 
-    // 🟢 3. Hitung Total Pasien Unik: HANYA YANG BERSTATUS 'COMPLETED' (SELESAI)
     const completedBookings = allBookings.filter((b) => {
       const st = String(b.status).toUpperCase();
       return st === 'COMPLETED';
@@ -186,17 +196,21 @@ export class PsychologistService {
     const uniqueUsers = new Set(completedBookings.map((b) => b.userId));
     const totalPasien = uniqueUsers.size;
 
-    // 🟢 4. Daftar Sesi Hari Ini
     const jadwalHariIni = allBookings.filter((b) => {
-      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      const bookingDateStr = new Date(b.scheduledDate)
+        .toISOString()
+        .split('T')[0];
       return bookingDateStr === todayStr;
     });
 
-    // 🟢 5. Daftar Sesi Mendatang
     const jadwalMendatang = allBookings.filter((b) => {
-      const bookingDateStr = new Date(b.scheduledDate).toISOString().split('T')[0];
+      const bookingDateStr = new Date(b.scheduledDate)
+        .toISOString()
+        .split('T')[0];
       const st = String(b.status).toUpperCase();
-      return bookingDateStr > todayStr && st !== 'CANCELLED' && st !== 'REJECTED';
+      return (
+        bookingDateStr > todayStr && st !== 'CANCELLED' && st !== 'REJECTED'
+      );
     });
 
     return {
@@ -215,7 +229,7 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 2. KELOLA JADWAL & SESI KONSELING (JADWAL SAYA)
+  // 2. KELOLA JADWAL & SESI KONSELING
   // ==========================================
   async getAllSessions(userId: string) {
     const profile = await this.getOrCreateProfile(userId);
@@ -239,7 +253,6 @@ export class PsychologistService {
     const bookings = this.filterOnlyApprovedBookings(rawBookings);
     const formattedSessions = bookings.map((b) => this.formatSessionItem(b));
 
-    // Mengembalikan array langsung di 'data' & 'sessions' agar kompatibel dengan semua jenis fetcher frontend
     return {
       message: 'Sessions fetched successfully',
       data: formattedSessions,
@@ -248,7 +261,7 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 3. DAFTAR PASIEN SAYA (DETAIL PASIEN)
+  // 3. DAFTAR PASIEN SAYA
   // ==========================================
   async getAllPatients(userId: string) {
     const profile = await this.getOrCreateProfile(userId);
@@ -271,7 +284,6 @@ export class PsychologistService {
     });
 
     const bookings = this.filterOnlyApprovedBookings(rawBookings);
-
     const patientsMap = new Map();
 
     bookings.forEach((b: any) => {
@@ -301,7 +313,6 @@ export class PsychologistService {
       }
     });
 
-    // Also fetch session notes for this psychologist
     const notes = await this.prisma.sessionNote.findMany({
       where: { psychologistProfileId: profile.id, deletedAt: null },
       include: {
@@ -339,12 +350,12 @@ export class PsychologistService {
         existing.hasSessionNotes = true;
         existing.hasValidRelationship = true;
         if (!existing.latestRiskLevel) {
-          existing.latestRiskLevel = note.riskLevel?.toLowerCase() || 'medium';
+          existing.latestRiskLevel =
+            note.riskLevel?.toLowerCase() || 'medium';
         }
       }
     }
 
-    // Include all users with role 'USER' so new patients appear with 0 sessions
     const allUsers = await this.prisma.user.findMany({
       where: { role: 'USER' },
       include: { userProfile: true },
@@ -373,61 +384,6 @@ export class PsychologistService {
 
     const patientsList = Array.from(patientsMap.values());
 
-    // Enrich patients with latest DASS-21 test result data ONLY for patients with valid relationship
-    const validPatientIds = patientsList
-      .filter((p) => p.hasValidRelationship)
-      .map((p) => p.id);
-
-    if (validPatientIds.length > 0) {
-      const allTesResults = await this.prisma.tesResult.findMany({
-        where: { userId: { in: validPatientIds } },
-        orderBy: { createdAt: 'desc' },
-      });
-
-      const latestTesMap = new Map<string, any>();
-      for (const tr of allTesResults) {
-        if (!latestTesMap.has(tr.userId)) {
-          latestTesMap.set(tr.userId, tr);
-        }
-      }
-
-      for (const patient of patientsList) {
-        if (patient.hasValidRelationship) {
-          const latestTes = latestTesMap.get(patient.id);
-          if (latestTes) {
-            patient.latestTesName = latestTes.namaTes || 'DASS-21';
-            patient.latestTesCategory = latestTes.kategoriNama || 'Normal';
-            patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
-            patient.latestTesDate = latestTes.createdAt;
-
-            if (latestTes.sectionScores && Array.isArray(latestTes.sectionScores)) {
-              const parts: string[] = [];
-              for (const sec of latestTes.sectionScores) {
-                if (sec.section && sec.total !== undefined) {
-                  const secName =
-                    sec.section === 'Depression'
-                      ? 'Depresi'
-                      : sec.section === 'Anxiety'
-                      ? 'Anxiety'
-                      : sec.section === 'Stress'
-                      ? 'Stres'
-                      : sec.section;
-                  parts.push(`${secName} ${sec.total}`);
-                }
-              }
-              if (parts.length > 0) {
-                patient.latestTesSummary = parts.join(' • ');
-              }
-            }
-
-            if (!patient.latestTesSummary) {
-              patient.latestTesSummary = patient.latestTesScore;
-            }
-          }
-        }
-      }
-    }
-
     return {
       message: 'Patients fetched successfully',
       data: patientsList,
@@ -435,8 +391,6 @@ export class PsychologistService {
       total: patientsList.length,
     };
   }
-
-
 
   // ==========================================
   // 4. GET PROFIL PSIKOLOG
@@ -462,7 +416,7 @@ export class PsychologistService {
         specializations: true,
         expertises: true,
         schedules: {
-          orderBy: { createdAt: 'asc' }, // Mengurutkan dari jadwal yang dibuat
+          orderBy: { createdAt: 'asc' },
         },
       },
     });
@@ -508,8 +462,6 @@ export class PsychologistService {
     });
 
     const totalSessions = Math.max(sessionNotesCount, bookingsCount);
-
-    // Array pembanding untuk mendeteksi nama hari dari Date
     const DAYS_MAP = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
     return {
@@ -536,28 +488,22 @@ export class PsychologistService {
         signatureUrl: profile.signatureUrl || null,
         signatureUpdatedAt: profile.signatureUpdatedAt || null,
         signatureMethod: profile.signatureMethod || 'UPLOAD',
-
-        // 🟢 PERBAIKAN DI SINI: Menyertakan properti 'day' dan 'hari' agar form dashboard tidak reset ke "Senin"
         schedules: (profile.schedules || []).map((s: any) => {
           let dayName = s.day || s.hari || s.dayOfWeek || '';
-
-          // Jika string hari kosong tapi ada atribut date di DB Prisma
           if (!dayName && s.date) {
             const d = new Date(s.date);
             if (!isNaN(d.getTime())) {
               dayName = DAYS_MAP[d.getDay()];
             }
           }
-
-          // Format huruf kapital awal (contoh: "Kamis")
-          const formattedDay = dayName 
-            ? dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase() 
+          const formattedDay = dayName
+            ? dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase()
             : 'Senin';
 
           return {
             id: s.id,
-            day: formattedDay,   // 🟢 Dikirim "Kamis" ke frontend
-            hari: formattedDay,  // 🟢 Dikirim "Kamis" ke frontend
+            day: formattedDay,
+            hari: formattedDay,
             dayOfWeek: formattedDay,
             date: s.date ? new Date(s.date).toISOString().split('T')[0] : '',
             startTime: s.startTime || s.time || '',
@@ -602,14 +548,20 @@ export class PsychologistService {
       if (dto.about) updateData.about = dto.about;
       if (dto.sipp) updateData.sipp = dto.sipp;
       if (dto.str) updateData.str = dto.str;
-      if (dto.avatarUrl || dto.photo) updateData.avatarUrl = dto.avatarUrl || dto.photo;
+      if (dto.avatarUrl || dto.photo)
+        updateData.avatarUrl = dto.avatarUrl || dto.photo;
 
       if (dto.clearSignature) {
         updateData.signatureUrl = null;
         updateData.signatureUpdatedAt = null;
         updateData.signatureMethod = 'UPLOAD';
-      } else if (dto.signatureUrl !== undefined || dto.signature !== undefined || dto.signatureImage !== undefined) {
-        updateData.signatureUrl = dto.signatureUrl || dto.signature || dto.signatureImage;
+      } else if (
+        dto.signatureUrl !== undefined ||
+        dto.signature !== undefined ||
+        dto.signatureImage !== undefined
+      ) {
+        updateData.signatureUrl =
+          dto.signatureUrl || dto.signature || dto.signatureImage;
         updateData.signatureUpdatedAt = new Date();
         if (dto.signatureMethod) {
           updateData.signatureMethod = dto.signatureMethod;
@@ -650,7 +602,6 @@ export class PsychologistService {
 
       if (Array.isArray(dto.education) || Array.isArray(dto.educations)) {
         const eduList = dto.education || dto.educations;
-
         await prisma.education.deleteMany({
           where: { psychologistId: profile.id },
         });
@@ -671,9 +622,11 @@ export class PsychologistService {
         }
       }
 
-      if (Array.isArray(dto.specializations) || Array.isArray(dto.specialization)) {
+      if (
+        Array.isArray(dto.specializations) ||
+        Array.isArray(dto.specialization)
+      ) {
         const specList = dto.specializations || dto.specialization;
-
         await prisma.specialization.deleteMany({
           where: { psychologistId: profile.id },
         });
@@ -692,7 +645,6 @@ export class PsychologistService {
 
       if (Array.isArray(dto.expertises) || Array.isArray(dto.expertise)) {
         const expList = dto.expertises || dto.expertise;
-
         await prisma.expertise.deleteMany({
           where: { psychologistId: profile.id },
         });
@@ -711,7 +663,6 @@ export class PsychologistService {
 
       if (Array.isArray(dto.experiences) || Array.isArray(dto.experienceList)) {
         const expList = dto.experiences || dto.experienceList;
-
         await prisma.experience.deleteMany({
           where: { psychologistId: profile.id },
         });
@@ -735,35 +686,39 @@ export class PsychologistService {
   // ==========================================
   // 6. MANAJEMEN JADWAL PRAKTIK
   // ==========================================
-  async addSchedule(userId: string, dto: { date?: string; day?: string; hari?: string; time?: string; startTime?: string; endTime?: string; duration?: number }) {
+  async addSchedule(
+    userId: string,
+    dto: {
+      date?: string;
+      day?: string;
+      hari?: string;
+      time?: string;
+      startTime?: string;
+      endTime?: string;
+      duration?: number;
+    },
+  ) {
     const profile = await this.getOrCreateProfile(userId);
-
     const inputTime = dto.startTime || dto.time || '09:00';
     const rawDayOrDate = dto.day || dto.hari || dto.date || 'Senin';
 
     let parsedDate: Date | null = null;
-    let dayName = String(rawDayOrDate).trim();
-
-    const isDateString = !isNaN(Date.parse(rawDayOrDate)) && rawDayOrDate.includes('-');
+    const isDateString =
+      !isNaN(Date.parse(rawDayOrDate)) && rawDayOrDate.includes('-');
 
     if (isDateString) {
       parsedDate = new Date(rawDayOrDate);
-      const DAYS_MAP = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      dayName = DAYS_MAP[parsedDate.getDay()];
     }
 
-    // Format nama hari konsisten (misal: "Kamis")
-    const formattedDay = dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase();
-
-  const newSchedule = await (this.prisma.schedule as any).create({
-    data: {
-      psychologistId: profile.id,
-      date: parsedDate,
-      startTime: inputTime,
-      duration: dto.duration || 60,
-      isAvailable: true,
-    },
-  });
+    const newSchedule = await (this.prisma.schedule as any).create({
+      data: {
+        psychologistId: profile.id,
+        date: parsedDate,
+        startTime: inputTime,
+        duration: dto.duration || 60,
+        isAvailable: true,
+      },
+    });
 
     return {
       message: 'Jadwal berhasil ditambahkan',
@@ -773,43 +728,38 @@ export class PsychologistService {
 
   async deleteSchedule(userId: string, scheduleId: string) {
     await this.getOrCreateProfile(userId);
-
     await this.prisma.schedule.delete({
       where: { id: scheduleId },
     });
-
-    return {
-      message: 'Jadwal berhasil dihapus',
-    };
+    return { message: 'Jadwal berhasil dihapus' };
   }
 
   // ==========================================
-  // 7. GET PUBLIK DAFTAR PSIKOLOG
+  // 🟢 7. GET DAFTAR PSIKOLOG (SEMUA USER & ADMIN)
   // ==========================================
-
-
   async getAllPsychologists() {
     const psychologists = await this.prisma.psychologistProfile.findMany({
-      where: {
-        fullName: {
-          not: '',
-        },
-        sipp: {
-          not: '',
-        },
-      },
       include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            isProfileComplete: true,
+            userProfile: { select: { phone: true } },
+          },
+        },
         specializations: { select: { name: true } },
         educations: { select: { degree: true, institution: true } },
         experiences: { select: { name: true } },
         expertises: { select: { name: true } },
         schedules: true,
       },
+      orderBy: { createdAt: 'desc' },
     });
 
-    // Filter tambahan di JS untuk memastikan SIPP bukan "-" atau string kosong
+    // Tampilkan semua data (tidak membuang SIPP '-') agar Admin bisa melihat psikolog baru
     const cleanPsychologists = psychologists.filter(
-      (p) => p.fullName && p.fullName.trim() !== '' && p.sipp && p.sipp.trim() !== '' && p.sipp.trim() !== '-'
+      (p) => p.fullName && p.fullName.trim() !== '',
     );
 
     return {
@@ -818,11 +768,17 @@ export class PsychologistService {
         userId: p.userId,
         name: p.fullName,
         fullName: p.fullName,
+        email: p.user?.email || '-',
+        phoneNumber: p.user?.userProfile?.phone || '-',
+        phone: p.user?.userProfile?.phone || '-',
         avatarUrl: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
         photo: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
         sipp: p.sipp || '-',
         str: p.str || '-',
         about: p.about || 'Psikolog Klinik Oase Jiwa',
+        status: p.status || 'Aktif',
+        isProfileComplete:
+          p.user?.isProfileComplete ?? (p.sipp && p.sipp !== '-'),
         specializations: (p.specializations || []).map((s: any) => s.name || s),
         expertises: (p.expertises || []).map((e: any) => e.name || e),
         experiences: (p.experiences || []).map((e: any) => e.name || e),
@@ -842,10 +798,139 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // GET PUBLIK DETAIL PSIKOLOG BY ID (MEMBAWA JADWAL PRAKTIK UTUH)
+  // 🟢 8. CRUD & URUTAN KHUSUS ADMIN
+  // ==========================================
+  async createPsychologist(dto: {
+    fullName: string;
+    email: string;
+    phoneNumber?: string;
+    sipp?: string;
+    str?: string;
+    temporaryPassword?: string;
+  }) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Email sudah terdaftar di sistem');
+    }
+
+    const password =
+      dto.temporaryPassword ||
+      'Oase' + Math.floor(100000 + Math.random() * 900000);
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const newUser = await this.prisma.user.create({
+      data: {
+        email: dto.email,
+        role: 'PSYCHOLOGIST',
+        isEmailVerified: true,
+        isProfileComplete: false,
+        authProvider: {
+          create: {
+            provider: 'local',
+            passwordHash,
+          },
+        },
+        userProfile: {
+          create: {
+            fullName: dto.fullName,
+            phone: dto.phoneNumber || '',
+          },
+        },
+        psychologistProfile: {
+          create: {
+            fullName: dto.fullName,
+            about: 'Psikolog Klinik Oase Jiwa',
+            sipp: dto.sipp || '-',
+            str: dto.str || '-',
+            status: 'Aktif',
+          },
+        },
+      },
+      include: { psychologistProfile: true },
+    });
+
+    try {
+      if ((this.emailService as any).sendPsychologistWelcomeEmail) {
+        await (this.emailService as any).sendPsychologistWelcomeEmail(
+          dto.email,
+          dto.fullName,
+          password,
+        );
+      }
+    } catch (e) {
+      console.warn('Gagal mengirim email kredensial psikolog:', e);
+    }
+
+    return {
+      message: 'Akun psikolog berhasil dibuat',
+      data: newUser.psychologistProfile,
+    };
+  }
+
+  async updatePsychologist(id: string, dto: any) {
+    const profile = await this.prisma.psychologistProfile.findFirst({
+      where: { OR: [{ id }, { userId: id }] },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Psikolog tidak ditemukan');
+    }
+
+    if (dto.email || dto.phoneNumber || dto.fullName) {
+      await this.prisma.user.update({
+        where: { id: profile.userId },
+        data: {
+          email: dto.email || undefined,
+          userProfile: {
+            update: {
+              phone: dto.phoneNumber || undefined,
+              fullName: dto.fullName || undefined,
+            },
+          },
+        },
+      });
+    }
+
+    const updated = await this.prisma.psychologistProfile.update({
+      where: { id: profile.id },
+      data: {
+        fullName: dto.fullName || undefined,
+        sipp: dto.sipp || undefined,
+        str: dto.str || undefined,
+        about: dto.about || undefined,
+        status: dto.status || undefined,
+      },
+    });
+
+    return {
+      message: 'Data psikolog berhasil diperbarui',
+      data: updated,
+    };
+  }
+
+  async deletePsychologist(id: string) {
+    const profile = await this.prisma.psychologistProfile.findFirst({
+      where: { OR: [{ id }, { userId: id }] },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Psikolog tidak ditemukan');
+    }
+
+    await this.prisma.user.delete({
+      where: { id: profile.userId },
+    });
+
+    return { message: 'Akun psikolog berhasil dihapus' };
+  }
+
+  // ==========================================
+  // GET DETAIL PSIKOLOG BY ID
   // ==========================================
   async getPsychologistById(idOrUserId: string) {
-    // 1. Cari Profil Psikolog
     const profile = await this.prisma.psychologistProfile.findFirst({
       where: {
         OR: [{ id: idOrUserId }, { userId: idOrUserId }],
@@ -868,23 +953,20 @@ export class PsychologistService {
       throw new NotFoundException('Psikolog tidak ditemukan');
     }
 
-    // 2. Query Murni Ke Tabel Schedule (JANGAN FILTER isAvailable KARENA INI TEMPLATE JADWAL PRAKTEK)
     const rawSchedules = await this.prisma.schedule.findMany({
       where: {
         OR: [
           { psychologistId: profile.id },
           { psychologistId: profile.userId },
-          { psychologistId: idOrUserId }
+          { psychologistId: idOrUserId },
         ],
       },
     });
 
     const DAYS_MAP = ['MINGGU', 'SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT', 'SABTU'];
 
-    // 3. Format jadwal untuk frontend Next.js
     const formattedSchedules = rawSchedules.map((s: any) => {
       let dayName = s.day || s.hari || s.dayOfWeek || '';
-
       if (!dayName && s.date) {
         const d = new Date(s.date);
         if (!isNaN(d.getTime())) {
@@ -899,7 +981,7 @@ export class PsychologistService {
         startTime: s.startTime || s.time || '09:00',
         endTime: s.endTime || null,
         duration: Number(s.duration) || 60,
-        isAvailable: true, // 🟢 SELALU TRUE AGAR TEMPLATE HARI TIDAK HILANG DARI UI
+        isAvailable: true,
       };
     });
 
@@ -919,7 +1001,6 @@ export class PsychologistService {
       experiences: (profile.experiences || []).map((e: any) => e.name || e),
       specializations: (profile.specializations || []).map((s: any) => s.name || s),
       expertises: (profile.expertises || []).map((e: any) => e.name || e),
-      
       schedules: formattedSchedules,
       schedule: formattedSchedules,
       availableSchedules: formattedSchedules,
@@ -930,12 +1011,13 @@ export class PsychologistService {
       psychologist: responseData,
     };
   }
+
   // ==========================================
-  // 8. KIRIM EMAIL PENGINGAT
+  // EMAIL PENGINGAT
   // ==========================================
   async sendReminderEmail(psychologistId: string) {
-    const profile = await this.prisma.psychologistProfile.findUnique({
-      where: { id: psychologistId },
+    const profile = await this.prisma.psychologistProfile.findFirst({
+      where: { OR: [{ id: psychologistId }, { userId: psychologistId }] },
       include: { user: true },
     });
 
@@ -943,18 +1025,22 @@ export class PsychologistService {
       throw new NotFoundException('Data psikolog tidak ditemukan');
     }
 
-    const email = profile.user.email;
-    const name = profile.fullName;
-
-    await this.emailService.sendPsychologistReminderEmail(email, name);
+    await this.emailService.sendPsychologistReminderEmail(
+      profile.user.email,
+      profile.fullName,
+    );
 
     return { message: 'Email pengingat berhasil dikirim!' };
   }
 
   // ==========================================
-  // UPDATE STATUS SESI (DENGAN VALIDASI WAKTU)
+  // UPDATE STATUS SESI
   // ==========================================
-  async updateSessionStatus(userId: string, sessionId: string, dto: { status: string; reason?: string }) {
+  async updateSessionStatus(
+    userId: string,
+    sessionId: string,
+    dto: { status: string; reason?: string },
+  ) {
     await this.getOrCreateProfile(userId);
 
     const booking = await (this.prisma as any).booking.findUnique({
@@ -967,12 +1053,10 @@ export class PsychologistService {
 
     const targetStatus = String(dto.status).toUpperCase();
 
-    // 🟢 VALIDASI TANGGAL & WAKTU UNTUK STATUS COMPLETED / SELESAI
     if (targetStatus === 'COMPLETED' || targetStatus === 'SELESAI') {
       const now = new Date();
       const scheduledDate = new Date(booking.scheduledDate);
 
-      // Ambil jam & menit dari scheduledTime (misal "21:00")
       if (booking.scheduledTime) {
         const [hours, minutes] = booking.scheduledTime.split(':').map(Number);
         scheduledDate.setHours(hours || 0, minutes || 0, 0, 0);
@@ -980,7 +1064,6 @@ export class PsychologistService {
         scheduledDate.setHours(23, 59, 59, 999);
       }
 
-      // Jika waktu sekarang masih kurang dari jadwal konseling
       if (now.getTime() < scheduledDate.getTime()) {
         const formattedDate = scheduledDate.toLocaleDateString('id-ID', {
           day: '2-digit',
@@ -990,12 +1073,11 @@ export class PsychologistService {
         const formattedTime = booking.scheduledTime || '';
 
         throw new BadRequestException(
-          `Sesi belum bisa ditandai selesai karena jadwal konseling baru dilaksanakan pada ${formattedDate} pukul ${formattedTime} WIB.`
+          `Sesi belum bisa ditandai selesai karena jadwal konseling baru dilaksanakan pada ${formattedDate} pukul ${formattedTime} WIB.`,
         );
       }
     }
 
-    // Update status di database Prisma
     const updated = await (this.prisma as any).booking.update({
       where: { id: sessionId },
       data: {
@@ -1011,12 +1093,10 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 9. CATATAN KONSELING (SESSION NOTES)
+  // CATATAN KONSELING
   // ==========================================
   async getAllNotes(userId: string, query?: any) {
-    // Memanggil helper yang sudah support OR pencarian ID
     const profile = await this.getOrCreateProfile(userId);
-
     const whereCondition: any = {
       psychologistProfileId: profile.id,
       deletedAt: null,
@@ -1044,16 +1124,21 @@ export class PsychologistService {
     const formattedNotes = notes.map((n) => ({
       id: n.id,
       patientId: n.userId,
-      patientName: n.user?.userProfile?.fullName || n.user?.email || 'Pasien Oase Jiwa',
+      patientName:
+        n.user?.userProfile?.fullName || n.user?.email || 'Pasien Oase Jiwa',
       service: 'Konseling Psikologi',
-      sessionDate: n.createdAt ? new Date(n.createdAt).toISOString().split('T')[0] : '',
+      sessionDate: n.createdAt
+        ? new Date(n.createdAt).toISOString().split('T')[0]
+        : '',
       createdAt: n.createdAt,
       subjective: n.subjective || '-',
       objective: n.objective || '-',
       assessment: n.assessment || '-',
       plan: n.plan || '-',
       riskLevel: String(n.riskLevel || 'LOW').toLowerCase(),
-      followUpDate: n.followUpDate ? new Date(n.followUpDate).toISOString().split('T')[0] : null,
+      followUpDate: n.followUpDate
+        ? new Date(n.followUpDate).toISOString().split('T')[0]
+        : null,
       recommendation: n.nextSessionRecommendation || '-',
       tags: n.tags || [],
     }));
@@ -1063,7 +1148,9 @@ export class PsychologistService {
       data: formattedNotes,
       total: formattedNotes.length,
       lowRiskCount: formattedNotes.filter((n) => n.riskLevel === 'low').length,
-      mediumRiskCount: formattedNotes.filter((n) => n.riskLevel === 'medium').length,
+      mediumRiskCount: formattedNotes.filter(
+        (n) => n.riskLevel === 'medium',
+      ).length,
       highRiskCount: formattedNotes.filter((n) => n.riskLevel === 'high').length,
     };
   }
@@ -1096,7 +1183,10 @@ export class PsychologistService {
       data: {
         id: note.id,
         patientId: note.userId,
-        patientName: note.user?.userProfile?.fullName || note.user?.email || 'Pasien Oase Jiwa',
+        patientName:
+          note.user?.userProfile?.fullName ||
+          note.user?.email ||
+          'Pasien Oase Jiwa',
         subjective: note.subjective || '-',
         objective: note.objective || '-',
         assessment: note.assessment || '-',
@@ -1108,5 +1198,4 @@ export class PsychologistService {
       },
     };
   }
-
 }
