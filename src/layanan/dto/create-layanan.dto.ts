@@ -33,4 +33,11 @@ export class CreateLayananDto {
   @IsOptional()
   @IsString()
   gambar?: string;
+
+  // 🟢 TAMBAHAN: posisi urutan tampil (opsional — kalau tidak dikirim,
+  // service akan otomatis taruh di posisi paling akhir)
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  urutan?: number;
 }

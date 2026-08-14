@@ -9,7 +9,8 @@ export class LayananService {
 
   async findAll() {
     return this.prisma.layanan.findMany({
-      orderBy: { createdAt: 'desc' },
+      // 🟢 urutkan berdasarkan posisi manual admin, fallback createdAt untuk yang urutan-nya sama
+      orderBy: [{ urutan: 'asc' }, { createdAt: 'desc' }],
     });
   }
 
@@ -20,23 +21,32 @@ export class LayananService {
   }
 
   async create(dto: CreateLayananDto) {
-    return this.prisma.layanan.create({ data: dto as any });
+    // 🟢 kalau urutan tidak dikirim, taruh di posisi paling akhir (max + 1)
+    let urutan = (dto as any).urutan;
+    if (urutan === undefined || urutan === null) {
+      const last = await this.prisma.layanan.findFirst({
+        orderBy: { urutan: 'desc' },
+        select: { urutan: true },
+      });
+      urutan = (last?.urutan ?? 0) + 1;
+    }
+    return this.prisma.layanan.create({ data: { ...(dto as any), urutan } });
   }
 
   async update(id: number, dto: UpdateLayananDto) {
     await this.findOne(id);
-    return this.prisma.layanan.update({ where: { id }, data: dto as any});
+    return this.prisma.layanan.update({ where: { id }, data: dto as any });
   }
 
- async remove(id: number) {
-  await this.findOne(id);
+  async remove(id: number) {
+    await this.findOne(id);
 
-  // Mengubah status menjadi Draft (Soft Delete konsisten dengan UI)
-  return this.prisma.layanan.update({
-    where: { id },
-    data: {
-      status: 'Draft',
-    },
-  });
-}
+    // Mengubah status menjadi Draft (Soft Delete konsisten dengan UI)
+    return this.prisma.layanan.update({
+      where: { id },
+      data: {
+        status: 'Draft',
+      },
+    });
+  }
 }
