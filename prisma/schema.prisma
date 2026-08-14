@@ -615,6 +615,7 @@ model Pertanyaan {
   arah    ArahItem
   section String?
   urutan  Int
+  image   String?
   tesId   Int
   tes     Tes      @relation(fields: [tesId], references: [id], onDelete: Cascade)
 }

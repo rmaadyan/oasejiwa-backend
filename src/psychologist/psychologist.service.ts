@@ -289,12 +289,14 @@ export class PsychologistService {
           firstSessionDate: b.scheduledDate || null,
           lastSessionDate: b.scheduledDate || null,
           hasSessionNotes: false,
+          hasValidRelationship: true,
           sessions: [formatted],
         });
       } else if (b.user && patientsMap.has(b.user.id)) {
         const existing = patientsMap.get(b.user.id);
         existing.totalBookings += 1;
         existing.totalSessions += 1;
+        existing.hasValidRelationship = true;
         existing.sessions.push(formatted);
       }
     });
@@ -328,12 +330,14 @@ export class PsychologistService {
           firstSessionDate: note.createdAt,
           lastSessionDate: note.createdAt,
           hasSessionNotes: true,
+          hasValidRelationship: true,
           latestRiskLevel: note.riskLevel?.toLowerCase() || 'medium',
           sessions: [],
         });
       } else if (note.user && patientsMap.has(note.user.id)) {
         const existing = patientsMap.get(note.user.id);
         existing.hasSessionNotes = true;
+        existing.hasValidRelationship = true;
         if (!existing.latestRiskLevel) {
           existing.latestRiskLevel = note.riskLevel?.toLowerCase() || 'medium';
         }
@@ -361,12 +365,68 @@ export class PsychologistService {
           lastSessionDate: null,
           latestRiskLevel: null,
           hasSessionNotes: false,
+          hasValidRelationship: false,
           sessions: [],
         });
       }
     }
 
     const patientsList = Array.from(patientsMap.values());
+
+    // Enrich patients with latest DASS-21 test result data ONLY for patients with valid relationship
+    const validPatientIds = patientsList
+      .filter((p) => p.hasValidRelationship)
+      .map((p) => p.id);
+
+    if (validPatientIds.length > 0) {
+      const allTesResults = await this.prisma.tesResult.findMany({
+        where: { userId: { in: validPatientIds } },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      const latestTesMap = new Map<string, any>();
+      for (const tr of allTesResults) {
+        if (!latestTesMap.has(tr.userId)) {
+          latestTesMap.set(tr.userId, tr);
+        }
+      }
+
+      for (const patient of patientsList) {
+        if (patient.hasValidRelationship) {
+          const latestTes = latestTesMap.get(patient.id);
+          if (latestTes) {
+            patient.latestTesName = latestTes.namaTes || 'DASS-21';
+            patient.latestTesCategory = latestTes.kategoriNama || 'Normal';
+            patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
+            patient.latestTesDate = latestTes.createdAt;
+
+            if (latestTes.sectionScores && Array.isArray(latestTes.sectionScores)) {
+              const parts: string[] = [];
+              for (const sec of latestTes.sectionScores) {
+                if (sec.section && sec.total !== undefined) {
+                  const secName =
+                    sec.section === 'Depression'
+                      ? 'Depresi'
+                      : sec.section === 'Anxiety'
+                      ? 'Anxiety'
+                      : sec.section === 'Stress'
+                      ? 'Stres'
+                      : sec.section;
+                  parts.push(`${secName} ${sec.total}`);
+                }
+              }
+              if (parts.length > 0) {
+                patient.latestTesSummary = parts.join(' • ');
+              }
+            }
+
+            if (!patient.latestTesSummary) {
+              patient.latestTesSummary = patient.latestTesScore;
+            }
+          }
+        }
+      }
+    }
 
     return {
       message: 'Patients fetched successfully',

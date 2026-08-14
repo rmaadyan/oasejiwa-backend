@@ -23,6 +23,7 @@ export class TesService {
             arah: p.arah,
             section: p.section,
             urutan: i + 1,
+            image: p.image || (p as any).imageUrl || null,
           })),
         },
         likertOptions: {
@@ -100,6 +101,7 @@ export class TesService {
               arah: p.arah,
               section: p.section,
               urutan: i + 1,
+              image: p.image || (p as any).imageUrl || null,
             })),
           },
         }),
@@ -154,12 +156,37 @@ export class TesService {
   }
 
   async submitTes(userId: string, tesId: number, dto: any) {
+    let targetTesId = tesId;
+    let tesRecord = await this.prisma.tes.findUnique({ where: { id: targetTesId } });
+
+    if (!tesRecord) {
+      tesRecord = await this.prisma.tes.findFirst({
+        where: { status: 'Aktif' },
+        orderBy: { id: 'asc' },
+      });
+
+      if (!tesRecord) {
+        tesRecord = await this.prisma.tes.create({
+          data: {
+            nama: dto.namaTes || 'Tes Psikologi DASS-21',
+            jumlah: 21,
+            status: 'Aktif',
+            deskripsi: 'Depression Anxiety Stress Scale (DASS-21)',
+            penjelasanHasil: 'Skrining awal tingkat Depresi, Kecemasan, dan Stres.',
+            jenis: dto.jenisTes || 'Psikologi',
+          },
+        });
+      }
+
+      targetTesId = tesRecord.id;
+    }
+
     return this.prisma.tesResult.create({
       data: {
         userId,
-        tesId,
-        namaTes: dto.namaTes,
-        jenisTes: dto.jenisTes ?? null,
+        tesId: targetTesId,
+        namaTes: dto.namaTes || tesRecord.nama,
+        jenisTes: dto.jenisTes ?? tesRecord.jenis ?? 'Psikologi',
         totalScore: dto.totalScore,
         maxScore: dto.maxScore,
         percentage: dto.percentage,
@@ -170,6 +197,14 @@ export class TesService {
         rekomendasi: dto.rekomendasi ?? [],
         sectionScores: dto.sectionScores ?? null,
         answers: dto.answers ?? null,
+      },
+      include: {
+        tes: true,
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
       },
     });
   }

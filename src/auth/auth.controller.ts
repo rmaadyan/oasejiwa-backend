@@ -16,6 +16,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { EmailInputDto } from './dto/email-input.dto';
+import { ChangeVerificationEmailDto } from './dto/change-verification-email.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ChangePasswordPsychologistDto } from './dto/change-password-psychologist.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -143,5 +144,11 @@ export class AuthController {
   @Post('resend-verification')
   resendVerification(@Body() dto: EmailInputDto) {
     return this.authService.resendVerificationEmail(dto.email);
+  }
+
+  @Throttle({ default: { ttl: 3600000, limit: 5 } })
+  @Post('change-verification-email')
+  changeVerificationEmail(@Body() dto: ChangeVerificationEmailDto) {
+    return this.authService.changeVerificationEmail(dto.oldEmail, dto.newEmail);
   }
 }

@@ -37,15 +37,8 @@ export class StatisticsService {
     }
 
     try {
-      // 1. Unique patient count from SessionNote (Rekam Medis Digital)
-      const uniquePatients = await this.prisma.sessionNote.findMany({
-        where: {
-          deletedAt: null,
-        },
-        distinct: ['userId'],
-        select: { userId: true },
-      });
-      const totalClients = uniquePatients.length;
+      // 1. Hardcoded dummy patient count 250 as requested
+      const totalClients = 250;
 
       // 2. Total active psychologists count
       const totalPsychologists = await this.prisma.psychologistProfile.count();
@@ -72,7 +65,7 @@ export class StatisticsService {
       }
 
       return {
-        totalClients: 0,
+        totalClients: 250,
         totalPsychologists: 1,
         averageRating: 4.9,
         totalReviews: 157,

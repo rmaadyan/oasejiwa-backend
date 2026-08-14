@@ -6,6 +6,7 @@ export class PertanyaanDto {
   @IsEnum(['positif', 'negatif']) arah!: 'positif' | 'negatif';
   @IsOptional() @IsString() section?: string;
   @IsInt() urutan!: number;
+  @IsOptional() @IsString() image?: string;
 }
 
 export class LikertOptionDto {

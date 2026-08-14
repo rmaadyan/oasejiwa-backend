@@ -65,28 +65,38 @@ import { StatisticsModule } from './statistics/statistics.module';
     AdminAnalyticsModule,
     AdminMedicalRecordsModule,
 
-    // 2. Mailer Module dengan proteksi sanitasi password
+    // Mailer Module dengan proteksi sanitasi password dan fleksibilitas env
     MailerModule.forRootAsync({
-  imports: [ConfigModule],
-  useFactory: async (config: ConfigService) => ({
-    transport: {
-      host: 'smtp.gmail.com',
-      port: 587, // 👈 Gunakan port 587
-      secure: false, // 👈 Wajib false untuk port 587
-      auth: {
-        user: config.get('MAIL_USER') || process.env.EMAIL_USER,
-        pass: (config.get('MAIL_PASS') || process.env.EMAIL_PASS || '').replace(/\s+/g, ''),
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => {
+        const host = config.get('MAIL_HOST') || 'smtp.gmail.com';
+        const port = Number(config.get('MAIL_PORT')) || 587;
+        const user = config.get('MAIL_USER') || process.env.EMAIL_USER || '';
+        const rawPass = config.get('MAIL_PASS') || process.env.EMAIL_PASS || '';
+        const pass = rawPass.replace(/\s+/g, '');
+        const from = config.get('MAIL_FROM') || `"Oase Jiwa" <${user}>`;
+        const secure = port === 465;
+
+        return {
+          transport: {
+            host,
+            port,
+            secure,
+            auth: {
+              user,
+              pass,
+            },
+            tls: {
+              rejectUnauthorized: false,
+            },
+          },
+          defaults: {
+            from,
+          },
+        };
       },
-      tls: {
-        rejectUnauthorized: false, // 👈 Mencegah socket close akibat sertifikat
-      },
-    },
-    defaults: {
-      from: config.get('MAIL_FROM') || `"Oase Jiwa" <${config.get('MAIL_USER')}>`,
-    },
-  }),
-  inject: [ConfigService],
-}),
+      inject: [ConfigService],
+    }),
 
     ThrottlerModule.forRoot({
       throttlers: [

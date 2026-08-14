@@ -392,4 +392,59 @@ export class AuthService {
         await this.emailService.sendVerificationEmail(email, token);
         return { message: 'Jika email terdaftar, kami akan mengirimkan email verifikasi' };
     }
+
+    async changeVerificationEmail(oldEmail: string, newEmail: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { email: oldEmail },
+        });
+
+        if (!user) {
+            throw new BadRequestException('Pengguna dengan email lama tidak ditemukan');
+        }
+
+        if (user.isEmailVerified) {
+            throw new BadRequestException('Email sudah terverifikasi, silakan login');
+        }
+
+        const existingNewUser = await this.prisma.user.findUnique({
+            where: { email: newEmail },
+        });
+
+        if (existingNewUser && existingNewUser.id !== user.id) {
+            throw new ConflictException('Email baru sudah terdaftar oleh pengguna lain');
+        }
+
+        // Update user email
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: { email: newEmail },
+        });
+
+        // Expire old verification tokens
+        await this.prisma.emailVerification.updateMany({
+            where: {
+                userId: user.id,
+                usedAt: null,
+            },
+            data: {
+                usedAt: new Date(),
+            },
+        });
+
+        // Create new verification token
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+        await this.prisma.emailVerification.create({
+            data: {
+                userId: user.id,
+                token,
+                expiresAt,
+            },
+        });
+
+        await this.emailService.sendVerificationEmail(newEmail, token);
+
+        return { message: 'Email verifikasi berhasil diperbarui dan dikirim ulang' };
+    }
 }

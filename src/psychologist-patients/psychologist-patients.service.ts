@@ -287,9 +287,34 @@ export class PsychologistPatientsService {
         const latestNote = latestNoteMap.get(patient.id);
 
         if (latestTes) {
-          patient.latestTesName = latestTes.namaTes;
-          patient.latestTesCategory = latestTes.kategoriNama;
+          patient.latestTesName = latestTes.namaTes || 'DASS-21';
+          patient.latestTesCategory = latestTes.kategoriNama || 'Normal';
           patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
+          patient.latestTesDate = latestTes.createdAt;
+
+          if (latestTes.sectionScores && Array.isArray(latestTes.sectionScores)) {
+            const parts: string[] = [];
+            for (const sec of latestTes.sectionScores) {
+              if (sec.section && sec.total !== undefined) {
+                const secName =
+                  sec.section === 'Depression'
+                    ? 'Depresi'
+                    : sec.section === 'Anxiety'
+                    ? 'Anxiety'
+                    : sec.section === 'Stress'
+                    ? 'Stres'
+                    : sec.section;
+                parts.push(`${secName} ${sec.total}`);
+              }
+            }
+            if (parts.length > 0) {
+              patient.latestTesSummary = parts.join(' • ');
+            }
+          }
+
+          if (!patient.latestTesSummary) {
+            patient.latestTesSummary = patient.latestTesScore;
+          }
         }
 
         if (latestNote) {
@@ -396,23 +421,27 @@ export class PsychologistPatientsService {
       },
     });
 
-    const tesResults = await this.prisma.tesResult.findMany({
-      where: { userId: resolvedPatientId },
-      include: {
-        tes: {
-          select: {
-            id: true,
-            nama: true,
-            jenis: true,
-            deskripsi: true,
-            penjelasanHasil: true,
-            kategori: true,
-            sectionKategori: true,
+    // Verify relationship: Only psychologists with valid bookings/notes can access test results
+    const hasRelationship = bookings.length > 0 || notes.length > 0;
+    const tesResults = hasRelationship
+      ? await this.prisma.tesResult.findMany({
+          where: { userId: resolvedPatientId },
+          include: {
+            tes: {
+              select: {
+                id: true,
+                nama: true,
+                jenis: true,
+                deskripsi: true,
+                penjelasanHasil: true,
+                kategori: true,
+                sectionKategori: true,
+              },
+            },
           },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+          orderBy: { createdAt: 'desc' },
+        })
+      : [];
 
     const consultationForm = await this.prisma.consultationForm.findFirst({
       where: { booking: { userId: resolvedPatientId } },

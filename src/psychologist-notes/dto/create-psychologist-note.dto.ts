@@ -4,6 +4,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  MaxLength,
 } from 'class-validator';
 
 export class CreatePsychologistNoteDto {
@@ -19,15 +20,19 @@ export class CreatePsychologistNoteDto {
   userId!: string;
 
   @IsString()
+  @MaxLength(600, { message: 'Subjective maksimal 600 karakter' })
   subjective!: string;
 
   @IsString()
+  @MaxLength(600, { message: 'Objective maksimal 600 karakter' })
   objective!: string;
 
   @IsString()
+  @MaxLength(700, { message: 'Assessment maksimal 700 karakter' })
   assessment!: string;
 
   @IsString()
+  @MaxLength(700, { message: 'Plan maksimal 700 karakter' })
   plan!: string;
 
   @IsOptional()
@@ -64,6 +69,7 @@ export class CreatePsychologistNoteDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(200, { message: 'Catatan tambahan maksimal 200 karakter' })
   additionalNotes?: string;
 
   @IsOptional()
