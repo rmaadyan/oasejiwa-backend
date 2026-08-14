@@ -735,10 +735,15 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 🟢 7. GET DAFTAR PSIKOLOG (SEMUA USER & ADMIN)
+  // 🟢 7. GET DAFTAR PSIKOLOG (HANYA USER ROLE PSYCHOLOGIST)
   // ==========================================
   async getAllPsychologists() {
     const psychologists = await this.prisma.psychologistProfile.findMany({
+      where: {
+        user: {
+          role: 'PSYCHOLOGIST', // 👈 Memastikan akun Admin tidak masuk ke daftar
+        },
+      },
       include: {
         user: {
           select: {
@@ -757,7 +762,6 @@ export class PsychologistService {
       orderBy: { createdAt: 'desc' },
     });
 
-    // Tampilkan semua data (tidak membuang SIPP '-') agar Admin bisa melihat psikolog baru
     const cleanPsychologists = psychologists.filter(
       (p) => p.fullName && p.fullName.trim() !== '',
     );
@@ -798,7 +802,7 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 🟢 8. CRUD & URUTAN KHUSUS ADMIN
+  // 🟢 8. CRUD KHUSUS ADMIN
   // ==========================================
   async createPsychologist(dto: {
     fullName: string;
