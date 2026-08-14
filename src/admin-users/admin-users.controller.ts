@@ -17,7 +17,7 @@ import { Roles } from '../common/decorators/roles.decorator';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')
-@Controller('admin-users')
+@Controller('users') // 🟢 Ubah ke 'users' agar endpoint GET /users & PATCH /users/:id langsung cocok
 export class AdminUsersController {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
