@@ -67,23 +67,26 @@ import { StatisticsModule } from './statistics/statistics.module';
 
     // 2. Mailer Module dengan proteksi sanitasi password
     MailerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => ({
-        transport: {
-          host: config.get('MAIL_HOST') || 'smtp.gmail.com',
-          port: Number(config.get('MAIL_PORT')) || 465,
-          secure: Number(config.get('MAIL_PORT')) === 465,
-          auth: {
-            user: config.get('MAIL_USER') || process.env.EMAIL_USER,
-            pass: (config.get('MAIL_PASS') || process.env.EMAIL_PASS || '').replace(/\s+/g, ''),
-          },
-        },
-        defaults: {
-          from: config.get('MAIL_FROM') || `"Oase Jiwa" <${config.get('MAIL_USER')}>`,
-        },
-      }),
-      inject: [ConfigService],
-    }),
+  imports: [ConfigModule],
+  useFactory: async (config: ConfigService) => ({
+    transport: {
+      host: 'smtp.gmail.com',
+      port: 587, // 👈 Gunakan port 587
+      secure: false, // 👈 Wajib false untuk port 587
+      auth: {
+        user: config.get('MAIL_USER') || process.env.EMAIL_USER,
+        pass: (config.get('MAIL_PASS') || process.env.EMAIL_PASS || '').replace(/\s+/g, ''),
+      },
+      tls: {
+        rejectUnauthorized: false, // 👈 Mencegah socket close akibat sertifikat
+      },
+    },
+    defaults: {
+      from: config.get('MAIL_FROM') || `"Oase Jiwa" <${config.get('MAIL_USER')}>`,
+    },
+  }),
+  inject: [ConfigService],
+}),
 
     ThrottlerModule.forRoot({
       throttlers: [
