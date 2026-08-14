@@ -316,46 +316,51 @@ async findAll(query: QueryAdminUsersDto) {
   }
 
   async update(id: string, dto: UpdateAdminUserDto) {
-    await this.findOne(id);
+  await this.findOne(id);
 
-    const data: any = {};
+  const data: any = {};
 
-    if (dto.role) {
+  // 🟢 MAPPING ROLE: Jika frontend kirim PATIENT, ubah jadi USER
+  if (dto.role) {
+    if ((dto.role as string) === 'PATIENT') {
+      data.role = 'USER';
+    } else {
       data.role = dto.role;
     }
-
-    if (dto.status) {
-      data.isEmailVerified = dto.status === 'active';
-    }
-
-    const user = await this.prisma.user.update({
-      where: { id },
-      data,
-      include: {
-        userProfile: true,
-        psychologistProfile: true,
-      },
-    });
-
-    return {
-      message: 'User berhasil diupdate',
-      data: {
-        id: user.id,
-        name:
-          user.userProfile?.fullName ||
-          user.psychologistProfile?.fullName ||
-          '-',
-        email: user.email,
-        gender: user.userProfile?.gender?.toLowerCase() ?? null,
-        phone: user.userProfile?.phone ?? null,
-        role: user.role.toLowerCase(),
-        status: user.isEmailVerified ? 'active' : 'inactive',
-        registeredAt: this.toDateOnly(user.createdAt),
-        isEmailVerified: user.isEmailVerified,
-        isProfileComplete: user.isProfileComplete,
-      },
-    };
   }
+
+  if (dto.status) {
+    data.isEmailVerified = dto.status === 'active';
+  }
+
+  const user = await this.prisma.user.update({
+    where: { id },
+    data,
+    include: {
+      userProfile: true,
+      psychologistProfile: true,
+    },
+  });
+
+  return {
+    message: 'User berhasil diupdate',
+    data: {
+      id: user.id,
+      name:
+        user.userProfile?.fullName ||
+        user.psychologistProfile?.fullName ||
+        '-',
+      email: user.email,
+      gender: user.userProfile?.gender?.toLowerCase() ?? null,
+      phone: user.userProfile?.phone ?? null,
+      role: user.role.toLowerCase(),
+      status: user.isEmailVerified ? 'active' : 'inactive',
+      registeredAt: this.toDateOnly(user.createdAt),
+      isEmailVerified: user.isEmailVerified,
+      isProfileComplete: user.isProfileComplete,
+    },
+  };
+}
 
   async remove(id: string) {
     await this.findOne(id);
