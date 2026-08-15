@@ -23,5 +23,7 @@ jobs:
 
             # Rebuild & Restart Docker Containers
             docker compose up -d --build
+            docker compose exec -T app npx prisma db push --skip-generate || true
+            docker compose exec -T app npx prisma generate || true
 
             docker image prune -f
