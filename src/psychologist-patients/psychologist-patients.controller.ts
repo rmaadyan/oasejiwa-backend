@@ -19,7 +19,7 @@ import { UpdateEmergencyContactDto } from './dto/update-emergency-contact.dto';
 
 @Controller('psychologist/patients')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('PSYCHOLOGIST')
+@Roles('PSYCHOLOGIST', 'ADMIN')
 export class PsychologistPatientsController {
   constructor(
     private readonly service: PsychologistPatientsService,
