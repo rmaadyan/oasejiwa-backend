@@ -14,8 +14,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   constructor() {
     let connectionString = process.env.DATABASE_URL || 'postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db';
     if (connectionString.includes('localhost') || connectionString.includes('127.0.0.1')) {
-      // In Docker networking, convert localhost/127.0.0.1:5433 or 5432 to postgres:5432
-      const isDocker = process.env.NODE_ENV === 'production' || process.cwd().startsWith('/app');
+      // In Docker networking, convert localhost/127.0.0.1 to postgres:5432
+      const isDocker = process.env.NODE_ENV === 'production' || process.cwd().includes('app') || require('fs').existsSync('/.dockerenv');
       if (isDocker) {
         connectionString = connectionString
           .replace('localhost:5433', 'postgres:5432')
