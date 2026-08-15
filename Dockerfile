@@ -16,4 +16,4 @@ EXPOSE 3000
 EXPOSE 3001
 EXPOSE 3002
 
-CMD ["node", "dist/src/main.js"]
+CMD ["sh", "-c", "if [ -f dist/main.js ]; then node dist/main.js; else node dist/src/main.js; fi"]
