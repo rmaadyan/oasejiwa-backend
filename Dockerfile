@@ -1,16 +1,17 @@
 FROM node:20
 
-WORKDIR /app
+RUN npm install -g pnpm
 
-COPY package*.json ./
+WORKDIR /app 
 
-RUN npm install --legacy-peer-deps
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
 
 COPY . .
 
-RUN npx prisma generate
+RUN pnpm prisma generate
+RUN pnpm build
 
 EXPOSE 3001
 
-# Jalankan langsung file TypeScript utama via npx tsx
-CMD ["npx", "tsx", "src/main.ts"]
+CMD ["node", "dist/main.js"]
