@@ -69,7 +69,7 @@ export class StatisticsService {
   }
 
   // 🟢 METHOD ADMIN ANALYTICS
-  async getAdminStatistics(query: { bookingMonth?: string; patientYear?: string }) {
+ async getAdminStatistics(query: { bookingMonth?: string; patientYear?: string }) {
     const currentMonth = query.bookingMonth || new Date().toISOString().slice(0, 7); // Format "YYYY-MM"
     const currentYear = Number(query.patientYear) || new Date().getFullYear();
 
@@ -81,44 +81,29 @@ export class StatisticsService {
     const endDateYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
 
     try {
-      // 1. Ambil total user terdaftar
       const totalUsers = await this.prisma.user.count({
-        where: {
-          role: { in: ['USER', 'PATIENT'] as any },
-        },
+        where: { role: { in: ['USER', 'PATIENT'] as any } },
       });
 
-      // 2. Ambil booking pada bulan yang dipilih
       const monthBookings = await this.prisma.booking.findMany({
         where: {
-          scheduledDate: {
-            gte: startDateMonth,
-            lte: endDateMonth,
-          },
-          status: {
-            notIn: ['CANCELLED', 'REJECTED'],
-          },
+          scheduledDate: { gte: startDateMonth, lte: endDateMonth },
+          status: { notIn: ['CANCELLED', 'REJECTED'] },
         },
-        include: {
-          service: true,
-          user: true,
-        },
+        include: { service: true, user: true, psychologist: true },
+        orderBy: { scheduledDate: 'desc' },
       });
 
-      // Hitung Pendapatan Lunas & DP
       let totalLunas = 0;
       let totalDP = 0;
-      let totalBooking = monthBookings.length;
       let klienLamaCount = 0;
       let klienBaruCount = 0;
 
-      // Hitung frekuensi layanan terpopuler
       const serviceCountMap: Record<string, { name: string; count: number }> = {};
 
       for (const booking of monthBookings) {
         const rawTotal = Number(booking.totalPrice || 0);
         const rawDP = Number(booking.dpAmount || rawTotal * 0.5);
-
         const status = String(booking.status).toUpperCase();
 
         if (status === 'FULLY_PAID' || status === 'COMPLETED') {
@@ -127,24 +112,16 @@ export class StatisticsService {
           totalDP += rawDP;
         }
 
-        // Hitung Klien Baru vs Klien Lama
         if (booking.userId) {
           const userBookingsCount = await this.prisma.booking.count({
-            where: {
-              userId: booking.userId,
-              createdAt: { lt: booking.createdAt },
-            },
+            where: { userId: booking.userId, createdAt: { lt: booking.createdAt } },
           });
-          if (userBookingsCount > 0) {
-            klienLamaCount++;
-          } else {
-            klienBaruCount++;
-          }
+          if (userBookingsCount > 0) klienLamaCount++;
+          else klienBaruCount++;
         } else {
           klienBaruCount++;
         }
 
-        // Catat nama layanan
         const serviceName = booking.service?.nama || 'Konseling';
         if (!serviceCountMap[serviceName]) {
           serviceCountMap[serviceName] = { name: serviceName, count: 0 };
@@ -152,20 +129,12 @@ export class StatisticsService {
         serviceCountMap[serviceName].count++;
       }
 
-      // 3. Ambil data tren pasien per bulan sepanjang tahun yang dipilih
       const yearBookings = await this.prisma.booking.findMany({
         where: {
-          scheduledDate: {
-            gte: startDateYear,
-            lte: endDateYear,
-          },
-          status: {
-            notIn: ['CANCELLED', 'REJECTED'],
-          },
+          scheduledDate: { gte: startDateYear, lte: endDateYear },
+          status: { notIn: ['CANCELLED', 'REJECTED'] },
         },
-        select: {
-          scheduledDate: true,
-        },
+        select: { scheduledDate: true },
       });
 
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -179,30 +148,28 @@ export class StatisticsService {
 
       const topServices = Object.values(serviceCountMap).sort((a, b) => b.count - a.count);
 
+      // 🟢 Struktur data yang cocok dengan helper frontend
       return {
-        totalUsers,
-        totalBookings: totalBooking,
-        klienLama: klienLamaCount,
-        klienBaru: klienBaruCount,
-        revenue: {
-          lunas: totalLunas,
-          dp: totalDP,
-          total: totalLunas + totalDP,
+        stats: {
+          totalUsers,
+          totalBookings: monthBookings.length,
+          klienLama: klienLamaCount,
+          klienBaru: klienBaruCount,
+          totalRevenue: totalLunas + totalDP,
         },
-        monthlyPatients,
+        bookings: monthBookings,
+        revenue: [
+          { category: 'Lunas', amount: totalLunas },
+          { category: 'DP 50%', amount: totalDP },
+        ],
+        topTests: [],
         topServices,
+        monthlyPatients,
+        patients: monthBookings.map((b) => b.user).filter(Boolean),
       };
     } catch (error) {
       this.logger.error('Gagal mengambil data statistik admin:', error);
-      return {
-        totalUsers: 0,
-        totalBookings: 0,
-        klienLama: 0,
-        klienBaru: 0,
-        revenue: { lunas: 0, dp: 0, total: 0 },
-        monthlyPatients: [],
-        topServices: [],
-      };
+      return { stats: {}, bookings: [], revenue: [], topTests: [], topServices: [], patients: [], monthlyPatients: [] };
     }
   }
 }
