@@ -355,33 +355,7 @@ export class PsychologistService {
         }
       }
     }
-
-    const allUsers = await this.prisma.user.findMany({
-      where: { role: 'USER' },
-      include: { userProfile: true },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    for (const u of allUsers) {
-      if (!patientsMap.has(u.id)) {
-        patientsMap.set(u.id, {
-          id: u.id,
-          name: u.userProfile?.fullName || u.email || 'Pasien Baru',
-          email: u.email,
-          phone: u.userProfile?.phone || '-',
-          registeredAt: u.createdAt,
-          totalBookings: 0,
-          totalSessions: 0,
-          firstSessionDate: null,
-          lastSessionDate: null,
-          latestRiskLevel: null,
-          hasSessionNotes: false,
-          hasValidRelationship: false,
-          sessions: [],
-        });
-      }
-    }
-
+    // Return strictly only patients connected to this psychologist (bookings/notes)
     const patientsList = Array.from(patientsMap.values());
 
     const patientIds = patientsList.map((p) => p.id);
