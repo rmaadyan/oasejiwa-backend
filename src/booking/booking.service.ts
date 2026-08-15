@@ -611,4 +611,93 @@ async approveBooking(bookingId: number, adminId: string) {
       (b) => b.scheduledDate.toISOString().split('T')[0],
     );
   }
+
+  /**
+   * ADMIN: Reschedule booking oleh Admin & kirim notifikasi email
+   */
+  async rescheduleBookingByAdmin(
+    bookingId: number,
+    adminId: string,
+    dto: { newDate: string; newTime: string; reason?: string },
+  ) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        user: { include: { userProfile: true } },
+        psychologist: { include: { user: true } },
+        service: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Data booking tidak ditemukan');
+    }
+
+    const rawNewDateStr =
+      typeof dto.newDate === 'string'
+        ? dto.newDate.split('T')[0]
+        : new Date(dto.newDate).toISOString().split('T')[0];
+
+    const newScheduledDate = new Date(`${rawNewDateStr}T00:00:00.000Z`);
+
+    // 1. Cek bentrok dengan booking pasien lain pada psikolog & jam yang sama
+    const conflictBooking = await this.prisma.booking.findFirst({
+      where: {
+        id: { not: bookingId },
+        psychologistId: booking.psychologistId,
+        scheduledDate: newScheduledDate,
+        scheduledTime: dto.newTime,
+        status: {
+          notIn: ['CANCELLED', 'REJECTED'],
+        },
+      },
+    });
+
+    if (conflictBooking) {
+      throw new BadRequestException(
+        `Jadwal pada tanggal ${rawNewDateStr} pukul ${dto.newTime} WIB sudah terisi oleh pasien lain.`,
+      );
+    }
+
+    const oldDateStr = booking.scheduledDate.toISOString().split('T')[0];
+    const oldTimeStr = booking.scheduledTime;
+
+    // 2. Update Database
+    const updatedBooking = await this.prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        scheduledDate: newScheduledDate,
+        scheduledTime: dto.newTime,
+        adminApprovedBy: adminId,
+        notes: dto.reason ? `[Reschedule: ${dto.reason}]` : booking.notes,
+      },
+    });
+
+    // 3. 🚀 Trigger Email Reschedule (Kirim ke User & Psikolog)
+    if (booking.user?.email) {
+      (this.emailService as any)
+        .sendRescheduleEmails({
+          bookingCode: booking.bookingCode,
+          userEmail: booking.user.email,
+          userName: booking.user.userProfile?.fullName || 'Klien Oase Jiwa',
+          psychologistEmail: booking.psychologist?.user?.email || '',
+          psychologistName: booking.psychologist?.fullName || 'Psikolog',
+          serviceName: booking.service?.nama || 'Layanan Konseling',
+          scheduledDate: oldDateStr,
+          scheduledTime: oldTimeStr,
+          newScheduledDate: rawNewDateStr,
+          newScheduledTime: dto.newTime,
+          totalPrice: booking.totalPrice,
+          dpAmount: booking.dpAmount,
+          reason: dto.reason || 'Penyesuaian jadwal oleh admin klinik',
+        })
+        ?.catch((err: any) => console.error('Gagal mengirim email reschedule:', err));
+    }
+
+    return {
+      statusCode: 200,
+      message: 'Jadwal booking berhasil diperbarui dan notifikasi email telah dikirimkan.',
+      data: updatedBooking,
+    };
+  }
 }

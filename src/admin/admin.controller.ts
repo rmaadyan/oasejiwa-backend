@@ -110,4 +110,16 @@ export class AdminController {
   ) {
     return this.bookingService.rejectBooking(id, req.user.id, reason);
   }
+  // 🟢 10. ADMIN: Reschedule Booking & Kirim Notifikasi ke User & Psikolog
+  @Patch('bookings/:id/reschedule')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  async rescheduleBooking(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req,
+    @Body() dto: { newDate: string; newTime: string; reason?: string },
+  ) {
+    return this.bookingService.rescheduleBookingByAdmin(id, req.user.id, dto);
+  }
 }
+
