@@ -21,7 +21,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Rebuild & Restart All Docker Containers (postgres & app)
-            docker compose up -d --build
+            # Rebuild & Restart Docker Container
+            docker compose up -d --build app
 
             docker image prune -f
