@@ -13,9 +13,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // 🟢 Pasang prefix global 'api' agar semua route diawali dengan /api/...
-  app.setGlobalPrefix('api');
-
   // 🟢 Naikkan batas body request ke 50MB
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
