@@ -84,10 +84,17 @@ export class TesService {
       }
     }
 
-    return list.map((t) => ({
-      ...t,
-      jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
-    }));
+    return list.map((t) => {
+      const pList = (t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21
+        ? t.pertanyaan.slice(0, 21)
+        : t.pertanyaan;
+
+      return {
+        ...t,
+        pertanyaan: pList,
+        jumlah: pList && pList.length > 0 ? pList.length : (t.jumlah || 21),
+      };
+    });
   }
 
   async findOne(id: number) {
@@ -117,9 +124,14 @@ export class TesService {
       t.jumlah = 21;
     }
 
+    const pList = (t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21
+      ? t.pertanyaan.slice(0, 21)
+      : t.pertanyaan;
+
     return {
       ...t,
-      jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
+      pertanyaan: pList,
+      jumlah: pList && pList.length > 0 ? pList.length : (t.jumlah || 21),
     };
   }
 
