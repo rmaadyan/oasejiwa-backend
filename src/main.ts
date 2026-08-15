@@ -2,10 +2,9 @@ import 'dotenv/config';
 import { Logger, ValidationPipe, BadRequestException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as cookieParser from 'cookie-parser';
-import { json, urlencoded } from 'express'; // 🟢 Import parser express
+import * as cookieParserModule from 'cookie-parser';
+import { json, urlencoded } from 'express';
 import { join } from 'path';
-import * as express from 'express';
 
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
@@ -14,15 +13,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // 🟢 Naikkan batas body request ke 50MB (untuk gambar base64 & signature canvas)
+  // 🟢 Naikkan batas body request ke 50MB
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
 
-  // 🟢 Cookie parser
-
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ limit: '10mb', extended: true }));
-  app.use((cookieParser as any)());
+  // 🟢 Cookie Parser Handler yang kompatibel dengan CommonJS & ESM (tsx)
+  const cookieMiddleware = (cookieParserModule as any).default || cookieParserModule;
+  app.use(cookieMiddleware());
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
