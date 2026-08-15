@@ -14,4 +14,4 @@ RUN pnpm build
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "node dist/main.js || node dist/src/main.js"]
+CMD ["node", "dist/src/main.js"]
