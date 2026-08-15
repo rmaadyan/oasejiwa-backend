@@ -17,6 +17,7 @@ services:
     container_name: oase_backend
     restart: always
     ports:
+      - "3001:3002"
       - "3001:3001"
     depends_on:
       - postgres
