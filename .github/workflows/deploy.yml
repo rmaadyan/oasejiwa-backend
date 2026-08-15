@@ -21,12 +21,13 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Install & Run Migration dulu sebelum Docker di-build
-            npm install --legacy-peer-deps
-            npx prisma generate
-            npx prisma db push --accept-data-loss
+            # Start database container if not running
+            docker compose up -d postgres || true
 
             # Rebuild & Restart Docker Container
             docker compose up -d --build app
+
+            # Run Prisma DB Sync inside container
+            docker compose exec -T app npx prisma db push --accept-data-loss || true
 
             docker image prune -f
