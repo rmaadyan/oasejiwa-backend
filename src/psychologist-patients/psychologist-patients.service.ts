@@ -191,35 +191,37 @@ export class PsychologistPatientsService {
       }
     }
 
-    // 4. Fetch all users with role 'USER' to ensure new patients appear with 0 sessions
-    const allUsers = await this.prisma.user.findMany({
-      where: {
-        role: 'USER',
-      },
-      include: {
-        userProfile: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    // 4. Fetch all users ONLY if filter is explicitly 'all'
+    if (query.filter === 'all') {
+      const allUsers = await this.prisma.user.findMany({
+        where: {
+          role: 'USER',
+        },
+        include: {
+          userProfile: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
 
-    for (const u of allUsers) {
-      if (!patientMap.has(u.id)) {
-        patientMap.set(u.id, {
-          id: u.id,
-          name: this.getPatientName(u),
-          email: u.email || '',
-          phone: u.userProfile?.phone || null,
-          photo: null,
-          firstSessionDate: null,
-          lastSessionDate: null,
-          totalSessions: 0,
-          upcomingSessionDate: null,
-          latestRiskLevel: null,
-          hasSessionNotes: false,
-          notes: null,
-        });
+      for (const u of allUsers) {
+        if (!patientMap.has(u.id)) {
+          patientMap.set(u.id, {
+            id: u.id,
+            name: this.getPatientName(u),
+            email: u.email || '',
+            phone: u.userProfile?.phone || null,
+            photo: null,
+            firstSessionDate: null,
+            lastSessionDate: null,
+            totalSessions: 0,
+            upcomingSessionDate: null,
+            latestRiskLevel: null,
+            hasSessionNotes: false,
+            notes: null,
+          });
+        }
       }
     }
 
@@ -351,25 +353,6 @@ export class PsychologistPatientsService {
         emergencyContacts: true,
       },
     });
-
-    if (!targetUser) {
-      const allUsers = await this.prisma.user.findMany({
-        where: { role: 'USER' },
-        include: {
-          userProfile: true,
-          medicalRecord: true,
-          emergencyContacts: true,
-        },
-        orderBy: { createdAt: 'asc' },
-      });
-
-      const numIndex = parseInt(patientId, 10);
-      if (!isNaN(numIndex) && numIndex > 0 && allUsers[numIndex - 1]) {
-        targetUser = allUsers[numIndex - 1];
-      } else if (allUsers.length > 0) {
-        targetUser = allUsers[0];
-      }
-    }
 
     if (!targetUser) {
       throw new NotFoundException('Pasien tidak ditemukan');
@@ -712,6 +695,23 @@ export class PsychologistPatientsService {
           diagnosis: [],
           currentMedication: [],
           allergies: [],
+        },
+      });
+    }
+
+    // Explicitly link patient to creating psychologist via OfficialMedicalRecord
+    const existingOfficialRecord = await this.prisma.officialMedicalRecord.findFirst({
+      where: { psychologistProfileId: psychologistId, userId },
+    });
+    if (!existingOfficialRecord) {
+      await this.prisma.officialMedicalRecord.create({
+        data: {
+          psychologistProfileId: psychologistId,
+          userId,
+          diagnosis: dto.diagnosis || 'Skrining awal mandiri',
+          problemSummary: dto.riskReason || 'Pasien baru ditambahkan oleh psikolog',
+          therapyApproach: 'Evaluasi awal',
+          followUpPlan: 'Sesi konsultasi pertama',
         },
       });
     }
