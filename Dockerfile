@@ -4,8 +4,10 @@ RUN npm install -g pnpm
 
 WORKDIR /app 
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+COPY package.json pnpm-lock.yaml* package-lock.json* ./
+
+# Tambahkan flag shamefully-hoist agar express terbaca
+RUN pnpm install --shamefully-hoist
 
 COPY . .
 
