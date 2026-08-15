@@ -14,14 +14,8 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // 🟢 Naikkan batas body request ke 50MB (untuk gambar base64 & signature canvas)
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
-
-  // 🟢 Cookie parser
-
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ limit: '10mb', extended: true }));
   app.use((cookieParser as any)());
 
   app.useGlobalFilters(new AllExceptionsFilter());
@@ -67,7 +61,9 @@ async function bootstrap() {
 
   await app.listen(port, '0.0.0.0', () => {
     logger.log(`Server jalan di: http://0.0.0.0:${port}`);
-    logger.log(`DATABASE_URL terdeteksi: ${process.env.DATABASE_URL ? 'YA' : 'TIDAK'}`);
+    logger.log(
+      `DATABASE_URL terdeteksi: ${process.env.DATABASE_URL ? 'YA' : 'TIDAK'}`,
+    );
   });
 }
 
@@ -89,3 +85,4 @@ async function bootstrapWithRetry(retries = 10, delay = 3000) {
     }
   }
 }
+
