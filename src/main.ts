@@ -57,8 +57,7 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
-  const isDocker = process.cwd().includes('app') || process.env.NODE_ENV === 'production' || require('fs').existsSync('/.dockerenv');
-  const port = isDocker ? 3001 : (Number(process.env.PORT) || 3001);
+  const port = Number(process.env.PORT) || 3001;
 
   await app.listen(port, '0.0.0.0', () => {
     logger.log(`Server jalan di: http://0.0.0.0:${port}`);

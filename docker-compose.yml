@@ -17,9 +17,7 @@ services:
     container_name: oase_backend
     restart: always
     ports:
-      - "3000:3001"
       - "3001:3001"
-      - "3002:3001"
     depends_on:
       - postgres
     volumes:
@@ -30,7 +28,6 @@ services:
       - .env
 
     environment:
-      PORT: 3001
       DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db
 
 volumes:

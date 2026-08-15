@@ -14,4 +14,4 @@ RUN pnpm build
 
 EXPOSE 3001
 
-CMD ["node", "-e", "const fs=require('fs'); const p=fs.existsSync('./dist/main.js')?'./dist/main.js':'./dist/src/main.js'; require(p);"]
+CMD ["node", "dist/main.js"]
