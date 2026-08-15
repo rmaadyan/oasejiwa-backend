@@ -68,15 +68,16 @@ export class TesService {
     });
 
     return list.map((t) => {
-      const isDass21 = t.id === 2 || (t.nama || '').includes('DASS-21');
+      const isDass21 = t.id === 2 || (t.nama || '').includes('DASS');
       const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
         ? t.pertanyaan.slice(0, 21)
         : t.pertanyaan;
 
       return {
         ...t,
+        nama: isDass21 ? 'Skala Kecemasan (DASS-21)' : t.nama,
         pertanyaan: questions,
-        jumlah: questions && questions.length > 0 ? questions.length : (t.jumlah || 21),
+        jumlah: isDass21 ? 21 : (questions && questions.length > 0 ? questions.length : t.jumlah),
       };
     });
   }
@@ -93,15 +94,16 @@ export class TesService {
     });
     if (!t) return null;
 
-    const isDass21 = t.id === 2 || (t.nama || '').includes('DASS-21');
+    const isDass21 = t.id === 2 || (t.nama || '').includes('DASS');
     const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
       ? t.pertanyaan.slice(0, 21)
       : t.pertanyaan;
 
     return {
       ...t,
+      nama: isDass21 ? 'Skala Kecemasan (DASS-21)' : t.nama,
       pertanyaan: questions,
-      jumlah: questions && questions.length > 0 ? questions.length : (t.jumlah || 21),
+      jumlah: isDass21 ? 21 : (questions && questions.length > 0 ? questions.length : t.jumlah),
     };
   }
 
@@ -326,4 +328,4 @@ export class TesService {
   async removeTesResult(id: string) {
     return this.prisma.tesResult.delete({ where: { id } });
   }
-}
+}
