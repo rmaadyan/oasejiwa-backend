@@ -21,10 +21,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Rebuild & Restart Docker Containers
-            docker compose up -d --build || docker-compose up -d --build
-
-            # Run Prisma DB Push inside running container
-            docker compose exec -T app npx prisma db push --accept-data-loss || docker-compose exec -T app npx prisma db push --accept-data-loss || true
+            # Rebuild & Restart Docker Container
+            docker compose up -d --build app
 
             docker image prune -f
