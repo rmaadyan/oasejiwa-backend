@@ -58,7 +58,7 @@ export class TesService {
   }
 
   async findAll() {
-    return this.prisma.tes.findMany({
+    const list = await this.prisma.tes.findMany({
       include: {
         pertanyaan: { orderBy: { urutan: 'asc' } },
         likertOptions: true,
@@ -66,10 +66,14 @@ export class TesService {
         sectionKategori: true,
       },
     });
+    return list.map((t) => ({
+      ...t,
+      jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
+    }));
   }
 
   async findOne(id: number) {
-    return this.prisma.tes.findUnique({
+    const t = await this.prisma.tes.findUnique({
       where: { id },
       include: {
         pertanyaan: { orderBy: { urutan: 'asc' } },
@@ -78,6 +82,11 @@ export class TesService {
         sectionKategori: true,
       },
     });
+    if (!t) return null;
+    return {
+      ...t,
+      jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
+    };
   }
 
   // new method for update

@@ -384,6 +384,55 @@ export class PsychologistService {
 
     const patientsList = Array.from(patientsMap.values());
 
+    const patientIds = patientsList.map((p) => p.id);
+    if (patientIds.length > 0) {
+      const allTesResults = await this.prisma.tesResult.findMany({
+        where: { userId: { in: patientIds } },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      const latestTesMap = new Map<string, any>();
+      for (const tr of allTesResults) {
+        if (!latestTesMap.has(tr.userId)) {
+          latestTesMap.set(tr.userId, tr);
+        }
+      }
+
+      for (const patient of patientsList) {
+        const latestTes = latestTesMap.get(patient.id);
+        if (latestTes) {
+          patient.latestTesName = latestTes.namaTes || 'DASS-21';
+          patient.latestTesCategory = latestTes.kategoriNama || 'Normal';
+          patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
+          patient.latestTesDate = latestTes.createdAt;
+
+          if (latestTes.sectionScores && Array.isArray(latestTes.sectionScores)) {
+            const parts: string[] = [];
+            for (const sec of latestTes.sectionScores) {
+              if (sec.section && sec.total !== undefined) {
+                const secName =
+                  sec.section === 'Depression'
+                    ? 'Depresi'
+                    : sec.section === 'Anxiety'
+                    ? 'Anxiety'
+                    : sec.section === 'Stress'
+                    ? 'Stres'
+                    : sec.section;
+                parts.push(`${secName} ${sec.total}`);
+              }
+            }
+            if (parts.length > 0) {
+              patient.latestTesSummary = parts.join(' • ');
+            }
+          }
+
+          if (!patient.latestTesSummary) {
+            patient.latestTesSummary = patient.latestTesScore;
+          }
+        }
+      }
+    }
+
     return {
       message: 'Patients fetched successfully',
       data: patientsList,
