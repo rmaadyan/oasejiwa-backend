@@ -12,6 +12,8 @@ COPY . .
 RUN pnpm prisma generate
 RUN pnpm build
 
+EXPOSE 3000
 EXPOSE 3001
+EXPOSE 3002
 
 CMD ["node", "dist/main.js"]
