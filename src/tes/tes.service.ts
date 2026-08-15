@@ -67,32 +67,16 @@ export class TesService {
       },
     });
 
-    for (const t of list) {
-      if ((t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21) {
-        await this.prisma.pertanyaan.deleteMany({
-          where: {
-            tesId: t.id,
-            urutan: { gt: 21 },
-          },
-        });
-        await this.prisma.tes.update({
-          where: { id: t.id },
-          data: { jumlah: 21 },
-        });
-        t.pertanyaan = t.pertanyaan.slice(0, 21);
-        t.jumlah = 21;
-      }
-    }
-
     return list.map((t) => {
-      const pList = (t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21
+      const isDass21 = t.id === 2 || (t.nama || '').includes('DASS-21');
+      const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
         ? t.pertanyaan.slice(0, 21)
         : t.pertanyaan;
 
       return {
         ...t,
-        pertanyaan: pList,
-        jumlah: pList && pList.length > 0 ? pList.length : (t.jumlah || 21),
+        pertanyaan: questions,
+        jumlah: questions && questions.length > 0 ? questions.length : (t.jumlah || 21),
       };
     });
   }
@@ -109,29 +93,15 @@ export class TesService {
     });
     if (!t) return null;
 
-    if ((t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21) {
-      await this.prisma.pertanyaan.deleteMany({
-        where: {
-          tesId: t.id,
-          urutan: { gt: 21 },
-        },
-      });
-      await this.prisma.tes.update({
-        where: { id: t.id },
-        data: { jumlah: 21 },
-      });
-      t.pertanyaan = t.pertanyaan.slice(0, 21);
-      t.jumlah = 21;
-    }
-
-    const pList = (t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21
+    const isDass21 = t.id === 2 || (t.nama || '').includes('DASS-21');
+    const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
       ? t.pertanyaan.slice(0, 21)
       : t.pertanyaan;
 
     return {
       ...t,
-      pertanyaan: pList,
-      jumlah: pList && pList.length > 0 ? pList.length : (t.jumlah || 21),
+      pertanyaan: questions,
+      jumlah: questions && questions.length > 0 ? questions.length : (t.jumlah || 21),
     };
   }
 
