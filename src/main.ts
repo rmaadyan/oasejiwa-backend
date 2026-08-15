@@ -71,8 +71,21 @@ async function bootstrap() {
   });
 }
 
-bootstrap().catch((error) => {
+bootstrapWithRetry().catch((error) => {
   const logger = new Logger('Bootstrap');
-  logger.error(`Gagal start aplikasi: ${error.message}`, error.stack);
+  logger.error(`Gagal start aplikasi setelah retry: ${error.message}`, error.stack);
   process.exit(1);
 });
+
+async function bootstrapWithRetry(retries = 10, delay = 3000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await bootstrap();
+      return;
+    } catch (err: any) {
+      console.error(`[Bootstrap] Attempt ${i + 1}/${retries} failed: ${err.message}. Retrying in ${delay}ms...`);
+      if (i === retries - 1) throw err;
+      await new Promise((res) => setTimeout(res, delay));
+    }
+  }
+}
