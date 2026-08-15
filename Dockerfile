@@ -1,17 +1,17 @@
 FROM node:20
 
-RUN npm install -g pnpm
+WORKDIR /app
 
-WORKDIR /app 
+COPY package*.json ./
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
-RUN pnpm prisma generate
-RUN pnpm build
+RUN rm -rf dist
+RUN npx prisma generate
+RUN npm run build
 
 EXPOSE 3001
 
-CMD ["node", "dist/src/main.js"]
+CMD ["npm", "run", "start:prod"]
