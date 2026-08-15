@@ -21,13 +21,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Start database container if not running
-            docker compose up -d postgres || true
-
             # Rebuild & Restart Docker Container
-            docker compose up -d --build app
-
-            # Run Prisma DB Sync inside container
-            docker compose exec -T app npx prisma db push --accept-data-loss || true
+            docker compose up -d --build || docker-compose up -d --build
 
             docker image prune -f
