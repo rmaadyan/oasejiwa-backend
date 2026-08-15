@@ -21,11 +21,6 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Install & Run Migration dulu sebelum Docker di-build
-            npm install --legacy-peer-deps
-            npx prisma generate
-            npx prisma db push --accept-data-loss
-
             # Rebuild & Restart Docker Container
             docker compose up -d --build app
 
