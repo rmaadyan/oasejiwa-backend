@@ -65,8 +65,8 @@ async function bootstrap() {
 
   const port = Number(process.env.PORT) || 3001;
 
-  await app.listen(port, '0.0.0.0', () => {
-    logger.log(`Server jalan di: http://0.0.0.0:${port}`);
+  await app.listen(port, () => {
+    logger.log(`Server jalan di: http://localhost:${port}`);
     logger.log(`DATABASE_URL terdeteksi: ${process.env.DATABASE_URL ? 'YA' : 'TIDAK'}`);
   });
 }

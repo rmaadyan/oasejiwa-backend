@@ -24,7 +24,7 @@ jobs:
             # Install & Run Migration dulu sebelum Docker di-build
             npm install --legacy-peer-deps
             npx prisma generate
-            npx prisma db push --accept-data-loss
+            npx prisma db push
 
             # Rebuild & Restart Docker Container
             docker compose up -d --build app
