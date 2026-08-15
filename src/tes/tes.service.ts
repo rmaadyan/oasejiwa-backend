@@ -66,6 +66,24 @@ export class TesService {
         sectionKategori: true,
       },
     });
+
+    for (const t of list) {
+      if ((t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21) {
+        await this.prisma.pertanyaan.deleteMany({
+          where: {
+            tesId: t.id,
+            urutan: { gt: 21 },
+          },
+        });
+        await this.prisma.tes.update({
+          where: { id: t.id },
+          data: { jumlah: 21 },
+        });
+        t.pertanyaan = t.pertanyaan.slice(0, 21);
+        t.jumlah = 21;
+      }
+    }
+
     return list.map((t) => ({
       ...t,
       jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
@@ -83,6 +101,22 @@ export class TesService {
       },
     });
     if (!t) return null;
+
+    if ((t.id === 2 || (t.nama || '').includes('DASS-21')) && t.pertanyaan && t.pertanyaan.length > 21) {
+      await this.prisma.pertanyaan.deleteMany({
+        where: {
+          tesId: t.id,
+          urutan: { gt: 21 },
+        },
+      });
+      await this.prisma.tes.update({
+        where: { id: t.id },
+        data: { jumlah: 21 },
+      });
+      t.pertanyaan = t.pertanyaan.slice(0, 21);
+      t.jumlah = 21;
+    }
+
     return {
       ...t,
       jumlah: t.pertanyaan && t.pertanyaan.length > 0 ? t.pertanyaan.length : t.jumlah,
