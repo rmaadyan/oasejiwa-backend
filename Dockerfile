@@ -14,4 +14,4 @@ RUN pnpm build
 
 EXPOSE 3001
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "pnpm prisma generate && node dist/main.js"]
