@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../email/email.service';
@@ -9,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PsychologistService {
+  private readonly logger = new Logger(PsychologistService.name);
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
@@ -883,18 +885,16 @@ export class PsychologistService {
       include: { psychologistProfile: true },
     });
 
-    try {
-      if ((this.emailService as any).sendPsychologistWelcomeEmail) {
-        await (this.emailService as any).sendPsychologistWelcomeEmail(
-          dto.email,
-          dto.fullName,
-          password,
-        );
-      }
+   try {
+      await this.emailService.sendPsychologistCredentials(
+        dto.email,
+        dto.fullName,
+        password,
+      );
+      this.logger.log(`Email kredensial psikolog berhasil dikirim ke ${dto.email}`);
     } catch (e) {
-      console.warn('Gagal mengirim email kredensial psikolog:', e);
+      this.logger.warn(`Gagal mengirim email kredensial psikolog: ${e}`);
     }
-
     return {
       message: 'Akun psikolog berhasil dibuat',
       data: newUser.psychologistProfile,

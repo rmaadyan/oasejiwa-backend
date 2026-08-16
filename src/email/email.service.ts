@@ -261,7 +261,7 @@ export class EmailService {
 
               <tr>
                 <td style="background-color:#ffffff;padding:22px 20px 16px;text-align:center;border-bottom:1px solid ${THEME.borderSoft};">
-                  <img src="cid:oasejiwa_logo" alt="Oase Jiwa" width="85" style="max-width:85px;height:auto;display:block;margin:0 auto;border:0;outline:none;" />
+                  <img src="https://oasejiwa.id/assets/oasejiwalogo.png" alt="Oase Jiwa" width="90" style="max-width:90px;height:auto;display:block;margin:0 auto;border:0;outline:none;" />
                   <p style="color:${THEME.muted};font-size:10.5px;margin:6px 0 0;font-weight:500;">Kenali Dirimu, Pulihkan Jiwamu</p>
                 </td>
               </tr>
