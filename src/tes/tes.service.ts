@@ -58,7 +58,7 @@ export class TesService {
   }
 
   async findAll() {
-    return this.prisma.tes.findMany({
+    const list = await this.prisma.tes.findMany({
       include: {
         pertanyaan: { orderBy: { urutan: 'asc' } },
         likertOptions: true,
@@ -66,10 +66,24 @@ export class TesService {
         sectionKategori: true,
       },
     });
+
+    return list.map((t) => {
+      const isDass21 = t.id === 2 || (t.nama || '').includes('DASS');
+      const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
+        ? t.pertanyaan.slice(0, 21)
+        : t.pertanyaan;
+
+      return {
+        ...t,
+        nama: isDass21 ? 'Skala Kecemasan (DASS-21)' : t.nama,
+        pertanyaan: questions,
+        jumlah: isDass21 ? 21 : (questions && questions.length > 0 ? questions.length : t.jumlah),
+      };
+    });
   }
 
   async findOne(id: number) {
-    return this.prisma.tes.findUnique({
+    const t = await this.prisma.tes.findUnique({
       where: { id },
       include: {
         pertanyaan: { orderBy: { urutan: 'asc' } },
@@ -78,6 +92,19 @@ export class TesService {
         sectionKategori: true,
       },
     });
+    if (!t) return null;
+
+    const isDass21 = t.id === 2 || (t.nama || '').includes('DASS');
+    const questions = isDass21 && t.pertanyaan && t.pertanyaan.length > 21
+      ? t.pertanyaan.slice(0, 21)
+      : t.pertanyaan;
+
+    return {
+      ...t,
+      nama: isDass21 ? 'Skala Kecemasan (DASS-21)' : t.nama,
+      pertanyaan: questions,
+      jumlah: isDass21 ? 21 : (questions && questions.length > 0 ? questions.length : t.jumlah),
+    };
   }
 
   // new method for update
@@ -301,4 +328,4 @@ export class TesService {
   async removeTesResult(id: string) {
     return this.prisma.tesResult.delete({ where: { id } });
   }
-}
+}
