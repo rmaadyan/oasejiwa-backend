@@ -860,6 +860,7 @@ export class PsychologistService {
         role: 'PSYCHOLOGIST',
         isEmailVerified: true,
         isProfileComplete: false,
+        isFirstLogin: true, // 🟢 WAJIB TRUE agar psikolog baru langsung dipaksa ganti password
         authProvider: {
           create: {
             provider: 'local',
