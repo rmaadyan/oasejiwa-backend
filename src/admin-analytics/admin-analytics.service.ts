@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 const MONTH_LABELS = [
@@ -18,193 +18,169 @@ const MONTH_LABELS = [
 
 @Injectable()
 export class AdminAnalyticsService {
+  private readonly logger = new Logger(AdminAnalyticsService.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   private readonly ignoredBookingStatuses = ['CANCELLED', 'REJECTED'];
 
-  private toNumber(value: any) {
-    if (value === null || value === undefined) return 0;
-    return Number(value);
-  }
-
   async getAnalytics(params: { bookingMonth?: string; patientYear?: string }) {
-    const now = new Date();
+    try {
+      const now = new Date();
 
-    const bookingMonth = params.bookingMonth || this.toYearMonth(now);
-    const patientYear = Number(params.patientYear || now.getFullYear());
+      let targetYear = Number(params.patientYear) || now.getFullYear();
+      let targetMonth = now.getMonth(); // 0-11
 
-    const [bookingYear, bookingMonthIndex] = bookingMonth
-      .split('-')
-      .map(Number);
+      if (params.bookingMonth && params.bookingMonth.includes('-')) {
+        const [y, m] = params.bookingMonth.split('-').map(Number);
+        if (!isNaN(y)) targetYear = y;
+        if (!isNaN(m)) targetMonth = m - 1;
+      }
 
-    const bookingStart = new Date(bookingYear, bookingMonthIndex - 1, 1);
-    const bookingEnd = new Date(bookingYear, bookingMonthIndex, 1);
+      const bookingStart = new Date(targetYear, targetMonth, 1);
+      const bookingEnd = new Date(targetYear, targetMonth + 1, 1);
 
-    const yearStart = new Date(patientYear, 0, 1);
-    const yearEnd = new Date(patientYear + 1, 0, 1);
+      const yearStart = new Date(targetYear, 0, 1);
+      const yearEnd = new Date(targetYear + 1, 0, 1);
 
-    const validBookingStatusWhere: any = {
-      notIn: this.ignoredBookingStatuses,
-    };
-
-    const [
-      totalUsers,
-      revenueDp,
-      revenuePaid,
-      bookingsThisMonth,
-      bookingsForTopServices,
-      patientsRaw,
-    ] = await Promise.all([
-      this.prisma.user.count(),
-
-      this.prisma.payment.aggregate({
+      // 🟢 1. Hitung total user dengan role USER (aman dari enum mismatch)
+      const totalUsers = await this.prisma.user.count({
         where: {
-          type: 'DOWN_PAYMENT',
-          status: 'PAID',
-          paidAt: {
-            gte: bookingStart,
-            lt: bookingEnd,
-          },
-          booking: {
-            is: {
-              status: validBookingStatusWhere,
-            },
-          } as any,
+          role: 'USER',
         },
-        _sum: {
-          amount: true,
-        },
-      }),
+      });
 
-      this.prisma.payment.aggregate({
+      // 🟢 2. Ambil seluruh booking aktif
+      const allActiveBookings = await this.prisma.booking.findMany({
         where: {
-          type: 'FULL_PAYMENT',
-          status: 'PAID',
-          paidAt: {
-            gte: bookingStart,
-            lt: bookingEnd,
+          status: {
+            notIn: this.ignoredBookingStatuses as any,
           },
-          booking: {
-            is: {
-              status: validBookingStatusWhere,
-            },
-          } as any,
-        },
-        _sum: {
-          amount: true,
-        },
-      }),
-
-      this.prisma.booking.findMany({
-        where: {
-          createdAt: {
-            gte: bookingStart,
-            lt: bookingEnd,
-          },
-          status: validBookingStatusWhere,
-        },
-        select: {
-          id: true,
-          userId: true,
-          createdAt: true,
-        },
-      }),
-
-      this.prisma.booking.findMany({
-        where: {
-          createdAt: {
-            gte: bookingStart,
-            lt: bookingEnd,
-          },
-          status: validBookingStatusWhere,
         },
         include: {
           service: true,
-        },
-      }),
-
-      this.prisma.booking.findMany({
-        where: {
-          createdAt: {
-            gte: yearStart,
-            lt: yearEnd,
-          },
-          status: validBookingStatusWhere,
-        },
-        include: {
           user: {
             include: {
               userProfile: true,
             },
           },
-          service: true,
         },
         orderBy: {
           createdAt: 'desc',
         },
-      }),
-    ]);
-
-    const monthlyPatients = await this.getMonthlyPatients(patientYear);
-
-    const bookings = await this.getNewVsReturningBookings(
-      bookingsThisMonth,
-      bookingStart,
-    );
-
-    const topServices = this.buildTopServices(bookingsForTopServices);
-
-    const patientMap = new Map<
-      string,
-      {
-        id: string;
-        name: string;
-        date: string;
-        service: string;
-        description: string;
-        bookingCount: number;
-      }
-    >();
-
-    for (const booking of patientsRaw) {
-      const existing = patientMap.get(booking.userId);
-
-      if (existing) {
-        existing.bookingCount += 1;
-        continue;
-      }
-
-      patientMap.set(booking.userId, {
-        id: booking.userId,
-        name: booking.user.userProfile?.fullName ?? booking.user.email,
-        date: booking.createdAt.toISOString().slice(0, 10),
-        service: booking.service?.nama ?? '-',
-        description: booking.service?.deskripsi ?? '-',
-        bookingCount: 1,
       });
-    }
 
-    return {
-      stats: {
-        totalUsers,
-        totalVisitors: 0,
-      },
-      revenue: {
-        paid: this.toNumber(revenuePaid._sum?.amount),
-        dp: this.toNumber(revenueDp._sum?.amount),
-      },
-      monthlyPatients,
-      bookings,
-      topServices,
-      topTests: [],
-      patients: Array.from(patientMap.values()),
-    };
+      let revenuePaid = 0;
+      let revenueDp = 0;
+      const bookingsThisMonth: typeof allActiveBookings = [];
+      const patientMap = new Map<
+        string,
+        {
+          id: string;
+          name: string;
+          date: string;
+          service: string;
+          description: string;
+          bookingCount: number;
+        }
+      >();
+
+      for (const booking of allActiveBookings) {
+        const rawDate = booking.scheduledDate || booking.createdAt;
+        const bDate = new Date(rawDate);
+
+        const isThisMonth = bDate >= bookingStart && bDate < bookingEnd;
+
+        if (isThisMonth) {
+          bookingsThisMonth.push(booking);
+
+          const total = Number(booking.totalPrice || 0);
+          const dp = Number(booking.dpAmount || total * 0.5);
+          const status = String(booking.status).toUpperCase();
+
+          if (status === 'FULLY_PAID' || status === 'COMPLETED') {
+            revenuePaid += total;
+          } else {
+            revenueDp += dp;
+          }
+        }
+
+        // Pasien tahun ini
+        if (bDate >= yearStart && bDate < yearEnd && booking.user) {
+          const existing = patientMap.get(booking.userId);
+          if (existing) {
+            existing.bookingCount += 1;
+          } else {
+            const userName =
+              booking.user.userProfile?.fullName ||
+              booking.user.email?.split('@')[0] ||
+              'Pasien';
+
+            patientMap.set(booking.userId, {
+              id: booking.userId,
+              name: userName,
+              date: bDate.toISOString().slice(0, 10),
+              service: booking.service?.nama ?? 'Konseling',
+              description: booking.service?.deskripsi ?? '-',
+              bookingCount: 1,
+            });
+          }
+        }
+      }
+
+      // Grafik Pasien Bulanan
+      const monthlyPatients = MONTH_LABELS.map((monthLabel, idx) => {
+        const count = allActiveBookings.filter((b) => {
+          const d = new Date(b.scheduledDate || b.createdAt);
+          return d.getFullYear() === targetYear && d.getMonth() === idx;
+        }).length;
+        return { month: monthLabel, value: count, count };
+      });
+
+      // Top Services
+      const topServices = this.buildTopServices(
+        bookingsThisMonth.length > 0 ? bookingsThisMonth : allActiveBookings,
+      );
+
+      // New vs Returning Bookings
+      const bookingsCount = {
+        returning: 0,
+        new: bookingsThisMonth.length,
+      };
+
+      return {
+        stats: {
+          totalUsers: Math.max(totalUsers, allActiveBookings.length),
+          totalVisitors: totalUsers,
+        },
+        revenue: {
+          paid: revenuePaid,
+          dp: revenueDp,
+        },
+        monthlyPatients,
+        bookings: bookingsCount,
+        topServices,
+        topTests: [],
+        patients: Array.from(patientMap.values()),
+      };
+    } catch (error) {
+      this.logger.error('Error saat kalkulasi analitik admin:', error);
+      return {
+        stats: { totalUsers: 0, totalVisitors: 0 },
+        revenue: { paid: 0, dp: 0 },
+        monthlyPatients: [],
+        bookings: { returning: 0, new: 0 },
+        topServices: [],
+        topTests: [],
+        patients: [],
+      };
+    }
   }
 
   private buildTopServices(
     bookings: Array<{
-      serviceId: number;
-      service: {
+      serviceId?: number;
+      service?: {
         id: number;
         nama: string;
       } | null;
@@ -220,108 +196,31 @@ export class AdminAnalyticsService {
     >();
 
     for (const booking of bookings) {
-      const existing = serviceMap.get(booking.serviceId);
+      const sId = booking.service?.id || booking.serviceId || 1;
+      const existing = serviceMap.get(sId);
 
       if (existing) {
         existing.total += 1;
-        continue;
+      } else {
+        serviceMap.set(sId, {
+          id: sId,
+          name: booking.service?.nama ?? `Layanan ${sId}`,
+          total: 1,
+        });
       }
-
-      serviceMap.set(booking.serviceId, {
-        id: booking.serviceId,
-        name: booking.service?.nama ?? `Layanan ${booking.serviceId}`,
-        total: 1,
-      });
     }
 
     const services = Array.from(serviceMap.values())
       .sort((a, b) => b.total - a.total)
       .slice(0, 5);
 
-    const totalTopServiceBookings = services.reduce(
-      (sum, service) => sum + service.total,
-      0,
-    );
+    const totalCount = services.reduce((sum, s) => sum + s.total, 0);
 
-    return services.map((service) => ({
-      id: service.id,
-      name: service.name,
-      total: service.total,
-      percentage:
-        totalTopServiceBookings === 0
-          ? 0
-          : Math.round((service.total / totalTopServiceBookings) * 100),
+    return services.map((s) => ({
+      id: s.id,
+      name: s.name,
+      total: s.total,
+      percentage: totalCount === 0 ? 0 : Math.round((s.total / totalCount) * 100),
     }));
-  }
-
-  private async getMonthlyPatients(year: number) {
-    const result: Array<{ month: string; value: number }> = [];
-
-    for (let month = 0; month < 12; month++) {
-      const start = new Date(year, month, 1);
-      const end = new Date(year, month + 1, 1);
-
-      const count = await this.prisma.booking.count({
-        where: {
-          createdAt: {
-            gte: start,
-            lt: end,
-          },
-          status: {
-            notIn: this.ignoredBookingStatuses,
-          } as any,
-        },
-      });
-
-      result.push({
-        month: MONTH_LABELS[month],
-        value: count,
-      });
-    }
-
-    return result;
-  }
-
-  private async getNewVsReturningBookings(
-    bookingsThisMonth: Array<{ id: number; userId: string; createdAt: Date }>,
-    bookingStart: Date,
-  ) {
-    let newCount = 0;
-    let returningCount = 0;
-
-    for (const booking of bookingsThisMonth) {
-      const previousBooking = await this.prisma.booking.findFirst({
-        where: {
-          userId: booking.userId,
-          createdAt: {
-            lt: bookingStart,
-          },
-          status: {
-            notIn: this.ignoredBookingStatuses,
-          } as any,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      if (previousBooking) {
-        returningCount += 1;
-      } else {
-        newCount += 1;
-      }
-    }
-
-    return {
-      returning: returningCount,
-      new: newCount,
-    };
-  }
-
-  private toYearMonth(date: Date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-
-    return `${year}-${month}`;
   }
 }

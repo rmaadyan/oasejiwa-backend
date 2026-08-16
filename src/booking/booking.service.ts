@@ -5,22 +5,18 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { EmailService } from '../email/email.service'; // Adjust path sesuai struktur foldermu
+import { EmailService } from '../email/email.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { RescheduleBookingDto } from './dto/reschedule-booking.dto';
 import * as crypto from 'crypto';
-import { AnyARecord } from 'dns';
 
 @Injectable()
 export class BookingService {
   constructor(
     private prisma: PrismaService,
-    private emailService: EmailService, // Inject EmailService
+    private emailService: EmailService,
   ) {}
 
-  /**
-   * Generate kode booking unik: OJ-YYYYMMDD-XXXX
-   */
   private generateBookingCode(): string {
     const date = new Date();
     const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
@@ -28,14 +24,7 @@ export class BookingService {
     return `OJ-${dateStr}-${random}`;
   }
 
-  /**
-   * USER: Buat booking baru
-   */
-  /**
-   * USER: Buat booking baru
-   */
   async createBooking(userId: string, dto: CreateBookingDto) {
-    // 1. Validasi User & Profil
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: { userProfile: true },
@@ -45,7 +34,6 @@ export class BookingService {
       throw new NotFoundException('User tidak ditemukan');
     }
 
-    // 2. Validasi layanan
     const layanan = await this.prisma.layanan.findUnique({
       where: { id: dto.serviceId },
     });
@@ -54,7 +42,6 @@ export class BookingService {
       throw new NotFoundException('Layanan tidak ditemukan');
     }
 
-    // 3. Validasi psikolog
     const psychologist = await this.prisma.psychologistProfile.findUnique({
       where: { id: dto.psychologistId },
       include: {
@@ -68,13 +55,11 @@ export class BookingService {
       throw new NotFoundException('Psikolog tidak ditemukan');
     }
 
-    // 🟢 Ambil string tanggal spesifik pilihan user (contoh: "2026-08-12")
     const rawDateStr =
       typeof dto.scheduledDate === 'string'
         ? dto.scheduledDate.split('T')[0]
         : new Date(dto.scheduledDate).toISOString().split('T')[0];
 
-    // 🟢 4. CARI JADWAL PSIKOLOG (Tanpa membatasi ke date di tabel Schedule)
     let schedule;
     if (dto.scheduleId) {
       schedule = await this.prisma.schedule.findFirst({
@@ -98,7 +83,6 @@ export class BookingService {
 
     const scheduledDate = new Date(`${rawDateStr}T00:00:00.000Z`);
 
-    // 🟢 Cek apakah slot pada TANGGAL SPESIFIK & JAM tersebut sudah dibooking orang lain
     const existingBooking = await this.prisma.booking.findFirst({
       where: {
         psychologistId: dto.psychologistId,
@@ -116,13 +100,11 @@ export class BookingService {
       );
     }
 
-    // Hitung Nominal
     const totalPrice = layanan.harga;
     const dpAmount = Math.ceil(totalPrice * 0.5);
     const remainingAmount = totalPrice - dpAmount;
     const bookingCode = this.generateBookingCode();
 
-    // 5. Simpan ke Database
     const booking = await this.prisma.$transaction(async (prisma) => {
       const newBooking = await prisma.booking.create({
         data: {
@@ -131,7 +113,7 @@ export class BookingService {
           psychologistId: dto.psychologistId,
           serviceId: dto.serviceId,
           scheduleId: schedule.id,
-          scheduledDate, // 👈 TERSIMPAN TANGGAL SPESIFIK DARI PILIHAN USER
+          scheduledDate,
           scheduledTime: dto.scheduledTime,
           totalPrice,
           dpAmount,
@@ -141,7 +123,7 @@ export class BookingService {
         },
       });
 
-      const dpExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 jam
+      const dpExpiry = new Date(Date.now() + 60 * 60 * 1000);
 
       await prisma.payment.create({
         data: {
@@ -181,7 +163,6 @@ export class BookingService {
       return newBooking;
     });
 
-    // 🚀 TRIGGER EMAIL: Kirim email notifikasi dengan TANGGAL PILIHAN USER
     this.emailService
       .sendNewBookingEmails({
         bookingCode: booking.bookingCode,
@@ -190,7 +171,7 @@ export class BookingService {
         psychologistEmail: psychologist.user.email,
         psychologistName: psychologist.fullName,
         serviceName: layanan.nama,
-        scheduledDate: rawDateStr, // 👈 TERKIRIM TANGGAL PILIHAN USER (contoh: "2026-08-12")
+        scheduledDate: rawDateStr,
         scheduledTime: dto.scheduledTime,
         totalPrice,
         dpAmount,
@@ -213,9 +194,6 @@ export class BookingService {
     };
   }
 
-  /**
-   * USER: Lihat semua booking miliknya
-   */
   async getMyBookings(userId: string) {
     const bookings = await this.prisma.booking.findMany({
       where: { userId },
@@ -236,9 +214,6 @@ export class BookingService {
     return { data: bookings };
   }
 
-  /**
-   * USER/ADMIN: Lihat detail booking by ID
-   */
   async getBookingById(bookingId: number, userId?: string, role?: string) {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
@@ -282,9 +257,6 @@ export class BookingService {
     return { data: booking };
   }
 
-  /**
-   * ADMIN: Lihat semua booking
-   */
   async getAllBookings() {
     const bookings = await this.prisma.booking.findMany({
       include: {
@@ -307,83 +279,73 @@ export class BookingService {
     return { data: bookings };
   }
 
-  /**
-   * ADMIN: Approve booking
-   */
-  /**
- * ADMIN: Approve booking (Setelah bukti bayar DP diverifikasi)
- */
-async approveBooking(bookingId: number, adminId: string) {
-  const booking = await this.prisma.booking.findUnique({
-    where: { id: bookingId },
-    include: {
-      user: { include: { userProfile: true } },
-      psychologist: { include: { user: true } },
-      service: true,
-    },
-  });
-
-  if (!booking) {
-    throw new NotFoundException('Booking tidak ditemukan');
-  }
-
-  if (booking.status !== 'WAITING_APPROVAL') {
-    throw new BadRequestException(
-      `Booking tidak bisa di-approve. Status saat ini: ${booking.status}`,
-    );
-  }
-
-  await this.prisma.$transaction(async (prisma) => {
-    await prisma.booking.update({
+  async approveBooking(bookingId: number, adminId: string) {
+    const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
-      data: {
-        status: 'APPROVED',
-        adminApprovedBy: adminId,
-        approvedAt: new Date(),
+      include: {
+        user: { include: { userProfile: true } },
+        psychologist: { include: { user: true } },
+        service: true,
       },
     });
 
-    const fullPaymentExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-    await prisma.payment.create({
-      data: {
-        bookingId,
-        type: 'FULL_PAYMENT',
-        amount: booking.remainingAmount,
-        method: 'PENDING',
-        orderId: `FP-${booking.bookingCode}`,
-        status: 'PENDING',
-        expiredAt: fullPaymentExpiry,
-      },
+    if (!booking) {
+      throw new NotFoundException('Booking tidak ditemukan');
+    }
+
+    if (booking.status !== 'WAITING_APPROVAL') {
+      throw new BadRequestException(
+        `Booking tidak bisa di-approve. Status saat ini: ${booking.status}`,
+      );
+    }
+
+    await this.prisma.$transaction(async (prisma) => {
+      await prisma.booking.update({
+        where: { id: bookingId },
+        data: {
+          status: 'APPROVED',
+          adminApprovedBy: adminId,
+          approvedAt: new Date(),
+        },
+      });
+
+      const fullPaymentExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      await prisma.payment.create({
+        data: {
+          bookingId,
+          type: 'FULL_PAYMENT',
+          amount: booking.remainingAmount,
+          method: 'PENDING',
+          orderId: `FP-${booking.bookingCode}`,
+          status: 'PENDING',
+          expiredAt: fullPaymentExpiry,
+        },
+      });
     });
-  });
 
-  // 🚀 TRIGGER EMAIL: Kirim email konfirmasi DP + instruksi sisa pelunasan
-  const rawDateStr = booking.scheduledDate.toISOString().split('T')[0];
+    const rawDateStr = booking.scheduledDate.toISOString().split('T')[0];
 
-  this.emailService
-    .sendBookingApprovalEmail({
-      bookingCode: booking.bookingCode,
-      userEmail: booking.user.email,
-      userName: booking.user.userProfile?.fullName || 'Klien',
-      psychologistEmail: booking.psychologist.user.email,
-      psychologistName: booking.psychologist.fullName,
-      serviceName: booking.service.nama,
-      scheduledDate: rawDateStr,
-      scheduledTime: booking.scheduledTime,
-      totalPrice: booking.totalPrice,
-      dpAmount: booking.dpAmount,
-    })
-    .catch((err) => console.error('Gagal mengirim email approval:', err));
+    this.emailService
+      .sendBookingApprovalEmail({
+        bookingCode: booking.bookingCode,
+        userEmail: booking.user.email,
+        userName: booking.user.userProfile?.fullName || 'Klien',
+        psychologistEmail: booking.psychologist.user.email,
+        psychologistName: booking.psychologist.fullName,
+        serviceName: booking.service.nama,
+        scheduledDate: rawDateStr,
+        scheduledTime: booking.scheduledTime,
+        totalPrice: booking.totalPrice,
+        dpAmount: booking.dpAmount,
+      })
+      .catch((err) => console.error('Gagal mengirim email approval:', err));
 
-  return {
-    message:
-      'Booking berhasil di-approve. Email instruksi pelunasan telah dikirimkan ke klien.',
-  };
-}
+    return {
+      message:
+        'Booking berhasil di-approve. Email instruksi pelunasan telah dikirimkan ke klien.',
+    };
+  }
 
-  /**
-   * ADMIN: Reject booking
-   */
   async rejectBooking(bookingId: number, adminId: string, reason?: string) {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
@@ -424,7 +386,6 @@ async approveBooking(bookingId: number, adminId: string) {
       });
     });
 
-    // TRIGGER EMAIL: Kirim email rejection
     this.emailService
       .sendBookingRejectionEmails({
         bookingCode: booking.bookingCode,
@@ -446,9 +407,6 @@ async approveBooking(bookingId: number, adminId: string) {
     };
   }
 
-  /**
-   * USER: Reschedule booking
-   */
   async rescheduleBooking(
     bookingId: number,
     userId: string,
@@ -458,7 +416,8 @@ async approveBooking(bookingId: number, adminId: string) {
       where: { id: bookingId },
       include: {
         user: { include: { userProfile: true } },
-        psychologist: true,
+        psychologist: { include: { user: true } },
+        service: true,
       },
     });
 
@@ -514,15 +473,14 @@ async approveBooking(bookingId: number, adminId: string) {
       });
     });
 
-    // TRIGGER EMAIL: Kirim email reschedule
     this.emailService
       .sendRescheduleEmails({
         bookingCode: booking.bookingCode,
         userEmail: booking.user.email,
         userName: booking.user.userProfile?.fullName || 'Klien',
-        psychologistEmail: '',
-        psychologistName: booking.psychologist.fullName,
-        serviceName: '',
+        psychologistEmail: booking.psychologist?.user?.email || '',
+        psychologistName: booking.psychologist?.fullName || 'Psikolog',
+        serviceName: booking.service?.nama || 'Konseling',
         scheduledDate: booking.scheduledDate.toISOString().split('T')[0],
         scheduledTime: booking.scheduledTime,
         totalPrice: booking.totalPrice,
@@ -591,7 +549,6 @@ async approveBooking(bookingId: number, adminId: string) {
     return { message: 'Pelunasan berhasil dikonfirmasi.' };
   }
 
-  // 🟢 Helper Mengambil Daftar Tanggal YYYY-MM-DD yang Sudah Terisi
   async getBookedDates(psychologistId: string, time: string) {
     const bookings = await this.prisma.booking.findMany({
       where: {
@@ -606,9 +563,91 @@ async approveBooking(bookingId: number, adminId: string) {
       },
     });
 
-    // Kembalikan array string tanggal ["2026-08-01", ...]
     return bookings.map(
       (b) => b.scheduledDate.toISOString().split('T')[0],
     );
+  }
+
+  async rescheduleBookingByAdmin(
+    bookingId: number,
+    adminId: string,
+    dto: { newDate: string; newTime: string; reason?: string },
+  ) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        user: { include: { userProfile: true } },
+        psychologist: { include: { user: true } },
+        service: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Data booking tidak ditemukan');
+    }
+
+    const rawNewDateStr =
+      typeof dto.newDate === 'string'
+        ? dto.newDate.split('T')[0]
+        : new Date(dto.newDate).toISOString().split('T')[0];
+
+    const newScheduledDate = new Date(`${rawNewDateStr}T00:00:00.000Z`);
+
+    const conflictBooking = await this.prisma.booking.findFirst({
+      where: {
+        id: { not: bookingId },
+        psychologistId: booking.psychologistId,
+        scheduledDate: newScheduledDate,
+        scheduledTime: dto.newTime,
+        status: {
+          notIn: ['CANCELLED', 'REJECTED'],
+        },
+      },
+    });
+
+    if (conflictBooking) {
+      throw new BadRequestException(
+        `Jadwal pada tanggal ${rawNewDateStr} pukul ${dto.newTime} WIB sudah terisi oleh pasien lain.`,
+      );
+    }
+
+    const oldDateStr = booking.scheduledDate.toISOString().split('T')[0];
+    const oldTimeStr = booking.scheduledTime;
+
+    const updatedBooking = await this.prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        scheduledDate: newScheduledDate,
+        scheduledTime: dto.newTime,
+        adminApprovedBy: adminId,
+        notes: dto.reason ? `[Reschedule: ${dto.reason}]` : booking.notes,
+      },
+    });
+
+    if (booking.user?.email) {
+      this.emailService
+        .sendRescheduleEmails({
+          bookingCode: booking.bookingCode,
+          userEmail: booking.user.email,
+          userName: booking.user.userProfile?.fullName || 'Klien Oase Jiwa',
+          psychologistEmail: booking.psychologist?.user?.email || '',
+          psychologistName: booking.psychologist?.fullName || 'Psikolog',
+          serviceName: booking.service?.nama || 'Layanan Konseling',
+          scheduledDate: oldDateStr,
+          scheduledTime: oldTimeStr,
+          newScheduledDate: rawNewDateStr,
+          newScheduledTime: dto.newTime,
+          totalPrice: booking.totalPrice,
+          dpAmount: booking.dpAmount,
+          reason: dto.reason || 'Penyesuaian jadwal oleh admin klinik',
+        })
+        .catch((err: any) => console.error('Gagal mengirim email reschedule:', err));
+    }
+
+    return {
+      statusCode: 200,
+      message: 'Jadwal booking berhasil diperbarui dan notifikasi email telah dikirimkan.',
+      data: updatedBooking,
+    };
   }
 }
