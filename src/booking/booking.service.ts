@@ -270,6 +270,7 @@ export class BookingService {
         user: { include: { userProfile: true } },
         psychologist: { include: { user: true } },
         service: true,
+        payments: true, // 🟢 1. Pastikan payments di-include
       },
     });
 
@@ -309,6 +310,17 @@ export class BookingService {
 
     const rawDateStr = booking.scheduledDate.toISOString().split('T')[0];
 
+    // 🟢 2. Ambil metode bayar DP yang digunakan (QRIS / Bank Transfer)
+    const dpPayment = booking.payments?.find((p) => p.type === 'DOWN_PAYMENT');
+    const rawMethod = (dpPayment?.method || '').toUpperCase();
+    const formattedPaymentMethod = rawMethod.includes('QRIS')
+      ? 'QRIS'
+      : rawMethod.includes('MANDIRI')
+      ? 'Transfer Bank Mandiri'
+      : rawMethod.includes('BCA')
+      ? 'Transfer Bank BCA'
+      : dpPayment?.method || 'Transfer Bank';
+
     this.emailService
       .sendBookingApprovalEmail({
         bookingCode: booking.bookingCode,
@@ -321,6 +333,7 @@ export class BookingService {
         scheduledTime: booking.scheduledTime,
         totalPrice: booking.totalPrice,
         dpAmount: booking.dpAmount,
+        paymentMethod: formattedPaymentMethod, // 🟢 3. Kirim metode bayar yang akurat
       })
       .catch((err) => console.error('Gagal mengirim email approval:', err));
 

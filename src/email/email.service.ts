@@ -695,10 +695,14 @@ export class EmailService {
     const userMyBookingUrl = `${frontendUrl}/userprofile?tab=bookings`;
     const psychScheduleUrl = `${frontendUrl}/dashboard/psychologist/schedule`;
 
-    const userBody = `
-      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Jadwal Konsultasi Diperbarui 🔄</h2>
+    
+      const userBody = `
+      <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Pemberitahuan Penyesuaian Jadwal Konsultasi 🔄</h2>
+      <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 12px;">
+        Halo <strong>${data.userName}</strong>,
+      </p>
       <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 16px;">
-        Halo <strong>${data.userName}</strong>, perubahan jadwal untuk booking <strong>${data.bookingCode}</strong> telah berhasil diproses.
+        Kami memohon maaf atas ketidaknyamanannya. Dikarenakan adanya penyesuaian agenda layanan konsultasi, jadwal sesi booking Anda dengan kode <strong>${data.bookingCode}</strong> telah kami jadwalkan ulang dengan rincian berikut:
       </p>
 
       ${this.getInfoCard(
@@ -706,7 +710,7 @@ export class EmailService {
           ['Psikolog', data.psychologistName],
           ['Layanan', data.serviceName || 'Konseling'],
           ['Jadwal Baru', `<span style="color:#2563eb;font-weight:bold;">${data.newScheduledDate} (${data.newScheduledTime} WIB)</span>`],
-          ['Alasan', data.reason || 'Penyesuaian jadwal praktik'],
+          ['Alasan Penyesuaian', data.reason || 'Penyesuaian jadwal praktik psikolog'],
         ],
         '#2563eb',
       )}
@@ -717,7 +721,7 @@ export class EmailService {
 
       <div style="background-color:${THEME.bgSubtle};border:1px solid ${THEME.border};border-radius:10px;padding:14px;text-align:center;margin-top:14px;">
         <p style="color:${THEME.muted};font-size:11px;margin:0 0 4px;">
-          Pertanyaan seputar jadwal? Hubungi WhatsApp Admin:
+          Jika jadwal baru ini berhalangan untuk Anda, silakan hubungi WhatsApp Admin:
         </p>
         ${this.getWhatsAppButton(data.bookingCode)}
       </div>
