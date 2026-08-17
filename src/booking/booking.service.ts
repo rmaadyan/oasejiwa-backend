@@ -163,22 +163,6 @@ export class BookingService {
       return newBooking;
     });
 
-    this.emailService
-      .sendNewBookingEmails({
-        bookingCode: booking.bookingCode,
-        userEmail: user.email,
-        userName: user.userProfile?.fullName || 'Klien',
-        psychologistEmail: psychologist.user.email,
-        psychologistName: psychologist.fullName,
-        serviceName: layanan.nama,
-        scheduledDate: rawDateStr,
-        scheduledTime: dto.scheduledTime,
-        totalPrice,
-        dpAmount,
-        notes: dto.notes,
-      })
-      .catch((err) => console.error('Gagal mengirim email booking:', err));
-
     return {
       message: 'Booking berhasil dibuat. Silakan lakukan pembayaran DP.',
       data: {
@@ -641,12 +625,15 @@ export class BookingService {
           dpAmount: booking.dpAmount,
           reason: dto.reason || 'Penyesuaian jadwal oleh admin klinik',
         })
-        .catch((err: any) => console.error('Gagal mengirim email reschedule:', err));
+        .catch((err: any) =>
+          console.error('Gagal mengirim email reschedule:', err),
+        );
     }
 
     return {
       statusCode: 200,
-      message: 'Jadwal booking berhasil diperbarui dan notifikasi email telah dikirimkan.',
+      message:
+        'Jadwal booking berhasil diperbarui dan notifikasi email telah dikirimkan.',
       data: updatedBooking,
     };
   }
