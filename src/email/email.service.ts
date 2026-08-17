@@ -1,7 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import * as path from 'path';
-import * as fs from 'fs';
 
 export interface BookingEmailData {
   bookingCode: string;
@@ -57,47 +55,6 @@ export class EmailService {
   private readonly logger = new Logger(EmailService.name);
 
   constructor(private mailerService: MailerService) {}
-
-  private getLogoAttachment() {
-    const relativeFrontendPath = path.join(
-      process.cwd(),
-      '..',
-      'oasejiwa-frontend',
-      'public',
-      'assets',
-      'oasejiwalogo.png',
-    );
-    const backendPublicPath = path.join(
-      process.cwd(),
-      'public',
-      'assets',
-      'oasejiwalogo.png',
-    );
-    const explicitPath =
-      'C:\\Users\\ADINDA OKTA\\magang\\oasejiwa-frontend\\public\\assets\\oasejiwalogo.png';
-
-    let finalPath = '';
-
-    if (fs.existsSync(relativeFrontendPath)) {
-      finalPath = relativeFrontendPath;
-    } else if (fs.existsSync(backendPublicPath)) {
-      finalPath = backendPublicPath;
-    } else if (fs.existsSync(explicitPath)) {
-      finalPath = explicitPath;
-    } else {
-      this.logger.warn('File logo oasejiwalogo.png tidak ditemukan.');
-      return [];
-    }
-
-    return [
-      {
-        filename: 'oasejiwalogo.png',
-        path: finalPath,
-        cid: 'oasejiwa_logo',
-        contentDisposition: 'inline',
-      },
-    ];
-  }
 
   private getButton(label: string, url: string): string {
     return `
@@ -321,7 +278,6 @@ export class EmailService {
         to: email,
         subject: 'Reset Password - Oase Jiwa',
         html: this.getBaseEmailTemplate('Reset Password Oase Jiwa', bodyContent, 'Keamanan Akun'),
-        attachments: this.getLogoAttachment(),
       });
       this.logger.log(`Reset password email sent to ${email}`);
     } catch (error: any) {
@@ -348,7 +304,6 @@ export class EmailService {
         to: email,
         subject: 'Verifikasi Alamat Email Anda - Oase Jiwa',
         html: this.getBaseEmailTemplate('Verifikasi Email Oase Jiwa', bodyContent, 'Aktivasi Akun'),
-        attachments: this.getLogoAttachment(),
       });
       this.logger.log(`Verification email sent to ${email}`);
     } catch (error: any) {
@@ -389,7 +344,6 @@ export class EmailService {
         to: email,
         subject: 'Akses Akun Psikolog & Instruksi Update Profil - Oase Jiwa',
         html: this.getBaseEmailTemplate('Akses Akun Psikolog', bodyContent, 'Akun Psikolog'),
-        attachments: this.getLogoAttachment(),
       });
       this.logger.log(`Psychologist credentials email sent to ${email}`);
     } catch (error: any) {
@@ -414,7 +368,6 @@ export class EmailService {
         to: email,
         subject: 'Pengingat: Segera Lengkapi Profil Psikolog Anda - Oase Jiwa',
         html: this.getBaseEmailTemplate('Pengingat Profil Psikolog', bodyContent, 'Pengingat'),
-        attachments: this.getLogoAttachment(),
       });
       this.logger.log(`Psychologist profile reminder email sent to ${email}`);
     } catch (error: any) {
@@ -427,7 +380,7 @@ export class EmailService {
     const formattedPrice = `Rp ${data.totalPrice.toLocaleString('id-ID')}`;
     const frontendUrl = process.env.FRONTEND_URL || 'https://oasejiwa.id';
     const userMyBookingUrl = `${frontendUrl}/userprofile?tab=bookings`;
-    const psychScheduleUrl = `${frontendUrl}/dashboard/psychologist/schedule`;
+    const psychScheduleUrl = `${frontendUrl}/psychologist/schedule`;
 
     const userBody = `
       <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Pengajuan Booking Berhasil Dibuat! ⏳</h2>
@@ -489,7 +442,6 @@ export class EmailService {
           to: data.userEmail,
           subject: `[Oase Jiwa] Pengajuan Booking #${data.bookingCode} - Menunggu Validasi Pembayaran`,
           html: this.getBaseEmailTemplate('Pengajuan Booking Konsultasi', userBody, 'Menunggu Validasi'),
-          attachments: this.getLogoAttachment(),
         }),
       ];
 
@@ -499,7 +451,6 @@ export class EmailService {
             to: data.psychologistEmail,
             subject: `[Oase Jiwa] Pengajuan Booking Baru #${data.bookingCode}`,
             html: this.getBaseEmailTemplate('Pengajuan Booking Baru', psychBody, 'Booking Masuk'),
-            attachments: this.getLogoAttachment(),
           }),
         );
       }
@@ -524,7 +475,7 @@ export class EmailService {
 
     const frontendUrl = process.env.FRONTEND_URL || 'https://oasejiwa.id';
     const userMyBookingUrl = `${frontendUrl}/userprofile?tab=bookings`;
-    const psychScheduleUrl = `${frontendUrl}/dashboard/psychologist/schedule`;
+    const psychScheduleUrl = `${frontendUrl}/psychologist/schedule`;
 
     const paidAt = new Date().toLocaleString('id-ID', {
       day: 'numeric',
@@ -641,7 +592,6 @@ export class EmailService {
           to: data.userEmail,
           subject: `Terima kasih atas pembayaran Anda - Oase Jiwa #${data.bookingCode}`,
           html: this.getBaseEmailTemplate('Nota Pembayaran Oase Jiwa', userBody, 'Booking Dikonfirmasi'),
-          attachments: this.getLogoAttachment(),
         }),
       ];
 
@@ -651,7 +601,6 @@ export class EmailService {
             to: data.psychologistEmail,
             subject: `[Oase Jiwa] Jadwal Konsultasi Baru Terkonfirmasi #${data.bookingCode}`,
             html: this.getBaseEmailTemplate('Jadwal Konsultasi Terkonfirmasi', psychBody, 'Jadwal Fix'),
-            attachments: this.getLogoAttachment(),
           }),
         );
       }
@@ -681,7 +630,6 @@ export class EmailService {
         to: data.userEmail,
         subject: `[Oase Jiwa] Pembatalan Booking #${data.bookingCode}`,
         html: this.getBaseEmailTemplate('Pembatalan Booking', userBody, 'Booking Dibatalkan'),
-        attachments: this.getLogoAttachment(),
       });
       this.logger.log(`Rejection email sent for #${data.bookingCode}`);
     } catch (error: any) {
@@ -693,10 +641,9 @@ export class EmailService {
   async sendRescheduleEmails(data: BookingEmailData) {
     const frontendUrl = process.env.FRONTEND_URL || 'https://oasejiwa.id';
     const userMyBookingUrl = `${frontendUrl}/userprofile?tab=bookings`;
-    const psychScheduleUrl = `${frontendUrl}/dashboard/psychologist/schedule`;
+    const psychScheduleUrl = `${frontendUrl}/psychologist/schedule`;
 
-    
-      const userBody = `
+    const userBody = `
       <h2 style="color:${THEME.ink};font-size:17px;font-weight:700;margin:0 0 10px;">Pemberitahuan Penyesuaian Jadwal Konsultasi 🔄</h2>
       <p style="color:${THEME.body};font-size:12.5px;line-height:1.6;margin:0 0 12px;">
         Halo <strong>${data.userName}</strong>,
@@ -753,7 +700,6 @@ export class EmailService {
           to: data.userEmail,
           subject: `[Oase Jiwa] Perubahan Jadwal Booking #${data.bookingCode}`,
           html: this.getBaseEmailTemplate('Reschedule Jadwal', userBody, 'Jadwal Diperbarui'),
-          attachments: this.getLogoAttachment(),
         }),
       ];
 
@@ -763,7 +709,6 @@ export class EmailService {
             to: data.psychologistEmail,
             subject: `[Oase Jiwa] Notifikasi Reschedule Jadwal #${data.bookingCode} (${data.userName})`,
             html: this.getBaseEmailTemplate('Perubahan Jadwal Konsultasi', psychBody, 'Jadwal Diperbarui'),
-            attachments: this.getLogoAttachment(),
           }),
         );
       }
