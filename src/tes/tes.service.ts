@@ -328,4 +328,49 @@ export class TesService {
   async removeTesResult(id: string) {
     return this.prisma.tesResult.delete({ where: { id } });
   }
+
+  // =========================================================
+  // 🟢 CRUD KATEGORI TES
+  // =========================================================
+  async getPublicCategories() {
+    return this.prisma.tesCategory.findMany({
+      where: { status: 'Aktif' },
+      orderBy: [{ urutan: 'asc' }, { id: 'asc' }],
+    });
+  }
+
+  async getAllCategories() {
+    return this.prisma.tesCategory.findMany({
+      orderBy: [{ urutan: 'asc' }, { id: 'asc' }],
+    });
+  }
+
+  async createCategory(dto: { nama: string; deskripsi?: string; status?: string; urutan?: number }) {
+    return this.prisma.tesCategory.create({
+      data: {
+        nama: dto.nama,
+        deskripsi: dto.deskripsi || null,
+        status: dto.status || 'Aktif',
+        urutan: dto.urutan ?? 0,
+      },
+    });
+  }
+
+  async updateCategory(id: number, dto: { nama?: string; deskripsi?: string; status?: string; urutan?: number }) {
+    return this.prisma.tesCategory.update({
+      where: { id },
+      data: {
+        ...(dto.nama && { nama: dto.nama }),
+        ...(dto.deskripsi !== undefined && { deskripsi: dto.deskripsi }),
+        ...(dto.status && { status: dto.status }),
+        ...(dto.urutan !== undefined && { urutan: dto.urutan }),
+      },
+    });
+  }
+
+  async deleteCategory(id: number) {
+    return this.prisma.tesCategory.delete({
+      where: { id },
+    });
+  }
 }

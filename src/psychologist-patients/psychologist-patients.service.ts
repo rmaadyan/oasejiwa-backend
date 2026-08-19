@@ -293,6 +293,7 @@ export class PsychologistPatientsService {
           patient.latestTesCategory = latestTes.kategoriNama || 'Normal';
           patient.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
           patient.latestTesDate = latestTes.createdAt;
+          patient.latestTes = patient.latestTesName;
 
           if (latestTes.sectionScores && Array.isArray(latestTes.sectionScores)) {
             const parts: string[] = [];

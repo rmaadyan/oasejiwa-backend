@@ -59,6 +59,37 @@ export class TesController {
     return this.tesService.removeTesResult(id);
   }
 
+  // =========================================================
+  // 🟢 ROUTE KATEGORI TES (PUBLIC & ADMIN)
+  // =========================================================
+  @Get('categories')
+  getPublicCategories() {
+    return this.tesService.getPublicCategories();
+  }
+
+  @Get('categories/all')
+  getAllCategories() {
+    return this.tesService.getAllCategories();
+  }
+
+  @Post('categories')
+  createCategory(@Body() dto: { nama: string; deskripsi?: string; status?: string; urutan?: number }) {
+    return this.tesService.createCategory(dto);
+  }
+
+  @Patch('categories/:id')
+  updateCategory(
+    @Param('id') id: string,
+    @Body() dto: { nama?: string; deskripsi?: string; status?: string; urutan?: number },
+  ) {
+    return this.tesService.updateCategory(+id, dto);
+  }
+
+  @Delete('categories/:id')
+  deleteCategory(@Param('id') id: string) {
+    return this.tesService.deleteCategory(+id);
+  }
+
   @Get(':id') findOne(@Param('id') id: string) {
     return this.tesService.findOne(+id);
   }

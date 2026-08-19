@@ -357,7 +357,43 @@ export class PsychologistService {
         }
       }
     }
-    // Return strictly only patients connected to this psychologist (bookings/notes)
+
+    const officialRecords = await this.prisma.officialMedicalRecord.findMany({
+      where: { psychologistProfileId: profile.id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            createdAt: true,
+            userProfile: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    for (const rec of officialRecords) {
+      if (rec.user && !patientsMap.has(rec.user.id)) {
+        patientsMap.set(rec.user.id, {
+          id: rec.user.id,
+          name: rec.user.userProfile?.fullName || 'Pasien Oase Jiwa',
+          email: rec.user.email,
+          phone: rec.user.userProfile?.phone || '-',
+          registeredAt: rec.user.createdAt,
+          totalBookings: 0,
+          totalSessions: 1,
+          firstSessionDate: rec.createdAt,
+          lastSessionDate: rec.createdAt,
+          hasSessionNotes: false,
+          hasValidRelationship: true,
+          latestRiskLevel: rec.riskLevel?.toLowerCase() || 'low',
+          sessions: [],
+        });
+      }
+    }
+
+    // Return strictly only patients connected to this psychologist (bookings/notes/officialRecords)
     const patientsList = Array.from(patientsMap.values());
 
     const patientIds = patientsList.map((p) => p.id);
