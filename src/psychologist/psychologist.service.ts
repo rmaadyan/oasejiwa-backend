@@ -27,7 +27,7 @@ export class PsychologistService {
       schedule: false,
     };
 
-    // 1. Personal Info: Nama lengkap, SIPP/STR, serta deskripsi About (No. HP tidak wajib / strip diperbolehkan)
+    // 1. Personal Info: Cukup pastikan About diisi sendiri (tidak kosong/strip)
     const hasSippOrStr = Boolean(
       (p.sipp && p.sipp !== '-' && p.sipp.trim() !== '') || 
       (p.str && p.str !== '-' && p.str.trim() !== '')
@@ -35,11 +35,10 @@ export class PsychologistService {
     const hasAbout = Boolean(
       p.about && 
       p.about !== '-' && 
-      p.about !== 'Psikolog Klinik Oase Jiwa' && 
-      p.about.trim() !== ''
+      p.about !== 'Psikolog Klinik Oase Jiwa' &&
+      p.about.trim().length > 3
     );
     
-    // 🟢 Cukup cek Nama, SIPP/STR, dan About
     if (p.fullName && hasSippOrStr && hasAbout) {
       score += 20;
       checks.personalInfo = true;
@@ -128,7 +127,7 @@ export class PsychologistService {
         data: {
           userId: user.id,
           fullName: user.userProfile?.fullName || 'Psikolog Oase Jiwa',
-          about: 'Psikolog Klinik Oase Jiwa',
+          about: '',
           sipp: '-',
           str: '-',
         },
@@ -1001,7 +1000,7 @@ export class PsychologistService {
         psychologistProfile: {
           create: {
             fullName: dto.fullName,
-            about: 'Psikolog Klinik Oase Jiwa',
+            about: '',
             sipp: dto.sipp || '-',
             str: dto.str || '-',
             status: 'Menunggu Profil',
