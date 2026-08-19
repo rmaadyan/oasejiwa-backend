@@ -27,13 +27,20 @@ export class PsychologistService {
       schedule: false,
     };
 
-    // 1. Personal Info: Nama lengkap, nomor HP, SIPP/STR, serta deskripsi About
-    const phoneVal = p.user?.userProfile?.phone || p.phone || p.phoneNumber || '';
-    const hasPhone = Boolean(phoneVal && phoneVal !== '-' && phoneVal.trim() !== '');
-    const hasSippOrStr = Boolean((p.sipp && p.sipp !== '-' && p.sipp.trim() !== '') || (p.str && p.str !== '-' && p.str.trim() !== ''));
-    const hasAbout = Boolean(p.about && p.about !== '-' && p.about !== 'Psikolog Klinik Oase Jiwa' && p.about.trim() !== '');
+    // 1. Personal Info: Nama lengkap, SIPP/STR, serta deskripsi About (No. HP tidak wajib / strip diperbolehkan)
+    const hasSippOrStr = Boolean(
+      (p.sipp && p.sipp !== '-' && p.sipp.trim() !== '') || 
+      (p.str && p.str !== '-' && p.str.trim() !== '')
+    );
+    const hasAbout = Boolean(
+      p.about && 
+      p.about !== '-' && 
+      p.about !== 'Psikolog Klinik Oase Jiwa' && 
+      p.about.trim() !== ''
+    );
     
-    if (p.fullName && hasPhone && hasSippOrStr && hasAbout) {
+    // 🟢 Cukup cek Nama, SIPP/STR, dan About
+    if (p.fullName && hasSippOrStr && hasAbout) {
       score += 20;
       checks.personalInfo = true;
     }
