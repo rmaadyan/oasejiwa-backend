@@ -167,7 +167,9 @@ export class PsychologistNotesService {
       // === Field Rekam Medis ===
       consultationDate: this.toDateOnly(note.consultationDate || sessionDate),
       consultationStatus: note.consultationStatus || 'ONGOING',
-      diagnosisSummary: note.diagnosisSummary || note.subjective || null,
+      diagnosisSummary: note.diagnosisSummary || 'Dalam Evaluasi',
+      diagnosis: note.diagnosisSummary || 'Dalam Evaluasi',
+      medication: note.currentMedication || 'Tidak ada',
       treatmentApproach: note.treatmentApproach || note.plan || null,
       recommendation: note.recommendation || note.nextSessionRecommendation || null,
       followUpPlan: note.followUpPlan || 'CONTINUE_SESSION',
@@ -201,6 +203,16 @@ export class PsychologistNotesService {
   }
 
   async create(currentUser: any, dto: CreatePsychologistNoteDto) {
+    const diagText = (dto.diagnosis || dto.diagnosisSummary || '').trim();
+    if (!diagText) {
+      throw new BadRequestException('Diagnosis wajib diisi.');
+    }
+
+    const medText = (dto.medication || '').trim();
+    if (!medText) {
+      throw new BadRequestException('Obat saat ini wajib diisi.');
+    }
+
     const psychologist = await this.getPsychologistProfile(currentUser);
 
     const user = await this.prisma.user.findUnique({
@@ -325,7 +337,7 @@ export class PsychologistNotesService {
           sessionNumber: sessionNum,
           consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : new Date(),
           consultationStatus: dto.consultationStatus || 'ONGOING',
-          diagnosisSummary: dto.diagnosisSummary || dto.diagnosis || dto.subjective,
+          diagnosisSummary: dto.diagnosis || dto.diagnosisSummary || 'Dalam Evaluasi',
           treatmentApproach: dto.treatmentApproach || dto.plan,
           recommendation: dto.recommendation || dto.nextSessionRecommendation,
           followUpPlan: dto.followUpPlan || 'CONTINUE_SESSION',
@@ -333,7 +345,7 @@ export class PsychologistNotesService {
           followUpDate: dto.followUpDate ? new Date(dto.followUpDate) : undefined,
           nextSessionRecommendation: dto.nextSessionRecommendation,
           riskReason: dto.riskReason,
-          currentMedication: dto.medication,
+          currentMedication: dto.medication || 'Tidak ada',
           allergies: dto.allergies,
           tags: dto.tags ?? [],
         },
@@ -355,8 +367,8 @@ export class PsychologistNotesService {
           bookingId: note.bookingId || undefined,
           sessionNumber: sessionNum,
           consultationDate: note.consultationDate || new Date(),
-          diagnosis: dto.diagnosisSummary || dto.diagnosis || dto.subjective || 'Dalam Evaluasi',
-          currentMedication: dto.medication || note.currentMedication || null,
+          diagnosis: dto.diagnosis || dto.diagnosisSummary || 'Dalam Evaluasi',
+          currentMedication: dto.medication || note.currentMedication || 'Tidak ada',
           allergies: dto.allergies || note.allergies || null,
           problemSummary: dto.subjective || 'Catatan Sesi Konseling',
           therapyApproach: dto.plan || 'Intervensi Psikologis',
@@ -602,7 +614,8 @@ export class PsychologistNotesService {
           sessionNumber: dto.sessionNumber,
           consultationDate: dto.consultationDate ? new Date(dto.consultationDate) : undefined,
           consultationStatus: dto.consultationStatus,
-          diagnosisSummary: dto.diagnosisSummary,
+          diagnosisSummary: dto.diagnosis !== undefined ? dto.diagnosis : dto.diagnosisSummary,
+          currentMedication: dto.medication !== undefined ? dto.medication : undefined,
           treatmentApproach: dto.treatmentApproach,
           recommendation: dto.recommendation,
           followUpPlan: dto.followUpPlan,
@@ -629,8 +642,8 @@ export class PsychologistNotesService {
       });
 
       // Sync OfficialMedicalRecord for Admin & PDF Reports
-      const updatedDiagnosis = dto.diagnosisSummary || dto.subjective || note.diagnosisSummary || note.subjective || 'Dalam Evaluasi';
-      const updatedMedication = dto.medication || note.currentMedication || null;
+      const updatedDiagnosis = dto.diagnosis || dto.diagnosisSummary || note.diagnosisSummary || 'Dalam Evaluasi';
+      const updatedMedication = dto.medication || note.currentMedication || 'Tidak ada';
       const updatedAllergies = dto.allergies || note.allergies || null;
 
       await tx.officialMedicalRecord.updateMany({

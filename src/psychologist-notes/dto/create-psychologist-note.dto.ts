@@ -2,6 +2,7 @@ import {
   IsArray,
   IsIn,
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
@@ -20,19 +21,19 @@ export class CreatePsychologistNoteDto {
   userId!: string;
 
   @IsString()
-  @MaxLength(600, { message: 'Subjective maksimal 600 karakter' })
+  @MaxLength(20000, { message: 'Subjective maksimal 20,000 karakter' })
   subjective!: string;
 
   @IsString()
-  @MaxLength(600, { message: 'Objective maksimal 600 karakter' })
+  @MaxLength(20000, { message: 'Objective maksimal 20,000 karakter' })
   objective!: string;
 
   @IsString()
-  @MaxLength(700, { message: 'Assessment maksimal 700 karakter' })
+  @MaxLength(20000, { message: 'Assessment maksimal 20,000 karakter' })
   assessment!: string;
 
   @IsString()
-  @MaxLength(700, { message: 'Plan maksimal 700 karakter' })
+  @MaxLength(20000, { message: 'Plan maksimal 20,000 karakter' })
   plan!: string;
 
   @IsOptional()
@@ -69,7 +70,7 @@ export class CreatePsychologistNoteDto {
 
   @IsOptional()
   @IsString()
-  @MaxLength(200, { message: 'Catatan tambahan maksimal 200 karakter' })
+  @MaxLength(20000, { message: 'Catatan tambahan maksimal 20,000 karakter' })
   additionalNotes?: string;
 
   @IsOptional()
@@ -102,13 +103,13 @@ export class CreatePsychologistNoteDto {
   @IsString()
   assessmentDate?: string;
 
-  @IsOptional()
-  @IsString()
-  diagnosis?: string;
+  @IsString({ message: 'Diagnosis harus berupa teks' })
+  @IsNotEmpty({ message: 'Diagnosis wajib diisi.' })
+  diagnosis!: string;
 
-  @IsOptional()
-  @IsString()
-  medication?: string;
+  @IsString({ message: 'Obat saat ini harus berupa teks' })
+  @IsNotEmpty({ message: 'Obat saat ini wajib diisi.' })
+  medication!: string;
 
   @IsOptional()
   @IsString()
