@@ -16,6 +16,74 @@ export class PsychologistService {
     private emailService: EmailService,
   ) {}
 
+  // 🟢 HELPER: Menghitung persentase kelengkapan 5 kriteria (@20% = Total 100%)
+  private calculatePsychologistCompleteness(p: any) {
+    let score = 0;
+    const checks = {
+      personalInfo: false,
+      photo: false,
+      education: false,
+      professional: false,
+      schedule: false,
+    };
+
+    // 1. Personal Info: Cukup pastikan About diisi sendiri (tidak kosong/strip)
+    const hasSippOrStr = Boolean(
+      (p.sipp && p.sipp !== '-' && p.sipp.trim() !== '') || 
+      (p.str && p.str !== '-' && p.str.trim() !== '')
+    );
+    const hasAbout = Boolean(
+      p.about && 
+      p.about !== '-' && 
+      p.about !== 'Psikolog Klinik Oase Jiwa' &&
+      p.about.trim().length > 3
+    );
+    
+    if (p.fullName && hasSippOrStr && hasAbout) {
+      score += 20;
+      checks.personalInfo = true;
+    }
+
+    // 2. Foto Profil: Avatar sudah diunggah
+    const avatar = p.avatarUrl || p.photo || '';
+    if (avatar && avatar.trim() !== '' && !avatar.includes('default')) {
+      score += 20;
+      checks.photo = true;
+    }
+
+    // 3. Pendidikan: Minimal 1 riwayat pendidikan terdaftar
+    if (p.educations && p.educations.length > 0) {
+      score += 20;
+      checks.education = true;
+    }
+
+    // 4. Info Profesional / Spesialisasi: Minimal 1 data spesialisasi atau keahlian
+    if (
+      (p.specializations && p.specializations.length > 0) ||
+      (p.expertises && p.expertises.length > 0)
+    ) {
+      score += 20;
+      checks.professional = true;
+    }
+
+    // 5. Jadwal Praktik: Minimal 1 slot jadwal praktik aktif
+    if (p.schedules && p.schedules.length > 0) {
+      score += 20;
+      checks.schedule = true;
+    }
+
+    const isComplete = score === 100;
+    const status = isComplete ? 'Aktif' : 'Menunggu Profil';
+
+    // Ambil spesialisasi pertama yang diisi
+    const primarySpecialization =
+      p.specializations?.[0]?.name ||
+      p.expertises?.[0]?.name ||
+      'Psikologi Umum';
+
+    return { score, isComplete, status, primarySpecialization, checks };
+  }
+
   private async getOrCreateProfile(userIdOrProfileId: string) {
     let profile = await this.prisma.psychologistProfile.findFirst({
       where: {
@@ -59,7 +127,7 @@ export class PsychologistService {
         data: {
           userId: user.id,
           fullName: user.userProfile?.fullName || 'Psikolog Oase Jiwa',
-          about: 'Psikolog Klinik Oase Jiwa',
+          about: '',
           sipp: '-',
           str: '-',
         },
@@ -393,7 +461,6 @@ export class PsychologistService {
       }
     }
 
-    // Return strictly only patients connected to this psychologist (bookings/notes/officialRecords)
     const patientsList = Array.from(patientsMap.values());
 
     const patientIds = patientsList.map((p) => p.id);
@@ -486,6 +553,16 @@ export class PsychologistService {
       return this.getProfile((await this.getOrCreateProfile(userId)).userId);
     }
 
+    const completeness = this.calculatePsychologistCompleteness(profile);
+
+    // Sinkronkan status isProfileComplete di database jika berubah
+    if (profile.user) {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { isProfileComplete: completeness.isComplete },
+      }).catch(() => {});
+    }
+
     const userPhone = profile.user?.userProfile?.phone || '';
 
     const bookingPatientIds = await this.prisma.booking.findMany({
@@ -538,7 +615,11 @@ export class PsychologistService {
         about: profile.about || 'Psikolog Klinik Oase Jiwa',
         sipp: profile.sipp || '-',
         str: profile.str || '-',
-        status: profile.status || 'Aktif',
+        status: completeness.status,
+        isProfileComplete: completeness.isComplete,
+        profilePercentage: completeness.score,
+        profileChecks: completeness.checks,
+        primarySpecialization: completeness.primarySpecialization,
         totalSessions,
         totalPatients,
         joinedDate: profile.createdAt || profile.user?.createdAt || new Date(),
@@ -796,78 +877,85 @@ export class PsychologistService {
   }
 
   // ==========================================
-  // 🟢 7. GET DAFTAR PSIKOLOG (HANYA USER ROLE PSYCHOLOGIST)
+  // 7. GET DAFTAR PSIKOLOG
   // ==========================================
   async getAllPsychologists() {
-  const psychologists = await this.prisma.psychologistProfile.findMany({
-    where: {
-      user: {
-        role: 'PSYCHOLOGIST',
-      },
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          email: true,
-          isProfileComplete: true,
-          userProfile: { select: { phone: true } },
+    const psychologists = await this.prisma.psychologistProfile.findMany({
+      where: {
+        user: {
+          role: 'PSYCHOLOGIST',
         },
       },
-      specializations: { select: { name: true } },
-      educations: { select: { degree: true, institution: true } },
-      experiences: { select: { name: true } },
-      expertises: { select: { name: true } },
-      schedules: true,
-    },
-    orderBy: [
-      { displayOrder: 'asc' }, // 👈 Urutkan displayOrder terkecil ke terbesar
-      { createdAt: 'desc' },
-    ],
-  });
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            isProfileComplete: true,
+            userProfile: { select: { phone: true } },
+          },
+        },
+        specializations: { select: { name: true } },
+        educations: { select: { degree: true, institution: true } },
+        experiences: { select: { name: true } },
+        expertises: { select: { name: true } },
+        schedules: true,
+      },
+      orderBy: [
+        { displayOrder: 'asc' },
+        { createdAt: 'desc' },
+      ],
+    });
 
-  const cleanPsychologists = psychologists.filter(
-    (p) => p.fullName && p.fullName.trim() !== '',
-  );
+    const cleanPsychologists = psychologists.filter(
+      (p) => p.fullName && p.fullName.trim() !== '',
+    );
 
-  return {
-    data: cleanPsychologists.map((p: any) => ({
-      id: p.id,
-      userId: p.userId,
-      displayOrder: p.displayOrder, // 👈 Kirimkan displayOrder ke response
-      name: p.fullName,
-      fullName: p.fullName,
-      email: p.user?.email || '-',
-      phoneNumber: p.user?.userProfile?.phone || '-',
-      phone: p.user?.userProfile?.phone || '-',
-      avatarUrl: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
-      photo: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
-      sipp: p.sipp || '-',
-      str: p.str || '-',
-      about: p.about || 'Psikolog Klinik Oase Jiwa',
-      status: p.status || 'Aktif',
-      isProfileComplete:
-        p.user?.isProfileComplete ?? (p.sipp && p.sipp !== '-'),
-      specializations: (p.specializations || []).map((s: any) => s.name || s),
-      expertises: (p.expertises || []).map((e: any) => e.name || e),
-      experiences: (p.experiences || []).map((e: any) => e.name || e),
-      latestEducation:
-        p.educations && p.educations.length > 0
-          ? `${p.educations[p.educations.length - 1].degree} - ${p.educations[p.educations.length - 1].institution}`
-          : 'Psikolog Klinis',
-      schedules: (p.schedules || []).map((s: any) => ({
-        id: s.id,
-        day: s.day || s.hari || 'Senin',
-        startTime: s.startTime || s.time || '09:00',
-        duration: s.duration || 60,
-        isAvailable: s.isAvailable ?? true,
-      })),
-    })),
-  };
-}
+    return {
+      data: cleanPsychologists.map((p: any) => {
+        const completeness = this.calculatePsychologistCompleteness(p);
+
+        return {
+          id: p.id,
+          userId: p.userId,
+          displayOrder: p.displayOrder,
+          name: p.fullName,
+          fullName: p.fullName,
+          email: p.user?.email || '-',
+          phoneNumber: p.user?.userProfile?.phone || '-',
+          phone: p.user?.userProfile?.phone || '-',
+          avatarUrl: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
+          photo: p.avatarUrl && p.avatarUrl.trim() !== '' ? p.avatarUrl : null,
+          sipp: p.sipp || '-',
+          str: p.str || '-',
+          about: p.about || '-',
+          status: completeness.status,
+          isProfileComplete: completeness.isComplete,
+          profilePercentage: completeness.score,
+          profileChecks: completeness.checks,
+          primarySpecialization: completeness.primarySpecialization,
+          specializations: (p.specializations || []).map((s: any) => s.name || s),
+          expertises: (p.expertises || []).map((e: any) => e.name || e),
+          experiences: (p.experiences || []).map((e: any) => e.name || e),
+          latestEducation:
+            p.educations && p.educations.length > 0
+              ? `${p.educations[p.educations.length - 1].degree} - ${p.educations[p.educations.length - 1].institution}`
+              : 'Psikolog Klinis',
+          educations: p.educations || [],
+          schedules: (p.schedules || []).map((s: any) => ({
+            id: s.id,
+            day: s.day || s.hari || 'Senin',
+            startTime: s.startTime || s.time || '09:00',
+            duration: s.duration || 60,
+            isAvailable: s.isAvailable ?? true,
+          })),
+        };
+      }),
+    };
+  }
 
   // ==========================================
-  // 🟢 8. CRUD KHUSUS ADMIN
+  // 8. CRUD KHUSUS ADMIN
   // ==========================================
   async createPsychologist(dto: {
     fullName: string;
@@ -896,7 +984,7 @@ export class PsychologistService {
         role: 'PSYCHOLOGIST',
         isEmailVerified: true,
         isProfileComplete: false,
-        isFirstLogin: true, // 🟢 WAJIB TRUE agar psikolog baru langsung dipaksa ganti password
+        isFirstLogin: true,
         authProvider: {
           create: {
             provider: 'local',
@@ -912,17 +1000,17 @@ export class PsychologistService {
         psychologistProfile: {
           create: {
             fullName: dto.fullName,
-            about: 'Psikolog Klinik Oase Jiwa',
+            about: '',
             sipp: dto.sipp || '-',
             str: dto.str || '-',
-            status: 'Aktif',
+            status: 'Menunggu Profil',
           },
         },
       },
       include: { psychologistProfile: true },
     });
 
-   try {
+    try {
       await this.emailService.sendPsychologistCredentials(
         dto.email,
         dto.fullName,
@@ -947,13 +1035,12 @@ export class PsychologistService {
       throw new NotFoundException('Psikolog tidak ditemukan');
     }
 
-    // 🟢 Update email di tabel User & nama/hp di tabel UserProfile menggunakan upsert
     if (dto.email || dto.phoneNumber || dto.fullName) {
       await this.prisma.user.update({
-        where: { id: profile.userId }, // 👈 Gunakan profile.userId
+        where: { id: profile.userId },
         data: {
           ...(dto.email && { email: dto.email }),
-          userProfile: { // 👈 Gunakan userProfile
+          userProfile: {
             upsert: {
               create: {
                 fullName: dto.fullName || profile.fullName,
@@ -1021,12 +1108,15 @@ export class PsychologistService {
         experiences: true,
         specializations: true,
         expertises: true,
+        schedules: true,
       },
     });
 
     if (!profile) {
       throw new NotFoundException('Psikolog tidak ditemukan');
     }
+
+    const completeness = this.calculatePsychologistCompleteness(profile);
 
     const rawSchedules = await this.prisma.schedule.findMany({
       where: {
@@ -1072,6 +1162,10 @@ export class PsychologistService {
       about: profile.about || 'Psikolog Klinik Oase Jiwa',
       sipp: profile.sipp || '-',
       str: profile.str || '-',
+      status: completeness.status,
+      isProfileComplete: completeness.isComplete,
+      profilePercentage: completeness.score,
+      primarySpecialization: completeness.primarySpecialization,
       educations: profile.educations || [],
       experiences: (profile.experiences || []).map((e: any) => e.name || e),
       specializations: (profile.specializations || []).map((s: any) => s.name || s),
@@ -1230,27 +1324,26 @@ export class PsychologistService {
     };
   }
 
-  // 🟢 Method untuk update urutan banyak psikolog sekaligus
-async reorderPsychologists(orderedIds: string[]) {
-  if (!orderedIds || !Array.isArray(orderedIds) || orderedIds.length === 0) {
-    return { message: 'Tidak ada data urutan' };
-  }
+  // Method untuk update urutan banyak psikolog sekaligus
+  async reorderPsychologists(orderedIds: string[]) {
+    if (!orderedIds || !Array.isArray(orderedIds) || orderedIds.length === 0) {
+      return { message: 'Tidak ada data urutan' };
+    }
 
-  // Update urutan secara berurutan (1, 2, 3, dst.)
-  const updatePromises = orderedIds.map((id, index) => {
-    return this.prisma.psychologistProfile.updateMany({
-      where: {
-        OR: [{ id: id }, { userId: id }],
-      },
-      data: {
-        displayOrder: index + 1, // 1, 2, 3, 4 ...
-      },
+    const updatePromises = orderedIds.map((id, index) => {
+      return this.prisma.psychologistProfile.updateMany({
+        where: {
+          OR: [{ id: id }, { userId: id }],
+        },
+        data: {
+          displayOrder: index + 1,
+        },
+      });
     });
-  });
 
-  await this.prisma.$transaction(updatePromises);
-  return { message: 'Urutan psikolog berhasil diperbarui', success: true };
-}
+    await this.prisma.$transaction(updatePromises);
+    return { message: 'Urutan psikolog berhasil diperbarui', success: true };
+  }
 
   async getNoteById(userId: string, noteId: string) {
     const profile = await this.getOrCreateProfile(userId);
