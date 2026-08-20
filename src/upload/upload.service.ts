@@ -6,7 +6,13 @@ import { join } from 'path';
 
 // 🛡️ Guard: Pastikan nilai bukan placeholder dummy/kosong
 const isValidCloudinaryEnv = (val?: string) =>
-  Boolean(val) && !val!.toLowerCase().includes('dummy') && val !== 'your_cloud_name' && val !== 'your_api_key' && val !== 'your_api_secret';
+  Boolean(val) &&
+  !val!.toLowerCase().includes('dummy') &&
+  !val!.toLowerCase().includes('your_') &&
+  !val!.toLowerCase().includes('your-') &&
+  val !== 'your_cloud_name' &&
+  val !== 'your_api_key' &&
+  val !== 'your_api_secret';
 
 const useCloudinary =
   isValidCloudinaryEnv(process.env.CLOUDINARY_CLOUD_NAME) &&

@@ -36,12 +36,12 @@ export class CreateOfficialMedicalRecordDto {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(600, { message: 'Ringkasan masalah maksimal 600 karakter' })
+  @MaxLength(20000, { message: 'Ringkasan masalah maksimal 20,000 karakter' })
   problemSummary: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(700, { message: 'Pendekatan terapi maksimal 700 karakter' })
+  @MaxLength(20000, { message: 'Pendekatan terapi maksimal 20,000 karakter' })
   therapyApproach: string;
 
   @IsString()
@@ -54,7 +54,7 @@ export class CreateOfficialMedicalRecordDto {
 
   @IsOptional()
   @IsString()
-  @MaxLength(200, { message: 'Catatan tambahan maksimal 200 karakter' })
+  @MaxLength(20000, { message: 'Catatan tambahan maksimal 20,000 karakter' })
   additionalNotes?: string;
 
   @IsOptional()

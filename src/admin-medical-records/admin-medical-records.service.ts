@@ -269,7 +269,7 @@ export class AdminMedicalRecordsService {
         sessionNumber: note.sessionNumber || 1,
         consultationDate: note.consultationDate || null,
         consultationStatus: note.consultationStatus || 'ONGOING',
-        diagnosisSummary: note.diagnosisSummary || note.subjective || '',
+        diagnosisSummary: note.diagnosisSummary || '',
         treatmentApproach: note.treatmentApproach || note.plan || '',
         recommendation: note.recommendation || note.nextSessionRecommendation || '',
         followUpPlan: note.followUpPlan || 'CONTINUE_SESSION',
