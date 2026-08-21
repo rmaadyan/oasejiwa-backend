@@ -108,7 +108,6 @@ export class PsychologistScheduleService {
 
     const where: any = {
       psychologistId: { in: validPsychologistIds },
-      status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID', 'COMPLETED'] },
     };
 
     if (date) {
