@@ -392,11 +392,7 @@ export class PsychologistPatientsService {
     });
 
     const parsedBirthday = dto.birthday ? new Date(dto.birthday) : null;
-    const genderEnum =
-      String(dto.gender).toUpperCase().includes('MALE') &&
-      !String(dto.gender).toUpperCase().includes('FEMALE')
-        ? 'MALE'
-        : 'FEMALE';
+    const genderEnum = dto.gender === 'male' || dto.gender === 'MALE' ? 'MALE' : 'FEMALE';
     const educationVal = dto.education || 'Perguruan Tinggi';
 
     if (!user) {
@@ -472,33 +468,34 @@ export class PsychologistPatientsService {
     });
 
     let defaultService: any = null;
+    let defaultServiceId: any = 1;
     try {
       defaultService =
         (await prismaAny.service?.findFirst()) ||
         (await prismaAny.counselingService?.findFirst()) ||
         (await prismaAny.layanan?.findFirst());
+      if (defaultService?.id) {
+        defaultServiceId = defaultService.id;
+      }
     } catch {
-      defaultService = { id: 1, harga: 150000 };
+      defaultServiceId = 1;
     }
 
-    const serviceId = defaultService?.id || 1;
-    const price = defaultService?.harga || defaultService?.price || 150000;
-
-    // 🟢 Generate bookingCode unik agar tidak melanggar constraint database
+    const today = new Date();
+    const servicePrice = Number(defaultService?.harga || defaultService?.price || 0);
     const bookingCode = `OJ-OFF-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
-
-    const now = new Date();
-    const todayScheduled = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0, 0);
 
     const booking: any = await prismaAny.booking.create({
       data: {
         bookingCode,
         userId,
         psychologistId,
-        serviceId,
-        scheduledDate: todayScheduled,
+        serviceId: defaultServiceId,
+        scheduledDate: today,
         scheduledTime: '09:00 WIB',
-        totalPrice: price,
+        totalPrice: servicePrice,
+        dpAmount: servicePrice,
+        remainingAmount: 0,
         status: 'APPROVED',
         paymentStatus: 'PAID',
         notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
@@ -508,7 +505,7 @@ export class PsychologistPatientsService {
             email,
             phone: dto.phone || '-',
             gender: genderEnum,
-            birthDate: parsedBirthday || todayScheduled,
+            birthDate: parsedBirthday || today,
             birthPlace: 'Malang',
             address: dto.address || 'Malang',
             occupation: dto.occupation || '-',
@@ -547,9 +544,9 @@ export class PsychologistPatientsService {
       education: educationVal,
       registrationType: 'OFFLINE',
       totalSessions: 1,
-      upcomingSessionDate: todayScheduled,
-      firstSessionDate: todayScheduled,
-      lastSessionDate: todayScheduled,
+      upcomingSessionDate: today,
+      firstSessionDate: today,
+      lastSessionDate: today,
     };
   }
 
