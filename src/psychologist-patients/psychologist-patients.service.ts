@@ -113,6 +113,9 @@ export class PsychologistPatientsService {
       } else {
         const existing = patientMap.get(uId);
         existing.totalSessions += 1;
+        if (isOffline) {
+          existing.registrationType = 'OFFLINE';
+        }
         if (booking.scheduledDate < existing.firstSessionDate) {
           existing.firstSessionDate = booking.scheduledDate;
         }
@@ -380,7 +383,7 @@ export class PsychologistPatientsService {
     };
   }
 
- async createPatient(currentUser: any, dto: any) {
+  async createPatient(currentUser: any, dto: any) {
     const psychologistId = await this.getPsychologistProfileId(currentUser.id);
     const email = (dto.email || `pasien-${Date.now()}@oasejiwa.com`).trim().toLowerCase();
 
@@ -474,25 +477,42 @@ export class PsychologistPatientsService {
       },
     });
 
-    // 4. Ambil Layanan Default
-    let defaultService: any = null;
-    let defaultServiceId: any = 1;
+    // 🟢 4. Cari Layanan Konseling Individu (Bukan otomatis Konseling Pasangan)
+    let selectedService: any = null;
     try {
-      defaultService = await prismaAny.layanan?.findFirst();
-      if (defaultService?.id) {
-        defaultServiceId = defaultService.id;
+      if (dto.serviceId) {
+        selectedService = await prismaAny.layanan.findUnique({
+          where: { id: Number(dto.serviceId) },
+        });
+      }
+
+      if (!selectedService) {
+        selectedService =
+          (await prismaAny.layanan.findFirst({
+            where: {
+              nama: { contains: 'Individu', mode: 'insensitive' },
+            },
+          })) ||
+          (await prismaAny.layanan.findFirst({
+            where: {
+              jenis: 'Konseling',
+            },
+          })) ||
+          (await prismaAny.layanan.findFirst());
       }
     } catch {
-      defaultServiceId = 1;
+      selectedService = null;
     }
 
+    const defaultServiceId = selectedService?.id || 1;
+    const servicePrice = Number(selectedService?.harga || 0);
+
     const today = new Date();
-    const servicePrice = Number(defaultService?.harga || 0);
     const bookingCode = `OJ-OFF-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
     const orderId = `PAY-${bookingCode}`;
     const expiredAt = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 
-    // 5. Buat Booking Sesuai Schema Prisma
+    // 🟢 5. Buat Booking dengan Catatan [OFFLINE]
     const booking: any = await prismaAny.booking.create({
       data: {
         bookingCode,
@@ -500,7 +520,7 @@ export class PsychologistPatientsService {
         psychologistId,
         serviceId: defaultServiceId,
         scheduledDate: today,
-        scheduledTime: '09:00 WIB',
+        scheduledTime: dto.scheduledTime || '09:00 WIB',
         totalPrice: servicePrice,
         dpAmount: servicePrice,
         remainingAmount: 0,
