@@ -40,10 +40,38 @@ export class AdminService {
   }
 
   // ==========================================
-  // 2. MANAJEMEN SEMUA USER
+  // 2. MANAJEMEN SEMUA USER (PAGINATION & EXPORT SEMUA)
   // ==========================================
-  async getAllUsers() {
-    const users = await this.prisma.user.findMany({
+  async getAllUsers(query?: { page?: number; perPage?: number; search?: string; sort?: string; all?: boolean }) {
+    const page = Number(query?.page) || 1;
+    const perPage = Number(query?.perPage) || 10;
+    const search = query?.search ? String(query.search).trim() : '';
+    const isExportAll = query?.all === true || perPage >= 1000;
+
+    const whereCondition: any = {};
+    if (search) {
+      whereCondition.OR = [
+        { email: { contains: search, mode: 'insensitive' } },
+        { userProfile: { fullName: { contains: search, mode: 'insensitive' } } },
+        { psychologistProfile: { fullName: { contains: search, mode: 'insensitive' } } },
+      ];
+    }
+
+    const totalUsersCount = await this.prisma.user.count({ where: whereCondition });
+
+    const allUsersRole = await this.prisma.user.findMany({ select: { role: true } });
+    const totalPatients = allUsersRole.filter((u: any) => {
+      const r = String(u.role).toUpperCase();
+      return r === 'PATIENT' || r === 'PASIEN' || r === 'USER';
+    }).length;
+    const totalPsychologists = allUsersRole.filter((u: any) => {
+      const r = String(u.role).toUpperCase();
+      return r === 'PSYCHOLOGIST' || r === 'PSIKOLOG';
+    }).length;
+    const totalAdmins = allUsersRole.filter((u: any) => String(u.role).toUpperCase() === 'ADMIN').length;
+
+    const findOptions: any = {
+      where: whereCondition,
       include: {
         userProfile: true,
         psychologistProfile: {
@@ -52,16 +80,23 @@ export class AdminService {
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
-    });
+      orderBy: { createdAt: query?.sort === 'oldest' ? 'asc' : 'desc' },
+    };
 
-    return users.map((u) => {
-      const roleUpper = String(u.role).toUpperCase();
+    if (!isExportAll) {
+      findOptions.skip = (page - 1) * perPage;
+      findOptions.take = perPage;
+    }
+
+    const users = await this.prisma.user.findMany(findOptions);
+
+    const formattedUsers = users.map((u: any) => {
+      const roleUpper = String(u.role || '').toUpperCase();
       const isPsychologist = roleUpper === 'PSYCHOLOGIST' || roleUpper === 'PSIKOLOG';
 
       return {
         id: u.id,
-        email: u.email,
+        email: u.email || '-',
         role: isPsychologist ? 'psychologist' : 'patient',
         name: isPsychologist
           ? u.psychologistProfile?.fullName || u.userProfile?.fullName || 'Psikolog'
@@ -73,9 +108,25 @@ export class AdminService {
         sipp: u.psychologistProfile?.sipp || '-',
         str: u.psychologistProfile?.str || '-',
         about: u.psychologistProfile?.about || 'Belum ada deskripsi bio.',
-        specializations: u.psychologistProfile?.specializations?.map((s: any) => s.name || s) || [],
+        specializations: Array.isArray(u.psychologistProfile?.specializations)
+          ? u.psychologistProfile.specializations.map((s: any) => s.name || s)
+          : [],
       };
     });
+
+    return {
+      users: formattedUsers,
+      total: totalUsersCount,
+      totalPages: isExportAll ? 1 : Math.ceil(totalUsersCount / perPage),
+      page,
+      perPage,
+      meta: {
+        totalUsers: allUsersRole.length,
+        totalPatients,
+        totalPsychologists,
+        totalAdmins,
+      },
+    };
   }
 
   // ==========================================

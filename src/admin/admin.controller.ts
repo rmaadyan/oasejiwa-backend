@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ParseIntPipe, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreatePsychologistByAdminDto } from './dto/create-psychologist.dto';
 import { UpdatePsychologistDto } from './dto/update-psychologist.dto';
@@ -22,10 +22,10 @@ export class AdminController {
   }
 
   // Endpoint Get Semua User (Pasien & Psikolog)
-  @Get('users')
-  async getAllUsers() {
-    return this.adminService.getAllUsers();
-  }
+ @Get('users')
+async getAllUsers(@Query() query: any) {
+  return this.adminService.getAllUsers(query);
+}
 
   // Endpoint Detail User berdasarkan ID
   @Get('users/:id')
