@@ -359,6 +359,13 @@ export class PsychologistService {
     bookings.forEach((b: any) => {
       const formatted = this.formatSessionItem(b);
 
+      const isOfflineBooking = Boolean(
+        b.notes?.includes('[OFFLINE]') ||
+        b.notes?.toLowerCase().includes('offline') ||
+        b.user?.email?.endsWith('@oasejiwa.com') ||
+        b.user?.userProfile?.notes?.toLowerCase().includes('offline')
+      );
+
       if (b.user && !patientsMap.has(b.user.id)) {
         patientsMap.set(b.user.id, {
           id: b.user.id,
@@ -372,17 +379,23 @@ export class PsychologistService {
           lastSessionDate: b.scheduledDate || null,
           hasSessionNotes: false,
           hasValidRelationship: true,
+          registrationType: isOfflineBooking ? 'OFFLINE' : 'ONLINE',
+          notes: b.notes || null,
           sessions: [formatted],
         });
       } else if (b.user && patientsMap.has(b.user.id)) {
         const existing = patientsMap.get(b.user.id);
         existing.totalBookings += 1;
         existing.totalSessions += 1;
+        if (isOfflineBooking) {
+          existing.registrationType = 'OFFLINE';
+        }
         existing.hasValidRelationship = true;
         existing.sessions.push(formatted);
       }
     });
 
+    // 🟢 Fetch session notes terlebih dahulu agar variabel `notes` terdefinisi
     const notes = await this.prisma.sessionNote.findMany({
       where: { psychologistProfileId: profile.id, deletedAt: null },
       include: {
@@ -412,6 +425,7 @@ export class PsychologistService {
           lastSessionDate: note.createdAt,
           hasSessionNotes: true,
           hasValidRelationship: true,
+          registrationType: 'OFFLINE',
           latestRiskLevel: note.riskLevel?.toLowerCase() || 'medium',
           sessions: [],
         });
@@ -420,8 +434,7 @@ export class PsychologistService {
         existing.hasSessionNotes = true;
         existing.hasValidRelationship = true;
         if (!existing.latestRiskLevel) {
-          existing.latestRiskLevel =
-            note.riskLevel?.toLowerCase() || 'medium';
+          existing.latestRiskLevel = note.riskLevel?.toLowerCase() || 'medium';
         }
       }
     }
@@ -455,6 +468,7 @@ export class PsychologistService {
           lastSessionDate: rec.createdAt,
           hasSessionNotes: false,
           hasValidRelationship: true,
+          registrationType: 'OFFLINE',
           latestRiskLevel: rec.riskLevel?.toLowerCase() || 'low',
           sessions: [],
         });

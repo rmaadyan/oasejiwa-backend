@@ -513,8 +513,8 @@ export class PsychologistPatientsService {
     const orderId = `PAY-${bookingCode}`;
     const expiredAt = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 
-    // 🟢 5. Buat Booking dengan Catatan [OFFLINE]
-    const booking: any = await prismaAny.booking.create({
+    // 🟢 Di dalam createPatient():
+    const booking = await prismaAny.booking.create({
       data: {
         bookingCode,
         userId,
@@ -526,7 +526,7 @@ export class PsychologistPatientsService {
         dpAmount: servicePrice,
         remainingAmount: 0,
         status: 'APPROVED',
-        notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
+        notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline', // 🟢 Kunci penanda
         consultationForm: {
           create: {
             mainReason: dto.riskReason || 'Konsultasi Offline',
