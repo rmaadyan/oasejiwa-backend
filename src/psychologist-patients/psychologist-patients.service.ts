@@ -381,18 +381,9 @@ export class PsychologistPatientsService {
   }
 
  async createPatient(currentUser: any, dto: any) {
-    const psychologistProfile = await this.prisma.psychologistProfile.findFirst({
-      where: {
-        OR: [{ userId: currentUser.id }, { id: currentUser.id }],
-      },
-    });
-
-    if (!psychologistProfile) {
-      throw new NotFoundException('Akun ini bukan psikolog');
-    }
-
-    const psychologistId = psychologistProfile.id;
+    const psychologistId = await this.getPsychologistProfileId(currentUser.id);
     const email = (dto.email || `pasien-${Date.now()}@oasejiwa.com`).trim().toLowerCase();
+
     const prismaAny = this.prisma as any;
 
     let user: any = await prismaAny.user.findUnique({
@@ -400,8 +391,12 @@ export class PsychologistPatientsService {
       include: { userProfile: true },
     });
 
-    const parsedBirthday = dto.birthday ? new Date(dto.birthday) : new Date('2004-10-22');
-    const genderEnum = dto.gender === 'male' || dto.gender === 'MALE' ? 'MALE' : 'FEMALE';
+    const parsedBirthday = dto.birthday ? new Date(dto.birthday) : null;
+    const genderEnum =
+      String(dto.gender).toUpperCase().includes('MALE') &&
+      !String(dto.gender).toUpperCase().includes('FEMALE')
+        ? 'MALE'
+        : 'FEMALE';
     const educationVal = dto.education || 'Perguruan Tinggi';
 
     if (!user) {
@@ -423,10 +418,10 @@ export class PsychologistPatientsService {
               fullName: dto.name || 'Pasien Baru',
               phone: dto.phone || null,
               gender: genderEnum,
-              fullAddress: dto.address || 'Malang',
+              fullAddress: dto.address || null,
               birthday: parsedBirthday,
-              maritalStatus: dto.maritalStatus || 'Belum Menikah',
-              occupation: dto.occupation || 'Mahasiswa',
+              maritalStatus: dto.maritalStatus || null,
+              occupation: dto.occupation || null,
               educationHistory: educationVal,
             },
           },
@@ -476,45 +471,48 @@ export class PsychologistPatientsService {
       },
     });
 
-    // 🟢 Ambil Service ID yang valid di database
-    let validServiceId = 1;
+    let defaultService: any = null;
     try {
-      const foundService =
+      defaultService =
         (await prismaAny.service?.findFirst()) ||
-        (await prismaAny.counselingService?.findFirst());
-      if (foundService?.id) {
-        validServiceId = foundService.id;
-      }
+        (await prismaAny.counselingService?.findFirst()) ||
+        (await prismaAny.layanan?.findFirst());
     } catch {
-      validServiceId = 1;
+      defaultService = { id: 1, harga: 150000 };
     }
 
+    const serviceId = defaultService?.id || 1;
+    const price = defaultService?.harga || defaultService?.price || 150000;
+
+    // 🟢 Generate bookingCode unik agar tidak melanggar constraint database
+    const bookingCode = `OJ-OFF-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
+
     const now = new Date();
-    // 🟢 Jadwalkan sesi hari ini jam sekarang
     const todayScheduled = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0, 0);
 
-    // 🟢 SIMPAN KE TABEL BOOKING (Wajib ada agar muncul di Dashboard & Jadwal)
-    const booking = await prismaAny.booking.create({
+    const booking: any = await prismaAny.booking.create({
       data: {
+        bookingCode,
         userId,
-        psychologistId: psychologistProfile.id,
-        serviceId: validServiceId,
+        psychologistId,
+        serviceId,
         scheduledDate: todayScheduled,
         scheduledTime: '09:00 WIB',
+        totalPrice: price,
         status: 'APPROVED',
         paymentStatus: 'PAID',
-        notes: '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
+        notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
         consultationForm: {
           create: {
             fullName: dto.name || 'Pasien Baru',
             email,
             phone: dto.phone || '-',
             gender: genderEnum,
-            birthDate: parsedBirthday,
+            birthDate: parsedBirthday || todayScheduled,
             birthPlace: 'Malang',
             address: dto.address || 'Malang',
-            occupation: dto.occupation || 'Mahasiswa',
-            maritalStatus: dto.maritalStatus || 'Belum Menikah',
+            occupation: dto.occupation || '-',
+            maritalStatus: dto.maritalStatus || '-',
             educationHistory: educationVal,
             isFirstVisit: true,
           },
@@ -524,7 +522,7 @@ export class PsychologistPatientsService {
 
     await prismaAny.officialMedicalRecord.create({
       data: {
-        psychologistProfileId: psychologistProfile.id,
+        psychologistProfileId: psychologistId,
         userId,
         diagnosis: dto.diagnosis || 'Pemeriksaan awal mandiri',
         problemSummary: dto.riskReason || 'Pasien baru ditambahkan oleh psikolog',
@@ -541,11 +539,11 @@ export class PsychologistPatientsService {
       email,
       phone: dto.phone || null,
       gender: genderEnum,
-      age: dto.age ? Number(dto.age) : 21,
-      address: dto.address || 'Malang',
+      age: dto.age ? Number(dto.age) : 0,
+      address: dto.address || null,
       birthday: parsedBirthday,
-      maritalStatus: dto.maritalStatus || 'Belum Menikah',
-      occupation: dto.occupation || 'Mahasiswa',
+      maritalStatus: dto.maritalStatus || null,
+      occupation: dto.occupation || null,
       education: educationVal,
       registrationType: 'OFFLINE',
       totalSessions: 1,
