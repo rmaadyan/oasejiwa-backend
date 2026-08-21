@@ -14,6 +14,7 @@ export class PsychologistDashboardService {
       },
       select: {
         id: true,
+        userId: true,
         fullName: true,
         avatarUrl: true,
       },
@@ -92,90 +93,55 @@ export class PsychologistDashboardService {
   async getDashboard(currentUser: any) {
     const psychologist = await this.getPsychologistProfile(currentUser);
 
-    // Ambil rentang hari ini dengan buffer timezone
+    // Ambil target ID yang mencakup profile id maupun user id
+    const validPsychologistIds = [psychologist.id, psychologist.userId].filter(Boolean);
+
     const now = new Date();
     const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
     const endToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-
     const sevenDaysLater = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59, 999);
 
-    const [todayBookings, weekBookings, upcomingBookings, allBookings] =
-      await this.prisma.$transaction([
-        // 1. Sesi Hari Ini
-        this.prisma.booking.findMany({
-          where: {
-            psychologistId: psychologist.id,
-            scheduledDate: {
-              gte: new Date(startToday.getTime() - 24 * 60 * 60 * 1000), // Buffer 1 hari timezone
-              lte: endToday,
-            },
-            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
-          },
-          include: {
-            user: { include: { userProfile: true } },
-            service: true,
-            payments: true,
-            consultationForm: true,
-          },
-          orderBy: { scheduledTime: 'asc' },
-        }),
+    const allBookings = await this.prisma.booking.findMany({
+      where: {
+        psychologistId: { in: validPsychologistIds },
+      },
+      include: {
+        user: { include: { userProfile: true } },
+        service: true,
+        payments: true,
+        consultationForm: true,
+      },
+      orderBy: [{ scheduledDate: 'asc' }, { scheduledTime: 'asc' }],
+    });
 
-        // 2. Sesi Minggu Ini
-        this.prisma.booking.findMany({
-          where: {
-            psychologistId: psychologist.id,
-            scheduledDate: {
-              gte: startToday,
-              lte: sevenDaysLater,
-            },
-            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
-          },
-          include: {
-            user: { include: { userProfile: true } },
-            service: true,
-            payments: true,
-            consultationForm: true,
-          },
-        }),
+    const activeBookings = allBookings.filter((b) =>
+      ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID', 'COMPLETED'].includes(b.status),
+    );
 
-        // 3. Sesi Mendatang
-        this.prisma.booking.findMany({
-          where: {
-            psychologistId: psychologist.id,
-            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
-          },
-          include: {
-            user: { include: { userProfile: true } },
-            service: true,
-            payments: true,
-            consultationForm: true,
-          },
-          orderBy: [{ scheduledDate: 'asc' }, { scheduledTime: 'asc' }],
-          take: 10,
-        }),
+    // Filter sesi hari ini (toleransi tanggal yang sama)
+    const todayBookings = activeBookings.filter((b) => {
+      const bDate = new Date(b.scheduledDate);
+      return (
+        bDate.getFullYear() === now.getFullYear() &&
+        bDate.getMonth() === now.getMonth() &&
+        bDate.getDate() === now.getDate()
+      );
+    });
 
-        // 4. Semua Riwayat
-        this.prisma.booking.findMany({
-          where: {
-            psychologistId: psychologist.id,
-          },
-          include: {
-            user: { include: { userProfile: true } },
-            service: true,
-            payments: true,
-            consultationForm: true,
-          },
-          orderBy: { scheduledDate: 'desc' },
-        }),
-      ]);
+    const weekBookings = activeBookings.filter((b) => {
+      const bTime = new Date(b.scheduledDate).getTime();
+      return bTime >= startToday.getTime() && bTime <= sevenDaysLater.getTime();
+    });
+
+    const upcomingBookings = activeBookings.filter((b) =>
+      ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(b.status),
+    );
 
     const patientBookings = allBookings.filter((booking) =>
       this.isPatientBookingStatus(booking.status),
     );
 
-    const uniquePatientIds = new Set(
-      patientBookings.map((booking) => booking.userId),
-    );
+    const uniquePatientIds = new Set(patientBookings.map((b) => b.userId));
 
     const mappedTodaySchedule = todayBookings.map((b) => this.mapBookingToSession(b));
     const mappedUpcomingSessions = upcomingBookings.map((b) => this.mapBookingToSession(b));

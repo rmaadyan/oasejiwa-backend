@@ -92,11 +92,23 @@ export class PsychologistScheduleService {
   }
 
   async getAll(currentUser: any, query: any) {
-    const psychologistId = await this.getPsychologistProfileId(currentUser.id);
+    const profile = await this.prisma.psychologistProfile.findFirst({
+      where: {
+        OR: [{ userId: currentUser.id }, { id: currentUser.id }],
+      },
+      select: { id: true, userId: true },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Akun ini bukan psikolog');
+    }
+
+    const validPsychologistIds = [profile.id, profile.userId].filter(Boolean);
     const { date, status } = query;
 
     const where: any = {
-      psychologistId,
+      psychologistId: { in: validPsychologistIds },
+      status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID', 'COMPLETED'] },
     };
 
     if (date) {
@@ -104,7 +116,7 @@ export class PsychologistScheduleService {
       const start = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 0, 0, 0, 0);
       const end = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 23, 59, 59, 999);
       where.scheduledDate = {
-        gte: new Date(start.getTime() - 24 * 60 * 60 * 1000), // Buffer timezone 1 hari
+        gte: new Date(start.getTime() - 24 * 60 * 60 * 1000),
         lte: end,
       };
     }
