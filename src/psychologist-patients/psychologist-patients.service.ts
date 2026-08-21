@@ -8,8 +8,10 @@ export class PsychologistPatientsService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async getPsychologistProfileId(userId: string) {
-    const profile: any = await this.prisma.psychologistProfile.findUnique({
-      where: { userId },
+    const profile: any = await this.prisma.psychologistProfile.findFirst({
+      where: {
+        OR: [{ userId }, { id: userId }],
+      },
       select: { id: true },
     });
 
@@ -20,22 +22,20 @@ export class PsychologistPatientsService {
     return profile.id;
   }
 
-  private getPatientName(user: any) {
-    return user?.userProfile?.fullName || user?.email || 'Pasien';
+  private getPatientName(user: any, cForm: any) {
+    return cForm?.fullName || user?.userProfile?.fullName || user?.email || 'Pasien';
   }
 
   private readonly validPatientBookingStatuses = [
+    'PENDING_DP',
+    'WAITING_APPROVAL',
     'APPROVED',
     'FULLY_PAID',
     'COMPLETED',
-    'CONFIRMED',
-    'UPCOMING',
   ] as const;
 
   private isUpcomingStatus(status: string) {
-    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID', 'CONFIRMED', 'UPCOMING'].includes(
-      status,
-    );
+    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'].includes(status);
   }
 
   private normalizeStatus(status: string) {
@@ -50,7 +50,7 @@ export class PsychologistPatientsService {
 
     const patientMap = new Map<string, any>();
 
-    // 1. Fetch bookings
+    // 1. Fetch Bookings (Online & Offline)
     const bookings: any[] = await this.prisma.booking.findMany({
       where: {
         psychologistId,
@@ -69,35 +69,49 @@ export class PsychologistPatientsService {
     });
 
     for (const booking of bookings) {
-      const existing = patientMap.get(booking.userId);
+      const uId = booking.userId;
       const cForm = booking.consultationForm as any;
-      const uProf = booking.user?.userProfile as any;
-      const isOfflineRegistration =
-        booking.notes?.includes('offline') ||
-        booking.notes?.includes('ditambahkan oleh psikolog');
+      const uProf = (booking.user?.userProfile || {}) as any;
 
-      if (!existing) {
-        patientMap.set(booking.userId, {
-          id: booking.userId,
-          name: cForm?.fullName || this.getPatientName(booking.user),
-          email: cForm?.email || booking.user?.email || '',
+      // Deteksi pendaftaran Offline vs Online
+      const isOffline =
+        booking.user?.email?.endsWith('@oasejiwa.com') ||
+        booking.notes?.toLowerCase().includes('offline') ||
+        booking.notes?.toLowerCase().includes('psikolog') ||
+        uProf?.notes?.toLowerCase().includes('offline');
+
+      const registrationType = isOffline ? 'OFFLINE' : 'ONLINE';
+
+      if (!patientMap.has(uId)) {
+        patientMap.set(uId, {
+          id: uId,
+          name: this.getPatientName(booking.user, cForm),
+          fullName: this.getPatientName(booking.user, cForm),
+          email: booking.user?.email || cForm?.email || '',
           phone: cForm?.phone || uProf?.phone || null,
-          photo: null,
           gender: cForm?.gender || uProf?.gender || null,
           birthday: cForm?.birthDate || uProf?.birthday || null,
-          placeOfBirth: cForm?.birthPlace || uProf?.placeOfBirth || null,
+          birthDate: cForm?.birthDate || uProf?.birthday || null,
+          birthPlace: cForm?.birthPlace || uProf?.placeOfBirth || null,
           address: cForm?.address || cForm?.originalAddress || uProf?.fullAddress || null,
+          alamat: cForm?.address || cForm?.originalAddress || uProf?.fullAddress || null,
           occupation: cForm?.occupation || uProf?.occupation || null,
+          pekerjaan: cForm?.occupation || uProf?.occupation || null,
           maritalStatus: cForm?.maritalStatus || uProf?.maritalStatus || null,
+          statusPernikahan: cForm?.maritalStatus || uProf?.maritalStatus || null,
           educationHistory: cForm?.educationHistory || uProf?.educationHistory || null,
-          registrationType: isOfflineRegistration ? 'OFFLINE' : 'ONLINE',
+          pendidikan: cForm?.educationHistory || uProf?.educationHistory || null,
+          registrationType: registrationType,
           firstSessionDate: booking.scheduledDate,
           lastSessionDate: booking.scheduledDate,
           totalSessions: 1,
           upcomingSessionDate: this.isUpcomingStatus(booking.status) ? booking.scheduledDate : null,
           notes: booking.notes || null,
+          consultationForm: cForm,
+          userProfile: uProf,
         });
       } else {
+        const existing = patientMap.get(uId);
         existing.totalSessions += 1;
         if (booking.scheduledDate < existing.firstSessionDate) {
           existing.firstSessionDate = booking.scheduledDate;
@@ -114,7 +128,7 @@ export class PsychologistPatientsService {
       }
     }
 
-    // 2. Fetch session notes
+    // 2. Fetch Session Notes
     const notes: any[] = await this.prisma.sessionNote.findMany({
       where: {
         psychologistProfileId: psychologistId,
@@ -131,76 +145,35 @@ export class PsychologistPatientsService {
     });
 
     for (const note of notes) {
-      const existing = patientMap.get(note.userId);
-      const uProf = note.user?.userProfile as any;
+      const uId = note.userId;
+      const uProf = (note.user?.userProfile || {}) as any;
 
-      if (!existing) {
-        patientMap.set(note.userId, {
-          id: note.userId,
-          name: this.getPatientName(note.user),
+      if (!patientMap.has(uId)) {
+        patientMap.set(uId, {
+          id: uId,
+          name: uProf?.fullName || note.user?.email || 'Pasien',
+          fullName: uProf?.fullName || note.user?.email || 'Pasien',
           email: note.user?.email || '',
           phone: uProf?.phone || null,
-          photo: null,
           gender: uProf?.gender || null,
           birthday: uProf?.birthday || null,
-          placeOfBirth: uProf?.placeOfBirth || null,
+          birthDate: uProf?.birthday || null,
+          birthPlace: uProf?.placeOfBirth || null,
           address: uProf?.fullAddress || null,
+          alamat: uProf?.fullAddress || null,
           occupation: uProf?.occupation || null,
+          pekerjaan: uProf?.occupation || null,
           maritalStatus: uProf?.maritalStatus || null,
+          statusPernikahan: uProf?.maritalStatus || null,
+          educationHistory: uProf?.educationHistory || null,
+          pendidikan: uProf?.educationHistory || null,
           registrationType: 'OFFLINE',
           firstSessionDate: note.createdAt,
           lastSessionDate: note.createdAt,
           totalSessions: 1,
           upcomingSessionDate: null,
           notes: note.assessment || note.subjective || null,
-        });
-      } else {
-        existing.totalSessions += 1;
-        if (note.createdAt < existing.firstSessionDate) {
-          existing.firstSessionDate = note.createdAt;
-        }
-        if (note.createdAt > existing.lastSessionDate) {
-          existing.lastSessionDate = note.createdAt;
-        }
-      }
-    }
-
-    // 3. Fetch official medical records
-    const officialRecords: any[] = await this.prisma.officialMedicalRecord.findMany({
-      where: { psychologistProfileId: psychologistId },
-      include: {
-        user: {
-          include: {
-            userProfile: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    for (const rec of officialRecords) {
-      const existing = patientMap.get(rec.userId);
-      const uProf = rec.user?.userProfile as any;
-
-      if (!existing) {
-        patientMap.set(rec.userId, {
-          id: rec.userId,
-          name: this.getPatientName(rec.user),
-          email: rec.user?.email || '',
-          phone: uProf?.phone || null,
-          photo: null,
-          gender: uProf?.gender || null,
-          birthday: uProf?.birthday || null,
-          placeOfBirth: uProf?.placeOfBirth || null,
-          address: uProf?.fullAddress || null,
-          occupation: uProf?.occupation || null,
-          maritalStatus: uProf?.maritalStatus || null,
-          registrationType: 'OFFLINE',
-          firstSessionDate: rec.createdAt,
-          lastSessionDate: rec.createdAt,
-          totalSessions: 1,
-          upcomingSessionDate: null,
-          notes: rec.problemSummary || null,
+          userProfile: uProf,
         });
       }
     }
@@ -224,55 +197,6 @@ export class PsychologistPatientsService {
     }
     if (sortBy === 'totalSessions') {
       patients.sort((a, b) => b.totalSessions - a.totalSessions);
-    }
-
-    const patientIds = patients.map((p) => p.id);
-    if (patientIds.length > 0) {
-      const allTesResults: any[] = await this.prisma.tesResult.findMany({
-        where: { userId: { in: patientIds } },
-        orderBy: { createdAt: 'desc' },
-      });
-
-      const latestTesMap = new Map<string, any>();
-      for (const tr of allTesResults) {
-        if (!latestTesMap.has(tr.userId)) {
-          latestTesMap.set(tr.userId, tr);
-        }
-      }
-
-      const sessionNotes: any[] = await this.prisma.sessionNote.findMany({
-        where: {
-          psychologistProfileId: psychologistId,
-          userId: { in: patientIds },
-          deletedAt: null,
-        },
-        orderBy: { createdAt: 'desc' },
-      });
-
-      const latestNoteMap = new Map<string, any>();
-      for (const note of sessionNotes) {
-        if (!latestNoteMap.has(note.userId)) {
-          latestNoteMap.set(note.userId, note);
-        }
-      }
-
-      for (const p of patients) {
-        const latestTes = latestTesMap.get(p.id);
-        const latestNote = latestNoteMap.get(p.id);
-
-        if (latestTes) {
-          p.latestTesName = latestTes.namaTes || 'DASS-21';
-          p.latestTesCategory = latestTes.kategoriNama || 'Normal';
-          p.latestTesScore = `${latestTes.totalScore}/${latestTes.maxScore} (${Math.round(latestTes.percentage)}%)`;
-          p.latestTesDate = latestTes.createdAt;
-          p.latestTes = p.latestTesName;
-        }
-
-        if (latestNote) {
-          p.latestRiskLevel = latestNote.riskLevel?.toLowerCase() || 'medium';
-          p.hasSessionNotes = true;
-        }
-      }
     }
 
     return {
@@ -332,19 +256,6 @@ export class PsychologistPatientsService {
 
     const tesResults: any[] = await this.prisma.tesResult.findMany({
       where: { userId: resolvedPatientId },
-      include: {
-        tes: {
-          select: {
-            id: true,
-            nama: true,
-            jenis: true,
-            deskripsi: true,
-            penjelasanHasil: true,
-            kategori: true,
-            sectionKategori: true,
-          },
-        },
-      },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -358,8 +269,9 @@ export class PsychologistPatientsService {
     const uProf = (targetUser.userProfile || {}) as any;
     const cForm = (consultationForm || {}) as any;
 
-    const isOfflineRegistration =
-      bookings.some((b) => b.notes?.includes('offline') || b.notes?.includes('ditambahkan oleh psikolog')) ||
+    const isOffline =
+      targetUser.email?.endsWith('@oasejiwa.com') ||
+      bookings.some((b) => b.notes?.toLowerCase().includes('offline')) ||
       (!consultationForm && bookings.length === 0);
 
     const sessionHistory =
@@ -374,12 +286,10 @@ export class PsychologistPatientsService {
             return {
               id: String(booking.id),
               bookingId: booking.id,
-              scheduleId: booking.scheduleId || null,
-              noteId: relatedNote?.id || null,
               date: booking.scheduledDate,
               time: booking.scheduledTime || '09:00 WIB',
               duration: booking.service?.durasiMenit || 60,
-              service: booking.service?.nama || (isOfflineRegistration ? 'Konseling Offline (Klinik)' : 'Konseling Online'),
+              service: booking.service?.nama || (isOffline ? 'Konseling Offline' : 'Konseling Online'),
               status: this.normalizeStatus(booking.status),
               hasNotes: Boolean(relatedNote),
               subjective: relatedNote?.subjective || null,
@@ -390,12 +300,10 @@ export class PsychologistPatientsService {
         : notes.map((n) => ({
             id: n.id,
             bookingId: null,
-            scheduleId: n.scheduleId || null,
-            noteId: n.id,
             date: n.schedule?.date || n.createdAt,
             time: n.schedule?.startTime || '09:00 WIB',
             duration: n.schedule?.duration || 60,
-            service: 'Konseling Offline (Klinik)',
+            service: 'Konseling Offline',
             status: 'completed',
             hasNotes: true,
             subjective: n.subjective,
@@ -442,10 +350,8 @@ export class PsychologistPatientsService {
       statusPernikahan: resolvedMarital,
       educationHistory: resolvedEdu,
       pendidikan: resolvedEdu,
-      registrationType: isOfflineRegistration ? 'OFFLINE' : 'ONLINE',
-      siblingPosition: cForm?.siblingPosition || uProf?.siblingPosition || null,
-      totalSiblings: cForm?.totalSiblings || uProf?.totalSiblings || null,
-      isFirstVisit: cForm?.isFirstVisit ?? uProf?.isFirstVisit ?? true,
+      education: resolvedEdu,
+      registrationType: isOffline ? 'OFFLINE' : 'ONLINE',
 
       firstSessionDate: bookings[bookings.length - 1]?.scheduledDate || notes[notes.length - 1]?.createdAt || null,
       lastSessionDate: bookings[0]?.scheduledDate || notes[0]?.createdAt || null,
@@ -464,62 +370,13 @@ export class PsychologistPatientsService {
           }
         : null,
 
-      consultationForm,
+      consultationForm: cForm,
+      userProfile: uProf,
       tesResults,
       notes,
       sessionHistory,
       sessionNotes: notes,
       lastNotes: notes[0]?.assessment || notes[0]?.subjective || null,
-    };
-  }
-
-  async updateMedical(currentUser: any, patientId: string, dto: UpdatePatientMedicalDto) {
-    await this.getPsychologistProfileId(currentUser.id);
-
-    const user: any = await this.prisma.user.findUnique({ where: { id: patientId } });
-    if (!user) throw new NotFoundException('Pasien tidak ditemukan');
-
-    const medicalRecord = await this.prisma.patientMedicalRecord.upsert({
-      where: { userId: patientId },
-      update: {
-        ...(dto.diagnosis !== undefined && { diagnosis: dto.diagnosis }),
-        ...(dto.currentMedication !== undefined && { currentMedication: dto.currentMedication }),
-        ...(dto.allergies !== undefined && { allergies: dto.allergies }),
-      },
-      create: {
-        userId: patientId,
-        diagnosis: dto.diagnosis || [],
-        currentMedication: dto.currentMedication || [],
-        allergies: dto.allergies || [],
-      },
-    });
-
-    return {
-      message: 'Informasi medis pasien berhasil diperbarui',
-      data: medicalRecord,
-    };
-  }
-
-  async updateEmergencyContact(currentUser: any, patientId: string, dto: UpdateEmergencyContactDto) {
-    await this.getPsychologistProfileId(currentUser.id);
-
-    const user: any = await this.prisma.user.findUnique({ where: { id: patientId } });
-    if (!user) throw new NotFoundException('Pasien tidak ditemukan');
-
-    await this.prisma.emergencyContact.deleteMany({ where: { userId: patientId } });
-
-    const emergencyContact = await this.prisma.emergencyContact.create({
-      data: {
-        userId: patientId,
-        name: dto.name,
-        phone: dto.phone,
-        relation: dto.relation,
-      },
-    });
-
-    return {
-      message: 'Kontak darurat berhasil diperbarui',
-      data: emergencyContact,
     };
   }
 
@@ -536,6 +393,7 @@ export class PsychologistPatientsService {
 
     const parsedBirthday = dto.birthday ? new Date(dto.birthday) : null;
     const genderEnum = dto.gender === 'male' || dto.gender === 'MALE' ? 'MALE' : 'FEMALE';
+    const educationVal = dto.education || 'Perguruan Tinggi';
 
     if (!user) {
       const bcrypt = require('bcrypt');
@@ -560,6 +418,7 @@ export class PsychologistPatientsService {
               birthday: parsedBirthday,
               maritalStatus: dto.maritalStatus || null,
               occupation: dto.occupation || null,
+              educationHistory: educationVal,
             },
           },
         },
@@ -576,6 +435,7 @@ export class PsychologistPatientsService {
           birthday: parsedBirthday || user.userProfile.birthday,
           maritalStatus: dto.maritalStatus || user.userProfile.maritalStatus,
           occupation: dto.occupation || user.userProfile.occupation,
+          educationHistory: educationVal,
         },
       });
     }
@@ -607,7 +467,6 @@ export class PsychologistPatientsService {
       },
     });
 
-    // 🟢 BAGIAN SERVICE & BOOKING YANG SUDAH DIPERBAIKI (BEBAS ERROR TYPE)
     let defaultServiceId: any = 1;
     try {
       const foundService =
@@ -622,35 +481,34 @@ export class PsychologistPatientsService {
     }
 
     const today = new Date();
-    today.setHours(9, 0, 0, 0);
 
-    const bookingData: any = {
-      userId,
-      psychologistId,
-      serviceId: defaultServiceId,
-      scheduledDate: today,
-      scheduledTime: '09:00 WIB',
-      status: 'APPROVED',
-      paymentStatus: 'PAID',
-      notes: dto.riskReason || 'Pasien offline ditambahkan oleh psikolog',
-      consultationForm: {
-        create: {
-          fullName: dto.name || 'Pasien Baru',
-          email,
-          phone: dto.phone || '-',
-          gender: genderEnum,
-          birthDate: parsedBirthday || today,
-          birthPlace: 'Malang',
-          address: dto.address || 'Malang',
-          occupation: dto.occupation || '-',
-          maritalStatus: dto.maritalStatus || '-',
-          isFirstVisit: true,
+    // Buat Booking Offline yang Langsung Masuk ke Jadwal & Dashboard
+    const booking: any = await prismaAny.booking.create({
+      data: {
+        userId,
+        psychologistId,
+        serviceId: defaultServiceId,
+        scheduledDate: today,
+        scheduledTime: '09:00 WIB',
+        status: 'APPROVED',
+        paymentStatus: 'PAID',
+        notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
+        consultationForm: {
+          create: {
+            fullName: dto.name || 'Pasien Baru',
+            email,
+            phone: dto.phone || '-',
+            gender: genderEnum,
+            birthDate: parsedBirthday || today,
+            birthPlace: 'Malang',
+            address: dto.address || 'Malang',
+            occupation: dto.occupation || '-',
+            maritalStatus: dto.maritalStatus || '-',
+            educationHistory: educationVal,
+            isFirstVisit: true,
+          },
         },
       },
-    };
-
-    const booking: any = await prismaAny.booking.create({
-      data: bookingData,
     });
 
     await prismaAny.officialMedicalRecord.create({
@@ -668,6 +526,7 @@ export class PsychologistPatientsService {
       id: userId,
       bookingId: booking.id,
       name: dto.name,
+      fullName: dto.name,
       email,
       phone: dto.phone || null,
       gender: genderEnum,
@@ -676,6 +535,7 @@ export class PsychologistPatientsService {
       birthday: parsedBirthday,
       maritalStatus: dto.maritalStatus || null,
       occupation: dto.occupation || null,
+      education: educationVal,
       registrationType: 'OFFLINE',
       totalSessions: 1,
       upcomingSessionDate: today,
@@ -684,14 +544,50 @@ export class PsychologistPatientsService {
     };
   }
 
-  async deletePatient(currentUser: any, patientId: string) {
-    const targetUser = await this.prisma.user.findUnique({
-      where: { id: patientId },
+  async updateMedical(currentUser: any, patientId: string, dto: UpdatePatientMedicalDto) {
+    await this.getPsychologistProfileId(currentUser.id);
+    const user: any = await this.prisma.user.findUnique({ where: { id: patientId } });
+    if (!user) throw new NotFoundException('Pasien tidak ditemukan');
+
+    const medicalRecord = await this.prisma.patientMedicalRecord.upsert({
+      where: { userId: patientId },
+      update: {
+        ...(dto.diagnosis !== undefined && { diagnosis: dto.diagnosis }),
+        ...(dto.currentMedication !== undefined && { currentMedication: dto.currentMedication }),
+        ...(dto.allergies !== undefined && { allergies: dto.allergies }),
+      },
+      create: {
+        userId: patientId,
+        diagnosis: dto.diagnosis || [],
+        currentMedication: dto.currentMedication || [],
+        allergies: dto.allergies || [],
+      },
     });
 
-    if (!targetUser) {
-      throw new NotFoundException('Pasien tidak ditemukan');
-    }
+    return { message: 'Informasi medis pasien berhasil diperbarui', data: medicalRecord };
+  }
+
+  async updateEmergencyContact(currentUser: any, patientId: string, dto: UpdateEmergencyContactDto) {
+    await this.getPsychologistProfileId(currentUser.id);
+    const user: any = await this.prisma.user.findUnique({ where: { id: patientId } });
+    if (!user) throw new NotFoundException('Pasien tidak ditemukan');
+
+    await this.prisma.emergencyContact.deleteMany({ where: { userId: patientId } });
+    const emergencyContact = await this.prisma.emergencyContact.create({
+      data: {
+        userId: patientId,
+        name: dto.name,
+        phone: dto.phone,
+        relation: dto.relation,
+      },
+    });
+
+    return { message: 'Kontak darurat berhasil diperbarui', data: emergencyContact };
+  }
+
+  async deletePatient(currentUser: any, patientId: string) {
+    const targetUser = await this.prisma.user.findUnique({ where: { id: patientId } });
+    if (!targetUser) throw new NotFoundException('Pasien tidak ditemukan');
 
     await this.prisma.$transaction(async (tx) => {
       await tx.officialMedicalRecord.deleteMany({ where: { userId: patientId } });

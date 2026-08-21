@@ -1205,59 +1205,50 @@ export class PsychologistService {
   // ==========================================
   // UPDATE STATUS SESI
   // ==========================================
-  async updateSessionStatus(
-    userId: string,
-    sessionId: string,
-    dto: { status: string; reason?: string },
-  ) {
-    await this.getOrCreateProfile(userId);
+  async updateSessionStatus(userId: string, sessionId: string | number, dto: any) {
+    const profile = await this.getOrCreateProfile(userId);
 
-    const booking = await (this.prisma as any).booking.findUnique({
-      where: { id: sessionId },
+    // 🟢 Konversi sessionId menjadi integer number jika berupa numeric string
+    const parsedBookingId =
+      typeof sessionId === 'string' && !isNaN(Number(sessionId))
+        ? parseInt(sessionId, 10)
+        : (sessionId as any);
+
+    // Cari booking berdasarkan parsed ID
+    const booking = await this.prisma.booking.findUnique({
+      where: {
+        id: parsedBookingId,
+      },
+      include: {
+        user: true,
+      },
     });
 
     if (!booking) {
-      throw new NotFoundException('Sesi booking tidak ditemukan');
+      throw new NotFoundException('Sesi konsultasi tidak ditemukan');
     }
 
-    const targetStatus = String(dto.status).toUpperCase();
+    // Map status enum yang valid ('COMPLETED')
+    const targetStatus =
+      dto.status === 'completed' || dto.status === 'COMPLETED'
+        ? 'COMPLETED'
+        : dto.status === 'cancelled' || dto.status === 'CANCELLED'
+        ? 'CANCELLED'
+        : dto.status;
 
-    if (targetStatus === 'COMPLETED' || targetStatus === 'SELESAI') {
-      const now = new Date();
-      const scheduledDate = new Date(booking.scheduledDate);
-
-      if (booking.scheduledTime) {
-        const [hours, minutes] = booking.scheduledTime.split(':').map(Number);
-        scheduledDate.setHours(hours || 0, minutes || 0, 0, 0);
-      } else {
-        scheduledDate.setHours(23, 59, 59, 999);
-      }
-
-      if (now.getTime() < scheduledDate.getTime()) {
-        const formattedDate = scheduledDate.toLocaleDateString('id-ID', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        });
-        const formattedTime = booking.scheduledTime || '';
-
-        throw new BadRequestException(
-          `Sesi belum bisa ditandai selesai karena jadwal konseling baru dilaksanakan pada ${formattedDate} pukul ${formattedTime} WIB.`,
-        );
-      }
-    }
-
-    const updated = await (this.prisma as any).booking.update({
-      where: { id: sessionId },
+    const updatedBooking = await this.prisma.booking.update({
+      where: {
+        id: parsedBookingId,
+      },
       data: {
-        status: targetStatus === 'COMPLETED' ? 'COMPLETED' : targetStatus,
-        rejectionReason: dto.reason || undefined,
+        status: targetStatus,
+        ...(dto.notes && { notes: dto.notes }),
       },
     });
 
     return {
       message: 'Status sesi berhasil diperbarui',
-      data: updated,
+      data: updatedBooking,
     };
   }
 

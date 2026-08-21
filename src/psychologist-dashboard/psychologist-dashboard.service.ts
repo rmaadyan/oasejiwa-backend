@@ -66,10 +66,10 @@ export class PsychologistDashboardService {
       patientId: booking.userId,
       patientName: this.getPatientName(booking),
       patientPhoto: null,
-      service: booking.service?.nama || booking.service?.name || 'Konseling',
-      serviceName: booking.service?.nama || booking.service?.name || 'Konseling',
+      service: booking.service?.nama || booking.service?.name || (booking.notes?.includes('offline') ? 'Konseling Offline' : 'Konseling Online'),
+      serviceName: booking.service?.nama || booking.service?.name || (booking.notes?.includes('offline') ? 'Konseling Offline' : 'Konseling Online'),
       date: this.toDateOnly(booking.scheduledDate),
-      time: booking.scheduledTime || '09:00',
+      time: booking.scheduledTime || '09:00 WIB',
       duration: booking.service?.durasiMenit || 60,
       status: this.mapBookingStatus(booking.status),
       paymentStatus: this.mapPaymentStatus(booking.payments || []),
@@ -106,6 +106,7 @@ export class PsychologistDashboardService {
               gte: startToday,
               lte: endToday,
             },
+            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
           },
           include: {
             user: { include: { userProfile: true } },
@@ -123,6 +124,7 @@ export class PsychologistDashboardService {
               gte: startToday,
               lte: sevenDaysLater,
             },
+            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
           },
           include: {
             user: { include: { userProfile: true } },
@@ -138,9 +140,7 @@ export class PsychologistDashboardService {
             scheduledDate: {
               gte: startToday,
             },
-            status: {
-              in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'],
-            },
+            status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
           },
           include: {
             user: { include: { userProfile: true } },
@@ -149,7 +149,7 @@ export class PsychologistDashboardService {
             consultationForm: true,
           },
           orderBy: [{ scheduledDate: 'asc' }, { scheduledTime: 'asc' }],
-          take: 5,
+          take: 10,
         }),
 
         this.prisma.booking.findMany({
