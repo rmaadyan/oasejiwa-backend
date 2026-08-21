@@ -50,7 +50,6 @@ export class PsychologistPatientsService {
 
     const patientMap = new Map<string, any>();
 
-    // 1. Fetch Bookings (Online & Offline)
     const bookings: any[] = await this.prisma.booking.findMany({
       where: {
         psychologistId,
@@ -131,7 +130,6 @@ export class PsychologistPatientsService {
       }
     }
 
-    // 2. Fetch Session Notes
     const notes: any[] = await this.prisma.sessionNote.findMany({
       where: {
         psychologistProfileId: psychologistId,
@@ -477,8 +475,9 @@ export class PsychologistPatientsService {
       },
     });
 
-    // 🟢 4. Cari Layanan Konseling Individu (Bukan otomatis Konseling Pasangan)
+    // 🟢 4. Cari Layanan Konseling yang Dipilih (atau fallback Konseling Individu)
     let selectedService: any = null;
+    let defaultServiceId: any = 1;
     try {
       if (dto.serviceId) {
         selectedService = await prismaAny.layanan.findUnique({
@@ -500,13 +499,15 @@ export class PsychologistPatientsService {
           })) ||
           (await prismaAny.layanan.findFirst());
       }
+
+      if (selectedService?.id) {
+        defaultServiceId = selectedService.id;
+      }
     } catch {
-      selectedService = null;
+      defaultServiceId = 1;
     }
 
-    const defaultServiceId = selectedService?.id || 1;
     const servicePrice = Number(selectedService?.harga || 0);
-
     const today = new Date();
     const bookingCode = `OJ-OFF-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
     const orderId = `PAY-${bookingCode}`;
@@ -571,7 +572,7 @@ export class PsychologistPatientsService {
         problemSummary: dto.riskReason || 'Pasien baru ditambahkan oleh psikolog',
         therapyApproach: 'Konseling Klinis',
         followUpPlan: 'CONTINUE_SESSION',
-        riskLevel: dto.riskLevel || 'LOW',
+        riskLevel: dto.riskLevel ? dto.riskLevel.toUpperCase() : 'LOW',
         riskReason: dto.riskReason || null,
       },
     });
