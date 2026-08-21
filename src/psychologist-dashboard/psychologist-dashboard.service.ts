@@ -27,7 +27,8 @@ export class PsychologistDashboardService {
   }
 
   private toDateOnly(date: Date) {
-    return date.toISOString().split('T')[0];
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
 
   private mapBookingStatus(status: string): UiSessionStatus {
@@ -46,15 +47,10 @@ export class PsychologistDashboardService {
 
   private getPatientName(booking: any) {
     return (
+      booking.consultationForm?.fullName ||
       booking.user?.userProfile?.fullName ||
       booking.user?.email ||
       'Pasien Oase Jiwa'
-    );
-  }
-
-  private isUpcomingBooking(status: string) {
-    return ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID', 'UPCOMING'].includes(
-      String(status).toUpperCase(),
     );
   }
 
@@ -91,16 +87,17 @@ export class PsychologistDashboardService {
   async getDashboard(currentUser: any) {
     const psychologist = await this.getPsychologistProfile(currentUser);
 
-    const now = new Date();
-    const todayOnly = this.toDateOnly(now);
+    const startToday = new Date();
+    startToday.setHours(0, 0, 0, 0);
 
-    const startToday = new Date(`${todayOnly}T00:00:00.000Z`);
-    const endToday = new Date(`${todayOnly}T23:59:59.999Z`);
+    const endToday = new Date();
+    endToday.setHours(23, 59, 59, 999);
 
     const sevenDaysLater = new Date();
     sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+    sevenDaysLater.setHours(23, 59, 59, 999);
 
-    const [todayBookings, weekBookings, upcomingBookings, allBookings, notes] =
+    const [todayBookings, weekBookings, upcomingBookings, allBookings] =
       await this.prisma.$transaction([
         this.prisma.booking.findMany({
           where: {
@@ -114,6 +111,7 @@ export class PsychologistDashboardService {
             user: { include: { userProfile: true } },
             service: true,
             payments: true,
+            consultationForm: true,
           },
           orderBy: { scheduledTime: 'asc' },
         }),
@@ -130,6 +128,7 @@ export class PsychologistDashboardService {
             user: { include: { userProfile: true } },
             service: true,
             payments: true,
+            consultationForm: true,
           },
         }),
 
@@ -138,7 +137,6 @@ export class PsychologistDashboardService {
             psychologistId: psychologist.id,
             scheduledDate: {
               gte: startToday,
-              lte: sevenDaysLater,
             },
             status: {
               in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'],
@@ -148,6 +146,7 @@ export class PsychologistDashboardService {
             user: { include: { userProfile: true } },
             service: true,
             payments: true,
+            consultationForm: true,
           },
           orderBy: [{ scheduledDate: 'asc' }, { scheduledTime: 'asc' }],
           take: 5,
@@ -161,16 +160,9 @@ export class PsychologistDashboardService {
             user: { include: { userProfile: true } },
             service: true,
             payments: true,
+            consultationForm: true,
           },
           orderBy: { scheduledDate: 'desc' },
-        }),
-
-        this.prisma.sessionNote.findMany({
-          where: {
-            psychologistProfileId: psychologist.id,
-            deletedAt: null,
-          },
-          orderBy: { createdAt: 'desc' },
         }),
       ]);
 
@@ -182,43 +174,21 @@ export class PsychologistDashboardService {
       patientBookings.map((booking) => booking.userId),
     );
 
-    const activePatientsThisMonth = new Set(
-      patientBookings
-        .filter((booking) => {
-          const bookingDate = new Date(booking.scheduledDate);
-          return (
-            bookingDate.getMonth() === now.getMonth() &&
-            bookingDate.getFullYear() === now.getFullYear()
-          );
-        })
-        .map((booking) => booking.userId),
-    );
-
     const mappedTodaySchedule = todayBookings.map((b) => this.mapBookingToSession(b));
     const mappedUpcomingSessions = upcomingBookings.map((b) => this.mapBookingToSession(b));
 
-    // 🟢 RETURN FORMAT KOMPATIBEL DENGAN SEMUA KOMPONEN FRONTEND
     return {
-      // Properti untuk Frontend Format Baru
       psychologistName: psychologist.fullName || 'Psikolog',
       todaySessionsCount: todayBookings.length,
       weeklySessionsCount: weekBookings.length,
       totalPatients: uniquePatientIds.size,
       todaySessions: mappedTodaySchedule,
       upcomingSessions: mappedUpcomingSessions,
-
-      // Properti untuk Frontend Format Lama
-      profile: {
-        id: psychologist.id,
-        name: psychologist.fullName,
-        avatarUrl: psychologist.avatarUrl,
-      },
       stats: {
         todaySessions: todayBookings.length,
         todayCompleted: todayBookings.filter((b) => String(b.status).toUpperCase() === 'COMPLETED').length,
         weekSessions: weekBookings.length,
         totalPatients: uniquePatientIds.size,
-        activePatientsThisMonth: activePatientsThisMonth.size,
         totalLifetimeSessions: patientBookings.length,
         averageRating: 0,
         nextSessionTime: upcomingBookings[0]?.scheduledTime || null,
