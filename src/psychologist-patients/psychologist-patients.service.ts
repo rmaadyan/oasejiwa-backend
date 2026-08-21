@@ -395,6 +395,7 @@ export class PsychologistPatientsService {
     const genderEnum = dto.gender === 'male' || dto.gender === 'MALE' ? 'MALE' : 'FEMALE';
     const educationVal = dto.education || 'Perguruan Tinggi';
 
+    // 1. Buat / Update Akun User & UserProfile
     if (!user) {
       const bcrypt = require('bcrypt');
       const hashedPassword = await bcrypt.hash('user123456', 10);
@@ -403,6 +404,7 @@ export class PsychologistPatientsService {
           email,
           role: 'USER',
           isEmailVerified: true,
+          isProfileComplete: true,
           authProvider: {
             create: {
               provider: 'EMAIL',
@@ -415,10 +417,12 @@ export class PsychologistPatientsService {
               phone: dto.phone || null,
               gender: genderEnum,
               fullAddress: dto.address || null,
+              originalAddress: dto.address || null,
               birthday: parsedBirthday,
               maritalStatus: dto.maritalStatus || null,
               occupation: dto.occupation || null,
               educationHistory: educationVal,
+              isFirstVisit: true,
             },
           },
         },
@@ -432,6 +436,7 @@ export class PsychologistPatientsService {
           phone: dto.phone || user.userProfile.phone,
           gender: genderEnum,
           fullAddress: dto.address || user.userProfile.fullAddress,
+          originalAddress: dto.address || user.userProfile.originalAddress,
           birthday: parsedBirthday || user.userProfile.birthday,
           maritalStatus: dto.maritalStatus || user.userProfile.maritalStatus,
           occupation: dto.occupation || user.userProfile.occupation,
@@ -442,6 +447,7 @@ export class PsychologistPatientsService {
 
     const userId = user.id;
 
+    // 2. Kontak Darurat
     if (dto.emergencyContactName) {
       await prismaAny.emergencyContact.deleteMany({ where: { userId } });
       await prismaAny.emergencyContact.create({
@@ -454,6 +460,7 @@ export class PsychologistPatientsService {
       });
     }
 
+    // 3. Rekam Medis Ringkas
     await prismaAny.patientMedicalRecord.upsert({
       where: { userId },
       update: {
@@ -467,13 +474,11 @@ export class PsychologistPatientsService {
       },
     });
 
+    // 4. Ambil Layanan Default
     let defaultService: any = null;
     let defaultServiceId: any = 1;
     try {
-      defaultService =
-        (await prismaAny.service?.findFirst()) ||
-        (await prismaAny.counselingService?.findFirst()) ||
-        (await prismaAny.layanan?.findFirst());
+      defaultService = await prismaAny.layanan?.findFirst();
       if (defaultService?.id) {
         defaultServiceId = defaultService.id;
       }
@@ -482,9 +487,12 @@ export class PsychologistPatientsService {
     }
 
     const today = new Date();
-    const servicePrice = Number(defaultService?.harga || defaultService?.price || 0);
+    const servicePrice = Number(defaultService?.harga || 0);
     const bookingCode = `OJ-OFF-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 5).toUpperCase()}`;
+    const orderId = `PAY-${bookingCode}`;
+    const expiredAt = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 
+    // 5. Buat Booking Sesuai Schema Prisma
     const booking: any = await prismaAny.booking.create({
       data: {
         bookingCode,
@@ -497,34 +505,54 @@ export class PsychologistPatientsService {
         dpAmount: servicePrice,
         remainingAmount: 0,
         status: 'APPROVED',
-        paymentStatus: 'PAID',
         notes: dto.riskReason ? `[OFFLINE] ${dto.riskReason}` : '[OFFLINE] Pasien offline ditambahkan oleh psikolog',
         consultationForm: {
           create: {
-            fullName: dto.name || 'Pasien Baru',
-            email,
-            phone: dto.phone || '-',
-            gender: genderEnum,
-            birthDate: parsedBirthday || today,
-            birthPlace: 'Malang',
-            address: dto.address || 'Malang',
-            occupation: dto.occupation || '-',
-            maritalStatus: dto.maritalStatus || '-',
-            educationHistory: educationVal,
-            isFirstVisit: true,
+            mainReason: dto.riskReason || 'Konsultasi Offline',
+            takingPsychiatricMeds: false,
+            problemDuration: 'ONE_TO_3_MONTHS',
+            symptomFrequency: 'WEEKLY',
+            dailyImpact: 'MILD',
+            hasSimilarHistory: false,
+            hasFamilyHistory: false,
+            hasMedicalTreatment: false,
+            hasTraumaticEvent: false,
+            sleepQuality: 'GOOD',
+            selfHarmThoughts: 'NEVER',
+            usesAddictiveSubstances: false,
+            eatingPattern: 'REGULAR',
+            exerciseFrequency: 'SOMETIMES',
+            stressLevel: 'MODERATE',
+            consultationGoals: ['Evaluasi dan konseling klinis'],
+            therapyPreference: 'COLLABORATIVE',
+          },
+        },
+        payments: {
+          create: {
+            type: 'FULL_PAYMENT',
+            amount: servicePrice,
+            method: 'CASH',
+            orderId,
+            status: 'PAID',
+            paidAt: today,
+            expiredAt,
           },
         },
       },
     });
 
+    // 6. Buat Rekam Medis Resmi Awal
     await prismaAny.officialMedicalRecord.create({
       data: {
         psychologistProfileId: psychologistId,
         userId,
+        bookingId: booking.id,
         diagnosis: dto.diagnosis || 'Pemeriksaan awal mandiri',
         problemSummary: dto.riskReason || 'Pasien baru ditambahkan oleh psikolog',
         therapyApproach: 'Konseling Klinis',
-        followUpPlan: 'Sesi lanjutan terencana',
+        followUpPlan: 'CONTINUE_SESSION',
+        riskLevel: dto.riskLevel || 'LOW',
+        riskReason: dto.riskReason || null,
       },
     });
 
