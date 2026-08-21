@@ -35,11 +35,11 @@ export class PsychologistScheduleService {
   }
 
   private mapPaymentStatus(payments: any[]): 'paid' | 'pending' {
-    const hasFullPaid = payments.some(
+    const hasFullPaid = payments?.some(
       (payment) => payment.type === 'FULL_PAYMENT' && String(payment.status).toUpperCase() === 'PAID',
     );
     if (hasFullPaid) return 'paid';
-    return 'paid'; // Default booking valid dianggap paid
+    return 'paid';
   }
 
   private getPatientName(booking: any) {
@@ -100,10 +100,11 @@ export class PsychologistScheduleService {
     };
 
     if (date) {
-      const start = new Date(`${date}T00:00:00.000Z`);
-      const end = new Date(`${date}T23:59:59.999Z`);
+      const targetDate = new Date(date);
+      const start = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 0, 0, 0, 0);
+      const end = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 23, 59, 59, 999);
       where.scheduledDate = {
-        gte: start,
+        gte: new Date(start.getTime() - 24 * 60 * 60 * 1000), // Buffer timezone 1 hari
         lte: end,
       };
     }

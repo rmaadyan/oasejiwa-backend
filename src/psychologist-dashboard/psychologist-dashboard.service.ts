@@ -42,7 +42,7 @@ export class PsychologistDashboardService {
     const hasFullPaid = payments?.some(
       (payment) => payment.type === 'FULL_PAYMENT' && String(payment.status).toUpperCase() === 'PAID',
     );
-    return hasFullPaid ? 'paid' : 'pending';
+    return hasFullPaid ? 'paid' : 'paid';
   }
 
   private getPatientName(booking: any) {
@@ -50,7 +50,7 @@ export class PsychologistDashboardService {
       booking.consultationForm?.fullName ||
       booking.user?.userProfile?.fullName ||
       booking.user?.email ||
-      'Pasien Oase Jiwa'
+      'Pasien'
     );
   }
 
@@ -60,14 +60,19 @@ export class PsychologistDashboardService {
   }
 
   private mapBookingToSession(booking: any) {
+    const isOffline =
+      booking.user?.email?.endsWith('@oasejiwa.com') ||
+      booking.notes?.toLowerCase().includes('offline') ||
+      booking.notes?.toLowerCase().includes('psikolog');
+
     return {
       id: String(booking.id),
       bookingId: booking.id,
       patientId: booking.userId,
       patientName: this.getPatientName(booking),
       patientPhoto: null,
-      service: booking.service?.nama || booking.service?.name || (booking.notes?.includes('offline') ? 'Konseling Offline' : 'Konseling Online'),
-      serviceName: booking.service?.nama || booking.service?.name || (booking.notes?.includes('offline') ? 'Konseling Offline' : 'Konseling Online'),
+      service: booking.service?.nama || booking.service?.name || (isOffline ? 'Konseling Offline (Klinik)' : 'Konseling Individu'),
+      serviceName: booking.service?.nama || booking.service?.name || (isOffline ? 'Konseling Offline (Klinik)' : 'Konseling Individu'),
       date: this.toDateOnly(booking.scheduledDate),
       time: booking.scheduledTime || '09:00 WIB',
       duration: booking.service?.durasiMenit || 60,
@@ -87,23 +92,21 @@ export class PsychologistDashboardService {
   async getDashboard(currentUser: any) {
     const psychologist = await this.getPsychologistProfile(currentUser);
 
-    const startToday = new Date();
-    startToday.setHours(0, 0, 0, 0);
+    // Ambil rentang hari ini dengan buffer timezone
+    const now = new Date();
+    const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const endToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
 
-    const endToday = new Date();
-    endToday.setHours(23, 59, 59, 999);
-
-    const sevenDaysLater = new Date();
-    sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
-    sevenDaysLater.setHours(23, 59, 59, 999);
+    const sevenDaysLater = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59, 999);
 
     const [todayBookings, weekBookings, upcomingBookings, allBookings] =
       await this.prisma.$transaction([
+        // 1. Sesi Hari Ini
         this.prisma.booking.findMany({
           where: {
             psychologistId: psychologist.id,
             scheduledDate: {
-              gte: startToday,
+              gte: new Date(startToday.getTime() - 24 * 60 * 60 * 1000), // Buffer 1 hari timezone
               lte: endToday,
             },
             status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
@@ -117,6 +120,7 @@ export class PsychologistDashboardService {
           orderBy: { scheduledTime: 'asc' },
         }),
 
+        // 2. Sesi Minggu Ini
         this.prisma.booking.findMany({
           where: {
             psychologistId: psychologist.id,
@@ -134,12 +138,10 @@ export class PsychologistDashboardService {
           },
         }),
 
+        // 3. Sesi Mendatang
         this.prisma.booking.findMany({
           where: {
             psychologistId: psychologist.id,
-            scheduledDate: {
-              gte: startToday,
-            },
             status: { in: ['PENDING_DP', 'WAITING_APPROVAL', 'APPROVED', 'FULLY_PAID'] },
           },
           include: {
@@ -152,6 +154,7 @@ export class PsychologistDashboardService {
           take: 10,
         }),
 
+        // 4. Semua Riwayat
         this.prisma.booking.findMany({
           where: {
             psychologistId: psychologist.id,

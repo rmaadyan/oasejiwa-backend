@@ -73,12 +73,12 @@ export class PsychologistPatientsService {
       const cForm = booking.consultationForm as any;
       const uProf = (booking.user?.userProfile || {}) as any;
 
-      // Deteksi pendaftaran Offline vs Online
-      const isOffline =
+      const isOffline = Boolean(
         booking.user?.email?.endsWith('@oasejiwa.com') ||
         booking.notes?.toLowerCase().includes('offline') ||
         booking.notes?.toLowerCase().includes('psikolog') ||
-        uProf?.notes?.toLowerCase().includes('offline');
+        uProf?.notes?.toLowerCase().includes('offline')
+      );
 
       const registrationType = isOffline ? 'OFFLINE' : 'ONLINE';
 
@@ -101,7 +101,7 @@ export class PsychologistPatientsService {
           statusPernikahan: cForm?.maritalStatus || uProf?.maritalStatus || null,
           educationHistory: cForm?.educationHistory || uProf?.educationHistory || null,
           pendidikan: cForm?.educationHistory || uProf?.educationHistory || null,
-          registrationType: registrationType,
+          registrationType,
           firstSessionDate: booking.scheduledDate,
           lastSessionDate: booking.scheduledDate,
           totalSessions: 1,
@@ -482,7 +482,6 @@ export class PsychologistPatientsService {
 
     const today = new Date();
 
-    // Buat Booking Offline yang Langsung Masuk ke Jadwal & Dashboard
     const booking: any = await prismaAny.booking.create({
       data: {
         userId,
