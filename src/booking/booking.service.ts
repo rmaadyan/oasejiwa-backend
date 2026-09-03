@@ -192,6 +192,9 @@ export class BookingService {
         payments: {
           select: { type: true, amount: true, status: true, method: true },
         },
+        consultationForm: {
+          select: { id: true },
+        },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -317,10 +320,10 @@ export class BookingService {
     const formattedPaymentMethod = rawMethod.includes('QRIS')
       ? 'QRIS'
       : rawMethod.includes('MANDIRI')
-      ? 'Transfer Bank Mandiri'
-      : rawMethod.includes('BCA')
-      ? 'Transfer Bank BCA'
-      : dpPayment?.method || 'Transfer Bank';
+        ? 'Transfer Bank Mandiri'
+        : rawMethod.includes('BCA')
+          ? 'Transfer Bank BCA'
+          : dpPayment?.method || 'Transfer Bank';
 
     this.emailService
       .sendBookingApprovalEmail({
@@ -561,9 +564,7 @@ export class BookingService {
       },
     });
 
-    return bookings.map(
-      (b) => b.scheduledDate.toISOString().split('T')[0],
-    );
+    return bookings.map((b) => b.scheduledDate.toISOString().split('T')[0]);
   }
 
   async rescheduleBookingByAdmin(
@@ -760,17 +761,13 @@ export class BookingService {
             HIGH: 'Tinggi',
             VERY_HIGH: 'Sangat Tinggi',
             DIRECTIVE: 'Direktif (Psikolog memberi arahan & instruksi jelas)',
-            COLLABORATIVE:
-              'Kolaboratif (Diskusi bersama & eksplorasi solusi)',
+            COLLABORATIVE: 'Kolaboratif (Diskusi bersama & eksplorasi solusi)',
             NO_PREFERENCE: 'Tidak Ada Preferensi Khusus',
           };
           return dict[val] || val.replace(/_/g, ' ');
         };
 
-        const formatBoolWithDetail = (
-          has: boolean,
-          detail?: string | null,
-        ) => {
+        const formatBoolWithDetail = (has: boolean, detail?: string | null) => {
           if (!has) return 'Tidak';
           return detail ? `Ya (${detail})` : 'Ya';
         };
@@ -883,9 +880,7 @@ export class BookingService {
         renderField('Alasan Utama', cf.mainReason);
         renderField(
           'Tujuan Konsultasi',
-          cf.consultationGoals?.length
-            ? cf.consultationGoals.join(', ')
-            : '-',
+          cf.consultationGoals?.length ? cf.consultationGoals.join(', ') : '-',
         );
         renderField('Durasi Masalah', formatEnum(cf.problemDuration));
         renderField('Frekuensi Gejala', formatEnum(cf.symptomFrequency));
@@ -1008,12 +1003,10 @@ export class BookingService {
           .fillColor('#94A3B8')
           .fontSize(8)
           .font('Helvetica')
-          .text(
-            `Dokumen ini digenerate pada ${nowStr} WIB`,
-            40,
-            795,
-            { align: 'center', width: 515 },
-          );
+          .text(`Dokumen ini digenerate pada ${nowStr} WIB`, 40, 795, {
+            align: 'center',
+            width: 515,
+          });
 
         doc.end();
       } catch (err) {
