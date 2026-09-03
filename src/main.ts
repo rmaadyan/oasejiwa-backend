@@ -13,11 +13,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // 🟢 Naikkan batas body request ke 50MB
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb' }));
 
-  // 🟢 Cookie Parser Handler
   const cookieMiddleware = (cookieParserModule as any).default || cookieParserModule;
   app.use(cookieMiddleware());
 
@@ -45,6 +43,7 @@ async function bootstrap() {
         origin.startsWith('http://localhost') ||
         origin.startsWith('http://127.0.0.1') ||
         origin.startsWith('http://172.') ||
+        origin.startsWith('http://192.168.') ||
         origin.includes('oasejiwa.id');
       if (allowed) {
         callback(null, true);

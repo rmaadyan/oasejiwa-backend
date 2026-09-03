@@ -6,6 +6,8 @@ import {
   Param,
   Body,
   Req,
+  Res,
+  Response,
   Query,
   UseGuards,
   ParseIntPipe,
@@ -16,8 +18,9 @@ import { RescheduleBookingDto } from './dto/reschedule-booking.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 
-@Controller('bookings')
+@Controller(['bookings', 'booking'])
 export class BookingController {
   constructor(private bookingService: BookingService) {}
 
@@ -102,5 +105,28 @@ export class BookingController {
     @Req() req,
   ) {
     return this.bookingService.confirmFullPayment(id, req.user.id);
+  }
+
+  /**
+   * USER: Download Formulir Konsultasi PDF
+   * GET /booking/:bookingId/consultation-form-pdf
+   */
+  @Get(':bookingId/consultation-form-pdf')
+  @UseGuards(JwtAuthGuard)
+  async downloadConsultationFormPdf(
+    @CurrentUser() user: any,
+    @Param('bookingId', ParseIntPipe) bookingId: number,
+    @Res() res: any,
+  ) {
+    const pdfBuffer = await this.bookingService
+      .generateConsultationFormPdf(user.id, bookingId);
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition':
+        `attachment; filename="formulir-konsultasi-${bookingId}.pdf"`,
+      'Content-Length': pdfBuffer.length,
+    });
+    res.end(pdfBuffer);
   }
 }
