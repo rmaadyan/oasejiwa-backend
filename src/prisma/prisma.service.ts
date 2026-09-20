@@ -12,7 +12,10 @@ import { PrismaClient } from '@prisma/client';
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
   constructor() {
-    let connectionString = process.env.DATABASE_URL || 'postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db';
+    let connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error('DATABASE_URL is not defined in environment variables');
+    }
     if (connectionString.includes('localhost') || connectionString.includes('127.0.0.1')) {
       // In Docker networking, convert localhost/127.0.0.1 to postgres:5432
       const isDocker = process.env.NODE_ENV === 'production' || process.cwd().includes('app') || require('fs').existsSync('/.dockerenv');

@@ -1,9 +1,33 @@
-# compiled output
+# Compiled output & dependencies
 /dist
 /node_modules
 /build
+.tsbuildinfo
+dist/
+dist/.prisma-client
+.prisma-client/
+/generated/prisma
+/prisma/generated
 
-# Logs
+# Environment variable files (Strictly Ignored)
+.env
+.env.*
+!.env.example
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Private Keys, Certificates, and Credentials
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+
+# Logs & Debugging
 logs
 *.log
 npm-debug.log*
@@ -12,10 +36,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
+# OS Files
 .DS_Store
+Thumbs.db
 
-# Tests
+# Test coverage
 /coverage
 /.nyc_output
 
@@ -35,31 +60,17 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-
-# temp directory
+# Temp & Runtime data
 .temp
 .tmp
-
-# Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Diagnostic reports (https://nodejs.org/api/report.html)
+# Diagnostic reports
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-/generated/prisma
-
-# Uploads
-uploads/
-
-/prisma/generated
-
-*.tsbuildinfo
+# Uploads directory (Ignore newly uploaded assets)
+uploads/*
+!uploads/.gitkeep

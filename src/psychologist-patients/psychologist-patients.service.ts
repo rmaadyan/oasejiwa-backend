@@ -399,7 +399,8 @@ export class PsychologistPatientsService {
     // 1. Buat / Update Akun User & UserProfile
     if (!user) {
       const bcrypt = require('bcrypt');
-      const hashedPassword = await bcrypt.hash('user123456', 10);
+      const defaultPassword = process.env.DEFAULT_PATIENT_PASSWORD || 'user123456';
+      const hashedPassword = await bcrypt.hash(defaultPassword, 10);
       user = await prismaAny.user.create({
         data: {
           email,

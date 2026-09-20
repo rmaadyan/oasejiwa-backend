@@ -5,7 +5,11 @@ import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:postgres@127.0.0.1:5433/oase_jiwa_db?schema=public';
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error('❌ Error: DATABASE_URL is not set in environment variables');
+  process.exit(1);
+}
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });

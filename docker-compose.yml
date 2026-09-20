@@ -4,9 +4,9 @@ services:
     container_name: oase_db
     restart: always
     environment:
-      POSTGRES_USER: oasejiwa
-      POSTGRES_PASSWORD: sosok_menginspirasi
-      POSTGRES_DB: oase_jiwa_db
+      POSTGRES_USER: ${POSTGRES_USER:-oasejiwa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sosok_menginspirasi}
+      POSTGRES_DB: ${POSTGRES_DB:-oase_jiwa_db}
     ports:
       - "5433:5432"
     volumes:
@@ -17,19 +17,18 @@ services:
     container_name: oase_backend
     restart: always
     ports:
-      - "3001:3001"
+      - "${PORT:-3001}:${PORT:-3001}"
     depends_on:
       - postgres
     volumes:
       - ./uploads:/app/uploads
 
-    # Tambahkan ini
     env_file:
       - .env
 
     environment:
-      PORT: 3001
-      DATABASE_URL: postgresql://oasejiwa:sosok_menginspirasi@postgres:5432/oase_jiwa_db
+      PORT: ${PORT:-3001}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-oasejiwa}:${POSTGRES_PASSWORD:-sosok_menginspirasi}@postgres:5432/${POSTGRES_DB:-oase_jiwa_db}}
 
 volumes:
   postgres_data:
